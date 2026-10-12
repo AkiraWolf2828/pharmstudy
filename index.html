@@ -147,6 +147,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .palette-swatch{width:100%;height:50px;border-radius:12px;margin-bottom:10px}
 .palette-name{font-size:13px;font-weight:700;margin-bottom:4px}
 .palette-sub{font-size:11px;color:var(--text-muted)}
+.topic-pick{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s;border:2px solid transparent;margin-bottom:10px}
+.topic-pick:hover{background:var(--accent-soft)}
+.topic-pick.selected{border-color:var(--accent);background:var(--accent-soft)}
+.topic-check{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;font-weight:700;transition:all .2s}
+.topic-pick.selected .topic-check{box-shadow:0 3px 10px rgba(0,0,0,0.15)}
+.topic-pick-info{flex:1}
+.topic-pick-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.topic-pick-sub{font-size:12px;color:var(--text-muted)}
+.topic-actions{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.topic-actions button{padding:8px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.topic-actions button:hover{border-color:var(--accent);color:var(--accent-deep)}
+.summary-box{padding:18px;background:var(--card-2);border-radius:18px;margin-bottom:18px;text-align:center}
+.summary-box .lbl{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+.summary-box .val{font-size:26px;font-weight:700}
+.summary-box .sub{font-size:12px;color:var(--text-muted);margin-top:4px}
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
 @media (max-width:768px){
   .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
@@ -172,7 +187,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
     <div class="profile"><div class="avatar">С</div><div><div class="profile-name">Студент</div><div class="profile-sub">Лечебное дело, 3 курс</div></div></div>
     <nav class="nav" id="nav">
       <button class="nav-btn active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Главная</span></button>
-      <button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Сессия</span></button>
+      <button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Тесты</span></button>
       <button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
       <button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
       <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
@@ -367,10 +382,10 @@ const REFERENCE=[
   {section:'Адреноблокаторы',icon:'Р',color:'var(--error)',bg:'var(--error-soft)',title:'Симпатолитики',desc:'Истощение запасов норадреналина.',drugs:['Раунатин','Метилдопа'],details:'Раувольфия — истощает депо НА. Метилдопа — ложный медиатор.'}
 ];
 
-const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null};
+const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{}};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
-function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,sessions:state.progress._sessions||0,streak:state.progress._streak||1}}
+function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
 
 const screenEl=document.getElementById('screen');
 const titleEl=document.getElementById('screen-title');
@@ -379,7 +394,7 @@ function setScreen(name){
   state.screen=name;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
-  else if(name==='session'){titleEl.textContent='Сессия';startSession()}
+  else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
@@ -388,18 +403,18 @@ function setScreen(name){
 function renderDashboard(){
   const s=getStats();
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)'];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
   return `
     <div class="hero">
       <h2>Добрый вечер, Студент!</h2>
-      <p>${sections.length} раздела · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов</p>
-      <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать сессию</button>
+      <p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов</p>
+      <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
     </div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
       <div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
-      <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Сессий</div><div class="stat-value">${s.sessions}</div><div class="stat-sub">за всё время</div></div>
+      <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
       <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
     </div>
     <div class="row-2">
@@ -415,7 +430,56 @@ function renderDashboard(){
     </div>`;
 }
 
-function startSession(){state.session={questions:[...QUESTIONS],index:0,answers:[]};renderQuestion()}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function renderSessionSetup(){
+  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+  if(state.selectedTopics._init!==true){sections.forEach(s=>state.selectedTopics[s]=true);state.selectedTopics._init=true;}
+  const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
+  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>sum+QUESTIONS.filter(q=>q.section===s).length,0);
+  screenEl.innerHTML=`
+    <div class="case-picker">
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор тем для тестирования</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь темы, которые хочешь протестировать. Вопросы перемешаются случайно.</div>
+      <div class="topic-actions">
+        <button onclick="selectAllTopics(true)">✓ Выбрать все</button>
+        <button onclick="selectAllTopics(false)">✗ Снять все</button>
+      </div>
+      <div style="margin-bottom:24px">
+        ${sections.map((sec,i)=>`
+          <div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')">
+            <div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div>
+            <div class="topic-pick-info">
+              <div class="topic-pick-title">${sec}</div>
+              <div class="topic-pick-sub">${QUESTIONS.filter(q=>q.section===sec).length} вопросов</div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="summary-box">
+        <div class="lbl">Выбрано</div>
+        <div class="val">${totalSelected} вопросов</div>
+        <div class="sub">из ${QUESTIONS.length} · ${selectedCount} ${selectedCount===1?'тема':selectedCount<5?'темы':'тем'}</div>
+      </div>
+      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
+      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+    </div>`;
+}
+
+function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionSetup();}
+function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;renderSessionSetup();}
+
+function startSession(){
+  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+  const selected=sections.filter(s=>state.selectedTopics[s]);
+  let pool=QUESTIONS.filter(q=>selected.includes(q.section));
+  if(pool.length===0){alert('Выбери хотя бы одну тему');return;}
+  pool=shuffle(pool);
+  state.session={questions:pool,index:0,answers:[]};
+  titleEl.textContent='Тестирование';
+  renderQuestion();
+}
+
 function renderQuestion(){
   const s=state.session;
   if(s.index>=s.questions.length){renderReport();return}
@@ -448,7 +512,7 @@ function answerQuestion(i){
       <div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
       <div class="source">Источник: ${q.source}</div>
     </div>
-    <button class="next-btn" onclick="nextQuestion()">${s.index+1>=s.questions.length?'Завершить сессию':'Следующий вопрос'}</button>`;
+    <button class="next-btn" onclick="nextQuestion()">${s.index+1>=s.questions.length?'Завершить тест':'Следующий вопрос'}</button>`;
 }
 function nextQuestion(){state.session.index++;renderQuestion()}
 function renderReport(){
@@ -464,8 +528,8 @@ function renderReport(){
   screenEl.innerHTML=`
     <div class="report-card">
       <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
-      <div class="report-title">Сессия завершена</div>
-      <div class="report-sub">Все разделы · ${total} вопросов</div>
+      <div class="report-title">Тест завершён</div>
+      <div class="report-sub">${total} вопросов</div>
       <div class="report-stats">
         <div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${correct}</div><div class="report-stat-lbl">правильно</div></div>
         <div class="report-stat"><div class="report-stat-val" style="color:var(--error)">${total-correct}</div><div class="report-stat-lbl">ошибок</div></div>
@@ -473,8 +537,8 @@ function renderReport(){
       </div>
       ${weakTags.length?`<div class="report-weak"><h4>Слабые места — стоит повторить:</h4><div class="weak-list">${weakTags.map(t=>`<div class="weak-item">${t}</div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>`}
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <button class="next-btn" style="flex:1;min-width:180px" onclick="startSession()">Пройти ещё раз</button>
-        <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К клиническим кейсам</button>
+        <button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('session')">Новый тест</button>
+        <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К кейсам</button>
       </div>
       <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
@@ -585,7 +649,7 @@ function renderSettings(){
         <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Прогресс</h3>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
           Пройдено вопросов: <strong style="color:var(--text)">${s.answered}</strong><br>
-          Сессий: <strong style="color:var(--text)">${s.sessions}</strong><br>
+          Пройдено тестов: <strong style="color:var(--text)">${s.tests}</strong><br>
           Точность: <strong style="color:var(--text)">${s.accuracy}%</strong>
         </div>
         <button class="next-btn" style="background:var(--error);max-width:240px" onclick="resetProgress()">Сбросить прогресс</button>
