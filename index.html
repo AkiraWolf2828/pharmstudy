@@ -170,6 +170,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .summary-box .lbl{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
 .summary-box .val{font-size:26px;font-weight:700}
 .summary-box .sub{font-size:12px;color:var(--text-muted);margin-top:4px}
+.classify-hint{font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
+.classify-input{width:100%;padding:16px 18px;border-radius:18px;border:2px solid var(--border);background:var(--card-2);color:var(--text);font-family:inherit;font-size:15px;font-weight:500;transition:border-color .2s;outline:none}
+.classify-input:focus{border-color:var(--accent);background:var(--card)}
+.classify-input::placeholder{color:var(--text-muted);opacity:0.7}
+.classify-result{margin-top:18px;padding:18px;background:var(--card-2);border-radius:16px;display:flex;flex-direction:column;gap:8px}
+.classify-line{font-size:14px;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
+.classify-mark{font-weight:700;flex-shrink:0;width:20px;text-align:center}
+.classify-mark.ok{color:var(--success)}
+.classify-mark.miss{color:var(--error)}
+.classify-mark.extra{color:var(--warm)}
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
 @media (max-width:768px){
   .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
@@ -207,6 +217,7 @@ html{background:var(--bg)}
     <nav class="nav" id="nav">
       <button class="nav-btn active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Главная</span></button>
       <button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Тесты</span></button>
+      <button class="nav-btn" data-screen="classify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><polyline points="9 11 12 14 21 5"/></svg><span>Классификация</span></button>
       <button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
       <button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
       <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
@@ -401,7 +412,7 @@ const REFERENCE=[
   {section:'Адреноблокаторы',icon:'Р',color:'var(--error)',bg:'var(--error-soft)',title:'Симпатолитики',desc:'Истощение запасов норадреналина.',drugs:['Раунатин','Метилдопа'],details:'Раувольфия — истощает депо НА. Метилдопа — ложный медиатор.'}
 ];
 
-const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{}};
+const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{}};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
 function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
@@ -412,10 +423,11 @@ const titleEl=document.getElementById('screen-title');
 function setScreen(name){
   state.screen=name;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
-  const titles={dashboard:'Дашборд',session:'Тестирование',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
+  const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
+  else if(name==='classify'){titleEl.textContent='Классификация';renderClassifySetup()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
@@ -452,7 +464,211 @@ function renderDashboard(){
 }
 
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+// === КЛАССИФИКАЦИЯ: данные ===
+const GROUPS=[
+  // Холиномиметики
+  {section:'Холиномиметики',group:'Прямые М-холиномиметики',drugs:['Пилокарпин']},
+  {section:'Холиномиметики',group:'Н-холиномиметики (полные агонисты)',drugs:['Никотин']},
+  {section:'Холиномиметики',group:'Частичные агонисты Н-холинорецепторов',drugs:['Цитизин','Варениклин']},
+  {section:'Холиномиметики',group:'М,Н-холиномиметики',drugs:['Карбахол']},
+  {section:'Холиномиметики',group:'оиХЭ центрального действия',drugs:['Донепезил','Ривастигмин','Галантамин']},
+  {section:'Холиномиметики',group:'оиХЭ центрально-периферического действия',drugs:['Ипидакрин']},
+  {section:'Холиномиметики',group:'оиХЭ периферического действия',drugs:['Пиридостигмин','Неостигмин']},
+  {section:'Холиномиметики',group:'Реактиваторы холинэстеразы',drugs:['Карбоксим']},
+  // Холиноблокаторы и миорелаксанты
+  {section:'Холиноблокаторы',group:'Неселективные М-холиноблокаторы системного действия',drugs:['Атропин','Платифиллин']},
+  {section:'Холиноблокаторы',group:'Урологические М-холиноблокаторы',drugs:['Солифенацин','Оксибутинин','Троспия хлорид']},
+  {section:'Холиноблокаторы',group:'Ингаляционные М-холиноблокаторы короткого действия',drugs:['Ипратропия бромид']},
+  {section:'Холиноблокаторы',group:'Ингаляционные М-холиноблокаторы длительного действия',drugs:['Тиотропия бромид','Гликопиррония бромид']},
+  {section:'Холиноблокаторы',group:'Офтальмологические М-холиноблокаторы',drugs:['Тропикамид','Циклопентолат']},
+  {section:'Холиноблокаторы',group:'Периферические М-холиноблокаторы со спазмолитическим действием',drugs:['Гиосцина бутилбромид','Метоциния йодид']},
+  {section:'Холиноблокаторы',group:'Центральные М-холиноблокаторы (антипаркинсонические)',drugs:['Тригексифенидил','Бипериден']},
+  {section:'Холиноблокаторы',group:'Ганглиоблокаторы',drugs:['Азаметония бромид']},
+  {section:'Миорелаксанты',group:'Деполяризующие миорелаксанты',drugs:['Суксаметония йодид']},
+  {section:'Миорелаксанты',group:'Недеполяризующие миорелаксанты',drugs:['Пипекурония бромид','Рокурония бромид','Атракурия безилат','Цисатракурия безилат']},
+  {section:'Миорелаксанты',group:'Средства, нарушающие высвобождение ацетилхолина',drugs:['Ботулинический токсин типа А']},
+  {section:'Миорелаксанты',group:'Миорелаксанты центрального действия',drugs:['Толперизон','Тизанидин','Баклофен','Циклобензаприн']},
+  {section:'Миорелаксанты',group:'Миорелаксанты прямого миотропного действия',drugs:['Дантролен']},
+  // Адреномиметики
+  {section:'Адреномиметики',group:'Неселективные α-,β-адреномиметики',drugs:['Эпинефрин','Норэпинефрин','Допамин']},
+  {section:'Адреномиметики',group:'α1-адреномиметики периферического действия',drugs:['Фенилэфрин']},
+  {section:'Адреномиметики',group:'α1,2-адреномиметики местного действия (деконгестанты)',drugs:['Нафазолин','Ксилометазолин','Оксиметазолин']},
+  {section:'Адреномиметики',group:'Офтальмологические α1,2-адреномиметики',drugs:['Тетризолин']},
+  {section:'Адреномиметики',group:'Офтальмологические α2-адреномиметики (противоглаукомные)',drugs:['Бримонидин']},
+  {section:'Адреномиметики',group:'α2-адреномиметики центрального действия',drugs:['Клонидин','Метилдопа']},
+  {section:'Адреномиметики',group:'β1-адреномиметики',drugs:['Добутамин']},
+  {section:'Адреномиметики',group:'β2-адреномиметики короткого действия',drugs:['Сальбутамол','Фенотерол']},
+  {section:'Адреномиметики',group:'β2-адреномиметики длительного действия',drugs:['Формотерол','Салметерол']},
+  {section:'Адреномиметики',group:'β2-адреномиметики ультрадлительного действия',drugs:['Индакатерол','Олодатерол']},
+  {section:'Адреномиметики',group:'β2-адреномиметики токолитического действия',drugs:['Гексопреналин']},
+  {section:'Адреномиметики',group:'β3-адреномиметики',drugs:['Мирабегрон']},
+  {section:'Адреномиметики',group:'Симпатомиметики',drugs:['Эфедрин']},
+  // Адреноблокаторы
+  {section:'Адреноблокаторы',group:'α,β-адреноблокаторы',drugs:['Карведилол']},
+  {section:'Адреноблокаторы',group:'Неселективные α1,α2-адреноблокаторы',drugs:['Ницерголин']},
+  {section:'Адреноблокаторы',group:'Уроселективные α1-адреноблокаторы',drugs:['Тамсулозин','Алфузозин','Силодозин']},
+  {section:'Адреноблокаторы',group:'α1-адреноблокаторы системного действия',drugs:['Доксазозин','Теразозин']},
+  {section:'Адреноблокаторы',group:'α1-адреноблокаторы для неотложной терапии',drugs:['Урапидил']},
+  {section:'Адреноблокаторы',group:'Селективные α2-адреноблокаторы',drugs:['Йохимбин']},
+  {section:'Адреноблокаторы',group:'Неселективные β1,β2-адреноблокаторы',drugs:['Пропранолол','Тимолол','Соталол']},
+  {section:'Адреноблокаторы',group:'Селективные β1-адреноблокаторы',drugs:['Метопролол','Бисопролол','Атенолол','Бетаксолол']},
+  {section:'Адреноблокаторы',group:'β1-адреноблокаторы с вазодилатирующими свойствами',drugs:['Небиволол']},
+  {section:'Адреноблокаторы',group:'Ультракороткодействующие β1-адреноблокаторы',drugs:['Эсмолол']},
+  {section:'Адреноблокаторы',group:'Симпатолитики',drugs:['Раунатин','Метилдопа']}
+];
 
+function editDist(a,b){const m=a.length,n=b.length;const dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);}return dp[m][n];}
+
+function normalize(s){
+  return s.toLowerCase().replace(/ё/g,'е').replace(/\([^)]*\)/g,'').replace(/[^а-яa-z0-9\s-]/g,' ').replace(/\s+/g,' ').trim();
+}
+
+function isDrugMatch(input,drug){
+  const a=normalize(input),b=normalize(drug);
+  if(!a||a.length<4)return false;
+  if(a===b)return true;
+  if(b.startsWith(a)||a.startsWith(b))return true;
+  const threshold=Math.max(1,Math.floor(Math.max(a.length,b.length)/6));
+  return editDist(a,b)<=threshold;
+}
+
+function checkClassifyAnswer(input,drugs){
+  const parts=input.split(/[,;]+/).map(s=>s.trim()).filter(s=>s);
+  const usedDrugs=new Set();
+  const usedInputs=new Set();
+  const matched=[];
+  parts.forEach((p,pi)=>{
+    drugs.forEach((d,di)=>{
+      if(usedDrugs.has(di))return;
+      if(isDrugMatch(p,d)){usedDrugs.add(di);usedInputs.add(pi);matched.push(d);}
+    });
+  });
+  const missed=drugs.filter((d,i)=>!usedDrugs.has(i));
+  const extra=parts.filter((p,i)=>!usedInputs.has(i));
+  return {matched,missed,extra,correct:matched.length,total:drugs.length};
+}
+
+// === КЛАССИФИКАЦИЯ: экраны ===
+function renderClassifySetup(){
+  const sections=[...new Set(GROUPS.map(g=>g.section))];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+  if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
+  const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
+  const totalSelected=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).length,0);
+  screenEl.innerHTML=`
+    <div class="case-picker">
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация препаратов</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
+      <div class="topic-actions">
+        <button onclick="selectAllClassify(true)">✓ Выбрать все</button>
+        <button onclick="selectAllClassify(false)">✗ Снять все</button>
+      </div>
+      <div style="margin-bottom:24px">
+        ${sections.map((sec,i)=>`
+          <div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')">
+            <div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div>
+            <div class="topic-pick-info">
+              <div class="topic-pick-title">${sec}</div>
+              <div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).length} групп</div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="summary-box">
+        <div class="lbl">Выбрано</div>
+        <div class="val">${totalSelected} групп</div>
+        <div class="sub">${selectedCount} ${selectedCount===1?'раздел':selectedCount<5?'раздела':'разделов'}</div>
+      </div>
+      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
+      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+    </div>`;
+}
+function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup();}
+function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;renderClassifySetup();}
+
+function startClassify(){
+  const sections=[...new Set(GROUPS.map(g=>g.section))];
+  const selected=sections.filter(s=>state.selectedClassifySections[s]);
+  let pool=GROUPS.filter(g=>selected.includes(g.section));
+  if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
+  pool=shuffle(pool);
+  state.classifySession={groups:pool,index:0,results:[]};
+  titleEl.textContent='Классификация';
+  renderClassifyQuestion();
+}
+
+function renderClassifyQuestion(){
+  const s=state.classifySession;
+  if(s.index>=s.groups.length){renderClassifyReport();return;}
+  const g=s.groups[s.index];
+  const progress=(s.index/s.groups.length)*100;
+  screenEl.innerHTML=`
+    <div class="question-card">
+      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
+      <div class="q-text">${g.group}</div>
+      <div class="classify-hint">Перечислите препараты через запятую</div>
+      <input type="text" id="classifyInput" class="classify-input" placeholder="Например: Пилокарпин, Карбахол" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkClassifyAnswer()">
+      <button class="next-btn" onclick="checkClassifyAnswer()">Проверить</button>
+    </div>`;
+  setTimeout(()=>{const i=document.getElementById('classifyInput');if(i)i.focus();},50);
+}
+
+function checkClassifyAnswer(){
+  const s=state.classifySession;
+  const g=s.groups[s.index];
+  const input=document.getElementById('classifyInput').value;
+  const res=checkClassifyAnswer_(input,g.drugs);
+  s.results.push({group:g.group,section:g.section,...res});
+  const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
+  const statusText=status==='good'?'✓ Всё верно':'✗ Правильный ответ'+(status==='bad'?'':'');
+  const partialText=status==='partial'?`Частично: ${res.correct} из ${res.total}`:'';
+  const headerText=status==='good'?'✓ Всё верно':status==='partial'?`~ Частично: ${res.correct} из ${res.total}`:'✗ Ничего не угадано';
+  const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
+  screenEl.innerHTML=`
+    <div class="question-card">
+      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${((s.index+1)/s.groups.length)*100}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
+      <div class="q-text">${g.group}</div>
+      <div class="case-feedback ${headerClass}" style="margin-top:16px">${headerText}</div>
+      <div class="classify-result">
+        ${res.matched.length?`<div class="classify-line"><span class="classify-mark ok">✓</span> ${res.matched.join(', ')}</div>`:''}
+        ${res.missed.length?`<div class="classify-line"><span class="classify-mark miss">✗</span> Пропущено: ${res.missed.join(', ')}</div>`:''}
+        ${res.extra.length?`<div class="classify-line"><span class="classify-mark extra">+</span> Лишнее: ${res.extra.join(', ')}</div>`:''}
+      </div>
+      <button class="next-btn" onclick="nextClassify()">${s.index+1>=s.groups.length?'Завершить':'Следующая группа'}</button>
+    </div>`;
+}
+function nextClassify(){state.classifySession.index++;renderClassifyQuestion();}
+
+function renderClassifyReport(){
+  const s=state.classifySession;
+  const totalGroups=s.results.length;
+  const fullCorrect=s.results.filter(r=>r.correct===r.total).length;
+  const partial=s.results.filter(r=>r.correct>0&&r.correct<r.total).length;
+  const totalMatched=s.results.reduce((sum,r)=>sum+r.correct,0);
+  const totalDrugs=s.results.reduce((sum,r)=>sum+r.total,0);
+  const pct=totalDrugs?Math.round(totalMatched/totalDrugs*100):0;
+  const weakGroups=s.results.filter(r=>r.correct<r.total);
+  state.progress._classifyTests=(state.progress._classifyTests||0)+1;
+  saveProgress();
+  screenEl.innerHTML=`
+    <div class="report-card">
+      <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
+      <div class="report-title">Классификация завершена</div>
+      <div class="report-sub">${totalGroups} групп · ${totalDrugs} препаратов</div>
+      <div class="report-stats">
+        <div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${fullCorrect}</div><div class="report-stat-lbl">полностью</div></div>
+        <div class="report-stat"><div class="report-stat-val" style="color:var(--warm)">${partial}</div><div class="report-stat-lbl">частично</div></div>
+        <div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">угадано</div></div>
+      </div>
+      ${weakGroups.length?`<div class="report-weak"><h4>Слабые группы — стоит повторить:</h4><div class="weak-list">${weakGroups.map(r=>`<div class="weak-item"><strong>${r.group}</strong><br><span style="font-size:12px;color:var(--text-muted)">Угадано ${r.correct} из ${r.total}${r.missed.length?'. Пропущено: '+r.missed.join(', '):''}</span></div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Идеальный результат!</div>`}
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('classify')">Пройти ещё раз</button>
+        <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('session')">К тестам</button>
+      </div>
+      <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
+    </div>`;
+}
 function renderSessionSetup(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
