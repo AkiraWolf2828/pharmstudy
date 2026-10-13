@@ -145,6 +145,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .report-weak h4{font-size:13px;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.3px}
 .weak-list{display:flex;flex-direction:column;gap:8px}
 .weak-item{padding:12px 14px;border-radius:14px;background:var(--error-soft);border-left:3px solid var(--error);font-size:13px;font-weight:500}
+.theory-section{margin-bottom:32px}
+.theory-card{background:var(--card);border-radius:22px;padding:24px;box-shadow:var(--shadow-sm);margin-bottom:12px;cursor:pointer;transition:all .2s}
+.theory-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.theory-card-head{display:flex;align-items:center;gap:12px}
+.theory-card-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
+.theory-card-title{font-size:16px;font-weight:700}
+.theory-card-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+.theory-card-body{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--text)}
+.theory-card-body.show{display:block}
+.theory-card-body h4{font-size:12px;font-weight:700;color:var(--accent-deep);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;margin-top:14px}
+.theory-card-body h4:first-child{margin-top:0}
+.theory-card-body ul{margin:0 0 8px 0;padding-left:20px}
+.theory-card-body li{margin-bottom:3px}
+.theory-card-body strong{color:var(--text)}
 .ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
 .ref-section{margin-bottom:32px}
 .ref-section-title{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
@@ -470,7 +484,71 @@ const CASES={
     }
   }
 };
-
+const THEORY=[
+{icon:'⚡',color:'var(--accent)',bg:'var(--accent-soft)',title:'Холинергический синапс',sub:'5 этапов передачи сигнала',body:`
+<h4>1. Синтез ацетилхолина</h4>
+<p>В пресинаптическом окончании: <strong>холин + ацетил-КоА → ацетилхолин</strong> с участием фермента <strong>холинацетилтрансферазы</strong>.</p>
+<h4>2. Накопление в везикулах</h4>
+<p>АХ упаковывается в синаптические везикулы и хранится до прихода нервного импульса.</p>
+<h4>3. Экзоцитоз (выброс)</h4>
+<p>При поступлении импульса открываются <strong>потенциалзависимые Ca²⁺-каналы</strong> → Ca²⁺ входит в клетку → везикулы сливаются с мембраной → АХ выходит в щель.</p>
+<h4>4. Действие на рецепторы</h4>
+<p>АХ связывается с <strong>М-</strong> или <strong>Н-холинорецепторами</strong> на постсинаптической мембране → изменение функции следующей клетки.</p>
+<h4>5. Инактивация</h4>
+<p><strong>Ацетилхолинэстераза (АХЭ)</strong> быстро расщепляет АХ на холин и ацетат. Холин возвращается в окончание и используется повторно. Если АХЭ подавлена — АХ накапливается и действует дольше.</p>
+`},
+{icon:'АХЭ',color:'var(--mint)',bg:'var(--mint-soft)',title:'АХЭ и БХЭ — две холинэстеразы',sub:'Зачем их различать',body:`
+<h4>Ацетилхолинэстераза (АХЭ)</h4>
+<p>Основной фермент, который <strong>быстро</strong> прекращает сигнал в синапсе. Расщепляет АХ на холин и ацетат.</p>
+<h4>Бутирилхолинэстераза (БХЭ)</h4>
+<p>Она же плазменная или псевдохолинэстераза. Синтезируется в печени, циркулирует в крови, есть и в тканях. Тоже расщепляет АХ, но <strong>медленнее</strong>.</p>
+<h4>Почему это важно</h4>
+<ul>
+<li><strong>Ривастигмин</strong> подавляет <em>оба</em> фермента — АХЭ и БХЭ. Поэтому в механизме указывают и то, и другое.</li>
+<li><strong>Суксаметоний</strong> (миорелаксант) расщепляется БХЭ. При сниженной активности фермента блокада затягивается, вплоть до паралича дыхательных мышц.</li>
+</ul>
+`},
+{icon:'М',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'М-холинорецепторы (М1–М5)',sub:'Метаботропные, связаны с G-белком',body:`
+<h4>Общее</h4>
+<p>Название — от чувствительности к <strong>мускарину</strong>. Передают сигнал через G-белки и вторые посредники.</p>
+<h4>М1</h4>
+<p><strong>Где:</strong> нейроны головного мозга (обучение, память), нейроны вегетативных ганглиев, нервные сплетения ЖКТ.<br><strong>Эффект:</strong> повышение возбудимости нейронов.</p>
+<h4>М2</h4>
+<p><strong>Где:</strong> сердце (синусовый и AV-узлы), пресинаптические окончания.<br><strong>Эффект:</strong> брадикардия, замедление AV-проведения. На пресинапсе — уменьшение выброса АХ.</p>
+<h4>М3</h4>
+<p><strong>Где:</strong> гладкие мышцы бронхов, ЖКТ, детрузор, сфинктер зрачка, цилиарная мышца, железы, эндотелий сосудов.<br><strong>Эффект:</strong> бронхоспазм, усиление моторики и секреции, миоз, спазм аккомодации, вазодилатация (через NO).</p>
+<h4>М4, М5</h4>
+<p>Преимущественно ЦНС. М4 — уменьшение выброса АХ на ряде окончаний, влияние на дофаминовые цепи. М5 — модуляция дофаминовой передачи.</p>
+`},
+{icon:'Н',color:'var(--success)',bg:'var(--success-soft)',title:'Н-холинорецепторы (Нн и Нм)',sub:'Ионотропные — сами ионные каналы',body:`
+<h4>Общее</h4>
+<p>Название — от чувствительности к <strong>никотину</strong>. При связывании с АХ открывают канал для катионов → деполяризация мембраны.</p>
+<h4>Нн — нейрональные</h4>
+<p><strong>Где:</strong> вегетативные ганглии (симпатические и парасимпатические), мозговое вещество надпочечников (хромаффинные клетки), ЦНС.<br><strong>Эффект:</strong> передача сигнала через ганглий; выброс адреналина/норадреналина в кровь; в ЦНС — внимание, обучение, зависимость.</p>
+<h4>Нм — мышечные</h4>
+<p><strong>Где:</strong> концевая пластинка скелетного мышечного волокна.<br><strong>Эффект:</strong> деполяризация → сокращение мышцы.</p>
+<h4>Важно</h4>
+<p>Длительная чрезмерная стимуляция Нм → сначала подёргивания (фасцикуляции), затем слабость и паралич — из-за стойкой деполяризации мембрана не может «перезарядиться».</p>
+`},
+{icon:'👁',color:'var(--warm)',bg:'var(--warm-soft)',title:'Эффекты холинергической стимуляции',sub:'По органам и системам',body:`
+<h4>Глаз</h4>
+<ul><li>Сфинктер радужки сокращается → <strong>миоз</strong></li><li>Цилиарная мышца сокращается → <strong>спазм аккомодации</strong>, зрение вблизи</li><li>Улучшение оттока водянистой влаги → снижение ВГД</li></ul>
+<h4>Сердце (М2)</h4>
+<ul><li>Уменьшение ЧСС, замедление AV-проведения → брадикардия, возможны блокады, обмороки</li></ul>
+<h4>Бронхи (М3)</h4>
+<ul><li>Бронхоспазм, усиление бронхиальной секреции (бронхорея) — опасные реакции</li></ul>
+<h4>ЖКТ (М3)</h4>
+<ul><li>Усиление моторики и секреции → спазмы, диарея, тошнота</li></ul>
+<h4>Мочевой пузырь (М3)</h4>
+<ul><li>Сокращение детрузора → облегчение опорожнения</li></ul>
+<h4>Железы (М3)</h4>
+<ul><li>Усиление слюно-, слезо- и потоотделения — признаки избыточной холинергической стимуляции</li></ul>
+<h4>Скелетные мышцы (Нм)</h4>
+<ul><li>Улучшение передачи при миастении; при передозировке — нарастание слабости</li></ul>
+<h4>Сосуды</h4>
+<ul><li>Большинство не имеет парасимпатической иннервации. Но М3 на эндотелии → NO → вазодилатация при действии агониста</li></ul>
+`}
+];
 const REFERENCE=[
   {section:'Холиномиметики',icon:'M',color:'var(--mint)',bg:'var(--mint-soft)',title:'Прямые М-холиномиметики',desc:'Действуют на М-холинорецепторы.',drugs:['Пилокарпин'],details:'Пилокарпин: глаукома (местно), ксеростомия. Побочки: миоз, спазм аккомодации, слезотечение.'},
   {section:'Холиномиметики',icon:'N',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Н-холиномиметики',desc:'Агонисты никотиновых рецепторов.',drugs:['Никотин','Цитизин','Варениклин'],details:'Никотин — полный агонист. Цитизин и Варениклин — частичные агонисты для отказа от курения.'},
@@ -478,7 +556,8 @@ const REFERENCE=[
   {section:'Холиномиметики',icon:'Ц',color:'var(--warm)',bg:'var(--warm-soft)',title:'оиХЭ центрального действия',desc:'Проникают через ГЭБ.',drugs:['Донепезил','Ривастигмин','Галантамин'],details:'При болезни Альцгеймера.'},
   {section:'Холиномиметики',icon:'ЦП',color:'var(--accent)',bg:'var(--accent-soft)',title:'оиХЭ центрально-периферического',desc:'ЦНС + периферия.',drugs:['Ипидакрин'],details:'Ипидакрин (Нейромидин): неврология, миастения.'},
   {section:'Холиномиметики',icon:'П',color:'var(--success)',bg:'var(--success-soft)',title:'оиХЭ периферического действия',desc:'Не проникают через ГЭБ.',drugs:['Пиридостигмин','Неостигмин'],details:'Миастения, атония. Антидот передозировки — атропин.'},
-  {section:'Холиномиметики',icon:'R',color:'var(--error)',bg:'var(--error-soft)',title:'Реактиваторы холинэстеразы',desc:'Восстанавливают фермент.',drugs:['Карбоксим'],details:'При отравлении ФОС вместе с атропином.'},
+  {section:'Холиномиметики',icon:'R',color:'var(--error)',bg:'var(--error-soft)',title:'Реактиваторы холинэстеразы',desc:'Восстанавливают фермент, ингибированный ФОС.',drugs:['Карбоксим'],details:'Оксимный реактиватор. Разрывает связь ФОС с ферментом, восстанавливая активность АХЭ. Возможность реактивации уменьшается после «старения» комплекса. Применяется только в составе комплексной антидотной терапии вместе с атропином.'},
+  {section:'Холиномиметики',icon:'ХА',color:'var(--warm)',bg:'var(--warm-soft)',title:'Холина альфосцерат (центральное действие)',desc:'Источник холина для синтеза АХ. Не прямой агонист.',drugs:['Холина альфосцерат'],details:'Проникает через ГЭБ, расщепляется на холин + глицерофосфат. Холин → синтез АХ; глицерофосфат → фосфатидилхолин мембран нейронов. Показания: ишемические нарушения мозгового кровообращения, восстановительный период после инсульта и ЧМТ, когнитивные нарушения, психоорганический синдром. Побочки: тошнота. Характерный периферический мускариновый синдром НЕ развивается — потому что препарат не является прямым агонистом М-рецепторов.'},
   {section:'Холиноблокаторы',icon:'А',color:'var(--mint)',bg:'var(--mint-soft)',title:'Неселективные М-ХБ системного действия',desc:'Блокируют М-рецепторы во всех органах.',drugs:['Атропин','Платифиллин'],details:'Показания: брадикардия, AV-блокада, отравление ФОС и мухомором, спазмы ЖКТ, премедикация.'},
   {section:'Холиноблокаторы',icon:'У',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Урологические М-ХБ',desc:'Селективная блокада М3 детрузора.',drugs:['Солифенацин','Оксибутинин','Троспия хлорид'],details:'Гиперактивный мочевой пузырь, СНМП.'},
   {section:'Холиноблокаторы',icon:'И',color:'var(--accent)',bg:'var(--accent-soft)',title:'Ингаляционные М-ХБ',desc:'Бронходилататоры.',drugs:['Ипратропия бромид','Тиотропия бромид','Гликопиррония бромид'],details:'Ипратропий — короткого действия. Тиотропий — длительного.'},
@@ -1187,7 +1266,22 @@ function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode()}
 
 function renderReference(){
   const sections=[...new Set(REFERENCE.map(r=>r.section))];
-  return sections.map(sec=>`
+  return `
+    <div class="theory-section">
+      <div class="ref-section-title">📚 Основы холинергической передачи</div>
+      ${THEORY.map((t,i)=>`
+        <div class="theory-card" onclick="toggleTheory(${i})">
+          <div class="theory-card-head">
+            <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+            <div style="flex:1">
+              <div class="theory-card-title">${t.title}</div>
+              <div class="theory-card-sub">${t.sub}</div>
+            </div>
+          </div>
+          <div class="theory-card-body" id="theoryBody${i}">${t.body}</div>
+        </div>`).join('')}
+    </div>
+    ${sections.map(sec=>`
     <div class="ref-section">
       <div class="ref-section-title">${sec}</div>
       <div class="ref-grid">
@@ -1198,8 +1292,9 @@ function renderReference(){
             <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
           </div>`;}).join('')}
       </div>
-    </div>`).join('');
+    </div>`).join('')}`;
 }
+function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
 
 function renderSettings(){
