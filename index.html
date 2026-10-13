@@ -532,7 +532,7 @@ function isDrugMatch(input,drug){
   return editDist(a,b)<=threshold;
 }
 
-function checkClassifyAnswer(input,drugs){
+function classifyCheck(input,drugs){
   const parts=input.split(/[,;]+/).map(s=>s.trim()).filter(s=>s);
   const usedDrugs=new Set();
   const usedInputs=new Set();
@@ -617,7 +617,7 @@ function checkClassifyAnswer(){
   const s=state.classifySession;
   const g=s.groups[s.index];
   const input=document.getElementById('classifyInput').value;
-  const res=checkClassifyAnswer_(input,g.drugs);
+  const res=classifyCheck(input,g.drugs);
   s.results.push({group:g.group,section:g.section,...res});
   const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
   const statusText=status==='good'?'✓ Всё верно':'✗ Правильный ответ'+(status==='bad'?'':'');
