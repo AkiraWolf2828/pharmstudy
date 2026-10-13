@@ -250,7 +250,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="botox"] .vesicle-bob{opacity:0.35;filter:grayscale(1);animation-play-state:paused}
 .synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
 .synapse-svg[data-scenario="normal"] .ca-channel-anim{filter:drop-shadow(0 0 8px #b8a0ff)}
+.classify-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.ctab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.ctab:hover{border-color:var(--accent);color:var(--text)}
+.ctab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.skill-filter{margin-bottom:20px;padding:16px;background:var(--card-2);border-radius:18px}
+.skill-filter-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.3px}
+.skill-chips{display:flex;gap:8px;flex-wrap:wrap}
+.skill-chip{padding:8px 14px;border-radius:12px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.skill-chip:hover{border-color:var(--accent)}
+.skill-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
+.dist-wrap{max-width:1000px;margin:0 auto}
+.dist-header{margin-bottom:20px}
+.dist-title{font-size:20px;font-weight:700;margin-bottom:6px}
+.dist-sub{font-size:13px;color:var(--text-muted)}
+.dist-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.dist-zone{background:var(--card-2);border:2px dashed var(--border);border-radius:18px;padding:14px;min-height:110px;transition:all .2s;cursor:pointer}
+.dist-zone:hover,.dist-zone.over{border-color:var(--accent);background:var(--accent-soft)}
+.dist-zone.checked{cursor:default}
+.dist-zone.checked:hover{border-color:var(--border);background:var(--card-2)}
+.dist-zone-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;line-height:1.3;text-transform:uppercase;letter-spacing:0.3px}
+.dist-zone-items{display:flex;flex-wrap:wrap;gap:6px;min-height:30px}
+.dist-drug-chip{font-size:12px;font-weight:600;padding:6px 10px;border-radius:10px;background:var(--card);color:var(--text);box-shadow:var(--shadow-sm)}
+.dist-drug-chip.correct{background:var(--success-soft);color:#2f8b5c;border:1.5px solid var(--success)}
+.dist-drug-chip.wrong{background:var(--error-soft);color:#b04050;border:1.5px solid var(--error);text-decoration:line-through}
+.dist-pool-wrap{margin-bottom:20px}
+.dist-pool-title{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+.dist-pool{display:flex;flex-wrap:wrap;gap:8px;padding:16px;background:var(--card-2);border-radius:18px;min-height:60px}
+.dist-drug-pool{font-size:13px;font-weight:600;padding:10px 16px;border-radius:14px;background:var(--card);color:var(--text);cursor:grab;transition:all .2s;user-select:none;box-shadow:var(--shadow-sm);border:2px solid transparent}
+.dist-drug-pool:hover{transform:translateY(-2px)}
+.dist-drug-pool.selected{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.05);box-shadow:0 4px 14px rgba(232,131,106,0.3)}
+.dist-result{padding:24px;background:var(--accent-soft);border-radius:18px;text-align:center;margin-bottom:16px}
+.dist-result-score{font-size:36px;font-weight:700;color:var(--accent-deep)}
+.dist-result-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;margin-top:4px}
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
 @media (max-width:768px){
   .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
@@ -292,6 +325,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </main>
 </div>
 <script>
+  const SKILLS={
+  q_001:'Классификация',q_002:'Классификация',q_003:'Показания',q_004:'Побочки',q_005:'Показания',
+  q_006:'Механизм',q_007:'Показания',q_008:'Показания',q_009:'Показания',q_010:'Классификация',
+  q_011:'Классификация',q_012:'Механизм',q_013:'Механизм',q_014:'Классификация',q_015:'Показания',
+  q_016:'Механизм',q_017:'Механизм',q_018:'Механизм',q_019:'Показания',q_020:'Показания',
+  q_021:'Механизм',q_022:'Показания',q_023:'Показания',q_024:'Показания',q_025:'Классификация',
+  q_026:'Классификация',q_027:'Показания',q_028:'Показания',q_029:'Классификация',q_030:'Побочки',
+  q_031:'Механизм',q_032:'Показания',q_033:'Классификация',q_034:'Показания',q_035:'Побочки'
+};
+const SKILL_LIST=['Классификация','Механизм','Показания','Побочки'];
 const QUESTIONS=[
 {id:'q_001',section:'Холиномиметики',text:'Какой препарат относится к прямым М-холиномиметикам?',options:['Пилокарпин','Неостигмин','Цитизин','Карбоксим'],correct:0,explanation:'Пилокарпин — прямой М-холиномиметик, действует непосредственно на М-холинорецепторы. Неостигмин — непрямой (оиХЭ периферического действия), цитизин — частичный агонист Н-ХР, карбоксим — реактиватор холинэстеразы.',tags:['Прямые холиномиметики','Механизм','Пилокарпин','Сложность 1'],source:'Харкевич Д.А., «Фармакология»'},
 {id:'q_002',section:'Холиномиметики',text:'Пациенту с болезнью Альцгеймера назначен Галантамин. К какой группе он относится?',options:['М-холиномиметик','оиХЭ центрального действия','оиХЭ периферического действия','Реактиватор холинэстеразы'],correct:1,explanation:'Галантамин (Нивалин) — обратимый ингибитор холинэстеразы центрального действия. Проникает через ГЭБ, повышает концентрацию ацетилхолина в ЦНС.',tags:['оиХЭ центрального действия','Показания','Галантамин','Сложность 2'],source:'Харкевич Д.А., «Фармакология»'},
@@ -534,7 +577,7 @@ const SCENARIOS={
   'botox':{name:'Ботулотоксин',chain:'<strong>Выброс АХ из везикул нарушен.</strong> Везикулы не сливаются с мембраной. АХ не попадает в щель. Рецепторы не активируются. Эффект: расслабление мышц (спастичность, косметология). Длится 3–6 месяцев.'}
 };
 
-const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{}};
+const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
 function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
@@ -549,7 +592,7 @@ function setScreen(name){
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';renderClassifySetup()}
+  else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
@@ -598,33 +641,50 @@ function classifyCheck(input,drugs){
   const extra=parts.filter((p,i)=>!usedInputs.has(i));
   return {matched,missed,extra,correct:matched.length,total:drugs.length};
 }
-
 function renderSessionSetup(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   if(state.selectedTopics._init!==true){sections.forEach(s=>state.selectedTopics[s]=true);state.selectedTopics._init=true;}
+  if(state.selectedSkills._init!==true){SKILL_LIST.forEach(s=>state.selectedSkills[s]=true);state.selectedSkills._init=true;}
   const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
-  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>sum+QUESTIONS.filter(q=>q.section===s).length,0);
+  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
+  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>{
+    return sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length;
+  },0);
   screenEl.innerHTML=`
     <div class="case-picker">
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор тем для тестирования</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь темы, которые хочешь протестировать. Вопросы перемешаются случайно.</div>
-      <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
-        ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${QUESTIONS.filter(q=>q.section===sec).length} вопросов</div></div></div>`).join('')}
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
+      <div class="skill-filter">
+        <div class="skill-filter-label">Тип вопросов</div>
+        <div class="skill-chips">
+          ${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}
+        </div>
       </div>
-      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">из ${QUESTIONS.length}</div></div>
+      <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
+      <div style="margin-bottom:24px">
+        ${sections.map((sec,i)=>{
+          const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;
+          return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;
+        }).join('')}
+      </div>
+      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
       <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
       <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
+}
+function toggleSkill(s){
+  state.selectedSkills[s]=!state.selectedSkills[s];
+  renderSessionSetup();
 }
 function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionSetup();}
 function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;renderSessionSetup();}
 function startSession(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const selected=sections.filter(s=>state.selectedTopics[s]);
-  let pool=QUESTIONS.filter(q=>selected.includes(q.section));
-  if(pool.length===0){alert('Выбери хотя бы одну тему');return;}
+  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
+  let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
+  if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
   pool=shuffle(pool);
   state.session={questions:pool,index:0,answers:[]};
   titleEl.textContent='Тестирование';
@@ -702,7 +762,8 @@ function renderClassifySetup(){
   const totalSelected=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).length,0);
   screenEl.innerHTML=`
     <div class="case-picker">
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация препаратов</div>
+      ${renderClassifyTabs('input')}
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
       <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
       <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
       <div style="margin-bottom:24px">
@@ -710,7 +771,6 @@ function renderClassifySetup(){
       </div>
       <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} групп</div><div class="sub">${selectedCount} разделов</div></div>
       <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
-      <button class="next-btn" style="background:transparent;color:var(--accent-deep);border:2px solid var(--accent);box-shadow:none;margin-top:8px" onclick="renderClassifyConspects()">📖 Конспекты групп</button>
       <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
 }
@@ -804,6 +864,7 @@ function renderClassifyConspects(){
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   screenEl.innerHTML=`
     <div style="max-width:900px;margin:0 auto">
+      ${renderClassifyTabs('conspect')}
       <div style="font-size:20px;font-weight:700;margin-bottom:6px">Конспекты групп</div>
       <div style="font-size:13px;color:var(--text-muted);margin-bottom:24px">Краткая справка по каждой группе: механизм действия и побочные эффекты.</div>
       ${sections.map((sec,si)=>`
@@ -966,7 +1027,112 @@ function renderSynapse(){
     });
   });
 }
+function renderClassifyTabs(active){
+  return `<div class="classify-tabs">
+    <button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
+    <button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
+    <button class="ctab ${active==='conspect'?'active':''}" onclick="switchClassifyTab('conspect')">📖 Конспекты</button>
+  </div>`;
+}
+function switchClassifyTab(t){
+  state.classifyMode=t;
+  if(t==='input')renderClassifySetup();
+  else if(t==='distribute')renderDistributeSetup();
+  else if(t==='conspect')renderClassifyConspects();
+}
 
+function renderDistributeSetup(){
+  const sections=[...new Set(GROUPS.map(g=>g.section))];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+  if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
+  const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
+  const totalDrugs=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).reduce((a,g)=>a+g.drugs.length,0),0);
+  screenEl.innerHTML=`
+    <div class="case-picker">
+      ${renderClassifyTabs('distribute')}
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
+      <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
+      <div style="margin-bottom:24px">
+        ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).reduce((a,g)=>a+g.drugs.length,0)} препаратов</div></div></div>`).join('')}
+      </div>
+      <div class="summary-box"><div class="lbl">Доступно</div><div class="val">${totalDrugs} препаратов</div><div class="sub">${selectedCount} разделов</div></div>
+      <button class="next-btn" ${totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startDistribute()">Начать</button>
+      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+    </div>`;
+}
+
+function startDistribute(){
+  const sections=[...new Set(GROUPS.map(g=>g.section))];
+  const selected=sections.filter(s=>state.selectedClassifySections[s]);
+  let pool=GROUPS.filter(g=>selected.includes(g.section));
+  if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
+  const allDrugs=[];
+  pool.forEach(g=>{g.drugs.forEach(d=>allDrugs.push({drug:d,group:g.group,section:g.section}));});
+  const shuffled=shuffle(allDrugs);
+  const count=Math.min(8,shuffled.length);
+  const round=shuffled.slice(0,count);
+  const groups=shuffle([...new Set(round.map(r=>r.group))]);
+  state.distribute={round,groups,placement:{},selected:null,checked:false};
+  titleEl.textContent='Распределение';
+  renderDistributeRound();
+}
+
+function renderDistributeRound(){
+  const d=state.distribute;
+  const placedCount=Object.keys(d.placement).length;
+  const allPlaced=placedCount===d.round.length;
+  const correctCount=d.round.filter((r,i)=>d.placement[i]===r.group).length;
+  screenEl.innerHTML=`
+    <div class="dist-wrap">
+      <div class="dist-header">
+        <div class="dist-title">Распредели препараты по группам</div>
+        <div class="dist-sub">${d.checked?`Результат: ${correctCount} из ${d.round.length} правильно`:'Перетащи карточку в группу или тапни препарат, потом группу'}</div>
+      </div>
+      <div class="dist-zones">
+        ${d.groups.map((g,gi)=>`
+          <div class="dist-zone ${d.checked?'checked':''}" data-gi="${gi}" onclick="dropDrug(${gi})" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');dropDrug(${gi})">
+            <div class="dist-zone-title">${g}</div>
+            <div class="dist-zone-items">
+              ${d.round.map((r,i)=>{
+                if(d.placement[i]!==g)return '';
+                let cls='';
+                if(d.checked)cls=r.group===g?'correct':'wrong';
+                return `<div class="dist-drug-chip ${cls}">${r.drug}</div>`;
+              }).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      ${!allPlaced?`
+        <div class="dist-pool-wrap">
+          <div class="dist-pool-title">Осталось распределить: <strong>${d.round.length-placedCount}</strong></div>
+          <div class="dist-pool">
+            ${d.round.map((r,i)=>{
+              if(d.placement[i]!==undefined)return '';
+              const sel=d.selected===i?'selected':'';
+              return `<div class="dist-drug-pool ${sel}" draggable="true" ondragstart="startDrag(${i},event)" onclick="selectDrug(${i})">${r.drug}</div>`;
+            }).join('')}
+          </div>
+        </div>
+      `:''}
+      ${d.checked?`
+        <div class="dist-result">
+          <div class="dist-result-score">${correctCount} / ${d.round.length}</div>
+          <div class="dist-result-label">правильно</div>
+        </div>
+        <button class="next-btn" onclick="startDistribute()">Новый раунд</button>
+        <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
+      `:`
+        <button class="next-btn" ${!allPlaced?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="checkDistribute()">Проверить</button>
+        <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
+      `}
+    </div>`;
+}
+function selectDrug(i){const d=state.distribute;if(d.checked)return;d.selected=(d.selected===i)?null:i;renderDistributeRound();}
+function startDrag(i,e){state.distribute.selected=i;e.dataTransfer.setData('text/plain',String(i));}
+function dropDrug(gi){const d=state.distribute;if(d.checked)return;if(d.selected===null)return;d.placement[d.selected]=d.groups[gi];d.selected=null;renderDistributeRound();}
+function checkDistribute(){state.distribute.checked=true;renderDistributeRound();}
 function renderCasePicker(){
   const cases=Object.values(CASES);
   screenEl.innerHTML=`
