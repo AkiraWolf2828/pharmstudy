@@ -509,127 +509,41 @@
 			'n-blocker':{name:'Н-холиноблокатор',chain:'Н-рецепторы заблокированы. Ганглиоблокатор: падение АД. Миорелаксант: расслабление мышц.'},
 			'botox':{name:'Ботулотоксин',chain:'Выброс АХ нарушен. Эффект: расслабление мышц 3-6 месяцев.'}
 			};
-			const SYNAPSE_SVG='<defs>
-				<radialGradient id="bgGrad" cx="50%" cy="40%" r="70%">
-					<stop offset="0%" stop-color="#3a4870"/>
-					<stop offset="100%" stop-color="#1a2138"/>
-				</radialGradient>
-				<linearGradient id="preCytoplasm" x1="0" y1="0" x2="0" y2="1">
-					<stop offset="0%" stop-color="#3a2828"/>
-					<stop offset="100%" stop-color="#5a3a30"/>
-				</linearGradient>
-				<linearGradient id="preMembrane" x1="0" y1="0" x2="0" y2="1">
-					<stop offset="0%" stop-color="#f0c0a8"/>
-					<stop offset="50%" stop-color="#d49a80"/>
-					<stop offset="100%" stop-color="#a86a58"/>
-				</linearGradient>
-				<linearGradient id="cleftGrad" x1="0" y1="0" x2="0" y2="1">
-					<stop offset="0%" stop-color="#1a2140"/>
-					<stop offset="100%" stop-color="#2a3158"/>
-				</linearGradient>
-				<linearGradient id="postMembrane" x1="0" y1="0" x2="0" y2="1">
-					<stop offset="0%" stop-color="#8ac0e0"/>
-					<stop offset="50%" stop-color="#6a9cc8"/>
-					<stop offset="100%" stop-color="#3a5a80"/>
-				</linearGradient>
-				<linearGradient id="postCytoplasm" x1="0" y1="0" x2="0" y2="1">
-					<stop offset="0%" stop-color="#2a3850"/>
-					<stop offset="100%" stop-color="#1a2440"/>
-				</linearGradient>
-				<radialGradient id="vesicleGrad" cx="30%" cy="25%" r="75%">
-					<stop offset="0%" stop-color="#c8b8e8"/>
-					<stop offset="40%" stop-color="#9a86c8"/>
-					<stop offset="100%" stop-color="#5a4a88"/>
-				</radialGradient>
-				<radialGradient id="achGrad" cx="30%" cy="25%" r="70%">
-					<stop offset="0%" stop-color="#ffd0d8"/>
-					<stop offset="40%" stop-color="#ff7090"/>
-					<stop offset="100%" stop-color="#c83060"/>
-				</radialGradient>
-				<linearGradient id="caChannelGrad" x1="0" y1="0" x2="1" y2="0">
-					<stop offset="0%" stop-color="#8a7ac8"/>
-					<stop offset="50%" stop-color="#b8a8e8"/>
-					<stop offset="100%" stop-color="#5a4a98"/>
-				</linearGradient>
-				<linearGradient id="mReceptGrad" x1="0" y1="0" x2="1" y2="1">
-					<stop offset="0%" stop-color="#d8b8f0"/>
-					<stop offset="50%" stop-color="#a888d0"/>
-					<stop offset="100%" stop-color="#6a4a98"/>
-				</linearGradient>
-				<linearGradient id="nReceptGrad" x1="0" y1="0" x2="1" y2="1">
-					<stop offset="0%" stop-color="#a8e8d0"/>
-					<stop offset="50%" stop-color="#5ac8a0"/>
-					<stop offset="100%" stop-color="#2a8868"/>
-				</linearGradient>
-				<radialGradient id="acheGrad" cx="35%" cy="30%" r="70%">
-					<stop offset="0%" stop-color="#ffe8a8"/>
-					<stop offset="40%" stop-color="#ffb840"/>
-					<stop offset="100%" stop-color="#c07820"/>
-				</radialGradient>
-				<filter id="shadow">
-					<feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
-				</filter>
-			</defs><rect width="1000" height="700" fill="url(#bgGrad)"/><path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="url(#preCytoplasm)"/><path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/><g class="vesicle synapse-el vesicle-bob" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Пузырек с ацетилхолином.">
-				<ellipse cx="315" cy="160" rx="40" ry="38" fill="url(#vesicleGrad)"/>
-				<circle cx="305" cy="150" r="5" fill="url(#achGrad)"/>
-				<circle cx="330" cy="158" r="5" fill="url(#achGrad)"/>
-				<circle cx="315" cy="172" r="5" fill="url(#achGrad)"/>
-			</g><g class="vesicle synapse-el vesicle-bob d1" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Пузырек с АХ.">
-				<ellipse cx="475" cy="125" rx="36" ry="34" fill="url(#vesicleGrad)"/>
-				<circle cx="465" cy="120" r="4" fill="url(#achGrad)"/>
-				<circle cx="488" cy="128" r="4" fill="url(#achGrad)"/>
-			</g><g class="vesicle synapse-el vesicle-bob d2" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Пузырек с АХ.">
-				<ellipse cx="635" cy="165" rx="42" ry="40" fill="url(#vesicleGrad)"/>
-				<circle cx="620" cy="158" r="5" fill="url(#achGrad)"/>
-				<circle cx="648" cy="165" r="5" fill="url(#achGrad)"/>
-			</g><g class="vesicle synapse-el vesicle-bob d3" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Пузырек с АХ.">
-				<ellipse cx="785" cy="110" rx="34" ry="32" fill="url(#vesicleGrad)"/>
-				<circle cx="774" cy="105" r="4" fill="url(#achGrad)"/>
-				<circle cx="796" cy="112" r="4" fill="url(#achGrad)"/>
-			</g><g class="ca-channel synapse-el" data-el="ca" data-name="Ca-канал" data-desc="Открывается при деполяризации.">
-				<path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/>
-				<text x="270" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca</text>
-			</g><g class="ca-channel synapse-el" data-el="ca" data-name="Ca-канал" data-desc="Открывается при деполяризации.">
-				<path d="M 710 290 L 750 290 L 755 320 L 745 335 L 715 335 L 705 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/>
-				<text x="730" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca</text>
-			</g><path d="M 50 350 Q 500 320 950 350 L 950 420 Q 500 450 50 420 Z" fill="url(#cleftGrad)"/><g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин" data-desc="Нейромедиатор.">
-				<circle cx="150" cy="380" r="9" fill="url(#achGrad)"/>
-				<circle cx="360" cy="365" r="9" fill="url(#achGrad)"/>
-				<circle cx="540" cy="400" r="9" fill="url(#achGrad)"/>
-				<circle cx="700" cy="375" r="9" fill="url(#achGrad)"/>
-				<circle cx="870" cy="395" r="9" fill="url(#achGrad)"/>
-			</g><g class="ache synapse-el ache-pulse" data-el="ache" data-name="Ацетилхолинэстераза (АХЭ)" data-desc="Фермент, разрушающий АХ.">
-				<path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/>
-				<text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
-			</g><path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="url(#postCytoplasm)"/><path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/><g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-				<path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/>
-				<text class="block-x" x="178" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-				<path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/>
-				<text class="block-x" x="398" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-				<path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/>
-				<text class="block-x" x="648" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-				<path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/>
-				<text class="block-x" x="848" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
-				<rect x="252" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/>
-				<rect x="262" y="448" width="16" height="26" rx="3" fill="#0a1830"/>
-				<text class="block-x" x="270" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
-				<rect x="512" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/>
-				<rect x="522" y="448" width="16" height="26" rx="3" fill="#0a1830"/>
-				<text class="block-x" x="530" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
-				<rect x="722" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/>
-				<rect x="732" y="448" width="16" height="26" rx="3" fill="#0a1830"/>
-				<text class="block-x" x="740" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">X</text>
-			</g><g font-family="-apple-system,sans-serif">
-				<text x="80" y="80" font-size="15" font-weight="700" fill="#f0c0a8">Пресинаптический нейрон</text>
-				<text x="80" y="510" font-size="15" font-weight="700" fill="#8ac0e0">Постсинаптический нейрон</text>
-				<text x="500" y="405" font-size="11" font-weight="700" fill="#6a7a9a" text-anchor="middle">Синаптическая щель</text>
-			</g>';
+			const SYNAPSE_SVG=[
+			'<rect width="1000" height="700" fill="#1a2138"/>',
+			'<rect x="50" y="40" width="900" height="270" rx="20" fill="#5a3a30"/>',
+			'<rect x="50" y="460" width="900" height="220" rx="20" fill="#2a3850"/>',
+			'<rect x="50" y="350" width="900" height="70" fill="#2a3158"/>',
+			'<circle cx="315" cy="160" r="40" fill="#9a86c8"/>',
+			'<circle cx="305" cy="150" r="5" fill="#ff7090"/>',
+			'<circle cx="330" cy="158" r="5" fill="#ff7090"/>',
+			'<circle cx="315" cy="172" r="5" fill="#ff7090"/>',
+			'<circle cx="475" cy="125" r="36" fill="#9a86c8"/>',
+			'<circle cx="465" cy="120" r="4" fill="#ff7090"/>',
+			'<circle cx="488" cy="128" r="4" fill="#ff7090"/>',
+			'<circle cx="635" cy="165" r="42" fill="#9a86c8"/>',
+			'<circle cx="620" cy="158" r="5" fill="#ff7090"/>',
+			'<circle cx="648" cy="165" r="5" fill="#ff7090"/>',
+			'<circle cx="785" cy="110" r="34" fill="#9a86c8"/>',
+			'<circle cx="774" cy="105" r="4" fill="#ff7090"/>',
+			'<circle cx="796" cy="112" r="4" fill="#ff7090"/>',
+			'<path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="#8a7ac8"/>',
+			'<path d="M 710 290 L 750 290 L 755 320 L 745 335 L 715 335 L 705 320 Z" fill="#8a7ac8"/>',
+			'<circle cx="150" cy="380" r="9" fill="#ff7090"/>',
+			'<circle cx="360" cy="365" r="9" fill="#ff7090"/>',
+			'<circle cx="540" cy="400" r="9" fill="#ff7090"/>',
+			'<circle cx="700" cy="375" r="9" fill="#ff7090"/>',
+			'<circle cx="870" cy="395" r="9" fill="#ff7090"/>',
+			'<ellipse cx="460" cy="395" rx="55" ry="40" fill="#ffb840"/>',
+			'<text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>',
+			'<path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="#a888d0"/>',
+			'<path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="#a888d0"/>',
+			'<path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="#a888d0"/>',
+			'<path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="#a888d0"/>',
+			'<rect x="252" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>',
+			'<rect x="512" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>',
+			'<rect x="722" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>'
+			].join('');
 			const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
 			function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch(e){return{}}}
 			function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
