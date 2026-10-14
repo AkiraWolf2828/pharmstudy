@@ -6,316 +6,372 @@
 <meta name="theme-color" content="#b8d6ce">
 <title>PharmStudy</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --mint:#7cc5b8;--mint-soft:#e0f2ef;
-  --lavender-deco:#b8a8e0;--lavender-soft:#ede7f7;
-  --warm:#f5be7c;--warm-soft:#fdf0dd;
-  --success:#7fc99a;--success-soft:#e0f4e7;
-  --error:#f09098;--error-soft:#fde6e8;
-}
-[data-theme="warm-light"]{--sidebar-bg:#b8d6ce;--sidebar-text:#5d7268;--sidebar-text-active:#2d3f38;--sidebar-active-bg:rgba(255,255,255,0.7);--bg:#faf4ec;--card:#ffffff;--card-2:#f7f0e6;--text:#3d3535;--text-muted:#8a7d78;--border:rgba(180,160,140,0.12);--shadow:0 4px 20px rgba(180,160,140,0.12);--shadow-sm:0 2px 10px rgba(180,160,140,0.08);--accent:#ff9e85;--accent-soft:#ffe6df;--accent-deep:#e8836a;--hero-from:#ffb8a0;--hero-to:#c5b5e8;--avatar-from:#ffc4b0;--avatar-to:#c5b5e8}
-[data-theme="warm-dark"]{--sidebar-bg:#232a28;--sidebar-text:#a8b8b0;--sidebar-text-active:#f0f5f0;--sidebar-active-bg:rgba(124,197,184,0.18);--bg:#2a2520;--card:#38322c;--card-2:#443d36;--text:#f5ede2;--text-muted:#a89c90;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.25);--shadow-sm:0 2px 10px rgba(0,0,0,0.18);--accent:#ffa88e;--accent-soft:rgba(255,168,142,0.15);--accent-deep:#ff9578;--hero-from:#7a5a48;--hero-to:#5a4d70;--avatar-from:#c58a78;--avatar-to:#8a7ab0}
-[data-theme="mint-light"]{--sidebar-bg:#c8dfd8;--sidebar-text:#4a6862;--sidebar-text-active:#1f3330;--sidebar-active-bg:rgba(255,255,255,0.75);--bg:#f2f8f6;--card:#ffffff;--card-2:#e8f3ef;--text:#2a3a37;--text-muted:#758a85;--border:rgba(100,140,130,0.1);--shadow:0 4px 20px rgba(120,170,155,0.12);--shadow-sm:0 2px 10px rgba(120,170,155,0.08);--accent:#5fb8a8;--accent-soft:#dcf2ed;--accent-deep:#44948a;--hero-from:#8dd4c4;--hero-to:#a8c8e0;--avatar-from:#8dd4c4;--avatar-to:#a8c8e0}
-[data-theme="mint-dark"]{--sidebar-bg:#1d2b28;--sidebar-text:#90aca4;--sidebar-text-active:#e8f5f1;--sidebar-active-bg:rgba(95,184,168,0.2);--bg:#1a2422;--card:#243330;--card-2:#2d3e3a;--text:#e5f2ee;--text-muted:#8aa39c;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.3);--shadow-sm:0 2px 10px rgba(0,0,0,0.2);--accent:#7cd0be;--accent-soft:rgba(124,208,190,0.15);--accent-deep:#5fb8a8;--hero-from:#3a6a5f;--hero-to:#3a5a70;--avatar-from:#6db8a8;--avatar-to:#7aa8c0}
-[data-theme="lavender-light"]{--sidebar-bg:#d8cce8;--sidebar-text:#63557a;--sidebar-text-active:#2d2140;--sidebar-active-bg:rgba(255,255,255,0.75);--bg:#f7f2fa;--card:#ffffff;--card-2:#f0e8f5;--text:#322a3d;--text-muted:#857a92;--border:rgba(140,120,160,0.1);--shadow:0 4px 20px rgba(170,140,190,0.14);--shadow-sm:0 2px 10px rgba(170,140,190,0.08);--accent:#b89dd6;--accent-soft:#ede2f5;--accent-deep:#9575b8;--hero-from:#c8aae0;--hero-to:#f0b5d0;--avatar-from:#c8aae0;--avatar-to:#f0b5d0}
-[data-theme="lavender-dark"]{--sidebar-bg:#252030;--sidebar-text:#a094b5;--sidebar-text-active:#efe8f8;--sidebar-active-bg:rgba(184,157,214,0.2);--bg:#1f1a2a;--card:#2a2438;--card-2:#352d45;--text:#efe8f8;--text-muted:#9d90ad;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.3);--shadow-sm:0 2px 10px rgba(0,0,0,0.2);--accent:#c8aae0;--accent-soft:rgba(200,170,224,0.15);--accent-deep:#b89dd6;--hero-from:#5a4870;--hero-to:#7a4868;--avatar-from:#9a7ab8;--avatar-to:#c88aa0}
-[data-theme$="-dark"]{
-  --mint-soft:rgba(124,197,184,0.15);
-  --lavender-soft:rgba(197,181,232,0.15);
-  --warm-soft:rgba(245,190,124,0.15);
-  --success-soft:rgba(127,201,154,0.15);
-  --error-soft:rgba(240,144,152,0.15);
-  --accent-soft:rgba(255,168,142,0.15);
-}
-[data-theme$="-dark"]{color-scheme:dark}
-[data-theme$="-light"]{color-scheme:light}
-html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;line-height:1.5;-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:var(--card-2)}
-::-webkit-scrollbar-thumb{background:var(--accent);border-radius:5px;border:2px solid var(--card-2)}
-::selection{background:var(--accent);color:#fff}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.app{display:flex;min-height:100vh}
-.sidebar{width:240px;background:var(--sidebar-bg);padding:24px 14px;display:flex;flex-direction:column;gap:20px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10;border-radius:0 28px 28px 0;transition:background .3s}
-.profile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 4px 20px;border-bottom:1px solid rgba(255,255,255,0.3)}
-.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--avatar-from),var(--avatar-to));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;box-shadow:0 4px 14px rgba(150,120,140,0.25)}
-.profile-name{color:var(--sidebar-text-active);font-weight:700;font-size:16px}
-.profile-sub{color:var(--sidebar-text);font-size:12px;text-align:center;opacity:0.85}
-.nav{display:flex;flex-direction:column;gap:6px;flex:1}
-.nav-btn{display:flex;align-items:center;gap:12px;padding:12px 14px;border:none;background:transparent;color:var(--sidebar-text);font-size:14px;font-family:inherit;font-weight:600;border-radius:16px;cursor:pointer;text-align:left;transition:all .2s}
-.nav-btn:hover{background:rgba(255,255,255,0.4);color:var(--sidebar-text-active)}
-.nav-btn.active{background:var(--sidebar-active-bg);color:var(--sidebar-text-active);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.nav-btn svg{width:20px;height:20px;flex-shrink:0}
-.premium-block{background:linear-gradient(150deg,rgba(255,255,255,0.5),rgba(255,255,255,0.25));border-radius:20px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.4)}
-.premium-block .crown{font-size:26px;margin-bottom:6px}
-.premium-block h4{color:var(--sidebar-text-active);font-size:13px;margin-bottom:4px;font-weight:700}
-.premium-block p{color:var(--sidebar-text);font-size:11px;margin-bottom:12px}
-.premium-block button{width:100%;padding:10px;border:none;border-radius:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-.content{flex:1;margin-left:240px;padding:28px 36px 60px;min-width:0}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px}
-.topbar h1{font-size:26px;font-weight:700}
-.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-sm)}
-.theme-toggle svg{width:16px;height:16px}
-.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-to) 100%);border-radius:28px;padding:32px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(150,120,140,0.22)}
-.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.15)}
-.hero h2{font-size:24px;font-weight:700;margin-bottom:6px;position:relative}
-.hero p{font-size:14px;opacity:.95;margin-bottom:20px;position:relative}
-.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:16px;border:none;background:#fff;color:var(--accent-deep);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;position:relative;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
-.hero-btn svg{width:16px;height:16px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat-card{background:var(--card);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
-.stat-card:nth-child(1){background:linear-gradient(160deg,var(--mint-soft),var(--card))}
-.stat-card:nth-child(2){background:linear-gradient(160deg,var(--accent-soft),var(--card))}
-.stat-card:nth-child(3){background:linear-gradient(160deg,var(--lavender-soft),var(--card))}
-.stat-card:nth-child(4){background:linear-gradient(160deg,var(--warm-soft),var(--card))}
-.stat-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:var(--card)}
-.stat-icon svg{width:20px;height:20px}
-.stat-icon.mint{color:var(--mint)}.stat-icon.lavender{color:var(--lavender-deco)}.stat-icon.accent{color:var(--accent)}.stat-icon.warm{color:var(--warm)}
-.stat-label{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
-.stat-value{font-size:28px;font-weight:700;line-height:1.1}
-.stat-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
-.row-2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:24px}
-.panel{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.panel-head h3{font-size:16px;font-weight:700}
-.panel-head .badge{font-size:11px;color:var(--text-muted);background:var(--card-2);padding:5px 12px;border-radius:10px;font-weight:600}
-.topic-list{display:flex;flex-direction:column;gap:16px}
-.topic-row{display:flex;flex-direction:column;gap:8px}
-.topic-top{display:flex;justify-content:space-between;font-size:12px}
-.topic-name{font-weight:600}
-.topic-pct{color:var(--text-muted);font-weight:600}
-.topic-bar{height:8px;background:var(--card-2);border-radius:4px;overflow:hidden}
-.topic-fill{height:100%;border-radius:4px;transition:width .4s}
-.recent-list{display:flex;flex-direction:column;gap:10px}
-.recent-item{display:flex;align-items:center;gap:14px;padding:12px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s}
-.recent-item:hover{background:var(--accent-soft);transform:translateX(3px)}
-.recent-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
-.recent-info{flex:1;min-width:0}
-.recent-title{font-size:13px;font-weight:700}
-.recent-sub{font-size:11px;color:var(--text-muted)}
-.question-card,.case-card,.report-card,.case-picker{background:var(--card);border-radius:28px;padding:36px;box-shadow:var(--shadow);max-width:820px;margin:0 auto}
-.q-progress{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.q-progress-bar{flex:1;height:8px;background:var(--card-2);border-radius:4px;overflow:hidden}
-.q-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--lavender-deco));border-radius:4px;transition:width .3s}
-.q-progress-text{font-size:12px;color:var(--text-muted);font-weight:600}
-.q-text{font-size:19px;font-weight:600;line-height:1.5;margin-bottom:28px}
-.q-options{display:flex;flex-direction:column;gap:12px}
-.q-option{padding:18px 20px;border-radius:18px;background:var(--card-2);border:2px solid transparent;color:var(--text);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:14px}
-.q-option:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
-.q-option:disabled{cursor:default}
-.q-option-letter{width:30px;height:30px;border-radius:50%;background:var(--card);color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
-.q-option.correct{background:var(--success-soft);border-color:var(--success)}
-.q-option.correct .q-option-letter{background:var(--success);color:#fff}
-.q-option.wrong{background:var(--error-soft);border-color:var(--error)}
-.q-option.wrong .q-option-letter{background:var(--error);color:#fff}
-.explanation{margin-top:24px;padding:22px;background:var(--accent-soft);border-radius:20px;border-left:4px solid var(--accent)}
-.explanation h4{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--accent-deep);text-transform:uppercase;letter-spacing:0.3px}
-.explanation p{font-size:14px;line-height:1.65;color:var(--text)}
-.explanation .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.tag{font-size:10px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--card);color:var(--text-muted);letter-spacing:0.2px}
-.explanation .source{font-size:11px;color:var(--text-muted);margin-top:12px;font-style:italic}
-.next-btn{margin-top:22px;width:100%;padding:16px;border-radius:18px;border:none;background:var(--accent);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
-.next-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,0.15)}
-.case-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
-.case-badge{padding:5px 12px;border-radius:10px;background:var(--warm-soft);color:#b8801f;font-size:11px;font-weight:700;letter-spacing:0.3px}
-.case-title{font-size:17px;font-weight:700}
-.case-intro{padding:22px;background:var(--lavender-soft);border-radius:20px;font-size:14px;line-height:1.65;margin-bottom:24px;border-left:4px solid var(--lavender-deco)}
-.case-question{font-size:17px;font-weight:600;margin-bottom:18px}
-.case-feedback{padding:18px;border-radius:18px;margin-top:18px;font-size:13px;line-height:1.65}
-.case-feedback.good{background:var(--success-soft);border-left:4px solid var(--success)}
-.case-feedback.bad{background:var(--error-soft);border-left:4px solid var(--error)}
-.case-feedback.neutral{background:var(--warm-soft);border-left:4px solid var(--warm)}
-.case-pick-item{display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:var(--card-2);cursor:pointer;margin-bottom:12px;transition:all .2s}
-.case-pick-item:hover{background:var(--accent-soft);transform:translateX(4px)}
-.case-pick-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--lavender-deco));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.case-pick-info{flex:1}
-.case-pick-title{font-size:15px;font-weight:700;margin-bottom:2px}
-.case-pick-sub{font-size:12px;color:var(--text-muted)}
-.report-card{text-align:center}
-.report-emoji{font-size:56px;margin-bottom:16px}
-.report-title{font-size:24px;font-weight:700;margin-bottom:8px}
-.report-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px}
-.report-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
-.report-stat{background:var(--card-2);border-radius:20px;padding:18px}
-.report-stat-val{font-size:26px;font-weight:700}
-.report-stat-lbl{font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
-.report-weak{text-align:left;margin-bottom:22px}
-.report-weak h4{font-size:13px;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.3px}
-.weak-list{display:flex;flex-direction:column;gap:8px}
-.weak-item{padding:12px 14px;border-radius:14px;background:var(--error-soft);border-left:3px solid var(--error);font-size:13px;font-weight:500}
-.theory-section{margin-bottom:32px}
-.theory-card{background:var(--card);border-radius:22px;padding:24px;box-shadow:var(--shadow-sm);margin-bottom:12px;cursor:pointer;transition:all .2s}
-.theory-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.theory-card-head{display:flex;align-items:center;gap:12px}
-.theory-card-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
-.theory-card-title{font-size:16px;font-weight:700}
-.theory-card-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
-.theory-card-body{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--text)}
-.theory-card-body.show{display:block}
-.theory-card-body h4{font-size:12px;font-weight:700;color:var(--accent-deep);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;margin-top:14px}
-.theory-card-body h4:first-child{margin-top:0}
-.theory-card-body ul{margin:0 0 8px 0;padding-left:20px}
-.theory-card-body li{margin-bottom:3px}
-.theory-card-body strong{color:var(--text)}
-.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
-.ref-section{margin-bottom:32px}
-.ref-section-title{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
-.ref-card{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all .2s}
-.ref-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.ref-card-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.ref-icon{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
-.ref-card h3{font-size:14px;font-weight:700;line-height:1.3}
-.ref-card p{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.5}
-.ref-drugs{display:flex;flex-wrap:wrap;gap:6px}
-.ref-drug{font-size:11px;padding:4px 10px;border-radius:8px;background:var(--card-2);color:var(--text-muted);font-weight:600}
-.palette-card{padding:16px;border-radius:18px;border:2px solid var(--border);background:var(--card);cursor:pointer;transition:all .2s;text-align:center}
-.palette-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.palette-card.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.palette-swatch{width:100%;height:50px;border-radius:12px;margin-bottom:10px}
-.palette-name{font-size:13px;font-weight:700;margin-bottom:4px}
-.palette-sub{font-size:11px;color:var(--text-muted)}
-.topic-pick{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s;border:2px solid transparent;margin-bottom:10px}
-.topic-pick:hover{background:var(--accent-soft)}
-.topic-pick.selected{border-color:var(--accent);background:var(--accent-soft)}
-.topic-check{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;font-weight:700;transition:all .2s}
-.topic-pick-info{flex:1}
-.topic-pick-title{font-size:14px;font-weight:700;margin-bottom:2px}
-.topic-pick-sub{font-size:12px;color:var(--text-muted)}
-.topic-actions{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-.topic-actions button{padding:8px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.topic-actions button:hover{border-color:var(--accent);color:var(--accent-deep)}
-.summary-box{padding:18px;background:var(--card-2);border-radius:18px;margin-bottom:18px;text-align:center}
-.summary-box .lbl{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
-.summary-box .val{font-size:26px;font-weight:700}
-.summary-box .sub{font-size:12px;color:var(--text-muted);margin-top:4px}
-.classify-hint{font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
-.classify-input{width:100%;padding:16px 18px;border-radius:18px;border:2px solid var(--border);background:var(--card-2);color:var(--text);font-family:inherit;font-size:15px;font-weight:500;transition:border-color .2s;outline:none}
-.classify-input:focus{border-color:var(--accent);background:var(--card)}
-.classify-input::placeholder{color:var(--text-muted);opacity:0.7}
-.classify-result{margin-top:18px;padding:18px;background:var(--card-2);border-radius:16px;display:flex;flex-direction:column;gap:8px}
-.classify-line{font-size:14px;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
-.classify-mark{font-weight:700;flex-shrink:0;width:20px;text-align:center}
-.classify-mark.ok{color:var(--success)}
-.classify-mark.miss{color:var(--error)}
-.classify-mark.extra{color:var(--warm)}
-.conspect{margin-top:20px;padding:20px;background:var(--card-2);border-radius:18px;display:flex;flex-direction:column;gap:16px}
-.conspect-block{display:flex;flex-direction:column;gap:6px}
-.conspect-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--accent-deep)}
-.conspect-text{font-size:13px;line-height:1.6;color:var(--text)}
-.conspect-list{margin:0;padding-left:20px;font-size:13px;line-height:1.7;color:var(--text)}
-.conspect-card{background:var(--card);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
-.conspect-card-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.conspect-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-.conspect-card-title{font-size:15px;font-weight:700}
-.conspect-card-drugs{font-size:12px;color:var(--text-muted);margin-bottom:14px;font-weight:500}
+	*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+	:root{
+	--mint:#7cc5b8;--mint-soft:#e0f2ef;
+	--lavender-deco:#b8a8e0;--lavender-soft:#ede7f7;
+	--warm:#f5be7c;--warm-soft:#fdf0dd;
+	--success:#7fc99a;--success-soft:#e0f4e7;
+	--error:#f09098;--error-soft:#fde6e8;
+	}
+	[data-theme="warm-light"]{--sidebar-bg:#b8d6ce;--sidebar-text:#5d7268;--sidebar-text-active:#2d3f38;--sidebar-active-bg:rgba(255,255,255,0.7);--bg:#faf4ec;--card:#ffffff;--card-2:#f7f0e6;--text:#3d3535;--text-muted:#8a7d78;--border:rgba(180,160,140,0.12);--shadow:0 4px 20px rgba(180,160,140,0.12);--shadow-sm:0 2px 10px rgba(180,160,140,0.08);--accent:#ff9e85;--accent-soft:#ffe6df;--accent-deep:#e8836a;--hero-from:#ffb8a0;--hero-to:#c5b5e8;--avatar-from:#ffc4b0;--avatar-to:#c5b5e8}
+	[data-theme="warm-dark"]{--sidebar-bg:#232a28;--sidebar-text:#a8b8b0;--sidebar-text-active:#f0f5f0;--sidebar-active-bg:rgba(124,197,184,0.18);--bg:#2a2520;--card:#38322c;--card-2:#443d36;--text:#f5ede2;--text-muted:#a89c90;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.25);--shadow-sm:0 2px 10px rgba(0,0,0,0.18);--accent:#ffa88e;--accent-soft:rgba(255,168,142,0.15);--accent-deep:#ff9578;--hero-from:#7a5a48;--hero-to:#5a4d70;--avatar-from:#c58a78;--avatar-to:#8a7ab0}
+	[data-theme="mint-light"]{--sidebar-bg:#c8dfd8;--sidebar-text:#4a6862;--sidebar-text-active:#1f3330;--sidebar-active-bg:rgba(255,255,255,0.75);--bg:#f2f8f6;--card:#ffffff;--card-2:#e8f3ef;--text:#2a3a37;--text-muted:#758a85;--border:rgba(100,140,130,0.1);--shadow:0 4px 20px rgba(120,170,155,0.12);--shadow-sm:0 2px 10px rgba(120,170,155,0.08);--accent:#5fb8a8;--accent-soft:#dcf2ed;--accent-deep:#44948a;--hero-from:#8dd4c4;--hero-to:#a8c8e0;--avatar-from:#8dd4c4;--avatar-to:#a8c8e0}
+	[data-theme="mint-dark"]{--sidebar-bg:#1d2b28;--sidebar-text:#90aca4;--sidebar-text-active:#e8f5f1;--sidebar-active-bg:rgba(95,184,168,0.2);--bg:#1a2422;--card:#243330;--card-2:#2d3e3a;--text:#e5f2ee;--text-muted:#8aa39c;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.3);--shadow-sm:0 2px 10px rgba(0,0,0,0.2);--accent:#7cd0be;--accent-soft:rgba(124,208,190,0.15);--accent-deep:#5fb8a8;--hero-from:#3a6a5f;--hero-to:#3a5a70;--avatar-from:#6db8a8;--avatar-to:#7aa8c0}
+	[data-theme="lavender-light"]{--sidebar-bg:#d8cce8;--sidebar-text:#63557a;--sidebar-text-active:#2d2140;--sidebar-active-bg:rgba(255,255,255,0.75);--bg:#f7f2fa;--card:#ffffff;--card-2:#f0e8f5;--text:#322a3d;--text-muted:#857a92;--border:rgba(140,120,160,0.1);--shadow:0 4px 20px rgba(170,140,190,0.14);--shadow-sm:0 2px 10px rgba(170,140,190,0.08);--accent:#b89dd6;--accent-soft:#ede2f5;--accent-deep:#9575b8;--hero-from:#c8aae0;--hero-to:#f0b5d0;--avatar-from:#c8aae0;--avatar-to:#f0b5d0}
+	[data-theme="lavender-dark"]{--sidebar-bg:#252030;--sidebar-text:#a094b5;--sidebar-text-active:#efe8f8;--sidebar-active-bg:rgba(184,157,214,0.2);--bg:#1f1a2a;--card:#2a2438;--card-2:#352d45;--text:#efe8f8;--text-muted:#9d90ad;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.3);--shadow-sm:0 2px 10px rgba(0,0,0,0.2);--accent:#c8aae0;--accent-soft:rgba(200,170,224,0.15);--accent-deep:#b89dd6;--hero-from:#5a4870;--hero-to:#7a4868;--avatar-from:#9a7ab8;--avatar-to:#c88aa0}
+	[data-theme$="-dark"]{
+	--mint-soft:rgba(124,197,184,0.15);
+	--lavender-soft:rgba(197,181,232,0.15);
+	--warm-soft:rgba(245,190,124,0.15);
+	--success-soft:rgba(127,201,154,0.15);
+	--error-soft:rgba(240,144,152,0.15);
+	--accent-soft:rgba(255,168,142,0.15);
+	}
+	[data-theme$="-dark"]{color-scheme:dark}
+	[data-theme$="-light"]{color-scheme:light}
+	html,body{height:100%}
+	body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;line-height:1.5;-webkit-font-smoothing:antialiased}
+	::-webkit-scrollbar{width:10px;height:10px}
+	::-webkit-scrollbar-track{background:var(--card-2)}
+	::-webkit-scrollbar-thumb{background:var(--accent);border-radius:5px;border:2px solid var(--card-2)}
+	::selection{background:var(--accent);color:#fff}
+	:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+	.app{display:flex;min-height:100vh}
+	.sidebar{width:240px;background:var(--sidebar-bg);padding:24px 14px;display:flex;flex-direction:column;gap:20px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10;border-radius:0 28px 28px 0;transition:background .3s}
+	.profile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 4px 20px;border-bottom:1px solid rgba(255,255,255,0.3)}
+	.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--avatar-from),var(--avatar-to));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;box-shadow:0 4px 14px rgba(150,120,140,0.25)}
+	.profile-name{color:var(--sidebar-text-active);font-weight:700;font-size:16px}
+	.profile-sub{color:var(--sidebar-text);font-size:12px;text-align:center;opacity:0.85}
+	.nav{display:flex;flex-direction:column;gap:6px;flex:1}
+	.nav-btn{display:flex;align-items:center;gap:12px;padding:12px 14px;border:none;background:transparent;color:var(--sidebar-text);font-size:14px;font-family:inherit;font-weight:600;border-radius:16px;cursor:pointer;text-align:left;transition:all .2s}
+	.nav-btn:hover{background:rgba(255,255,255,0.4);color:var(--sidebar-text-active)}
+	.nav-btn.active{background:var(--sidebar-active-bg);color:var(--sidebar-text-active);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+	.nav-btn svg{width:20px;height:20px;flex-shrink:0}
+	.premium-block{background:linear-gradient(150deg,rgba(255,255,255,0.5),rgba(255,255,255,0.25));border-radius:20px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.4)}
+	.premium-block .crown{font-size:26px;margin-bottom:6px}
+	.premium-block h4{color:var(--sidebar-text-active);font-size:13px;margin-bottom:4px;font-weight:700}
+	.premium-block p{color:var(--sidebar-text);font-size:11px;margin-bottom:12px}
+	.premium-block button{width:100%;padding:10px;border:none;border-radius:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+	.content{flex:1;margin-left:240px;padding:28px 36px 60px;min-width:0}
+	.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px}
+	.topbar h1{font-size:26px;font-weight:700}
+	.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-sm)}
+	.theme-toggle svg{width:16px;height:16px}
+	.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-to) 100%);border-radius:28px;padding:32px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(150,120,140,0.22)}
+	.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.15)}
+	.hero h2{font-size:24px;font-weight:700;margin-bottom:6px;position:relative}
+	.hero p{font-size:14px;opacity:.95;margin-bottom:20px;position:relative}
+	.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:16px;border:none;background:#fff;color:var(--accent-deep);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;position:relative;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+	.hero-btn svg{width:16px;height:16px}
+	.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+	.stat-card{background:var(--card);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
+	.stat-card:nth-child(1){background:linear-gradient(160deg,var(--mint-soft),var(--card))}
+	.stat-card:nth-child(2){background:linear-gradient(160deg,var(--accent-soft),var(--card))}
+	.stat-card:nth-child(3){background:linear-gradient(160deg,var(--lavender-soft),var(--card))}
+	.stat-card:nth-child(4){background:linear-gradient(160deg,var(--warm-soft),var(--card))}
+	.stat-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:var(--card)}
+	.stat-icon svg{width:20px;height:20px}
+	.stat-icon.mint{color:var(--mint)}.stat-icon.lavender{color:var(--lavender-deco)}.stat-icon.accent{color:var(--accent)}.stat-icon.warm{color:var(--warm)}
+	.stat-label{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+	.stat-value{font-size:28px;font-weight:700;line-height:1.1}
+	.stat-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
+	.row-2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:24px}
+	.panel{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+	.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+	.panel-head h3{font-size:16px;font-weight:700}
+	.panel-head .badge{font-size:11px;color:var(--text-muted);background:var(--card-2);padding:5px 12px;border-radius:10px;font-weight:600}
+	.topic-list{display:flex;flex-direction:column;gap:16px}
+	.topic-row{display:flex;flex-direction:column;gap:8px}
+	.topic-top{display:flex;justify-content:space-between;font-size:12px}
+	.topic-name{font-weight:600}
+	.topic-pct{color:var(--text-muted);font-weight:600}
+	.topic-bar{height:8px;background:var(--card-2);border-radius:4px;overflow:hidden}
+	.topic-fill{height:100%;border-radius:4px;transition:width .4s}
+	.recent-list{display:flex;flex-direction:column;gap:10px}
+	.recent-item{display:flex;align-items:center;gap:14px;padding:12px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s}
+	.recent-item:hover{background:var(--accent-soft);transform:translateX(3px)}
+	.recent-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+	.recent-info{flex:1;min-width:0}
+	.recent-title{font-size:13px;font-weight:700}
+	.recent-sub{font-size:11px;color:var(--text-muted)}
+	.question-card,.case-card,.report-card,.case-picker{background:var(--card);border-radius:28px;padding:36px;box-shadow:var(--shadow);max-width:820px;margin:0 auto}
+	.q-progress{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+	.q-progress-bar{flex:1;height:8px;background:var(--card-2);border-radius:4px;overflow:hidden}
+	.q-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--lavender-deco));border-radius:4px;transition:width .3s}
+	.q-progress-text{font-size:12px;color:var(--text-muted);font-weight:600}
+	.q-text{font-size:19px;font-weight:600;line-height:1.5;margin-bottom:28px}
+	.q-options{display:flex;flex-direction:column;gap:12px}
+	.q-option{padding:18px 20px;border-radius:18px;background:var(--card-2);border:2px solid transparent;color:var(--text);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:14px}
+	.q-option:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+	.q-option:disabled{cursor:default}
+	.q-option-letter{width:30px;height:30px;border-radius:50%;background:var(--card);color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+	.q-option.correct{background:var(--success-soft);border-color:var(--success)}
+	.q-option.correct .q-option-letter{background:var(--success);color:#fff}
+	.q-option.wrong{background:var(--error-soft);border-color:var(--error)}
+	.q-option.wrong .q-option-letter{background:var(--error);color:#fff}
+	.explanation{margin-top:24px;padding:22px;background:var(--accent-soft);border-radius:20px;border-left:4px solid var(--accent)}
+	.explanation h4{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--accent-deep);text-transform:uppercase;letter-spacing:0.3px}
+	.explanation p{font-size:14px;line-height:1.65;color:var(--text)}
+	.explanation .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+	.tag{font-size:10px;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--card);color:var(--text-muted);letter-spacing:0.2px}
+	.explanation .source{font-size:11px;color:var(--text-muted);margin-top:12px;font-style:italic}
+	.next-btn{margin-top:22px;width:100%;padding:16px;border-radius:18px;border:none;background:var(--accent);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+	.next-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,0.15)}
+	.case-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+	.case-badge{padding:5px 12px;border-radius:10px;background:var(--warm-soft);color:#b8801f;font-size:11px;font-weight:700;letter-spacing:0.3px}
+	.case-title{font-size:17px;font-weight:700}
+	.case-intro{padding:22px;background:var(--lavender-soft);border-radius:20px;font-size:14px;line-height:1.65;margin-bottom:24px;border-left:4px solid var(--lavender-deco)}
+	.case-question{font-size:17px;font-weight:600;margin-bottom:18px}
+	.case-feedback{padding:18px;border-radius:18px;margin-top:18px;font-size:13px;line-height:1.65}
+	.case-feedback.good{background:var(--success-soft);border-left:4px solid var(--success)}
+	.case-feedback.bad{background:var(--error-soft);border-left:4px solid var(--error)}
+	.case-feedback.neutral{background:var(--warm-soft);border-left:4px solid var(--warm)}
+	.case-pick-item{display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:var(--card-2);cursor:pointer;margin-bottom:12px;transition:all .2s}
+	.case-pick-item:hover{background:var(--accent-soft);transform:translateX(4px)}
+	.case-pick-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--lavender-deco));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+	.case-pick-info{flex:1}
+	.case-pick-title{font-size:15px;font-weight:700;margin-bottom:2px}
+	.case-pick-sub{font-size:12px;color:var(--text-muted)}
+	.report-card{text-align:center}
+	.report-emoji{font-size:56px;margin-bottom:16px}
+	.report-title{font-size:24px;font-weight:700;margin-bottom:8px}
+	.report-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px}
+	.report-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+	.report-stat{background:var(--card-2);border-radius:20px;padding:18px}
+	.report-stat-val{font-size:26px;font-weight:700}
+	.report-stat-lbl{font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+	.report-weak{text-align:left;margin-bottom:22px}
+	.report-weak h4{font-size:13px;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.3px}
+	.weak-list{display:flex;flex-direction:column;gap:8px}
+	.weak-item{padding:12px 14px;border-radius:14px;background:var(--error-soft);border-left:3px solid var(--error);font-size:13px;font-weight:500}
+	.theory-section{margin-bottom:32px}
+	.theory-card{background:var(--card);border-radius:22px;padding:24px;box-shadow:var(--shadow-sm);margin-bottom:12px;cursor:pointer;transition:all .2s}
+	.theory-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+	.theory-card-head{display:flex;align-items:center;gap:12px}
+	.theory-card-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
+	.theory-card-title{font-size:16px;font-weight:700}
+	.theory-card-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+	.theory-card-body{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--text)}
+	.theory-card-body.show{display:block}
+	.theory-card-body h4{font-size:12px;font-weight:700;color:var(--accent-deep);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;margin-top:14px}
+	.theory-card-body h4:first-child{margin-top:0}
+	.theory-card-body ul{margin:0 0 8px 0;padding-left:20px}
+	.theory-card-body li{margin-bottom:3px}
+	.theory-card-body strong{color:var(--text)}
+	.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+	.ref-section{margin-bottom:32px}
+	.ref-section-title{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
+	.ref-card{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all .2s}
+	.ref-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+	.ref-card-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+	.ref-icon{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+	.ref-card h3{font-size:14px;font-weight:700;line-height:1.3}
+	.ref-card p{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.5}
+	.ref-drugs{display:flex;flex-wrap:wrap;gap:6px}
+	.ref-drug{font-size:11px;padding:4px 10px;border-radius:8px;background:var(--card-2);color:var(--text-muted);font-weight:600}
+	.palette-card{padding:16px;border-radius:18px;border:2px solid var(--border);background:var(--card);cursor:pointer;transition:all .2s;text-align:center}
+	.palette-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+	.palette-card.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+	.palette-swatch{width:100%;height:50px;border-radius:12px;margin-bottom:10px}
+	.palette-name{font-size:13px;font-weight:700;margin-bottom:4px}
+	.palette-sub{font-size:11px;color:var(--text-muted)}
+	.topic-pick{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s;border:2px solid transparent;margin-bottom:10px}
+	.topic-pick:hover{background:var(--accent-soft)}
+	.topic-pick.selected{border-color:var(--accent);background:var(--accent-soft)}
+	.topic-check{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;font-weight:700;transition:all .2s}
+	.topic-pick-info{flex:1}
+	.topic-pick-title{font-size:14px;font-weight:700;margin-bottom:2px}
+	.topic-pick-sub{font-size:12px;color:var(--text-muted)}
+	.topic-actions{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+	.topic-actions button{padding:8px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+	.topic-actions button:hover{border-color:var(--accent);color:var(--accent-deep)}
+	.summary-box{padding:18px;background:var(--card-2);border-radius:18px;margin-bottom:18px;text-align:center}
+	.summary-box .lbl{font-size:12px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+	.summary-box .val{font-size:26px;font-weight:700}
+	.summary-box .sub{font-size:12px;color:var(--text-muted);margin-top:4px}
+	.classify-hint{font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500}
+	.classify-input{width:100%;padding:16px 18px;border-radius:18px;border:2px solid var(--border);background:var(--card-2);color:var(--text);font-family:inherit;font-size:15px;font-weight:500;transition:border-color .2s;outline:none}
+	.classify-input:focus{border-color:var(--accent);background:var(--card)}
+	.classify-input::placeholder{color:var(--text-muted);opacity:0.7}
+	.classify-result{margin-top:18px;padding:18px;background:var(--card-2);border-radius:16px;display:flex;flex-direction:column;gap:8px}
+	.classify-line{font-size:14px;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
+	.classify-mark{font-weight:700;flex-shrink:0;width:20px;text-align:center}
+	.classify-mark.ok{color:var(--success)}
+	.classify-mark.miss{color:var(--error)}
+	.classify-mark.extra{color:var(--warm)}
+	.conspect{margin-top:20px;padding:20px;background:var(--card-2);border-radius:18px;display:flex;flex-direction:column;gap:16px}
+	.conspect-block{display:flex;flex-direction:column;gap:6px}
+	.conspect-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--accent-deep)}
+	.conspect-text{font-size:13px;line-height:1.6;color:var(--text)}
+	.conspect-list{margin:0;padding-left:20px;font-size:13px;line-height:1.7;color:var(--text)}
+	.conspect-card{background:var(--card);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+	.conspect-card-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+	.conspect-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+	.conspect-card-title{font-size:15px;font-weight:700}
+	.conspect-card-drugs{font-size:12px;color:var(--text-muted);margin-bottom:14px;font-weight:500}
 
-.synapse-wrap{max-width:1100px;margin:0 auto}
-.synapse-scenarios{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.scen-btn{padding:8px 14px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.scen-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
-.scen-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(232,131,106,0.25)}
-.synapse-stage{position:relative;background:#1a2138;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
-.synapse-svg{display:block;width:100%;height:auto}
-.synapse-svg .synapse-el{cursor:pointer;transition:filter .2s}
-.synapse-svg .synapse-el:hover{filter:brightness(1.35) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
-.synapse-tooltip{position:absolute;padding:8px 12px;background:rgba(20,28,40,0.95);color:#fff;font-size:12px;font-weight:600;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;border:1px solid rgba(255,255,255,0.15)}
-.synapse-tooltip.show{opacity:1}
-.synapse-info{padding:20px;background:var(--card);border-radius:20px;box-shadow:var(--shadow-sm);margin-bottom:16px;min-height:90px}
-.synapse-info-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text)}
-.synapse-info-desc{font-size:13px;line-height:1.6;color:var(--text-muted)}
-.synapse-chain{padding:20px;background:var(--accent-soft);border-radius:20px;border-left:4px solid var(--accent)}
-.synapse-chain-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--accent-deep);margin-bottom:8px}
-.synapse-chain-text{font-size:14px;line-height:1.6;color:var(--text)}
-.ach-float{animation:achFloat 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.vesicle-bob{animation:vesicleBob 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.vesicle-bob.d1{animation-delay:-0.7s}
-.vesicle-bob.d2{animation-delay:-1.5s}
-.vesicle-bob.d3{animation-delay:-2.3s}
-.ache-pulse{animation:achePulse 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.ca-ion-flow{animation:caFlow 3s linear infinite;transform-box:fill-box;transform-origin:center}
-.ca-ion-flow.d1{animation-delay:-1.5s}
-.na-ion-flow{animation:naFlow 3.5s linear infinite;transform-box:fill-box;transform-origin:center}
-.na-ion-flow.d1{animation-delay:-1.2s}
-.na-ion-flow.d2{animation-delay:-2.4s}
-.m-recept,.n-recept{transform-box:fill-box;transform-origin:center;transition:filter .3s}
-.ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:channelGlow 2.5s ease-in-out infinite}
-.block-x{display:none}
-@keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
-@keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@keyframes achePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
-@keyframes caFlow{0%{transform:translate(0,-45px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,45px);opacity:0}}
-@keyframes naFlow{0%{transform:translate(0,25px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,-55px);opacity:0}}
-@keyframes channelGlow{0%,100%{filter:drop-shadow(0 0 3px #a88adf)}50%{filter:drop-shadow(0 0 12px #d0b8ff)}}
-@keyframes receptorPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
-@keyframes receptorFade{0%,100%{opacity:1}50%{opacity:0.5}}
-.synapse-svg[data-scenario="m-agonist"] .m-recept{animation:receptorPulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 14px #c8aaff) brightness(1.3)}
-.synapse-svg[data-scenario="n-agonist"] .n-recept{animation:receptorPulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 14px #7ce8c8) brightness(1.3)}
-.synapse-svg[data-scenario="m-blocker"] .m-recept{animation:receptorFade 2.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff6080) brightness(0.7)}
-.synapse-svg[data-scenario="m-blocker"] .m-recept .block-x{display:block}
-.synapse-svg[data-scenario="n-blocker"] .n-recept{animation:receptorFade 2.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff6080) brightness(0.7)}
-.synapse-svg[data-scenario="n-blocker"] .n-recept .block-x{display:block}
-.synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 16px #ff4060) brightness(1.15);animation:achePulse 1.5s ease-in-out infinite}
-.synapse-svg[data-scenario="ache-block"] .ach-float,.synapse-svg[data-scenario="fos"] .ach-float{animation-duration:1.4s;filter:drop-shadow(0 0 10px #ff80a0)}
-.synapse-svg[data-scenario="ache-block"] .n-recept,.synapse-svg[data-scenario="fos"] .n-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #7ce8c8) brightness(1.3)}
-.synapse-svg[data-scenario="ache-block"] .m-recept,.synapse-svg[data-scenario="fos"] .m-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #c8aaff) brightness(1.3)}
-.synapse-svg[data-scenario="reactivator"] .ache{filter:drop-shadow(0 0 18px #7fc99a) brightness(1.4);animation:achePulse 2s ease-in-out infinite}
-.synapse-svg[data-scenario="botox"] .vesicle-bob{opacity:0.35;filter:grayscale(1);animation-play-state:paused}
-.synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
-.synapse-svg[data-scenario="normal"] .ca-channel-anim{filter:drop-shadow(0 0 8px #b8a0ff)}
-.classify-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.ctab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.ctab:hover{border-color:var(--accent);color:var(--text)}
-.ctab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.skill-filter{margin-bottom:20px;padding:16px;background:var(--card-2);border-radius:18px}
-.skill-filter-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.3px}
-.skill-chips{display:flex;gap:8px;flex-wrap:wrap}
-.skill-chip{padding:8px 14px;border-radius:12px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.skill-chip:hover{border-color:var(--accent)}
-.skill-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+	.synapse-wrap{max-width:1100px;margin:0 auto}
+	.synapse-scenarios{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+	.scen-btn{padding:8px 14px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+	.scen-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
+	.scen-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(232,131,106,0.25)}
+	.synapse-stage{position:relative;background:#1a2138;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+	.synapse-svg{display:block;width:100%;height:auto}
+	.synapse-svg .synapse-el{cursor:pointer;transition:filter .2s}
+	.synapse-svg .synapse-el:hover{filter:brightness(1.35) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
+	.synapse-tooltip{position:absolute;padding:8px 12px;background:rgba(20,28,40,0.95);color:#fff;font-size:12px;font-weight:600;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;border:1px solid rgba(255,255,255,0.15)}
+	.synapse-tooltip.show{opacity:1}
+	.synapse-info{padding:20px;background:var(--card);border-radius:20px;box-shadow:var(--shadow-sm);margin-bottom:16px;min-height:90px}
+	.synapse-info-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text)}
+	.synapse-info-desc{font-size:13px;line-height:1.6;color:var(--text-muted)}
+	.synapse-chain{padding:20px;background:var(--accent-soft);border-radius:20px;border-left:4px solid var(--accent)}
+	.synapse-chain-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--accent-deep);margin-bottom:8px}
+	.synapse-chain-text{font-size:14px;line-height:1.6;color:var(--text)}
+	.ach-float{animation:achFloat 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+	.vesicle-bob{animation:vesicleBob 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+	.vesicle-bob.d1{animation-delay:-0.7s}
+	.vesicle-bob.d2{animation-delay:-1.5s}
+	.vesicle-bob.d3{animation-delay:-2.3s}
+	.ache-pulse{animation:achePulse 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+	.ca-ion-flow{animation:caFlow 3s linear infinite;transform-box:fill-box;transform-origin:center}
+	.ca-ion-flow.d1{animation-delay:-1.5s}
+	.na-ion-flow{animation:naFlow 3.5s linear infinite;transform-box:fill-box;transform-origin:center}
+	.na-ion-flow.d1{animation-delay:-1.2s}
+	.na-ion-flow.d2{animation-delay:-2.4s}
+	.m-recept,.n-recept{transform-box:fill-box;transform-origin:center;transition:filter .3s}
+	.ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:channelGlow 2.5s ease-in-out infinite}
+	.block-x{display:none}
+	@keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
+	@keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+	@keyframes achePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
+	@keyframes caFlow{0%{transform:translate(0,-45px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,45px);opacity:0}}
+	@keyframes naFlow{0%{transform:translate(0,25px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,-55px);opacity:0}}
+	@keyframes channelGlow{0%,100%{filter:drop-shadow(0 0 3px #a88adf)}50%{filter:drop-shadow(0 0 12px #d0b8ff)}}
+	@keyframes receptorPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+	@keyframes receptorFade{0%,100%{opacity:1}50%{opacity:0.5}}
+	.synapse-svg[data-scenario="m-agonist"] .m-recept{animation:receptorPulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 14px #c8aaff) brightness(1.3)}
+	.synapse-svg[data-scenario="n-agonist"] .n-recept{animation:receptorPulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 14px #7ce8c8) brightness(1.3)}
+	.synapse-svg[data-scenario="m-blocker"] .m-recept{animation:receptorFade 2.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff6080) brightness(0.7)}
+	.synapse-svg[data-scenario="m-blocker"] .m-recept .block-x{display:block}
+	.synapse-svg[data-scenario="n-blocker"] .n-recept{animation:receptorFade 2.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff6080) brightness(0.7)}
+	.synapse-svg[data-scenario="n-blocker"] .n-recept .block-x{display:block}
+	.synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 16px #ff4060) brightness(1.15);animation:achePulse 1.5s ease-in-out infinite}
+	.synapse-svg[data-scenario="ache-block"] .ach-float,.synapse-svg[data-scenario="fos"] .ach-float{animation-duration:1.4s;filter:drop-shadow(0 0 10px #ff80a0)}
+	.synapse-svg[data-scenario="ache-block"] .n-recept,.synapse-svg[data-scenario="fos"] .n-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #7ce8c8) brightness(1.3)}
+	.synapse-svg[data-scenario="ache-block"] .m-recept,.synapse-svg[data-scenario="fos"] .m-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #c8aaff) brightness(1.3)}
+	.synapse-svg[data-scenario="reactivator"] .ache{filter:drop-shadow(0 0 18px #7fc99a) brightness(1.4);animation:achePulse 2s ease-in-out infinite}
+	.synapse-svg[data-scenario="botox"] .vesicle-bob{opacity:0.35;filter:grayscale(1);animation-play-state:paused}
+	.synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
+	.synapse-svg[data-scenario="normal"] .ca-channel-anim{filter:drop-shadow(0 0 8px #b8a0ff)}
+	.eye-svg{display:block;width:100%;height:auto}
+	.eye-svg .synapse-el{cursor:pointer;transition:filter .2s}
+	.eye-svg .synapse-el:hover{filter:brightness(1.3) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
+	.eye-svg .iris-el,.eye-svg .lens-el{transition:transform .5s ease;transform-box:fill-box;transform-origin:center}
+	.eye-svg .aq-dot{animation:aqFlow 4s linear infinite;transform-box:fill-box;transform-origin:center}
+	.eye-svg .aq-1{animation-delay:0s}
+	.eye-svg .aq-2{animation-delay:-0.7s}
+	.eye-svg .aq-3{animation-delay:-1.4s}
+	.eye-svg .aq-4{animation-delay:-2.1s}
+	.eye-svg .aq-5{animation-delay:-2.8s}
+	.eye-svg .aq-6{animation-delay:-3.5s}
+	@keyframes aqFlow{0%{opacity:0.25}50%{opacity:1}100%{opacity:0.25}}
 
-.dist-wrap{max-width:1000px;margin:0 auto}
-.dist-header{margin-bottom:20px}
-.dist-title{font-size:20px;font-weight:700;margin-bottom:6px}
-.dist-sub{font-size:13px;color:var(--text-muted)}
-.dist-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-bottom:24px}
-.dist-zone{background:var(--card-2);border:2px dashed var(--border);border-radius:18px;padding:14px;min-height:110px;transition:all .2s;cursor:pointer}
-.dist-zone:hover,.dist-zone.over{border-color:var(--accent);background:var(--accent-soft)}
-.dist-zone.checked{cursor:default}
-.dist-zone.checked:hover{border-color:var(--border);background:var(--card-2)}
-.dist-zone-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;line-height:1.3;text-transform:uppercase;letter-spacing:0.3px}
-.dist-zone-items{display:flex;flex-wrap:wrap;gap:6px;min-height:30px}
-.dist-drug-chip{font-size:12px;font-weight:600;padding:6px 10px;border-radius:10px;background:var(--card);color:var(--text);box-shadow:var(--shadow-sm)}
-.dist-drug-chip.correct{background:var(--success-soft);color:#2f8b5c;border:1.5px solid var(--success)}
-.dist-drug-chip.wrong{background:var(--error-soft);color:#b04050;border:1.5px solid var(--error);text-decoration:line-through}
-.dist-pool-wrap{margin-bottom:20px}
-.dist-pool-title{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
-.dist-pool{display:flex;flex-wrap:wrap;gap:8px;padding:16px;background:var(--card-2);border-radius:18px;min-height:60px}
-.dist-drug-pool{font-size:13px;font-weight:600;padding:10px 16px;border-radius:14px;background:var(--card);color:var(--text);cursor:grab;transition:all .2s;user-select:none;box-shadow:var(--shadow-sm);border:2px solid transparent}
-.dist-drug-pool:hover{transform:translateY(-2px)}
-.dist-drug-pool.selected{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.05);box-shadow:0 4px 14px rgba(232,131,106,0.3)}
-.dist-result{padding:24px;background:var(--accent-soft);border-radius:18px;text-align:center;margin-bottom:16px}
-.dist-result-score{font-size:36px;font-weight:700;color:var(--accent-deep)}
-.dist-result-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;margin-top:4px}
-@media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
-@media (max-width:768px){
-  .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
-  .profile,.premium-block{display:none}
-  .nav{flex-direction:row;flex:1;justify-content:space-around}
-  .nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}
-  .nav-btn svg{width:22px;height:22px}
-  .content{margin-left:0;padding:16px 14px 100px}
-  .topbar h1{font-size:22px}
-  .hero{padding:24px;border-radius:24px}
-  .hero h2{font-size:20px}.hero p{font-size:13px}
-  .question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}
-  .q-text{font-size:16px}
-  .report-stats{grid-template-columns:1fr 1fr}
-  .theme-toggle span{display:none}
-  .stat-value{font-size:24px}
-  .synapse-stage{border-radius:16px}
-}
+	.eye-svg[data-scenario="m-agonist"] .aq-dot{fill:#60e090}
+	.eye-svg[data-scenario="m-agonist"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="m-agonist"] .lens-el{transform:scaleY(1.2)}
+	.eye-svg[data-scenario="m-blocker"] .aq-dot{fill:#ff8080;animation-duration:8s;opacity:0.4}
+	.eye-svg[data-scenario="m-blocker"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="m-blocker"] .lens-el{transform:scaleY(0.85)}
+	.eye-svg[data-scenario="acute-glaucoma"] .aq-dot{fill:#ff3040;animation:none;opacity:0.25}
+	.eye-svg[data-scenario="acute-glaucoma"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="acute-glaucoma"] .trabecular-el{filter:drop-shadow(0 0 10px #ff3040) brightness(1.3)}
+	.eye-svg[data-scenario="acute-glaucoma"] .iris-el{filter:drop-shadow(0 0 8px #ff5060)}
+	.eye-svg[data-scenario="choline"] .aq-dot{fill:#c8b8e8}
+
+	.viz-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+	.viz-tab{padding:10px 18px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+	.viz-tab:hover{border-color:var(--accent);color:var(--text)}
+	.viz-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+	.classify-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+	.ctab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+	.ctab:hover{border-color:var(--accent);color:var(--text)}
+	.ctab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+	.skill-filter{margin-bottom:20px;padding:16px;background:var(--card-2);border-radius:18px}
+	.skill-filter-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.3px}
+	.skill-chips{display:flex;gap:8px;flex-wrap:wrap}
+	.skill-chip{padding:8px 14px;border-radius:12px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+	.skill-chip:hover{border-color:var(--accent)}
+	.skill-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+	.dist-wrap{max-width:1000px;margin:0 auto}
+	.dist-header{margin-bottom:20px}
+	.dist-title{font-size:20px;font-weight:700;margin-bottom:6px}
+	.dist-sub{font-size:13px;color:var(--text-muted)}
+	.dist-zones{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+	.dist-zone{background:var(--card-2);border:2px dashed var(--border);border-radius:18px;padding:14px;min-height:110px;transition:all .2s;cursor:pointer}
+	.dist-zone:hover,.dist-zone.over{border-color:var(--accent);background:var(--accent-soft)}
+	.dist-zone.checked{cursor:default}
+	.dist-zone.checked:hover{border-color:var(--border);background:var(--card-2)}
+	.dist-zone-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;line-height:1.3;text-transform:uppercase;letter-spacing:0.3px}
+	.dist-zone-items{display:flex;flex-wrap:wrap;gap:6px;min-height:30px}
+	.dist-drug-chip{font-size:12px;font-weight:600;padding:6px 10px;border-radius:10px;background:var(--card);color:var(--text);box-shadow:var(--shadow-sm)}
+	.dist-drug-chip.correct{background:var(--success-soft);color:#2f8b5c;border:1.5px solid var(--success)}
+	.dist-drug-chip.wrong{background:var(--error-soft);color:#b04050;border:1.5px solid var(--error);text-decoration:line-through}
+	.dist-pool-wrap{margin-bottom:20px}
+	.dist-pool-title{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+	.dist-pool{display:flex;flex-wrap:wrap;gap:8px;padding:16px;background:var(--card-2);border-radius:18px;min-height:60px}
+	.dist-drug-pool{font-size:13px;font-weight:600;padding:10px 16px;border-radius:14px;background:var(--card);color:var(--text);cursor:grab;transition:all .2s;user-select:none;box-shadow:var(--shadow-sm);border:2px solid transparent}
+	.dist-drug-pool:hover{transform:translateY(-2px)}
+	.dist-drug-pool.selected{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.05);box-shadow:0 4px 14px rgba(232,131,106,0.3)}
+	.dist-result{padding:24px;background:var(--accent-soft);border-radius:18px;text-align:center;margin-bottom:16px}
+	.dist-result-score{font-size:36px;font-weight:700;color:var(--accent-deep)}
+	.dist-result-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;margin-top:4px}
+	.viz-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+	.viz-tab{padding:10px 18px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+	.viz-tab:hover{border-color:var(--accent);color:var(--text)}
+	.viz-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+	.eye-svg{display:block;width:100%;height:auto}
+	.eye-svg .synapse-el{cursor:pointer;transition:filter .2s}
+	.eye-svg .synapse-el:hover{filter:brightness(1.3) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
+	.eye-svg .iris-el,.eye-svg .lens-el{transition:transform .5s ease;transform-box:fill-box;transform-origin:center}
+	.eye-svg .aq-dot{animation:aqFlow 4s linear infinite;transform-box:fill-box;transform-origin:center}
+	.eye-svg .aq-1{animation-delay:0s}
+	.eye-svg .aq-2{animation-delay:-0.7s}
+	.eye-svg .aq-3{animation-delay:-1.4s}
+	.eye-svg .aq-4{animation-delay:-2.1s}
+	.eye-svg .aq-5{animation-delay:-2.8s}
+	.eye-svg .aq-6{animation-delay:-3.5s}
+	@keyframes aqFlow{0%{opacity:0.25}50%{opacity:1}100%{opacity:0.25}}
+	.eye-svg[data-scenario="m-agonist"] .aq-dot{fill:#60e090}
+	.eye-svg[data-scenario="m-agonist"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="m-agonist"] .lens-el{transform:scaleY(1.2)}
+	.eye-svg[data-scenario="m-blocker"] .aq-dot{fill:#ff8080;animation-duration:8s;opacity:0.4}
+	.eye-svg[data-scenario="m-blocker"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="m-blocker"] .lens-el{transform:scaleY(0.85)}
+	.eye-svg[data-scenario="acute-glaucoma"] .aq-dot{fill:#ff3040;animation:none;opacity:0.25}
+	.eye-svg[data-scenario="acute-glaucoma"] .iris-el{transform:translateY(var(--iris-shift))}
+	.eye-svg[data-scenario="acute-glaucoma"] .trabecular-el{filter:drop-shadow(0 0 10px #ff3040) brightness(1.3)}
+	.eye-svg[data-scenario="acute-glaucoma"] .iris-el{filter:drop-shadow(0 0 8px #ff5060)}
+	.eye-svg[data-scenario="choline"] .aq-dot{fill:#c8b8e8}
+	@media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
+	@media (max-width:768px){
+	.sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
+	.profile,.premium-block{display:none}
+	.nav{flex-direction:row;flex:1;justify-content:space-around}
+	.nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}
+	.nav-btn svg{width:22px;height:22px}
+	.content{margin-left:0;padding:16px 14px 100px}
+	.topbar h1{font-size:22px}
+	.hero{padding:24px;border-radius:24px}
+	.hero h2{font-size:20px}.hero p{font-size:13px}
+	.question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}
+	.q-text{font-size:16px}
+	.report-stats{grid-template-columns:1fr 1fr}
+	.theme-toggle span{display:none}
+	.stat-value{font-size:24px}
+	.synapse-stage{border-radius:16px}
+	}
 </style>
 </head>
 <body>
@@ -654,37 +710,37 @@ const SCENARIOS={
   'm-blocker':{name:'М-холиноблокатор (Атропин)',chain:'<strong>М-рецепторы заблокированы.</strong> АХ вырабатывается, но не может активировать М-рецептор. Эффекты: тахикардия, сухость, мидриаз, запор, задержка мочи. Н-рецепторы работают — никотиновые эффекты сохраняются.'},
   'n-blocker':{name:'Н-холиноблокатор (ганглиоблокатор, миорелаксант)',chain:'<strong>Н-рецепторы заблокированы.</strong> Ганглиоблокатор: падение АД, тахикардия, сухость. Миорелаксант: расслабление скелетных мышц, апноэ. Нейромышечная передача нарушена.'},
   'botox':{name:'Ботулотоксин',chain:'<strong>Выброс АХ из везикул нарушен.</strong> Везикулы не сливаются с мембраной. АХ не попадает в щель. Рецепторы не активируются. Эффект: расслабление мышц (спастичность, косметология). Длится 3–6 месяцев.'}
-};
+	};
 
-const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
-function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
-function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
-function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
+	const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},vizTab:'synapse'};
+	function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
+	function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
+	function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
 
-const screenEl=document.getElementById('screen');
-const titleEl=document.getElementById('screen-title');
+	const screenEl=document.getElementById('screen');
+	const titleEl=document.getElementById('screen-title');
 
-function setScreen(name){
-  state.screen=name;
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
-  const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
-  document.title='PharmStudy — '+(titles[name]||'');
-  if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
-  else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
-  else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
-  else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
-  else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
-  else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
-}
+	function setScreen(name){
+	state.screen=name;
+	document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
+	const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
+	document.title='PharmStudy — '+(titles[name]||'');
+	if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
+	else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
+	else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
+	else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
+	else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
+	else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
+	else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
+	}
 
-function renderDashboard(){
-  const s=getStats();
-  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
-  return `
-    <div class="hero">
+	function renderDashboard(){
+	const s=getStats();
+	const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+	const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+	const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
+	return `
+	<div class="hero">
       <h2>Добрый вечер, Студент!</h2>
       <p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов · ${GROUPS.length} групп</p>
       <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
@@ -960,9 +1016,223 @@ function renderClassifyConspects(){
       <button class="next-btn" onclick="setScreen('classify')">← Назад к выбору разделов</button>
       <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
-}
+	  }
+	  const EYE_SCENARIOS={
+	  normal:{name:'Норма',chain:'<strong>В покое.</strong> Сфинктер зрачка и цилиарная мышца — в умеренном тонусе. Зрачок средний, хрусталик плоский (взгляд вдаль). Водянистая влага свободно фильтруется через трабекулярную сеть в Шлеммов канал и оттекает в венозную систему.'},
+	  'm-agonist':{name:'Пилокарпин (М-холиномиметик)',chain:'<strong>Пилокарпин стимулирует М3-рецепторы.</strong> Сфинктер радужки сокращается → миоз. Цилиарная мышца сокращается → расслабление цинновых связок → хрусталик становится выпуклее (спазм аккомодации, взгляд вблизи). Улучшается отток влаги через трабекулярную сеть → снижается внутриглазное давление. Применяется при глаукоме.'},
+	  'm-blocker':{name:'Атропин (М-холиноблокатор)',chain:'<strong>Атропин блокирует М3-рецепторы.</strong> Сфинктер расслабляется → мидриаз. Цилиарная мышца расслабляется → цинновы связки натягиваются → хрусталик становится плоским (паралич аккомодации). Отток влаги ухудшается. При закрытоугольной глаукоме может спровоцировать острый приступ.'},
+	  'acute-glaucoma':{name:'Острый приступ закрытоугольной глаукомы',chain:'<strong>При широком зрачке радужка перекрывает трабекулярную сеть.</strong> Отток влаги резко нарушен → внутриглазное давление быстро растёт. Симптомы: сильная боль в глазу, головная боль, затуманивание зрения, тошнота. Помощь: пилокарпин (сужает зрачок и открывает угол), средства для снижения ВГД, при необходимости — лазер/операция.'},
+	  'choline':{name:'Холина альфосцерат (центральное действие)',chain:'<strong>Холина альфосцерат не является прямым агонистом М-рецепторов.</strong> Он действует в ЦНС, служит источником холина для синтеза АХ в мозге. На глаз не влияет: миоз, спазм аккомодации и другие периферические мускариновые эффекты для него нехарактерны. Это отличает его от пилокарпина и других прямых М-холиномиметиков.'}
+	  };
 
-function renderSynapse(){
+	  function renderVisualization(){
+	  const tab=state.vizTab||'synapse';
+	  screenEl.innerHTML=`
+	  <div class="viz-tabs">
+		  <button class="viz-tab ${tab==='synapse'?'active':''}" onclick="switchViz('synapse')">⚡ Синапс</button>
+		  <button class="viz-tab ${tab==='eye'?'active':''}" onclick="switchViz('eye')">👁 Глаз</button>
+	  </div>
+	  <div id="vizContent"></div>`;
+	  if(tab==='synapse')renderSynapseContent();
+	  else renderEyeContent();
+	  }
+	  function switchViz(t){state.vizTab=t;renderVisualization();}
+
+	  function renderEyeContent(){
+	  document.getElementById('vizContent').innerHTML=`
+	  <div class="synapse-wrap">
+		  <div class="synapse-scenarios" id="eyeScenarios">
+			  ${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
+		  </div>
+		  <div class="synapse-stage">
+			  <svg class="eye-svg" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="--iris-shift:0px">
+				  <defs>
+					  <radialGradient id="eyeBg" cx="50%" cy="50%" r="75%">
+						  <stop offset="0%" stop-color="#2a3555"/>
+						  <stop offset="100%" stop-color="#151b30"/>
+					  </radialGradient>
+					  <radialGradient id="scleraGrad" cx="40%" cy="40%" r="70%">
+						  <stop offset="0%" stop-color="#f5ebe0"/>
+						  <stop offset="60%" stop-color="#e5d5c5"/>
+						  <stop offset="100%" stop-color="#c0a898"/>
+					  </radialGradient>
+					  <linearGradient id="corneaGrad" x1="1" y1="0" x2="0" y2="0">
+						  <stop offset="0%" stop-color="#a8d8f0"/>
+						  <stop offset="50%" stop-color="#d0e8f5"/>
+						  <stop offset="100%" stop-color="#88b8d0"/>
+					  </linearGradient>
+					  <radialGradient id="irisGrad" cx="60%" cy="40%" r="70%">
+						  <stop offset="0%" stop-color="#a87a5a"/>
+						  <stop offset="60%" stop-color="#7a5030"/>
+						  <stop offset="100%" stop-color="#4a2818"/>
+					  </radialGradient>
+					  <linearGradient id="lensGrad" x1="0" y1="0" x2="0" y2="1">
+						  <stop offset="0%" stop-color="#d0e8f5"/>
+						  <stop offset="50%" stop-color="#a0d0e8"/>
+						  <stop offset="100%" stop-color="#6090b0"/>
+					  </linearGradient>
+					  <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="0">
+						  <stop offset="0%" stop-color="#d85868"/>
+						  <stop offset="100%" stop-color="#a03040"/>
+					  </linearGradient>
+					  <radialGradient id="vitreousGrad" cx="50%" cy="50%" r="70%">
+						  <stop offset="0%" stop-color="#d0e8f5" stop-opacity="0.3"/>
+						  <stop offset="100%" stop-color="#88b0c8" stop-opacity="0.15"/>
+					  </radialGradient>
+					  <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
+						  <feGaussianBlur stdDeviation="4" result="b"/>
+						  <feMerge>
+							  <feMergeNode in="b"/>
+							  <feMergeNode in="SourceGraphic"/>
+						  </feMerge>
+					  </filter>
+					  <filter id="eyeShadow" x="-20%" y="-20%" width="140%" height="140%">
+						  <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.4"/>
+					  </filter>
+				  </defs>
+				  <rect width="1000" height="620" fill="url(#eyeBg)"/>
+
+				  <!-- Склера -->
+				  <ellipse cx="520" cy="310" rx="340" ry="255" fill="url(#scleraGrad)" stroke="#8a6a5a" stroke-width="5" filter="url(#eyeShadow)"/>
+				  <!-- Стекловидное тело -->
+				  <ellipse cx="580" cy="310" rx="270" ry="210" fill="url(#vitreousGrad)"/>
+				  <!-- Сетчатка -->
+				  <path d="M 810 110 Q 880 310 810 510" stroke="#ffb0b0" stroke-width="6" fill="none" opacity="0.7"/>
+				  <path d="M 820 130 Q 875 310 820 490" stroke="#ffd0d0" stroke-width="2" fill="none" opacity="0.5"/>
+				  <!-- Зрительный нерв -->
+				  <path d="M 830 310 L 970 310" stroke="#c09030" stroke-width="26" stroke-linecap="round"/>
+				  <path d="M 830 310 L 970 310" stroke="#f5d060" stroke-width="14" stroke-linecap="round"/>
+
+				  <!-- Роговица -->
+				  <path d="M 230 105 Q 105 310 230 515" fill="url(#corneaGrad)" opacity="0.6" stroke="#88b8d0" stroke-width="4"/>
+				  <!-- Передняя камера (лёгкая подсветка) -->
+				  <path d="M 230 105 Q 105 310 230 515 Q 250 310 230 105 Z" fill="#a8d8f0" opacity="0.1"/>
+
+				  <!-- Цилиарная мышца верхняя -->
+				  <g class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца с М3-рецепторами. При сокращении расслабляет цинновы связки — хрусталик становится выпуклее, глаз настраивается на близкое расстояние (аккомодация). Стимулируется пилокарпином, блокируется атропином.">
+					  <path d="M 290 190 Q 330 168 375 190 L 375 245 Q 330 230 290 245 Z" fill="url(#muscleGrad)" stroke="#802030" stroke-width="2" filter="url(#eyeShadow)"/>
+					  <path d="M 300 205 Q 330 195 365 205" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+					  <path d="M 300 225 Q 330 215 365 225" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+				  </g>
+				  <!-- Цилиарная мышца нижняя -->
+				  <g class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца с М3-рецепторами. Расслабляет цинновы связки при сокращении.">
+					  <path d="M 290 375 Q 330 380 375 375 L 375 430 Q 330 452 290 430 Z" fill="url(#muscleGrad)" stroke="#802030" stroke-width="2" filter="url(#eyeShadow)"/>
+					  <path d="M 300 395 Q 330 405 365 395" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+					  <path d="M 300 415 Q 330 425 365 415" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+				  </g>
+
+				  <!-- Цинновы связки -->
+				  <g stroke="#c0b8a8" stroke-width="2" opacity="0.7">
+					  <line x1="375" y1="210" x2="450" y2="235"/>
+					  <line x1="375" y1="220" x2="450" y2="255"/>
+					  <line x1="375" y1="405" x2="450" y2="385"/>
+					  <line x1="375" y1="415" x2="450" y2="365"/>
+				  </g>
+
+				  <!-- Хрусталик -->
+				  <ellipse class="lens-el synapse-el" data-el="lens" data-name="Хрусталик" data-desc="Двояковыпуклая линза. Меняет кривизну за счёт цилиарной мышцы: при сокращении становится выпуклее (фокус ближе), при расслаблении — плоский (фокус дальше). При спазме аккомодации — выпуклый постоянно (ложная близорукость), при параличе аккомодации — плоский (невозможно сфокусироваться вблизи)." cx="460" cy="310" rx="48" ry="115" fill="url(#lensGrad)" stroke="#5a80a0" stroke-width="3" filter="url(#eyeShadow)"/>
+				  <ellipse cx="445" cy="270" rx="15" ry="40" fill="#fff" opacity="0.3"/>
+
+				  <!-- Радужка верхняя -->
+				  <g class="iris-el synapse-el" data-el="iris" data-name="Радужка (сфинктер зрачка)" data-desc="Круговая мышца радужки с М3-рецепторами. Сокращается — зрачок сужается (миоз). Расслабляется — расширяется (мидриаз). Пилокарпин вызывает миоз, атропин — мидриаз.">
+					  <path d="M 230 190 L 290 190 L 290 260 Q 260 275 230 270 Z" fill="url(#irisGrad)" stroke="#3a2010" stroke-width="2"/>
+					  <path d="M 245 205 L 285 205 M 245 220 L 285 220 M 245 235 L 285 235 M 245 250 L 285 250" stroke="#5a3820" stroke-width="1" opacity="0.5"/>
+				  </g>
+				  <!-- Радужка нижняя -->
+				  <g class="iris-el synapse-el" data-el="iris" data-name="Радужка (сфинктер зрачка)" data-desc="Круговая мышца радужки с М3-рецепторами.">
+					  <path d="M 230 350 Q 260 345 290 360 L 290 430 L 230 430 Z" fill="url(#irisGrad)" stroke="#3a2010" stroke-width="2"/>
+					  <path d="M 245 370 L 285 370 M 245 385 L 285 385 M 245 400 L 285 400 M 245 415 L 285 415" stroke="#5a3820" stroke-width="1" opacity="0.5"/>
+				  </g>
+
+				  <!-- Трабекулярная сеть -->
+				  <g class="trabecular-el synapse-el" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Структура в углу передней камеры, через которую водянистая влага фильтруется в Шлеммов канал. При закрытоугольной глаукоме перекрывается радужкой — отток нарушается, внутриглазное давление растёт.">
+					  <path d="M 230 135 L 260 150 M 230 150 L 260 165 M 230 165 L 260 180 M 240 135 L 270 150 M 240 150 L 270 165" stroke="#e0b060" stroke-width="2" opacity="0.8"/>
+					  <path d="M 230 485 L 260 470 M 230 470 L 260 455 M 230 455 L 260 440 M 240 485 L 270 470 M 240 470 L 270 455" stroke="#e0b060" stroke-width="2" opacity="0.8"/>
+				  </g>
+				  <!-- Шлеммов канал -->
+				  <g class="schlemm-el synapse-el" data-el="schlemm" data-name="Шлеммов канал" data-desc="Венозный синус, куда оттекает водянистая влага после фильтрации через трабекулярную сеть. Из него — в венозную систему глаза.">
+					  <path d="M 255 132 L 285 148 L 285 163 L 255 147 Z" fill="#e0a060" opacity="0.75" stroke="#a07030" stroke-width="1"/>
+					  <path d="M 255 488 L 285 472 L 285 457 L 255 473 Z" fill="#e0a060" opacity="0.75" stroke="#a07030" stroke-width="1"/>
+				  </g>
+
+				  <!-- Точки оттока влаги -->
+				  <g class="aqueous-flow">
+					  <circle class="aq-dot aq-1" cx="200" cy="150" r="5" fill="#80d0ff"/>
+					  <circle class="aq-dot aq-2" cx="200" cy="470" r="5" fill="#80d0ff"/>
+					  <circle class="aq-dot aq-3" cx="215" cy="175" r="5" fill="#80d0ff"/>
+					  <circle class="aq-dot aq-4" cx="215" cy="445" r="5" fill="#80d0ff"/>
+					  <circle class="aq-dot aq-5" cx="235" cy="160" r="5" fill="#80d0ff"/>
+					  <circle class="aq-dot aq-6" cx="235" cy="460" r="5" fill="#80d0ff"/>
+				  </g>
+
+				  <!-- Лучи света -->
+				  <g opacity="0.35">
+					  <line x1="60" y1="220" x2="440" y2="270" stroke="#ffe080" stroke-width="1.5"/>
+					  <line x1="60" y1="310" x2="440" y2="310" stroke="#ffe080" stroke-width="1.5"/>
+					  <line x1="60" y1="400" x2="440" y2="350" stroke="#ffe080" stroke-width="1.5"/>
+				  </g>
+				  <!-- Точка фокуса -->
+				  <circle class="focus-point" cx="820" cy="310" r="7" fill="#ff4060" filter="url(#eyeGlow)" opacity="0.8"/>
+
+				  <!-- Подписи -->
+				  <g font-family="-apple-system,sans-serif">
+					  <text x="80" y="60" font-size="14" font-weight="700" fill="#a8d8f0">Роговица</text>
+					  <text x="250" y="85" font-size="14" font-weight="700" fill="#e8b8a0">Радужка</text>
+					  <text x="420" y="85" font-size="14" font-weight="700" fill="#a0d0e8">Хрусталик</text>
+					  <text x="290" y="155" font-size="12" font-weight="700" fill="#ff8898">Цилиарная мышца</text>
+					  <text x="600" y="85" font-size="14" font-weight="700" fill="#c8e0e8">Стекловидное тело</text>
+					  <text x="830" y="85" font-size="14" font-weight="700" fill="#ffb0b0">Сетчатка</text>
+					  <text x="860" y="285" font-size="13" font-weight="700" fill="#f5d060">Зрительный нерв</text>
+					  <text x="200" y="115" font-size="11" fill="#e0b060">Трабекулярная сеть</text>
+					  <text x="270" y="510" font-size="11" fill="#e0a060">Шлеммов канал</text>
+					  <text x="60" y="585" font-size="12" font-weight="700" fill="#80d0ff">● Отток водянистой влаги</text>
+				  </g>
+			  </svg>
+			  <div class="synapse-tooltip" id="eyeTooltip"></div>
+		  </div>
+		  <div class="synapse-info" id="eyeInfo">
+			  <div class="synapse-info-title">Наведи на любой элемент схемы</div>
+			  <div class="synapse-info-desc">Кликни — появится подробное описание. Или выбери сценарий сверху, чтобы увидеть, что происходит при действии разных препаратов на глаз.</div>
+		  </div>
+		  <div class="synapse-chain">
+			  <div class="synapse-chain-title">Что происходит</div>
+			  <div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца находятся в умеренном тонусе. Водянистая влага свободно фильтруется через трабекулярную сеть в Шлеммов канал.</div>
+		  </div>
+	  </div>`;
+	  const svg=document.getElementById('eyeSvg');
+	  const tooltip=document.getElementById('eyeTooltip');
+	  const stage=svg.parentElement;
+	  svg.querySelectorAll('.synapse-el').forEach(el=>{
+	  el.addEventListener('mousemove',e=>{
+	  const r=stage.getBoundingClientRect();
+	  tooltip.textContent=el.dataset.name;
+	  tooltip.style.left=(e.clientX-r.left+14)+'px';
+	  tooltip.style.top=(e.clientY-r.top+14)+'px';
+	  tooltip.classList.add('show');
+	  });
+	  el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
+	  el.addEventListener('click',()=>{
+	  document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
+	  });
+	  });
+	  document.querySelectorAll('#eyeScenarios .scen-btn').forEach(b=>{
+	  b.addEventListener('click',()=>{
+	  const key=b.dataset.scen;
+	  document.querySelectorAll('#eyeScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+	  svg.setAttribute('data-scenario',key);
+	  let shift='0px';
+	  if(key==='m-agonist')shift='28px';
+	  else if(key==='m-blocker')shift='-28px';
+	  else if(key==='acute-glaucoma')shift='-38px';
+	  svg.style.setProperty('--iris-shift',shift);
+	  document.getElementById('eyeChainText').innerHTML=EYE_SCENARIOS[key].chain;
+	  });
+	  });
+	  }
+
+	  function renderSynapseContent(){
+	  document.getElementById('vizContent').innerHTML=`
+	  <div class="synapse-wrap">
   screenEl.innerHTML=`
     <div class="synapse-wrap">
       <div class="synapse-scenarios" id="synapseScenarios">
@@ -1095,19 +1365,204 @@ function renderSynapse(){
     el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
     el.addEventListener('click',()=>{
       document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
-    });
-  });
-  document.querySelectorAll('.scen-btn').forEach(b=>{
-    b.addEventListener('click',()=>{
-      const key=b.dataset.scen;
-      document.querySelectorAll('.scen-btn').forEach(x=>x.classList.toggle('active',x===b));
-      svg.setAttribute('data-scenario',key);
-      document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
-    });
-  });
-}
-function renderClassifyTabs(active){
-  return `<div class="classify-tabs">
+		  });
+		  });
+		  document.querySelectorAll('.scen-btn').forEach(b=>{
+		  b.addEventListener('click',()=>{
+		  const key=b.dataset.scen;
+		  document.querySelectorAll('.scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+		  svg.setAttribute('data-scenario',key);
+		  document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
+		  });
+		  });
+		  }
+		  const EYE_SCENARIOS={
+		  normal:{name:'Норма',chain:'<strong>В покое.</strong> Сфинктер зрачка и цилиарная мышца — в умеренном тонусе. Зрачок средний, хрусталик плоский (взгляд вдаль). Водянистая влага свободно фильтруется через трабекулярную сеть в Шлеммов канал и оттекает в венозную систему.'},
+		  'm-agonist':{name:'Пилокарпин (М-холиномиметик)',chain:'<strong>Пилокарпин стимулирует М3-рецепторы.</strong> Сфинктер радужки сокращается → миоз. Цилиарная мышца сокращается → расслабление цинновых связок → хрусталик становится выпуклее (спазм аккомодации, взгляд вблизи). Улучшается отток влаги через трабекулярную сеть → снижается внутриглазное давление. Применяется при глаукоме.'},
+		  'm-blocker':{name:'Атропин (М-холиноблокатор)',chain:'<strong>Атропин блокирует М3-рецепторы.</strong> Сфинктер расслабляется → мидриаз. Цилиарная мышца расслабляется → цинновы связки натягиваются → хрусталик становится плоским (паралич аккомодации). Отток влаги ухудшается. При закрытоугольной глаукоме может спровоцировать острый приступ.'},
+		  'acute-glaucoma':{name:'Острый приступ закрытоугольной глаукомы',chain:'<strong>При широком зрачке радужка перекрывает трабекулярную сеть.</strong> Отток влаги резко нарушен → внутриглазное давление быстро растёт. Симптомы: сильная боль в глазу, головная боль, затуманивание зрения, тошнота. Помощь: пилокарпин (сужает зрачок и открывает угол), средства для снижения ВГД, при необходимости — лазер/операция.'},
+		  'choline':{name:'Холина альфосцерат (центральное действие)',chain:'<strong>Холина альфосцерат не является прямым агонистом М-рецепторов.</strong> Он действует в ЦНС, служит источником холина для синтеза АХ в мозге. На глаз не влияет: миоз, спазм аккомодации и другие периферические мускариновые эффекты для него нехарактерны. Это отличает его от пилокарпина и других прямых М-холиномиметиков.'}
+		  };
+
+		  function renderVisualization(){
+		  const tab=state.vizTab||'synapse';
+		  screenEl.innerHTML=`
+		  <div class="viz-tabs">
+			  <button class="viz-tab ${tab==='synapse'?'active':''}" onclick="switchViz('synapse')">⚡ Синапс</button>
+			  <button class="viz-tab ${tab==='eye'?'active':''}" onclick="switchViz('eye')">👁 Глаз</button>
+		  </div>
+		  <div id="vizContent"></div>`;
+		  if(tab==='synapse')renderSynapseContent();
+		  else renderEyeContent();
+		  }
+		  function switchViz(t){state.vizTab=t;renderVisualization();}
+
+		  function renderEyeContent(){
+		  document.getElementById('vizContent').innerHTML=`
+		  <div class="synapse-wrap">
+			  <div class="synapse-scenarios" id="eyeScenarios">
+				  ${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
+			  </div>
+			  <div class="synapse-stage">
+				  <svg class="eye-svg" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="--iris-shift:0px">
+					  <defs>
+						  <radialGradient id="eyeBg" cx="50%" cy="50%" r="75%">
+							  <stop offset="0%" stop-color="#2a3555"/>
+							  <stop offset="100%" stop-color="#151b30"/>
+						  </radialGradient>
+						  <radialGradient id="scleraGrad" cx="40%" cy="40%" r="70%">
+							  <stop offset="0%" stop-color="#f5ebe0"/>
+							  <stop offset="60%" stop-color="#e5d5c5"/>
+							  <stop offset="100%" stop-color="#c0a898"/>
+						  </radialGradient>
+						  <linearGradient id="corneaGrad" x1="1" y1="0" x2="0" y2="0">
+							  <stop offset="0%" stop-color="#a8d8f0"/>
+							  <stop offset="50%" stop-color="#d0e8f5"/>
+							  <stop offset="100%" stop-color="#88b8d0"/>
+						  </linearGradient>
+						  <radialGradient id="irisGrad" cx="60%" cy="40%" r="70%">
+							  <stop offset="0%" stop-color="#a87a5a"/>
+							  <stop offset="60%" stop-color="#7a5030"/>
+							  <stop offset="100%" stop-color="#4a2818"/>
+						  </radialGradient>
+						  <linearGradient id="lensGrad" x1="0" y1="0" x2="0" y2="1">
+							  <stop offset="0%" stop-color="#d0e8f5"/>
+							  <stop offset="50%" stop-color="#a0d0e8"/>
+							  <stop offset="100%" stop-color="#6090b0"/>
+						  </linearGradient>
+						  <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="0">
+							  <stop offset="0%" stop-color="#d85868"/>
+							  <stop offset="100%" stop-color="#a03040"/>
+						  </linearGradient>
+						  <radialGradient id="vitreousGrad" cx="50%" cy="50%" r="70%">
+							  <stop offset="0%" stop-color="#d0e8f5" stop-opacity="0.3"/>
+							  <stop offset="100%" stop-color="#88b0c8" stop-opacity="0.15"/>
+						  </radialGradient>
+						  <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
+							  <feGaussianBlur stdDeviation="4" result="b"/>
+							  <feMerge>
+								  <feMergeNode in="b"/>
+								  <feMergeNode in="SourceGraphic"/>
+							  </feMerge>
+						  </filter>
+						  <filter id="eyeShadow" x="-20%" y="-20%" width="140%" height="140%">
+							  <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.4"/>
+						  </filter>
+					  </defs>
+					  <rect width="1000" height="620" fill="url(#eyeBg)"/>
+					  <ellipse cx="520" cy="310" rx="340" ry="255" fill="url(#scleraGrad)" stroke="#8a6a5a" stroke-width="5" filter="url(#eyeShadow)"/>
+					  <ellipse cx="580" cy="310" rx="270" ry="210" fill="url(#vitreousGrad)"/>
+					  <path d="M 810 110 Q 880 310 810 510" stroke="#ffb0b0" stroke-width="6" fill="none" opacity="0.7"/>
+					  <path d="M 820 130 Q 875 310 820 490" stroke="#ffd0d0" stroke-width="2" fill="none" opacity="0.5"/>
+					  <path d="M 830 310 L 970 310" stroke="#c09030" stroke-width="26" stroke-linecap="round"/>
+					  <path d="M 830 310 L 970 310" stroke="#f5d060" stroke-width="14" stroke-linecap="round"/>
+					  <path d="M 230 105 Q 105 310 230 515" fill="url(#corneaGrad)" opacity="0.6" stroke="#88b8d0" stroke-width="4"/>
+					  <path d="M 230 105 Q 105 310 230 515 Q 250 310 230 105 Z" fill="#a8d8f0" opacity="0.1"/>
+					  <g class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца с М3-рецепторами. При сокращении расслабляет цинновы связки — хрусталик становится выпуклее, глаз настраивается на близкое расстояние (аккомодация). Стимулируется пилокарпином, блокируется атропином.">
+						  <path d="M 290 190 Q 330 168 375 190 L 375 245 Q 330 230 290 245 Z" fill="url(#muscleGrad)" stroke="#802030" stroke-width="2" filter="url(#eyeShadow)"/>
+						  <path d="M 300 205 Q 330 195 365 205" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+						  <path d="M 300 225 Q 330 215 365 225" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+					  </g>
+					  <g class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца с М3-рецепторами. Расслабляет цинновы связки при сокращении.">
+						  <path d="M 290 375 Q 330 380 375 375 L 375 430 Q 330 452 290 430 Z" fill="url(#muscleGrad)" stroke="#802030" stroke-width="2" filter="url(#eyeShadow)"/>
+						  <path d="M 300 395 Q 330 405 365 395" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+						  <path d="M 300 415 Q 330 425 365 415" stroke="#ff8898" stroke-width="1.5" fill="none" opacity="0.6"/>
+					  </g>
+					  <g stroke="#c0b8a8" stroke-width="2" opacity="0.7">
+						  <line x1="375" y1="210" x2="450" y2="235"/>
+						  <line x1="375" y1="220" x2="450" y2="255"/>
+						  <line x1="375" y1="405" x2="450" y2="385"/>
+						  <line x1="375" y1="415" x2="450" y2="365"/>
+					  </g>
+					  <ellipse class="lens-el synapse-el" data-el="lens" data-name="Хрусталик" data-desc="Двояковыпуклая линза. Меняет кривизну за счёт цилиарной мышцы: при сокращении становится выпуклее (фокус ближе), при расслаблении — плоский (фокус дальше). При спазме аккомодации — выпуклый постоянно (ложная близорукость), при параличе аккомодации — плоский (невозможно сфокусироваться вблизи)." cx="460" cy="310" rx="48" ry="115" fill="url(#lensGrad)" stroke="#5a80a0" stroke-width="3" filter="url(#eyeShadow)"/>
+					  <ellipse cx="445" cy="270" rx="15" ry="40" fill="#fff" opacity="0.3"/>
+					  <g class="iris-el synapse-el" data-el="iris" data-name="Радужка (сфинктер зрачка)" data-desc="Круговая мышца радужки с М3-рецепторами. Сокращается — зрачок сужается (миоз). Расслабляется — расширяется (мидриаз). Пилокарпин вызывает миоз, атропин — мидриаз.">
+						  <path d="M 230 190 L 290 190 L 290 260 Q 260 275 230 270 Z" fill="url(#irisGrad)" stroke="#3a2010" stroke-width="2"/>
+						  <path d="M 245 205 L 285 205 M 245 220 L 285 220 M 245 235 L 285 235 M 245 250 L 285 250" stroke="#5a3820" stroke-width="1" opacity="0.5"/>
+					  </g>
+					  <g class="iris-el synapse-el" data-el="iris" data-name="Радужка (сфинктер зрачка)" data-desc="Круговая мышца радужки с М3-рецепторами.">
+						  <path d="M 230 350 Q 260 345 290 360 L 290 430 L 230 430 Z" fill="url(#irisGrad)" stroke="#3a2010" stroke-width="2"/>
+						  <path d="M 245 370 L 285 370 M 245 385 L 285 385 M 245 400 L 285 400 M 245 415 L 285 415" stroke="#5a3820" stroke-width="1" opacity="0.5"/>
+					  </g>
+					  <g class="trabecular-el synapse-el" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Структура в углу передней камеры, через которую водянистая влага фильтруется в Шлеммов канал. При закрытоугольной глаукоме перекрывается радужкой — отток нарушается, внутриглазное давление растёт.">
+						  <path d="M 230 135 L 260 150 M 230 150 L 260 165 M 230 165 L 260 180 M 240 135 L 270 150 M 240 150 L 270 165" stroke="#e0b060" stroke-width="2" opacity="0.8"/>
+						  <path d="M 230 485 L 260 470 M 230 470 L 260 455 M 230 455 L 260 440 M 240 485 L 270 470 M 240 470 L 270 455" stroke="#e0b060" stroke-width="2" opacity="0.8"/>
+					  </g>
+					  <g class="schlemm-el synapse-el" data-el="schlemm" data-name="Шлеммов канал" data-desc="Венозный синус, куда оттекает водянистая влага после фильтрации через трабекулярную сеть. Из него — в венозную систему глаза.">
+						  <path d="M 255 132 L 285 148 L 285 163 L 255 147 Z" fill="#e0a060" opacity="0.75" stroke="#a07030" stroke-width="1"/>
+						  <path d="M 255 488 L 285 472 L 285 457 L 255 473 Z" fill="#e0a060" opacity="0.75" stroke="#a07030" stroke-width="1"/>
+					  </g>
+					  <g class="aqueous-flow">
+						  <circle class="aq-dot aq-1" cx="200" cy="150" r="5" fill="#80d0ff"/>
+						  <circle class="aq-dot aq-2" cx="200" cy="470" r="5" fill="#80d0ff"/>
+						  <circle class="aq-dot aq-3" cx="215" cy="175" r="5" fill="#80d0ff"/>
+						  <circle class="aq-dot aq-4" cx="215" cy="445" r="5" fill="#80d0ff"/>
+						  <circle class="aq-dot aq-5" cx="235" cy="160" r="5" fill="#80d0ff"/>
+						  <circle class="aq-dot aq-6" cx="235" cy="460" r="5" fill="#80d0ff"/>
+					  </g>
+					  <g opacity="0.35">
+						  <line x1="60" y1="220" x2="440" y2="270" stroke="#ffe080" stroke-width="1.5"/>
+						  <line x1="60" y1="310" x2="440" y2="310" stroke="#ffe080" stroke-width="1.5"/>
+						  <line x1="60" y1="400" x2="440" y2="350" stroke="#ffe080" stroke-width="1.5"/>
+					  </g>
+					  <circle class="focus-point" cx="820" cy="310" r="7" fill="#ff4060" filter="url(#eyeGlow)" opacity="0.8"/>
+					  <g font-family="-apple-system,sans-serif">
+						  <text x="80" y="60" font-size="14" font-weight="700" fill="#a8d8f0">Роговица</text>
+						  <text x="250" y="85" font-size="14" font-weight="700" fill="#e8b8a0">Радужка</text>
+						  <text x="420" y="85" font-size="14" font-weight="700" fill="#a0d0e8">Хрусталик</text>
+						  <text x="290" y="155" font-size="12" font-weight="700" fill="#ff8898">Цилиарная мышца</text>
+						  <text x="600" y="85" font-size="14" font-weight="700" fill="#c8e0e8">Стекловидное тело</text>
+						  <text x="830" y="85" font-size="14" font-weight="700" fill="#ffb0b0">Сетчатка</text>
+						  <text x="860" y="285" font-size="13" font-weight="700" fill="#f5d060">Зрительный нерв</text>
+						  <text x="200" y="115" font-size="11" fill="#e0b060">Трабекулярная сеть</text>
+						  <text x="270" y="510" font-size="11" fill="#e0a060">Шлеммов канал</text>
+						  <text x="60" y="585" font-size="12" font-weight="700" fill="#80d0ff">● Отток водянистой влаги</text>
+					  </g>
+				  </svg>
+				  <div class="synapse-tooltip" id="eyeTooltip"></div>
+			  </div>
+			  <div class="synapse-info" id="eyeInfo">
+				  <div class="synapse-info-title">Наведи на любой элемент схемы</div>
+				  <div class="synapse-info-desc">Кликни — появится подробное описание. Или выбери сценарий сверху, чтобы увидеть, что происходит при действии разных препаратов на глаз.</div>
+			  </div>
+			  <div class="synapse-chain">
+				  <div class="synapse-chain-title">Что происходит</div>
+				  <div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца находятся в умеренном тонусе. Водянистая влага свободно фильтруется через трабекулярную сеть в Шлеммов канал.</div>
+			  </div>
+		  </div>`;
+		  const svg=document.getElementById('eyeSvg');
+		  const tooltip=document.getElementById('eyeTooltip');
+		  const stage=svg.parentElement;
+		  svg.querySelectorAll('.synapse-el').forEach(el=>{
+		  el.addEventListener('mousemove',e=>{
+		  const r=stage.getBoundingClientRect();
+		  tooltip.textContent=el.dataset.name;
+		  tooltip.style.left=(e.clientX-r.left+14)+'px';
+		  tooltip.style.top=(e.clientY-r.top+14)+'px';
+		  tooltip.classList.add('show');
+		  });
+		  el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
+		  el.addEventListener('click',()=>{
+		  document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
+		  });
+		  });
+		  document.querySelectorAll('#eyeScenarios .scen-btn').forEach(b=>{
+		  b.addEventListener('click',()=>{
+		  const key=b.dataset.scen;
+		  document.querySelectorAll('#eyeScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+		  svg.setAttribute('data-scenario',key);
+		  let shift='0px';
+		  if(key==='m-agonist')shift='28px';
+		  else if(key==='m-blocker')shift='-28px';
+		  else if(key==='acute-glaucoma')shift='-38px';
+		  svg.style.setProperty('--iris-shift',shift);
+		  document.getElementById('eyeChainText').innerHTML=EYE_SCENARIOS[key].chain;
+		  });
+		  });
+		  }
+
+		  function renderClassifyTabs(active){
+		  return `<div class="classify-tabs">
     <button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
     <button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
     <button class="ctab ${active==='conspect'?'active':''}" onclick="switchClassifyTab('conspect')">📖 Конспекты</button>
