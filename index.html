@@ -896,12 +896,12 @@
 						<div class="report-stat-val">'+pct+'%</div>
 						<div class="report-stat-lbl">точность</div>
 					</div>
-				</div>';
-				if(weakTags.length){html+='<div class="report-weak">
-					<h4>Слабые места:</h4>
-					<div class="weak-list">
-						'+weakTags.map(function(t){return '<div class="weak-item">'+t+'</div>'}).join('')+'
-					</div>
+					if(weakTags.length){html+='<div class="report-weak">
+						<h4>Слабые места:</h4>
+						<div class="weak-list">
+							'+weakTags.map(function(t){return '<div class="weak-item">'+t+'</div>'}).join('')+'
+						</div>
+					</div>'}else{html+='<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>'}
 				</div>'}
 				else{html+='<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>'}
 				html+='<div style="display:flex;gap:12px;flex-wrap:wrap">
@@ -910,61 +910,80 @@
 				</div>';
 				html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button>
 			</div>';
-			screenEl.innerHTML=html;
-			}
-			function renderClassifySetup(){
-			const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
-			const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-			if(state.selectedClassifySections._init!==true){sections.forEach(function(s){state.selectedClassifySections[s]=true});state.selectedClassifySections._init=true}
-			const selectedCount=sections.filter(function(s){return state.selectedClassifySections[s]}).length;
-			const totalSelected=sections.filter(function(s){return state.selectedClassifySections[s]}).reduce(function(sum,s){return sum+GROUPS.filter(function(g){return g.section===s}).length},0);
-			let html='<div class="case-picker">
-				'+renderClassifyTabs('input');
-				html+='<div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>';
-				html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Перечисли препараты через запятую. Только МНН.</div>';
-				html+='<div class="topic-actions">
-					<button onclick="selectAllClassify(true)">Выбрать все</button>
-					<button onclick="selectAllClassify(false)">Снять все</button>
-				</div>';
-				html+='<div style="margin-bottom:24px">
+				screenEl.innerHTML=html;
+				}
+				function renderClassifySetup(){
+				const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
+				const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+				if(state.selectedClassifySections._init!==true){
+				sections.forEach(function(s){state.selectedClassifySections[s]=true});
+				state.selectedClassifySections._init=true;
+				}
+				const selectedCount=sections.filter(function(s){return state.selectedClassifySections[s]}).length;
+				const totalSelected=sections.filter(function(s){return state.selectedClassifySections[s]}).reduce(function(sum,s){return sum+GROUPS.filter(function(g){return g.section===s}).length},0);
+				let html='';
+				html+='<div class="case-picker">
 					';
-					sections.forEach(function(sec,i){html+='<div class="topic-pick '+(state.selectedClassifySections[sec]?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')">
-						<div class="topic-check" style="background:'+(state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)')+';color:'+(state.selectedClassifySections[sec]?'#fff':'var(--text-muted)')+'">'+(state.selectedClassifySections[sec]?'V':'')+'</div>
-						<div class="topic-pick-info">
-							<div class="topic-pick-title">'+sec+'</div>
-							<div class="topic-pick-sub">'+GROUPS.filter(function(g){return g.section===sec}).length+' групп</div>
-						</div>
-					</div>'});
+					html+=renderClassifyTabs('input');
+					html+='<div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>';
+					html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Перечисли препараты через запятую. Только МНН.</div>';
+					html+='<div class="topic-actions">
+						';
+						html+='<button onclick="selectAllClassify(true)">Выбрать все</button>';
+						html+='<button onclick="selectAllClassify(false)">Снять все</button>';
+						html+='
+					</div>';
+					html+='<div style="margin-bottom:24px">
+						';
+						sections.forEach(function(sec,i){
+						const cnt=GROUPS.filter(function(g){return g.section===sec}).length;
+						const sel=state.selectedClassifySections[sec];
+						const col=colors[i%colors.length];
+						const checkBg=sel?col:'var(--card)';
+						const checkColor=sel?'#fff':'var(--text-muted)';
+						const checkMark=sel?'V':'';
+						html+='<div class="topic-pick '+(sel?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')">
+							';
+							html+='<div class="topic-check" style="background:'+checkBg+';color:'+checkColor+'">'+checkMark+'</div>';
+							html+='<div class="topic-pick-info">
+								<div class="topic-pick-title">'+sec+'</div>
+								<div class="topic-pick-sub">'+cnt+' групп</div>
+							</div>';
+							html+='
+						</div>';
+						});
+						html+='
+					</div>';
+					html+='<div class="summary-box">
+						<div class="lbl">Выбрано</div>
+						<div class="val">'+totalSelected+' групп</div>
+						<div class="sub">'+selectedCount+' разделов</div>
+					</div>';
+					const dis=totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'';
+					html+='<button class="next-btn" '+dis+' onclick="startClassify()">Начать тестирование</button>';
+					html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>';
 					html+='
 				</div>';
-				html+='<div class="summary-box">
-					<div class="lbl">Выбрано</div>
-					<div class="val">'+totalSelected+' групп</div>
-					<div class="sub">'+selectedCount+' разделов</div>
-				</div>';
-				html+='<button class="next-btn" '+(totalSelected===0?'disabled='' style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'')+' onclick="startClassify()">Начать тестирование</button>';
-				html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>
-			</div>';
-			screenEl.innerHTML=html;
-			}
-			function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup()}
-			function selectAllClassify(v){const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));sections.forEach(function(s){state.selectedClassifySections[s]=v});state.selectedClassifySections._init=true;renderClassifySetup()}
-			function startClassify(){
-			const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
-			const selected=sections.filter(function(s){return state.selectedClassifySections[s]});
-			let pool=GROUPS.filter(function(g){return selected.includes(g.section)});
-			if(pool.length===0){alert('Выбери хотя бы один раздел');return}
-			pool=shuffle(pool);
-			state.classifySession={groups:pool,index:0,results:[]};
-			titleEl.textContent='Классификация';
-			renderClassifyQuestion();
-			}
-			function renderClassifyQuestion(){
-			const s=state.classifySession;
-			if(s.index>=s.groups.length){renderClassifyReport();return}
-			const g=s.groups[s.index];
-			const progress=(s.index/s.groups.length)*100;
-			let html='<div class="question-card">
+				screenEl.innerHTML=html;
+				}
+				function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup()}
+				function selectAllClassify(v){const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));sections.forEach(function(s){state.selectedClassifySections[s]=v});state.selectedClassifySections._init=true;renderClassifySetup()}
+				function startClassify(){
+				const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
+				const selected=sections.filter(function(s){return state.selectedClassifySections[s]});
+				let pool=GROUPS.filter(function(g){return selected.includes(g.section)});
+				if(pool.length===0){alert('Выбери хотя бы один раздел');return}
+				pool=shuffle(pool);
+				state.classifySession={groups:pool,index:0,results:[]};
+				titleEl.textContent='Классификация';
+				renderClassifyQuestion();
+				}
+				function renderClassifyQuestion(){
+				const s=state.classifySession;
+				if(s.index>=s.groups.length){renderClassifyReport();return}
+				const g=s.groups[s.index];
+				const progress=(s.index/s.groups.length)*100;
+				let html='<div class="question-card">
 				<div class="q-progress">
 					<div class="q-progress-bar">
 						<div class="q-progress-fill" style="width:'+progress+'%"></div>
