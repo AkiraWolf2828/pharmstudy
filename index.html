@@ -268,11 +268,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   transform-origin: center;
   transform-box: fill-box;
 }
-.eye-svg .pupil { transform-origin: 220px 250px; }
-.eye-svg .lens-shape { transform-origin: 320px 250px; }
+.eye-svg .pupil { transform-origin: 220px 300px; }
+.eye-svg .lens-shape { transform-origin: 290px 300px; }
 .eye-svg .ciliary-muscle { transform-origin: center; }
-.eye-svg .iris-upper { transform-origin: 200px 180px; }
-.eye-svg .iris-lower { transform-origin: 200px 320px; }
+.eye-svg .iris-upper { transform-origin: 200px 270px; }
+.eye-svg .iris-lower { transform-origin: 200px 330px; }
 .eye-svg .trabecular-upper,
 .eye-svg .trabecular-lower { transform-origin: center; }
 
@@ -326,11 +326,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   transform: scaleX(1.1) scaleY(1.05);
 }
 .eye-svg[data-scenario="acute-glaucoma"] .iris-upper {
-  transform: translate(8px, 4px);
+  transform: translate(6px, 3px);
   filter: drop-shadow(0 0 8px #dc2626);
 }
 .eye-svg[data-scenario="acute-glaucoma"] .iris-lower {
-  transform: translate(8px, -4px);
+  transform: translate(6px, -3px);
   filter: drop-shadow(0 0 8px #dc2626);
 }
 .eye-svg[data-scenario="acute-glaucoma"] .trabecular-upper,
@@ -360,7 +360,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 }
 
 [data-theme$="-dark"] .eye-bg-rect { fill: #0f172a !important; }
-[data-theme$="-dark"] .eye-svg text { fill: #cbd5e1 !important; }
+[data-theme$="-dark"] .eye-svg text { fill: #cbd5e1 !important; 
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
 @media (max-width:768px){
 .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
@@ -726,40 +726,36 @@ const EYE_SVG = `
 <defs>
   <radialGradient id="scleraGrad" cx="40%" cy="40%" r="60%">
     <stop offset="0%" stop-color="#ffffff"/>
-    <stop offset="70%" stop-color="#f1f5f9"/>
+    <stop offset="80%" stop-color="#f1f5f9"/>
     <stop offset="100%" stop-color="#cbd5e1"/>
   </radialGradient>
   <radialGradient id="corneaGrad" cx="30%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.9"/>
-    <stop offset="50%" stop-color="#7dd3fc" stop-opacity="0.5"/>
-    <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.95"/>
+    <stop offset="60%" stop-color="#7dd3fc" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#0284c7" stop-opacity="0.4"/>
   </radialGradient>
-  <radialGradient id="irisGrad" cx="35%" cy="35%" r="65%">
+  <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
     <stop offset="0%" stop-color="#a78bfa"/>
-    <stop offset="40%" stop-color="#7c3aed"/>
+    <stop offset="60%" stop-color="#7c3aed"/>
     <stop offset="100%" stop-color="#4c1d95"/>
   </radialGradient>
   <radialGradient id="pupilGrad" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#1e1b4b"/>
+    <stop offset="0%" stop-color="#0f172a"/>
     <stop offset="100%" stop-color="#020617"/>
   </radialGradient>
   <radialGradient id="lensGrad" cx="40%" cy="40%" r="60%">
     <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.95"/>
-    <stop offset="50%" stop-color="#fde68a" stop-opacity="0.85"/>
-    <stop offset="100%" stop-color="#d97706" stop-opacity="0.6"/>
-  </radialGradient>
-  <radialGradient id="vitreousGrad" cx="50%" cy="50%" r="60%">
-    <stop offset="0%" stop-color="#fef9c3" stop-opacity="0.15"/>
-    <stop offset="100%" stop-color="#fde047" stop-opacity="0.05"/>
+    <stop offset="50%" stop-color="#fde68a" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#d97706" stop-opacity="0.7"/>
   </radialGradient>
   <linearGradient id="retinaGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#fb923c" stop-opacity="0.9"/>
-    <stop offset="50%" stop-color="#ea580c" stop-opacity="0.7"/>
-    <stop offset="100%" stop-color="#9a3412" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#fb923c" stop-opacity="0.95"/>
+    <stop offset="50%" stop-color="#ea580c" stop-opacity="0.85"/>
+    <stop offset="100%" stop-color="#9a3412" stop-opacity="0.7"/>
   </linearGradient>
   <linearGradient id="choroidGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#dc2626" stop-opacity="0.85"/>
-    <stop offset="100%" stop-color="#7f1d1d" stop-opacity="0.7"/>
+    <stop offset="0%" stop-color="#dc2626" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#7f1d1d" stop-opacity="0.8"/>
   </linearGradient>
   <linearGradient id="opticNerveGrad" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%" stop-color="#fde047"/>
@@ -797,156 +793,206 @@ const EYE_SVG = `
   </filter>
 </defs>
 
-<rect class="eye-bg-rect" width="800" height="500" fill="#1e293b" rx="20"/>
+<!-- Фон -->
+<rect class="eye-bg-rect" width="800" height="600" fill="#0f172a" rx="20"/>
 
+<!-- ========== НАРУЖНЫЕ МЫШЦЫ (прямые) ========== -->
+<!-- Верхняя прямая мышца -->
 <g class="eye-part muscle" data-el="muscle-superior" data-name="Верхняя прямая мышца" data-desc="Поднимает глаз вверх. Иннервируется глазодвигательным нервом (III пара).">
-  <path d="M 400 50 Q 450 80 500 130 L 490 145 Q 440 95 390 65 Z" fill="url(#muscleGrad)" opacity="0.9"/>
+  <path d="M 340 60 Q 380 40 420 60 L 410 100 Q 380 85 350 100 Z" fill="url(#muscleGrad)" opacity="0.9"/>
 </g>
+<!-- Нижняя прямая мышца -->
 <g class="eye-part muscle" data-el="muscle-inferior" data-name="Нижняя прямая мышца" data-desc="Опускает глаз вниз. Иннервируется глазодвигательным нервом (III пара).">
-  <path d="M 400 450 Q 450 420 500 370 L 490 355 Q 440 405 390 435 Z" fill="url(#muscleGrad)" opacity="0.9"/>
+  <path d="M 340 540 Q 380 560 420 540 L 410 500 Q 380 515 350 500 Z" fill="url(#muscleGrad)" opacity="0.9"/>
 </g>
 
-<path class="eye-part sclera" d="M 180 120 C 180 60, 620 60, 620 120 C 680 180, 700 250, 700 250 C 700 250, 680 320, 620 380 C 620 440, 180 440, 180 380 C 120 320, 100 250, 100 250 C 100 250, 120 180, 180 120 Z" fill="url(#scleraGrad)" stroke="#94a3b8" stroke-width="2" filter="url(#innerShadow)"/>
+<!-- ========== СКЛЕРА (наружная оболочка, круглая форма) ========== -->
+<!-- Основной шар глаза -->
+<path class="eye-part sclera" d="M 380 80 C 520 80, 620 180, 620 300 C 620 420, 520 520, 380 520 C 260 520, 180 440, 160 360 C 140 340, 130 320, 130 300 C 130 280, 140 260, 160 240 C 180 160, 260 80, 380 80 Z" fill="url(#scleraGrad)" stroke="#94a3b8" stroke-width="2" filter="url(#innerShadow)"/>
 
-<path class="eye-part choroid" d="M 190 130 C 190 75, 610 75, 610 130 C 665 185, 685 250, 685 250 C 685 250, 665 315, 610 370 C 610 425, 190 425, 190 370 C 135 315, 115 250, 115 250 C 115 250, 135 185, 190 130 Z" fill="url(#choroidGrad)" opacity="0.85"/>
+<!-- ========== СОСУДИСТАЯ ОБОЛОЧКА (хориоидея) ========== -->
+<path class="eye-part choroid" d="M 380 95 C 510 95, 605 190, 605 300 C 605 410, 510 505, 380 505 C 270 505, 195 435, 175 355 C 158 338, 148 320, 148 300 C 148 280, 158 262, 175 245 C 195 165, 270 95, 380 95 Z" fill="url(#choroidGrad)" opacity="0.85"/>
 
-<path class="eye-part retina" d="M 200 140 C 200 90, 600 90, 600 140 C 650 190, 670 250, 670 250 C 670 250, 650 310, 600 360 C 600 410, 200 410, 200 360 C 150 310, 130 250, 130 250 C 130 250, 150 190, 200 140 Z" fill="url(#retinaGrad)" opacity="0.9"/>
+<!-- ========== СЕТЧАТКА ========== -->
+<path class="eye-part retina" d="M 380 110 C 500 110, 590 200, 590 300 C 590 400, 500 490, 380 490 C 280 490, 210 430, 190 350 C 175 335, 166 318, 166 300 C 166 282, 175 265, 190 250 C 210 170, 280 110, 380 110 Z" fill="url(#retinaGrad)" opacity="0.9"/>
 
-<ellipse class="eye-part macula" cx="580" cy="250" rx="18" ry="14" fill="url(#maculaGrad)" filter="url(#softGlow)"/>
-<circle class="eye-part fovea" cx="580" cy="250" r="5" fill="#451a03" opacity="0.8"/>
-<ellipse class="eye-part optic-disc" cx="670" cy="250" rx="12" ry="18" fill="#fef3c7" stroke="#a16207" stroke-width="1.5"/>
+<!-- Зубчатая линия (ora serrata) — граница сетчатки и цилиарного тела -->
+<path d="M 190 250 Q 200 245 210 250 Q 220 245 230 250 Q 240 245 250 250 Q 260 245 270 250" stroke="#78350f" stroke-width="1.5" fill="none" opacity="0.6"/>
+<path d="M 190 350 Q 200 355 210 350 Q 220 355 230 350 Q 240 355 250 350 Q 260 355 270 350" stroke="#78350f" stroke-width="1.5" fill="none" opacity="0.6"/>
 
+<!-- Макула (жёлтое пятно) — зона наилучшего зрения -->
+<ellipse class="eye-part macula" cx="570" cy="300" rx="14" ry="10" fill="url(#maculaGrad)" filter="url(#softGlow)"/>
+<circle class="eye-part fovea" cx="570" cy="300" r="4" fill="#451a03" opacity="0.9"/>
+
+<!-- Зрительный диск (место выхода нерва) -->
+<ellipse class="eye-part optic-disc" cx="590" cy="300" rx="10" ry="16" fill="#fef3c7" stroke="#a16207" stroke-width="1.5"/>
+
+<!-- ========== ЗРИТЕЛЬНЫЙ НЕРВ ========== -->
 <g class="eye-part optic-nerve" data-el="optic-nerve" data-name="Зрительный нерв (II пара)" data-desc="Передаёт зрительную информацию от сетчатки в мозг. Состоит из аксонов ганглиозных клеток сетчатки.">
-  <path d="M 670 235 Q 720 230 780 225 L 780 275 Q 720 270 670 265 Z" fill="url(#opticNerveGrad)" stroke="#a16207" stroke-width="1.5"/>
-  <path d="M 680 245 Q 730 242 775 240" stroke="#fef9c3" stroke-width="0.8" fill="none" opacity="0.6"/>
-  <path d="M 680 255 Q 730 258 775 260" stroke="#fef9c3" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <path d="M 590 285 Q 660 282 740 280 L 740 320 Q 660 318 590 315 Z" fill="url(#opticNerveGrad)" stroke="#a16207" stroke-width="1.5"/>
+  <!-- Волокна нерва -->
+  <path d="M 600 295 Q 670 293 735 292" stroke="#fef9c3" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <path d="M 600 305 Q 670 307 735 308" stroke="#fef9c3" stroke-width="0.8" fill="none" opacity="0.6"/>
 </g>
 
+<!-- Центральная артерия сетчатки -->
 <g class="eye-part central-artery" data-el="central-artery" data-name="Центральная артерия сетчатки" data-desc="Питает внутренние слои сетчатки. Проходит внутри зрительного нерва.">
-  <path d="M 670 248 Q 720 246 775 245" stroke="#dc2626" stroke-width="3" fill="none" stroke-linecap="round">
+  <path d="M 590 298 Q 660 297 735 296" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round">
     <animate attributeName="stroke-opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
   </path>
 </g>
+<!-- Центральная вена сетчатки -->
 <g class="eye-part central-vein" data-el="central-vein" data-name="Центральная вена сетчатки" data-desc="Отводит кровь от сетчатки. Проходит рядом с артерией внутри зрительного нерва.">
-  <path d="M 670 252 Q 720 254 775 255" stroke="#1d4ed8" stroke-width="3" fill="none" stroke-linecap="round">
+  <path d="M 590 302 Q 660 303 735 304" stroke="#1d4ed8" stroke-width="2.5" fill="none" stroke-linecap="round">
     <animate attributeName="stroke-opacity" values="0.7;1;0.7" dur="1.8s" repeatCount="indefinite"/>
   </path>
 </g>
 
+<!-- Сосуды сетчатки (ветви от диска) -->
 <g class="eye-part retinal-vessels" data-el="retinal-vessels" data-name="Сосуды сетчатки" data-desc="Артерии и вены, питающие сетчатку. Выходят из зрительного диска и расходятся по сетчатке.">
-  <path d="M 670 248 Q 620 200 560 170" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85">
+  <!-- Артериальные ветви -->
+  <path d="M 590 298 Q 520 240 450 200" stroke="#dc2626" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85">
     <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="1.6s" repeatCount="indefinite"/>
   </path>
-  <path d="M 670 248 Q 600 280 540 310" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85">
+  <path d="M 590 298 Q 510 360 440 400" stroke="#dc2626" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85">
     <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="1.7s" repeatCount="indefinite"/>
   </path>
-  <path d="M 670 248 Q 500 240 420 235" stroke="#dc2626" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7">
+  <path d="M 590 298 Q 480 300 380 298" stroke="#dc2626" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.7">
     <animate attributeName="stroke-opacity" values="0.5;0.9;0.5" dur="1.5s" repeatCount="indefinite"/>
   </path>
-  <path d="M 670 252 Q 615 210 555 180" stroke="#1d4ed8" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.85">
+  <!-- Венозные ветви -->
+  <path d="M 590 302 Q 515 250 445 210" stroke="#1d4ed8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85">
     <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="1.9s" repeatCount="indefinite"/>
   </path>
-  <path d="M 670 252 Q 595 290 535 320" stroke="#1d4ed8" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.85">
+  <path d="M 590 302 Q 505 370 435 410" stroke="#1d4ed8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85">
     <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
   </path>
-  <path d="M 670 252 Q 495 260 415 265" stroke="#1d4ed8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7">
+  <path d="M 590 302 Q 475 302 375 302" stroke="#1d4ed8" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.7">
     <animate attributeName="stroke-opacity" values="0.5;0.9;0.5" dur="1.8s" repeatCount="indefinite"/>
   </path>
 </g>
 
-<path class="eye-part vitreous" d="M 220 150 C 220 100, 580 100, 580 150 C 630 200, 650 250, 650 250 C 650 250, 630 300, 580 350 C 580 400, 220 400, 220 350 C 170 300, 150 250, 150 250 C 150 250, 170 200, 220 150 Z" fill="url(#vitreousGrad)" opacity="0.6"/>
+<!-- ========== СТЕКЛОВИДНОЕ ТЕЛО ========== -->
+<path class="eye-part vitreous" d="M 270 180 C 350 130, 500 130, 570 200 C 590 250, 590 350, 570 400 C 500 470, 350 470, 270 420 C 240 380, 230 340, 230 300 C 230 260, 240 220, 270 180 Z" fill="#fef9c3" opacity="0.08"/>
 
-<g class="eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца, изменяющая кривизну хрусталика. Сокращение (пилокарпин) → хрусталик выпуклый. Расслабление (атропин) → хрусталик плоский.">
-  <path class="ciliary-muscle" d="M 200 140 Q 240 110 280 130 L 270 145 Q 235 125 205 150 Z" fill="url(#ciliaryGrad)" opacity="0.9">
-    <animate attributeName="opacity" values="0.85;1;0.85" dur="2s" repeatCount="indefinite"/>
+<!-- ========== ЦИЛИАРНОЕ ТЕЛО И МЫШЦА ========== -->
+<!-- Верхняя часть цилиарного тела (с отростками) -->
+<g class="eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца и тело" data-desc="Гладкая мышца, изменяющая кривизну хрусталика. Сокращение (пилокарпин) → хрусталик выпуклый. Расслабление (атропин) → хрусталик плоский.">
+  <path class="ciliary-muscle" d="M 200 245 Q 230 220 270 230 L 265 245 Q 235 238 210 255 Z" fill="url(#ciliaryGrad)" opacity="0.95">
+    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
   </path>
-  <path d="M 210 145 L 225 155 M 220 142 L 235 152 M 230 140 L 245 150 M 240 138 L 255 148 M 250 137 L 265 147 M 260 136 L 275 146" stroke="#991b1b" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <!-- Цилиарные отростки (процессы) -->
+  <path d="M 215 250 L 225 265 M 225 248 L 235 263 M 235 246 L 245 261 M 245 244 L 255 259 M 255 243 L 263 257" stroke="#991b1b" stroke-width="1.2" fill="none" opacity="0.8"/>
 </g>
-<g class="eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца, изменяющая кривизну хрусталика.">
-  <path class="ciliary-muscle" d="M 200 360 Q 240 390 280 370 L 270 355 Q 235 375 205 350 Z" fill="url(#ciliaryGrad)" opacity="0.9">
-    <animate attributeName="opacity" values="0.85;1;0.85" dur="2s" repeatCount="indefinite"/>
+<!-- Нижняя часть цилиарного тела -->
+<g class="eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца и тело" data-desc="Гладкая мышца, изменяющая кривизну хрусталика.">
+  <path class="ciliary-muscle" d="M 200 355 Q 230 380 270 370 L 265 355 Q 235 362 210 345 Z" fill="url(#ciliaryGrad)" opacity="0.95">
+    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
   </path>
-  <path d="M 210 355 L 225 345 M 220 358 L 235 348 M 230 360 L 245 350 M 240 362 L 255 352 M 250 363 L 265 353 M 260 364 L 275 354" stroke="#991b1b" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M 215 350 L 225 335 M 225 352 L 235 337 M 235 354 L 245 339 M 245 356 L 255 341 M 255 357 L 263 343" stroke="#991b1b" stroke-width="1.2" fill="none" opacity="0.8"/>
 </g>
 
+<!-- ========== ЦИННОВЫ СВЯЗКИ (подвешивают хрусталик) ========== -->
 <g class="eye-part zonules" data-el="zonules" data-name="Цинновы связки" data-desc="Тонкие волокна, соединяющие хрусталик с цилиарным телом. При сокращении цилиарной мышцы связки расслабляются → хрусталик становится выпуклым.">
-  <path d="M 225 155 Q 250 175 275 200" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 235 152 Q 260 175 285 205" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 245 150 Q 270 178 295 210" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 255 148 Q 280 180 305 215" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 265 147 Q 290 182 315 218" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 225 345 Q 250 325 275 300" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 235 348 Q 260 325 285 295" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 245 350 Q 270 322 295 290" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 255 352 Q 280 320 305 285" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M 265 353 Q 290 318 315 282" stroke="#cbd5e1" stroke-width="1" fill="none" opacity="0.7"/>
+  <!-- Верхние связки -->
+  <path d="M 220 260 Q 240 270 255 275" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 230 258 Q 248 268 260 273" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 240 256 Q 255 266 265 271" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 250 254 Q 262 264 270 269" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 260 253 Q 268 262 275 267" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <!-- Нижние связки -->
+  <path d="M 220 340 Q 240 330 255 325" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 230 342 Q 248 332 260 327" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 240 344 Q 255 334 265 329" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 250 346 Q 262 336 270 331" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
+  <path d="M 260 347 Q 268 338 275 333" stroke="#cbd5e1" stroke-width="0.9" fill="none" opacity="0.75"/>
 </g>
 
+<!-- ========== ХРУСТАЛИК (правильный размер ~80x100px) ========== -->
 <g class="eye-part lens" data-el="lens" data-name="Хрусталик" data-desc="Двояковыпуклая прозрачная линза. Фокусирует свет на сетчатке. При спазме аккомодации (пилокарпин) становится более выпуклым. При циклоплегии (атропин) уплощается.">
-  <path class="lens-shape" d="M 300 200 Q 340 200 340 250 Q 340 300 300 300 Q 315 250 300 200 Z" fill="url(#lensGrad)" stroke="#92400e" stroke-width="1.5" filter="url(#softGlow)">
+  <path class="lens-shape" d="M 270 250 Q 310 250 310 300 Q 310 350 270 350 Q 285 300 270 250 Z" fill="url(#lensGrad)" stroke="#92400e" stroke-width="1.5" filter="url(#softGlow)">
     <animate attributeName="opacity" values="0.9;1;0.9" dur="3s" repeatCount="indefinite"/>
   </path>
-  <path d="M 300 200 Q 340 200 340 250 Q 340 300 300 300 Q 315 250 300 200 Z" fill="none" stroke="#fbbf24" stroke-width="0.8" opacity="0.6"/>
+  <!-- Капсула хрусталика -->
+  <path d="M 270 250 Q 310 250 310 300 Q 310 350 270 350 Q 285 300 270 250 Z" fill="none" stroke="#fbbf24" stroke-width="0.8" opacity="0.6"/>
 </g>
 
+<!-- ========== РАДУЖКА ========== -->
 <g class="eye-part iris" data-el="iris" data-name="Радужка" data-desc="Цветная часть глаза. Содержит две мышцы: сфинктер (сужает зрачок, M3) и дилататор (расширяет зрачок, α1). При глаукоме смещается вперёд, перекрывая угол передней камеры.">
-  <path class="iris-upper" d="M 180 140 Q 200 160 220 180 L 220 200 Q 200 180 180 170 Z" fill="url(#irisGrad)" opacity="0.95"/>
-  <path class="iris-lower" d="M 180 360 Q 200 340 220 320 L 220 300 Q 200 320 180 330 Z" fill="url(#irisGrad)" opacity="0.95"/>
-  <path d="M 185 150 L 215 185 M 190 155 L 218 190 M 195 160 L 220 195" stroke="#c4b5fd" stroke-width="0.6" fill="none" opacity="0.4"/>
-  <path d="M 185 350 L 215 315 M 190 345 L 218 310 M 195 340 L 220 305" stroke="#c4b5fd" stroke-width="0.6" fill="none" opacity="0.4"/>
+  <!-- Верхняя часть радужки -->
+  <path class="iris-upper" d="M 175 240 Q 200 250 220 270 L 220 290 Q 200 275 180 265 Z" fill="url(#irisGrad)" opacity="0.95"/>
+  <!-- Нижняя часть радужки -->
+  <path class="iris-lower" d="M 175 360 Q 200 350 220 330 L 220 310 Q 200 325 180 335 Z" fill="url(#irisGrad)" opacity="0.95"/>
+  <!-- Текстура радужки -->
+  <path d="M 180 248 L 215 275 M 185 252 L 218 280 M 190 256 L 220 285" stroke="#c4b5fd" stroke-width="0.5" fill="none" opacity="0.4"/>
+  <path d="M 180 352 L 215 325 M 185 348 L 218 320 M 190 344 L 220 315" stroke="#c4b5fd" stroke-width="0.5" fill="none" opacity="0.4"/>
 </g>
 
-<ellipse class="eye-part pupil" cx="220" cy="250" rx="18" ry="28" fill="url(#pupilGrad)">
-  <animate attributeName="rx" values="18;20;18" dur="4s" repeatCount="indefinite"/>
+<!-- ========== ЗРАЧОК ========== -->
+<ellipse class="eye-part pupil" cx="220" cy="300" rx="14" ry="22" fill="url(#pupilGrad)">
+  <animate attributeName="rx" values="14;16;14" dur="4s" repeatCount="indefinite"/>
 </ellipse>
 
-<path class="eye-part anterior-chamber" d="M 115 180 C 115 200, 115 300, 115 320 L 180 330 L 180 170 Z" fill="#e0f2fe" opacity="0.25"/>
+<!-- ========== ПЕРЕДНЯЯ КАМЕРА ========== -->
+<path class="eye-part anterior-chamber" d="M 148 260 C 148 280, 148 320, 148 340 L 180 345 L 180 255 Z" fill="#e0f2fe" opacity="0.2"/>
 
-<g class="eye-part cornea" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка глаза. Главная преломляющая среда. Не имеет сосудов, питается из слёзной жидкости и внутриглазной влаги.">
-  <path d="M 115 180 C 70 180, 70 320, 115 320 C 100 300, 95 250, 95 250 C 95 250, 100 200, 115 180 Z" fill="url(#corneaGrad)" stroke="#0284c7" stroke-width="2" filter="url(#softGlow)"/>
-  <path d="M 110 190 C 80 190, 80 310, 110 310" stroke="#7dd3fc" stroke-width="0.8" fill="none" opacity="0.5"/>
-  <path d="M 105 200 C 85 200, 85 300, 105 300" stroke="#7dd3fc" stroke-width="0.8" fill="none" opacity="0.4"/>
+<!-- ========== РОГОВИЦА (небольшой выступ спереди) ========== -->
+<g class="eye-part cornea" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка глаза. Главная преломляющая среда (~43 дптр). Не имеет сосудов, питается из слёзной жидкости и внутриглазной влаги.">
+  <path d="M 160 240 C 120 240, 110 270, 110 300 C 110 330, 120 360, 160 360 C 148 340, 145 320, 145 300 C 145 280, 148 260, 160 240 Z" fill="url(#corneaGrad)" stroke="#0284c7" stroke-width="2" filter="url(#softGlow)"/>
+  <!-- Слои роговицы -->
+  <path d="M 155 250 C 125 250, 118 275, 118 300 C 118 325, 125 350, 155 350" stroke="#7dd3fc" stroke-width="0.7" fill="none" opacity="0.5"/>
+  <path d="M 150 260 C 130 260, 125 280, 125 300 C 125 320, 130 340, 150 340" stroke="#7dd3fc" stroke-width="0.7" fill="none" opacity="0.4"/>
 </g>
 
+<!-- ========== ТРАБЕКУЛЯРНАЯ СЕТЬ (угол передней камеры) ========== -->
 <g class="eye-part trabecular" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Зона оттока внутриглазной жидкости. Расположена в углу между роговицей и радужкой. При закрытоугольной глаукоме перекрывается радужкой → рост ВГД.">
-  <path class="trabecular-upper" d="M 115 180 L 140 175 L 145 195 L 120 200 Z" fill="#10b981" opacity="0.85" filter="url(#softGlow)">
+  <!-- Верхний угол -->
+  <path class="trabecular-upper" d="M 148 255 L 170 250 L 175 265 L 155 270 Z" fill="#10b981" opacity="0.85" filter="url(#softGlow)">
     <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
   </path>
-  <path class="trabecular-lower" d="M 115 320 L 140 325 L 145 305 L 120 300 Z" fill="#10b981" opacity="0.85" filter="url(#softGlow)">
+  <!-- Нижний угол -->
+  <path class="trabecular-lower" d="M 148 345 L 170 350 L 175 335 L 155 330 Z" fill="#10b981" opacity="0.85" filter="url(#softGlow)">
     <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
   </path>
-  <circle cx="125" cy="188" r="4" fill="#059669" opacity="0.9"/>
-  <circle cx="125" cy="312" r="4" fill="#059669" opacity="0.9"/>
+  <!-- Шлеммов канал -->
+  <circle cx="158" cy="260" r="3.5" fill="#059669" opacity="0.9"/>
+  <circle cx="158" cy="340" r="3.5" fill="#059669" opacity="0.9"/>
 </g>
 
-<g class="synapse-el eye-part" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в центре радужки. Регулирует количество света. Сужается (миоз) под действием М-холиномиметиков (пилокарпин). Расширяется (мидриаз) под действием М-холиноблокаторов (атропин)." style="cursor:pointer;">
-  <circle cx="220" cy="250" r="45" fill="transparent"/>
+<!-- ========== ПОДПИСИ ========== -->
+<g font-family="-apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0" opacity="0.85">
+  <text x="400" y="30" text-anchor="middle" font-weight="700" font-size="14" fill="#f8fafc">Сагиттальный разрез глаза</text>
 </g>
-<g class="synapse-el eye-part" data-el="lens" data-name="Хрусталик" data-desc="Прозрачная двояковыпуклая линза. Фокусирует свет на сетчатке. Изменяет кривизну при аккомодации. Пилокарпин → спазм аккомодации (выпуклый). Атропин → циклоплегия (плоский)." style="cursor:pointer;">
-  <rect x="285" y="185" width="70" height="130" fill="transparent"/>
+
+<!-- ========== ИНТЕРАКТИВНЫЕ ЗОНЫ ========== -->
+<g class="synapse-el eye-part" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в центре радужки. Регулирует количество света. Сужается (миоз) под действием М-холиномиметиков (пилокарпин). Расширяется (мидриаз) под действием М-холиноблокаторов (атропин) и α1-агонистов." style="cursor:pointer;">
+  <circle cx="220" cy="300" r="40" fill="transparent"/>
+</g>
+<g class="synapse-el eye-part" data-el="lens" data-name="Хрусталик" data-desc="Прозрачная двояковыпуклая линза. Фокусирует свет на сетчатке. Изменяет кривизну при аккомодации. Пилокарпин → спазм аккомодации (выпуклый, ближнее зрение). Атропин → циклоплегия (плоский, дальнее зрение)." style="cursor:pointer;">
+  <rect x="255" y="235" width="70" height="130" fill="transparent"/>
 </g>
 <g class="synapse-el eye-part" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Кольцевая гладкая мышца. Сокращение (М3-агонисты) → расслабление цинновых связок → хрусталик выпуклый. Расслабление (М3-блокаторы) → натяжение связок → хрусталик плоский." style="cursor:pointer;">
-  <rect x="190" y="100" width="100" height="70" fill="transparent"/>
-  <rect x="190" y="330" width="100" height="70" fill="transparent"/>
+  <rect x="190" y="210" width="90" height="60" fill="transparent"/>
+  <rect x="190" y="330" width="90" height="60" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Губчатая структура в углу передней камеры. Основной путь оттока внутриглазной жидкости. При закрытоугольной глаукоме перекрывается радужкой → резкий рост ВГД." style="cursor:pointer;">
-  <rect x="100" y="160" width="60" height="50" fill="transparent"/>
-  <rect x="100" y="290" width="60" height="50" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Губчатая структура в углу передней камеры. Основной путь оттока внутриглазной жидкости. При закрытоугольной глаукоме перекрывается радужкой → резкий рост ВГД. Пульсирует красным при приступе." style="cursor:pointer;">
+  <rect x="135" y="240" width="55" height="45" fill="transparent"/>
+  <rect x="135" y="315" width="55" height="45" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="iris" data-name="Радужка" data-desc="Содержит две мышцы: сфинктер зрачка (M3, сужает) и дилататор зрачка (α1, расширяет). Определяет цвет глаз." style="cursor:pointer;">
-  <rect x="165" y="130" width="70" height="240" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="iris" data-name="Радужка" data-desc="Содержит две мышцы: сфинктер зрачка (M3, сужает) и дилататор зрачка (α1, расширяет). Определяет цвет глаз. При узком угле передней камеры может блокировать отток влаги." style="cursor:pointer;">
+  <rect x="165" y="230" width="70" height="140" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка. Главная преломляющая сила глаза (~43 дптр). Не имеет сосудов." style="cursor:pointer;">
-  <rect x="60" y="170" width="70" height="160" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка. Главная преломляющая сила глаза (~43 дптр). Не имеет сосудов. При глаукоме может отекать → радужные круги вокруг источников света." style="cursor:pointer;">
+  <rect x="100" y="230" width="70" height="140" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="retina" data-name="Сетчатка" data-desc="Внутренняя светочувствительная оболочка. Содержит фоторецепторы (палочки и колбочки). Макула — зона наилучшего зрения." style="cursor:pointer;">
-  <path d="M 130 90 L 670 90 L 670 410 L 130 410 Z" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="retina" data-name="Сетчатка" data-desc="Внутренняя светочувствительная оболочка. Содержит фоторецепторы (палочки и колбочки). Макула (жёлтое пятно) — зона наилучшего зрения." style="cursor:pointer;">
+  <path d="M 150 100 L 620 100 L 620 500 L 150 500 Z" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="optic-nerve" data-name="Зрительный нерв" data-desc="II пара черепных нервов. Передаёт зрительные импульсы от сетчатки в зрительную кору." style="cursor:pointer;">
-  <rect x="660" y="220" width="130" height="60" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="optic-nerve" data-name="Зрительный нерв" data-desc="II пара черепных нервов. Передаёт зрительные импульсы от сетчатки в зрительную кору. Внутри проходит центральная артерия и вена сетчатки." style="cursor:pointer;">
+  <rect x="580" y="270" width="170" height="60" fill="transparent"/>
 </g>
-<g class="synapse-el eye-part" data-el="retinal-vessels" data-name="Сосуды сетчатки" data-desc="Центральная артерия и вена сетчатки питают внутренние слои. Выходят из зрительного диска." style="cursor:pointer;">
-  <rect x="400" y="160" width="280" height="180" fill="transparent"/>
+<g class="synapse-el eye-part" data-el="retinal-vessels" data-name="Сосуды сетчатки" data-desc="Центральная артерия и вена сетчатки питают внутренние слои. Выходят из зрительного диска и расходятся по сетчатке. Видны при офтальмоскопии." style="cursor:pointer;">
+  <rect x="350" y="180" width="260" height="240" fill="transparent"/>
 </g>
 `;
 
@@ -1289,7 +1335,7 @@ ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'
 <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
 </defs>
-<rect width="1000" height="700" fill="url(#bgGrad)"/>
+
 <path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="url(#preCytoplasm)"/>
 <path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
 <path d="M 100 60 Q 500 0 900 60 L 900 290 Q 500 320 100 290 Z" fill="#4a3030" opacity="0.4"/>
@@ -1413,7 +1459,7 @@ document.getElementById('vizContent').innerHTML=`
 ${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
 </div>
 <div class="synapse-stage">
-<svg class="eye-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="max-height: 70vh; width: 100%; max-width: 600px; border-radius: 20px; overflow: visible;">
+<svg class="eye-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="max-height: 70vh; width: 100%; max-width: 600px; border-radius: 20px; overflow: visible;">
 ${EYE_SVG}
 </svg>
 <div class="synapse-tooltip" id="eyeTooltip"></div>
