@@ -280,42 +280,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .dist-result-score{font-size:36px;font-weight:700;color:var(--accent-deep)}
 .dist-result-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;margin-top:4px}
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
-@media (max-width:768px){
-.sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
-.profile,.premium-block{display:none}
-.nav{flex-direction:row;flex:1;justify-content:space-around}
-.nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}
-.nav-btn svg{width:22px;height:22px}
-.content{margin-left:0;padding:16px 14px 100px}
-.topbar h1{font-size:22px}
-.hero{padding:24px;border-radius:24px}
-.hero h2{font-size:20px}.hero p{font-size:13px}
-.question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}
-.q-text{font-size:16px}
-.report-stats{grid-template-columns:1fr 1fr}
-.theme-toggle span{display:none}
-.stat-value{font-size:24px}
-.synapse-stage{border-radius:16px}
-}
+@media (max-width:768px){.sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}.profile,.premium-block{display:none}.nav{flex-direction:row;flex:1;justify-content:space-around}.nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}.nav-btn svg{width:22px;height:22px}.content{margin-left:0;padding:16px 14px 100px}.topbar h1{font-size:22px}.hero{padding:24px;border-radius:24px}.hero h2{font-size:20px}.hero p{font-size:13px}.question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}.q-text{font-size:16px}.report-stats{grid-template-columns:1fr 1fr}.theme-toggle span{display:none}.stat-value{font-size:24px}.synapse-stage{border-radius:16px}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-<div class="profile"><div class="avatar">С</div><div><div class="profile-name">Студент</div><div class="profile-sub">Лечебное дело, 3 курс</div></div></div>
+<div class="profile">
+<div class="avatar">С</div>
+<div>
+<div class="profile-name">Студент</div>
+<div class="profile-sub">Лечебное дело, 3 курс</div>
+</div>
+</div>
 <nav class="nav" id="nav">
-<button class="nav-btn active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Главная</span></button>
-<button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Тесты</span></button>
-<button class="nav-btn" data-screen="classify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><polyline points="9 11 12 14 21 5"/></svg><span>Классификация</span></button>
-<button class="nav-btn" data-screen="synapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4M8 16l4-4M16 16l-4-4"/></svg><span>Визуализация</span></button>
-<button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
-<button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
-<button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
+<button class="nav-btn active" data-screen="dashboard">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+<polyline points="9 22 9 12 15 12 15 22"/>
+</svg>
+<span>Главная</span>
+</button>
+<button class="nav-btn" data-screen="session">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="6 4 20 12 6 20 6 4"/>
+</svg>
+<span>Тесты</span>
+</button>
+<button class="nav-btn" data-screen="classify">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>
+<polyline points="9 11 12 14 21 5"/>
+</svg>
+<span>Классификация</span>
+</button>
+<button class="nav-btn" data-screen="synapse">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="6" r="2"/>
+<circle cx="6" cy="18" r="2"/>
+<circle cx="18" cy="18" r="2"/>
+<path d="M12 8v4M8 16l4-4M16 16l-4-4"/>
+</svg>
+<span>Визуализация</span>
+</button>
+<button class="nav-btn" data-screen="case">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 3v12"/>
+<circle cx="6" cy="18" r="3"/>
+<circle cx="18" cy="6" r="3"/>
+<path d="M18 9a9 9 0 0 1-9 9"/>
+</svg>
+<span>Кейсы</span>
+</button>
+<button class="nav-btn" data-screen="reference">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+</svg>
+<span>Справочник</span>
+</button>
+<button class="nav-btn" data-screen="settings">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3"/>
+<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+</svg>
+<span>Настройки</span>
+</button>
 </nav>
-<div class="premium-block"><div class="crown">👑</div><h4>PharmStudy Pro</h4><p>ИИ-генерация вопросов</p><button>Скоро</button></div>
+<div class="premium-block">
+<div class="crown">&#128081;</div>
+<h4>PharmStudy Pro</h4>
+<p>ИИ-генерация вопросов</p>
+<button>Скоро</button>
+</div>
 </aside>
 <main class="content">
-<div class="topbar"><h1 id="screen-title">Дашборд</h1><button class="theme-toggle" id="themeToggle"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span id="themeLabel">Тёмная</span></button></div>
+<div class="topbar">
+<h1 id="screen-title">Дашборд</h1>
+<button class="theme-toggle" id="themeToggle">
+<svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+</svg>
+<span id="themeLabel">Тёмная</span>
+</button>
+</div>
 <div id="screen"></div>
 </main>
 </div>
@@ -476,6 +524,41 @@ normal:{name:'Норма',chain:'Физиологическая передача
 'n-blocker':{name:'Н-холиноблокатор',chain:'Н-рецепторы заблокированы. Ганглиоблокатор: падение АД. Миорелаксант: расслабление мышц.'},
 'botox':{name:'Ботулотоксин',chain:'Выброс АХ нарушен. Эффект: расслабление мышц 3-6 месяцев.'}
 };
+const SYNAPSE_SVG=[
+'<rect width="1000" height="700" fill="#1a2138"/>',
+'<rect x="50" y="40" width="900" height="270" rx="20" fill="#5a3a30"/>',
+'<rect x="50" y="460" width="900" height="220" rx="20" fill="#2a3850"/>',
+'<rect x="50" y="350" width="900" height="70" fill="#2a3158"/>',
+'<circle cx="315" cy="160" r="40" fill="#9a86c8"/>',
+'<circle cx="305" cy="150" r="5" fill="#ff7090"/>',
+'<circle cx="330" cy="158" r="5" fill="#ff7090"/>',
+'<circle cx="315" cy="172" r="5" fill="#ff7090"/>',
+'<circle cx="475" cy="125" r="36" fill="#9a86c8"/>',
+'<circle cx="465" cy="120" r="4" fill="#ff7090"/>',
+'<circle cx="488" cy="128" r="4" fill="#ff7090"/>',
+'<circle cx="635" cy="165" r="42" fill="#9a86c8"/>',
+'<circle cx="620" cy="158" r="5" fill="#ff7090"/>',
+'<circle cx="648" cy="165" r="5" fill="#ff7090"/>',
+'<circle cx="785" cy="110" r="34" fill="#9a86c8"/>',
+'<circle cx="774" cy="105" r="4" fill="#ff7090"/>',
+'<circle cx="796" cy="112" r="4" fill="#ff7090"/>',
+'<path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="#8a7ac8"/>',
+'<path d="M 710 290 L 750 290 L 755 320 L 745 335 L 715 335 L 705 320 Z" fill="#8a7ac8"/>',
+'<circle cx="150" cy="380" r="9" fill="#ff7090"/>',
+'<circle cx="360" cy="365" r="9" fill="#ff7090"/>',
+'<circle cx="540" cy="400" r="9" fill="#ff7090"/>',
+'<circle cx="700" cy="375" r="9" fill="#ff7090"/>',
+'<circle cx="870" cy="395" r="9" fill="#ff7090"/>',
+'<ellipse cx="460" cy="395" rx="55" ry="40" fill="#ffb840"/>',
+'<text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>',
+'<path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="#a888d0"/>',
+'<path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="#a888d0"/>',
+'<path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="#a888d0"/>',
+'<path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="#a888d0"/>',
+'<rect x="252" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>',
+'<rect x="512" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>',
+'<rect x="722" y="440" width="36" height="42" rx="8" fill="#5ac8a0"/>'
+].join('');
 const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch(e){return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
@@ -500,20 +583,18 @@ const s=getStats();
 const sections=Array.from(new Set(QUESTIONS.map(function(q){return q.section})));
 const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
 const topics=sections.map(function(sec,i){return{name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}});
-let html='<div class="hero">\n<h2>Добрый вечер, Студент!</h2>\n<p>'+sections.length+' разделов · '+QUESTIONS.length+' вопросов · '+Object.keys(CASES).length+' кейсов · '+GROUPS.length+' групп</p>\n<button class="hero-btn" onclick="setScreen(\'session\')">\n<svg viewBox="0 0 24 24" fill="currentColor">\n<polygon points="6 4 20 12 6 20 6 4"/>\n</svg>Начать тестирование\n</button>\n</div>';
-html+='<div class="stats-grid">\n';
-html+='<div class="stat-card">\n<div class="stat-icon mint">\n<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">\n<polyline points="20 6 9 17 4 12"/>\n</svg>\n</div>\n<div class="stat-label">Пройдено</div>\n<div class="stat-value">'+s.answered+'</div>\n<div class="stat-sub">вопросов</div>\n</div>';
-html+='<div class="stat-card">\n<div class="stat-icon lavender">\n<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">\n<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>\n<polyline points="22 4 12 14.01 9 11.01"/>\n</svg>\n</div>\n<div class="stat-label">Точность</div>\n<div class="stat-value">'+s.accuracy+'%</div>\n<div class="stat-sub">правильных</div>\n</div>';
-html+='<div class="stat-card">\n<div class="stat-icon accent">\n<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">\n<circle cx="12" cy="12" r="10"/>\n<polyline points="12 6 12 12 16 14"/>\n</svg>\n</div>\n<div class="stat-label">Тестов</div>\n<div class="stat-value">'+s.tests+'</div>\n<div class="stat-sub">пройдено</div>\n</div>';
-html+='<div class="stat-card">\n<div class="stat-icon warm">\n<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">\n<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>\n</svg>\n</div>\n<div class="stat-label">Дней подряд</div>\n<div class="stat-value">'+s.streak+'</div>\n<div class="stat-sub">streak</div>\n</div>';
-html+='\n</div>';
-html+='<div class="row-2">\n<div class="panel">\n<div class="panel-head">\n<h3>Содержание базы</h3>\n<span class="badge">актуально</span>\n</div>\n<div class="recent-list">\n';
-sections.forEach(function(sec,i){const count=QUESTIONS.filter(function(q){return q.section===sec}).length;const col=colors[i%colors.length];html+='<div class="recent-item">\n<div class="recent-icon" style="background:'+col+'">'+count+'</div>\n<div class="recent-info">\n<div class="recent-title">'+sec+'</div>\n<div class="recent-sub">'+count+' вопросов</div>\n</div>\n</div>'});
-html+='<div class="recent-item" onclick="setScreen(\'case\')">\n<div class="recent-icon" style="background:var(--warm)">'+Object.keys(CASES).length+'</div>\n<div class="recent-info">\n<div class="recent-title">Клинические кейсы</div>\n<div class="recent-sub">Интерактивные истории</div>\n</div>\n</div>';
-html+='\n</div>\n</div>';
-html+='<div class="panel">\n<div class="panel-head">\n<h3>Прогресс по темам</h3>\n</div>\n<div class="topic-list">\n';
-topics.forEach(function(t){html+='<div class="topic-row">\n<div class="topic-top">\n<span class="topic-name">'+t.name+'</span>\n<span class="topic-pct">'+t.pct+'%</span>\n</div>\n<div class="topic-bar">\n<div class="topic-fill" style="width:'+t.pct+'%;background:'+t.color+'"></div>\n</div>\n</div>'});
-html+='\n</div>\n</div>\n</div>';
+let html='<div class="hero"><h2>Добрый вечер, Студент!</h2><p>'+sections.length+' разделов · '+QUESTIONS.length+' вопросов · '+Object.keys(CASES).length+' кейсов · '+GROUPS.length+' групп</p><button class="hero-btn" onclick="setScreen(\'session\')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button></div>';
+html+='<div class="stats-grid"><div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">'+s.answered+'</div><div class="stat-sub">вопросов</div></div>';
+html+='<div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">'+s.accuracy+'%</div><div class="stat-sub">правильных</div></div>';
+html+='<div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">'+s.tests+'</div><div class="stat-sub">пройдено</div></div>';
+html+='<div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">'+s.streak+'</div><div class="stat-sub">streak</div></div></div>';
+html+='<div class="row-2"><div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div><div class="recent-list">';
+sections.forEach(function(sec,i){const count=QUESTIONS.filter(function(q){return q.section===sec}).length;const col=colors[i%colors.length];html+='<div class="recent-item"><div class="recent-icon" style="background:'+col+'">'+count+'</div><div class="recent-info"><div class="recent-title">'+sec+'</div><div class="recent-sub">'+count+' вопросов</div></div></div>'});
+html+='<div class="recent-item" onclick="setScreen(\'case\')"><div class="recent-icon" style="background:var(--warm)">'+Object.keys(CASES).length+'</div><div class="recent-info"><div class="recent-title">Клинические кейсы</div><div class="recent-sub">Интерактивные истории</div></div></div>';
+html+='</div></div>';
+html+='<div class="panel"><div class="panel-head"><h3>Прогресс по темам</h3></div><div class="topic-list">';
+topics.forEach(function(t){html+='<div class="topic-row"><div class="topic-top"><span class="topic-name">'+t.name+'</span><span class="topic-pct">'+t.pct+'%</span></div><div class="topic-bar"><div class="topic-fill" style="width:'+t.pct+'%;background:'+t.color+'"></div></div></div>'});
+html+='</div></div></div>';
 return html;
 }
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t}return a}
@@ -536,17 +617,17 @@ if(state.selectedSkills._init!==true){SKILL_LIST.forEach(function(s){state.selec
 const selectedCount=sections.filter(function(s){return state.selectedTopics[s]}).length;
 const activeSkills=SKILL_LIST.filter(function(s){return state.selectedSkills[s]});
 const totalSelected=sections.filter(function(s){return state.selectedTopics[s]}).reduce(function(sum,s){return sum+QUESTIONS.filter(function(q){return q.section===s&&activeSkills.includes(SKILLS[q.id])}).length},0);
-let html='<div class="case-picker">\n<div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div><div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы.</div>';
-html+='<div class="skill-filter">\n<div class="skill-filter-label">Тип вопросов</div>\n<div class="skill-chips">\n';
+let html='<div class="case-picker"><div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div><div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы.</div>';
+html+='<div class="skill-filter"><div class="skill-filter-label">Тип вопросов</div><div class="skill-chips">';
 SKILL_LIST.forEach(function(s){html+='<button class="skill-chip '+(state.selectedSkills[s]?'active':'')+'" onclick="toggleSkill(\''+s+'\')">'+s+'</button>'});
-html+='\n</div>\n</div>';
-html+='<div class="topic-actions">\n<button onclick="selectAllTopics(true)">Выбрать все</button>\n<button onclick="selectAllTopics(false)">Снять все</button>\n</div>';
-html+='<div style="margin-bottom:24px">\n';
-sections.forEach(function(sec,i){const cnt=QUESTIONS.filter(function(q){return q.section===sec&&activeSkills.includes(SKILLS[q.id])}).length;html+='<div class="topic-pick '+(state.selectedTopics[sec]?'selected':'')+'" onclick="toggleTopic(\''+sec+'\')">\n<div class="topic-check" style="background:'+(state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)')+';color:'+(state.selectedTopics[sec]?'#fff':'var(--text-muted)')+'">'+(state.selectedTopics[sec]?'V':'')+'</div>\n<div class="topic-pick-info">\n<div class="topic-pick-title">'+sec+'</div>\n<div class="topic-pick-sub">'+cnt+' вопросов</div>\n</div>\n</div>'});
-html+='\n</div>';
-html+='<div class="summary-box">\n<div class="lbl">Выбрано</div>\n<div class="val">'+totalSelected+' вопросов</div>\n<div class="sub">'+selectedCount+' разделов · '+activeSkills.length+' типов</div>\n</div>';
-html+='<button class="next-btn" '+(totalSelected===0?'disabled='' style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'')+' onclick="startSession()">Начать тестирование</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
+html+='</div></div>';
+html+='<div class="topic-actions"><button onclick="selectAllTopics(true)">Выбрать все</button><button onclick="selectAllTopics(false)">Снять все</button></div>';
+html+='<div style="margin-bottom:24px">';
+sections.forEach(function(sec,i){const cnt=QUESTIONS.filter(function(q){return q.section===sec&&activeSkills.includes(SKILLS[q.id])}).length;html+='<div class="topic-pick '+(state.selectedTopics[sec]?'selected':'')+'" onclick="toggleTopic(\''+sec+'\')"><div class="topic-check" style="background:'+(state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)')+';color:'+(state.selectedTopics[sec]?'#fff':'var(--text-muted)')+'">'+(state.selectedTopics[sec]?'V':'')+'</div><div class="topic-pick-info"><div class="topic-pick-title">'+sec+'</div><div class="topic-pick-sub">'+cnt+' вопросов</div></div></div>'});
+html+='</div>';
+html+='<div class="summary-box"><div class="lbl">Выбрано</div><div class="val">'+totalSelected+' вопросов</div><div class="sub">'+selectedCount+' разделов · '+activeSkills.length+' типов</div></div>';
+html+='<button class="next-btn" '+(totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'')+' onclick="startSession()">Начать тестирование</button>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
 function toggleSkill(s){state.selectedSkills[s]=!state.selectedSkills[s];renderSessionSetup()}
@@ -568,12 +649,12 @@ const s=state.session;
 if(s.index>=s.questions.length){renderReport();return}
 const q=s.questions[s.index];
 const progress=(s.index/s.questions.length)*100;
-let html='<div class="question-card">\n<div class="q-progress">\n<div class="q-progress-bar">\n<div class="q-progress-fill" style="width:'+progress+'%"></div>\n</div>\n<span class="q-progress-text">'+(s.index+1)+' / '+s.questions.length+'</span>\n</div>';
+let html='<div class="question-card"><div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:'+progress+'%"></div></div><span class="q-progress-text">'+(s.index+1)+' / '+s.questions.length+'</span></div>';
 html+='<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">'+q.section+'</div>';
 html+='<div class="q-text">'+q.text+'</div>';
-html+='<div class="q-options" id="qOptions">\n';
-q.options.forEach(function(opt,i){html+='<button class="q-option" onclick="answerQuestion('+i+')">\n<span class="q-option-letter">'+String.fromCharCode(65+i)+'</span>\n<span>'+opt+'</span>\n</button>'});
-html+='\n</div><div id="feedbackArea"></div>\n</div>';
+html+='<div class="q-options" id="qOptions">';
+q.options.forEach(function(opt,i){html+='<button class="q-option" onclick="answerQuestion('+i+')"><span class="q-option-letter">'+String.fromCharCode(65+i)+'</span><span>'+opt+'</span></button>'});
+html+='</div><div id="feedbackArea"></div></div>';
 screenEl.innerHTML=html;
 }
 function answerQuestion(i){
@@ -587,9 +668,9 @@ s.answers.push({id:q.id,correct:isCorrect,section:q.section});
 if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
 if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
 saveProgress();
-let html='<div class="explanation">\n<h4>'+(isCorrect?'Верно':'Правильный ответ: '+String.fromCharCode(65+q.correct))+'</h4><p>'+q.explanation+'</p>';
-html+='<div class="tags">\n'+q.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('')+'\n</div>';
-html+='<div class="source">Источник: '+q.source+'</div>\n</div>';
+let html='<div class="explanation"><h4>'+(isCorrect?'Верно':'Правильный ответ: '+String.fromCharCode(65+q.correct))+'</h4><p>'+q.explanation+'</p>';
+html+='<div class="tags">'+q.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('')+'</div>';
+html+='<div class="source">Источник: '+q.source+'</div></div>';
 html+='<button class="next-btn" onclick="nextQuestion()">'+(s.index+1>=s.questions.length?'Завершить тест':'Следующий вопрос')+'</button>';
 document.getElementById('feedbackArea').innerHTML=html;
 }
@@ -604,54 +685,33 @@ const wrongQs=QUESTIONS.filter(function(q){return wrongIds.includes(q.id)});
 const weakTags=Array.from(new Set(wrongQs.flatMap(function(q){return q.tags.slice(0,2)})));
 state.progress._sessions=(state.progress._sessions||0)+1;
 saveProgress();
-let html='<div class="report-card">\n<div class="report-title">Тест завершен</div><div class="report-sub">'+total+' вопросов</div>';
-html+='<div class="report-stats">\n<div class="report-stat">\n<div class="report-stat-val" style="color:var(--success)">'+correct+'</div>\n<div class="report-stat-lbl">правильно</div>\n</div>';
-html+='<div class="report-stat">\n<div class="report-stat-val" style="color:var(--error)">'+(total-correct)+'</div>\n<div class="report-stat-lbl">ошибок</div>\n</div>';
-html+='<div class="report-stat">\n<div class="report-stat-val">'+pct+'%</div>\n<div class="report-stat-lbl">точность</div>\n</div>\n';
-if(weakTags.length){html+='<div class="report-weak">\n<h4>Слабые места:</h4>\n<div class="weak-list">\n'+weakTags.map(function(t){return '<div class="weak-item">'+t+'</div>'}).join('')+'\n</div>\n</div>'}else{html+='<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>'}
-html+='</div>';
-html+='<div style="display:flex;gap:12px;flex-wrap:wrap">\n<button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen(\'session\')">Новый тест</button>';
-html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'case\')">К кейсам</button>\n</div>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
+let html='<div class="report-card"><div class="report-title">Тест завершен</div><div class="report-sub">'+total+' вопросов</div>';
+html+='<div class="report-stats"><div class="report-stat"><div class="report-stat-val" style="color:var(--success)">'+correct+'</div><div class="report-stat-lbl">правильно</div></div>';
+html+='<div class="report-stat"><div class="report-stat-val" style="color:var(--error)">'+(total-correct)+'</div><div class="report-stat-lbl">ошибок</div></div>';
+html+='<div class="report-stat"><div class="report-stat-val">'+pct+'%</div><div class="report-stat-lbl">точность</div></div></div>';
+if(weakTags.length){html+='<div class="report-weak"><h4>Слабые места:</h4><div class="weak-list">'+weakTags.map(function(t){return '<div class="weak-item">'+t+'</div>'}).join('')+'</div></div>'}else{html+='<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>'}
+html+='<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen(\'session\')">Новый тест</button>';
+html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'case\')">К кейсам</button></div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
 function renderClassifySetup(){
 const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
 const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-if(state.selectedClassifySections._init!==true){
-sections.forEach(function(s){state.selectedClassifySections[s]=true});
-state.selectedClassifySections._init=true;
-}
+if(state.selectedClassifySections._init!==true){sections.forEach(function(s){state.selectedClassifySections[s]=true});state.selectedClassifySections._init=true}
 const selectedCount=sections.filter(function(s){return state.selectedClassifySections[s]}).length;
 const totalSelected=sections.filter(function(s){return state.selectedClassifySections[s]}).reduce(function(sum,s){return sum+GROUPS.filter(function(g){return g.section===s}).length},0);
-let html='';
-html+='<div class="case-picker">\n';
-html+=renderClassifyTabs('input');
+let html='<div class="case-picker">'+renderClassifyTabs('input');
 html+='<div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>';
 html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Перечисли препараты через запятую. Только МНН.</div>';
-html+='<div class="topic-actions">\n';
-html+='<button onclick="selectAllClassify(true)">Выбрать все</button>';
-html+='<button onclick="selectAllClassify(false)">Снять все</button>';
-html+='\n</div>';
-html+='<div style="margin-bottom:24px">\n';
-sections.forEach(function(sec,i){
-const cnt=GROUPS.filter(function(g){return g.section===sec}).length;
-const sel=state.selectedClassifySections[sec];
-const col=colors[i%colors.length];
-const checkBg=sel?col:'var(--card)';
-const checkColor=sel?'#fff':'var(--text-muted)';
-const checkMark=sel?'V':'';
-html+='<div class="topic-pick '+(sel?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')">\n';
-html+='<div class="topic-check" style="background:'+checkBg+';color:'+checkColor+'">'+checkMark+'</div>';
-html+='<div class="topic-pick-info">\n<div class="topic-pick-title">'+sec+'</div>\n<div class="topic-pick-sub">'+cnt+' групп</div>\n</div>';
-html+='\n</div>';
-});
-html+='\n</div>';
-html+='<div class="summary-box">\n<div class="lbl">Выбрано</div>\n<div class="val">'+totalSelected+' групп</div>\n<div class="sub">'+selectedCount+' разделов</div>\n</div>';
+html+='<div class="topic-actions"><button onclick="selectAllClassify(true)">Выбрать все</button><button onclick="selectAllClassify(false)">Снять все</button></div>';
+html+='<div style="margin-bottom:24px">';
+sections.forEach(function(sec,i){const cnt=GROUPS.filter(function(g){return g.section===sec}).length;const sel=state.selectedClassifySections[sec];const col=colors[i%colors.length];const checkBg=sel?col:'var(--card)';const checkColor=sel?'#fff':'var(--text-muted)';const checkMark=sel?'V':'';html+='<div class="topic-pick '+(sel?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')"><div class="topic-check" style="background:'+checkBg+';color:'+checkColor+'">'+checkMark+'</div><div class="topic-pick-info"><div class="topic-pick-title">'+sec+'</div><div class="topic-pick-sub">'+cnt+' групп</div></div></div>'});
+html+='</div>';
+html+='<div class="summary-box"><div class="lbl">Выбрано</div><div class="val">'+totalSelected+' групп</div><div class="sub">'+selectedCount+' разделов</div></div>';
 const dis=totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'';
 html+='<button class="next-btn" '+dis+' onclick="startClassify()">Начать тестирование</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>';
-html+='\n</div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
 function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup()}
@@ -671,12 +731,12 @@ const s=state.classifySession;
 if(s.index>=s.groups.length){renderClassifyReport();return}
 const g=s.groups[s.index];
 const progress=(s.index/s.groups.length)*100;
-let html='<div class="question-card">\n<div class="q-progress">\n<div class="q-progress-bar">\n<div class="q-progress-fill" style="width:'+progress+'%"></div>\n</div>\n<span class="q-progress-text">'+(s.index+1)+' / '+s.groups.length+'</span>\n</div>';
+let html='<div class="question-card"><div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:'+progress+'%"></div></div><span class="q-progress-text">'+(s.index+1)+' / '+s.groups.length+'</span></div>';
 html+='<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">'+g.section+'</div>';
 html+='<div class="q-text">'+g.group+'</div>';
 html+='<div class="classify-hint">Перечислите препараты через запятую</div>';
-html+='<input type="text" id="classifyInput" class="classify-input" placeholder="Например: Пилокарпин, Карбахол" autocomplete="off" onkeydown="if(event.key===\'Enter\')checkClassifyAnswer()">\n';
-html+='<button class="next-btn" onclick="checkClassifyAnswer()">Проверить</button>\n</div>';
+html+='<input type="text" id="classifyInput" class="classify-input" placeholder="Например: Пилокарпин, Карбахол" autocomplete="off" onkeydown="if(event.key===\'Enter\')checkClassifyAnswer()">';
+html+='<button class="next-btn" onclick="checkClassifyAnswer()">Проверить</button></div>';
 screenEl.innerHTML=html;
 setTimeout(function(){const i=document.getElementById('classifyInput');if(i)i.focus()},50);
 }
@@ -689,18 +749,18 @@ s.results.push({group:g.group,section:g.section,matched:res.matched,missed:res.m
 const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
 const headerText=status==='good'?'Все верно':status==='partial'?'Частично: '+res.correct+' из '+res.total:'Ничего не угадано';
 const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
-let html='<div class="question-card">\n<div class="q-progress">\n<div class="q-progress-bar">\n<div class="q-progress-fill" style="width:'+((s.index+1)/s.groups.length)*100+'%"></div>\n</div>\n<span class="q-progress-text">'+(s.index+1)+' / '+s.groups.length+'</span>\n</div>';
+let html='<div class="question-card"><div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:'+((s.index+1)/s.groups.length)*100+'%"></div></div><span class="q-progress-text">'+(s.index+1)+' / '+s.groups.length+'</span></div>';
 html+='<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">'+g.section+'</div>';
 html+='<div class="q-text">'+g.group+'</div>';
 html+='<div class="case-feedback '+headerClass+'" style="margin-top:16px">'+headerText+'</div>';
-html+='<div class="classify-result">\n';
-if(res.matched.length)html+='<div class="classify-line">\n<span class="classify-mark ok">V</span> '+res.matched.join(', ')+'\n</div>';
-if(res.missed.length)html+='<div class="classify-line">\n<span class="classify-mark miss">X</span> Пропущено: '+res.missed.join(', ')+'\n</div>';
-if(res.extra.length)html+='<div class="classify-line">\n<span class="classify-mark extra">+</span> Лишнее: '+res.extra.join(', ')+'\n</div>';
-html+='\n</div>';
-html+='<div class="conspect">\n<div class="conspect-block">\n<div class="conspect-label">Механизм действия</div>\n<div class="conspect-text">'+g.mechanism+'</div>\n</div>';
-html+='<div class="conspect-block">\n<div class="conspect-label">Побочные эффекты</div>\n<ul class="conspect-list">\n'+g.sideEffects.map(function(e){return '<li>'+e+'</li>'}).join('')+'\n</ul>\n</div>\n</div>';
-html+='<button class="next-btn" onclick="nextClassify()">'+(s.index+1>=s.groups.length?'Завершить':'Следующая группа')+'</button>\n</div>';
+html+='<div class="classify-result">';
+if(res.matched.length)html+='<div class="classify-line"><span class="classify-mark ok">V</span> '+res.matched.join(', ')+'</div>';
+if(res.missed.length)html+='<div class="classify-line"><span class="classify-mark miss">X</span> Пропущено: '+res.missed.join(', ')+'</div>';
+if(res.extra.length)html+='<div class="classify-line"><span class="classify-mark extra">+</span> Лишнее: '+res.extra.join(', ')+'</div>';
+html+='</div>';
+html+='<div class="conspect"><div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">'+g.mechanism+'</div></div>';
+html+='<div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">'+g.sideEffects.map(function(e){return '<li>'+e+'</li>'}).join('')+'</ul></div></div>';
+html+='<button class="next-btn" onclick="nextClassify()">'+(s.index+1>=s.groups.length?'Завершить':'Следующая группа')+'</button></div>';
 screenEl.innerHTML=html;
 }
 function nextClassify(){state.classifySession.index++;renderClassifyQuestion()}
@@ -715,63 +775,52 @@ const pct=totalDrugs?Math.round(totalMatched/totalDrugs*100):0;
 const weakGroups=s.results.filter(function(r){return r.correct<r.total});
 state.progress._classifyTests=(state.progress._classifyTests||0)+1;
 saveProgress();
-let html='<div class="report-card">\n<div class="report-title">Классификация завершена</div>';
+let html='<div class="report-card"><div class="report-title">Классификация завершена</div>';
 html+='<div class="report-sub">'+totalGroups+' групп · '+totalDrugs+' препаратов</div>';
-html+='<div class="report-stats">\n<div class="report-stat">\n<div class="report-stat-val" style="color:var(--success)">'+fullCorrect+'</div>\n<div class="report-stat-lbl">полностью</div>\n</div>';
-html+='<div class="report-stat">\n<div class="report-stat-val" style="color:var(--warm)">'+partial+'</div>\n<div class="report-stat-lbl">частично</div>\n</div>';
-html+='<div class="report-stat">\n<div class="report-stat-val">'+pct+'%</div>\n<div class="report-stat-lbl">угадано</div>\n</div>\n</div>';
-if(weakGroups.length){html+='<div class="report-weak">\n<h4>Слабые группы:</h4>\n<div class="weak-list">\n'+weakGroups.map(function(r){return '<div class="weak-item">\n<strong>'+r.group+'</strong>\n<br>\n<span style="font-size:12px;color:var(--text-muted)">Угадано '+r.correct+' из '+r.total+(r.missed.length?'. Пропущено: '+r.missed.join(', '):'')+'</span>\n</div>'}).join('')+'\n</div>\n</div>'}
+html+='<div class="report-stats"><div class="report-stat"><div class="report-stat-val" style="color:var(--success)">'+fullCorrect+'</div><div class="report-stat-lbl">полностью</div></div>';
+html+='<div class="report-stat"><div class="report-stat-val" style="color:var(--warm)">'+partial+'</div><div class="report-stat-lbl">частично</div></div>';
+html+='<div class="report-stat"><div class="report-stat-val">'+pct+'%</div><div class="report-stat-lbl">угадано</div></div></div>';
+if(weakGroups.length){html+='<div class="report-weak"><h4>Слабые группы:</h4><div class="weak-list">'+weakGroups.map(function(r){return '<div class="weak-item"><strong>'+r.group+'</strong><br><span style="font-size:12px;color:var(--text-muted)">Угадано '+r.correct+' из '+r.total+(r.missed.length?'. Пропущено: '+r.missed.join(', '):'')+'</span></div>'}).join('')+'</div></div>'}
 else{html+='<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Идеальный результат!</div>'}
-html+='<div style="display:flex;gap:12px;flex-wrap:wrap">\n<button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen(\'classify\')">Пройти еще раз</button>';
-html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'session\')">К тестам</button>\n</div>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
+html+='<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen(\'classify\')">Пройти еще раз</button>';
+html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'session\')">К тестам</button></div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
 function renderClassifyConspects(){
 const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
 const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-let html='<div style="max-width:900px;margin:0 auto">\n'+renderClassifyTabs('conspect');
+let html='<div style="max-width:900px;margin:0 auto">'+renderClassifyTabs('conspect');
 html+='<div style="font-size:20px;font-weight:700;margin-bottom:6px">Конспекты групп</div>';
 html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:24px">Краткая справка по каждой группе.</div>';
-sections.forEach(function(sec,si){
-html+='<div style="margin-bottom:28px">\n<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">'+sec+'</div>';
-GROUPS.filter(function(g){return g.section===sec}).forEach(function(g){
-html+='<div class="conspect-card">\n<div class="conspect-card-head">\n<div class="conspect-dot" style="background:'+colors[si%colors.length]+'"></div>\n<div class="conspect-card-title">'+g.group+'</div>\n</div>';
+sections.forEach(function(sec,si){html+='<div style="margin-bottom:28px"><div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">'+sec+'</div>';
+GROUPS.filter(function(g){return g.section===sec}).forEach(function(g){html+='<div class="conspect-card"><div class="conspect-card-head"><div class="conspect-dot" style="background:'+colors[si%colors.length]+'"></div><div class="conspect-card-title">'+g.group+'</div></div>';
 html+='<div class="conspect-card-drugs">'+g.drugs.join(' · ')+'</div>';
-html+='<div class="conspect-block">\n<div class="conspect-label">Механизм</div>\n<div class="conspect-text">'+g.mechanism+'</div>\n</div>';
-html+='<div class="conspect-block">\n<div class="conspect-label">Побочные эффекты</div>\n<ul class="conspect-list">\n'+g.sideEffects.map(function(e){return '<li>'+e+'</li>'}).join('')+'\n</ul>\n</div>\n</div>';
-});
-html+='\n</div>';
-});
+html+='<div class="conspect-block"><div class="conspect-label">Механизм</div><div class="conspect-text">'+g.mechanism+'</div></div>';
+html+='<div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">'+g.sideEffects.map(function(e){return '<li>'+e+'</li>'}).join('')+'</ul></div></div>'});
+html+='</div>'});
 html+='<button class="next-btn" onclick="setScreen(\'classify\')">Назад к выбору разделов</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
-function renderClassifyTabs(active){
-return '<div class="classify-tabs">\n<button class="ctab '+(active==='input'?'active':'')+'" onclick="switchClassifyTab(\'input\')">Ввод ответа</button>\n<button class="ctab '+(active==='distribute'?'active':'')+'" onclick="switchClassifyTab(\'distribute\')">Распределение</button>\n<button class="ctab '+(active==='conspect'?'active':'')+'" onclick="switchClassifyTab(\'conspect\')">Конспекты</button>\n</div>';
-}
-function switchClassifyTab(t){
-state.classifyMode=t;
-if(t==='input')renderClassifySetup();
-else if(t==='distribute')renderDistributeSetup();
-else if(t==='conspect')renderClassifyConspects();
-}
+function renderClassifyTabs(active){return '<div class="classify-tabs"><button class="ctab '+(active==='input'?'active':'')+'" onclick="switchClassifyTab(\'input\')">Ввод ответа</button><button class="ctab '+(active==='distribute'?'active':'')+'" onclick="switchClassifyTab(\'distribute\')">Распределение</button><button class="ctab '+(active==='conspect'?'active':'')+'" onclick="switchClassifyTab(\'conspect\')">Конспекты</button></div>'}
+function switchClassifyTab(t){state.classifyMode=t;if(t==='input')renderClassifySetup();else if(t==='distribute')renderDistributeSetup();else if(t==='conspect')renderClassifyConspects()}
 function renderDistributeSetup(){
 const sections=Array.from(new Set(GROUPS.map(function(g){return g.section})));
 const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
 if(state.selectedClassifySections._init!==true){sections.forEach(function(s){state.selectedClassifySections[s]=true});state.selectedClassifySections._init=true}
 const selectedCount=sections.filter(function(s){return state.selectedClassifySections[s]}).length;
 const totalDrugs=sections.filter(function(s){return state.selectedClassifySections[s]}).reduce(function(sum,s){return sum+GROUPS.filter(function(g){return g.section===s}).reduce(function(a,g){return a+g.drugs.length},0)},0);
-let html='<div class="case-picker">\n'+renderClassifyTabs('distribute');
+let html='<div class="case-picker">'+renderClassifyTabs('distribute');
 html+='<div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>';
 html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Разложи препараты по группам. Перетаскивай или тапни препарат, потом группу.</div>';
-html+='<div class="topic-actions">\n<button onclick="selectAllClassify(true)">Выбрать все</button>\n<button onclick="selectAllClassify(false)">Снять все</button>\n</div>';
-html+='<div style="margin-bottom:24px">\n';
-sections.forEach(function(sec,i){html+='<div class="topic-pick '+(state.selectedClassifySections[sec]?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')">\n<div class="topic-check" style="background:'+(state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)')+';color:'+(state.selectedClassifySections[sec]?'#fff':'var(--text-muted)')+'">'+(state.selectedClassifySections[sec]?'V':'')+'</div>\n<div class="topic-pick-info">\n<div class="topic-pick-title">'+sec+'</div>\n<div class="topic-pick-sub">'+GROUPS.filter(function(g){return g.section===sec}).reduce(function(a,g){return a+g.drugs.length},0)+' препаратов</div>\n</div>\n</div>'});
-html+='\n</div>';
-html+='<div class="summary-box">\n<div class="lbl">Доступно</div>\n<div class="val">'+totalDrugs+' препаратов</div>\n<div class="sub">'+selectedCount+' разделов</div>\n</div>';
-html+='<button class="next-btn" '+(totalDrugs===0?'disabled='' style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'')+' onclick="startDistribute()">Начать</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
+html+='<div class="topic-actions"><button onclick="selectAllClassify(true)">Выбрать все</button><button onclick="selectAllClassify(false)">Снять все</button></div>';
+html+='<div style="margin-bottom:24px">';
+sections.forEach(function(sec,i){html+='<div class="topic-pick '+(state.selectedClassifySections[sec]?'selected':'')+'" onclick="toggleClassifySection(\''+sec+'\')"><div class="topic-check" style="background:'+(state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)')+';color:'+(state.selectedClassifySections[sec]?'#fff':'var(--text-muted)')+'">'+(state.selectedClassifySections[sec]?'V':'')+'</div><div class="topic-pick-info"><div class="topic-pick-title">'+sec+'</div><div class="topic-pick-sub">'+GROUPS.filter(function(g){return g.section===sec}).reduce(function(a,g){return a+g.drugs.length},0)+' препаратов</div></div></div>'});
+html+='</div>';
+html+='<div class="summary-box"><div class="lbl">Доступно</div><div class="val">'+totalDrugs+' препаратов</div><div class="sub">'+selectedCount+' разделов</div></div>';
+html+='<button class="next-btn" '+(totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':'')+' onclick="startDistribute()">Начать</button>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen(\'dashboard\')">На главную</button></div>';
 screenEl.innerHTML=html;
 }
 function startDistribute(){
@@ -794,39 +843,22 @@ const d=state.distribute;
 const placedCount=Object.keys(d.placement).length;
 const allPlaced=placedCount===d.round.length;
 const correctCount=d.round.filter(function(r,i){return d.placement[i]===r.group}).length;
-let html='<div class="dist-wrap">\n<div class="dist-header">\n<div class="dist-title">Распредели препараты по группам</div>';
-html+='<div class="dist-sub">'+(d.checked?'Результат: '+correctCount+' из '+d.round.length+' правильно':'Перетащи карточку в группу или тапни препарат, потом группу')+'</div>\n</div>';
-html+='<div class="dist-zones">\n';
-d.groups.forEach(function(g,gi){
-html+='<div class="dist-zone '+(d.checked?'checked':'')+'" onclick="dropDrug('+gi+')" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="event.preventDefault();this.classList.remove(\'over\');dropDrug('+gi+')">\n';
-html+='<div class="dist-zone-title">'+g+'</div><div class="dist-zone-items">\n';
-d.round.forEach(function(r,i){
-if(d.placement[i]!==g)return;
-let cls='';
-if(d.checked)cls=r.group===g?'correct':'wrong';
-html+='<div class="dist-drug-chip '+cls+'">'+r.drug+'</div>';
-});
-html+='\n</div>\n</div>';
-});
-html+='\n</div>';
-if(!allPlaced){
-html+='<div class="dist-pool-wrap">\n<div class="dist-pool-title">\nОсталось распределить: <strong>'+(d.round.length-placedCount)+'</strong>\n</div>\n<div class="dist-pool">\n';
-d.round.forEach(function(r,i){
-if(d.placement[i]!==undefined)return;
-const sel=d.selected===i?'selected':'';
-html+='<div class="dist-drug-pool '+sel+'" draggable="true" ondragstart="startDrag('+i+',event)" onclick="selectDrug('+i+')">'+r.drug+'</div>';
-});
-html+='\n</div>\n</div>';
-}
-if(d.checked){
-html+='<div class="dist-result">\n<div class="dist-result-score">'+correctCount+' / '+d.round.length+'</div>\n<div class="dist-result-label">правильно</div>\n</div>';
+let html='<div class="dist-wrap"><div class="dist-header"><div class="dist-title">Распредели препараты по группам</div>';
+html+='<div class="dist-sub">'+(d.checked?'Результат: '+correctCount+' из '+d.round.length+' правильно':'Перетащи карточку в группу или тапни препарат, потом группу')+'</div></div>';
+html+='<div class="dist-zones">';
+d.groups.forEach(function(g,gi){html+='<div class="dist-zone '+(d.checked?'checked':'')+'" onclick="dropDrug('+gi+')" ondragover="event.preventDefault();this.classList.add(\'over\')" ondragleave="this.classList.remove(\'over\')" ondrop="event.preventDefault();this.classList.remove(\'over\');dropDrug('+gi+')"><div class="dist-zone-title">'+g+'</div><div class="dist-zone-items">';
+d.round.forEach(function(r,i){if(d.placement[i]!==g)return;let cls='';if(d.checked)cls=r.group===g?'correct':'wrong';html+='<div class="dist-drug-chip '+cls+'">'+r.drug+'</div>'});
+html+='</div></div>'});
+html+='</div>';
+if(!allPlaced){html+='<div class="dist-pool-wrap"><div class="dist-pool-title">Осталось распределить: <strong>'+(d.round.length-placedCount)+'</strong></div><div class="dist-pool">';
+d.round.forEach(function(r,i){if(d.placement[i]!==undefined)return;const sel=d.selected===i?'selected':'';html+='<div class="dist-drug-pool '+sel+'" draggable="true" ondragstart="startDrag('+i+',event)" onclick="selectDrug('+i+')">'+r.drug+'</div>'});
+html+='</div></div>'}
+if(d.checked){html+='<div class="dist-result"><div class="dist-result-score">'+correctCount+' / '+d.round.length+'</div><div class="dist-result-label">правильно</div></div>';
 html+='<button class="next-btn" onclick="startDistribute()">Новый раунд</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">Назад</button>';
-}else{
-html+='<button class="next-btn" '+(allPlaced?'':'disabled='' style="opacity:0.4;cursor:not-allowed;box-shadow:none"')+' onclick="checkDistribute()">Проверить</button>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">Назад</button>';
-}
-html+='\n</div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">Назад</button>'}
+else{html+='<button class="next-btn" '+(allPlaced?'':'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"')+' onclick="checkDistribute()">Проверить</button>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">Назад</button>'}
+html+='</div>';
 screenEl.innerHTML=html;
 }
 function selectDrug(i){const d=state.distribute;if(d.checked)return;d.selected=d.selected===i?null:i;renderDistributeRound()}
@@ -835,10 +867,10 @@ function dropDrug(gi){const d=state.distribute;if(d.checked)return;if(d.selected
 function checkDistribute(){state.distribute.checked=true;renderDistributeRound()}
 function renderCasePicker(){
 const cases=Object.values(CASES);
-let html='<div class="case-picker">\n<div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>';
+let html='<div class="case-picker"><div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>';
 html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Интерактивные истории с ветвлением.</div>';
-cases.forEach(function(c){html+='<div class="case-pick-item" onclick="startCase(\''+c.id+'\')">\n<div class="case-pick-icon">></div>\n<div class="case-pick-info">\n<div class="case-pick-title">'+c.title+'</div>\n<div class="case-pick-sub">'+c.section+'</div>\n</div>\n</div>'});
-html+='\n</div>';
+cases.forEach(function(c){html+='<div class="case-pick-item" onclick="startCase(\''+c.id+'\')"><div class="case-pick-icon">></div><div class="case-pick-info"><div class="case-pick-title">'+c.title+'</div><div class="case-pick-sub">'+c.section+'</div></div></div>'});
+html+='</div>';
 screenEl.innerHTML=html;
 }
 function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};renderCaseNode()}
@@ -846,24 +878,21 @@ function renderCaseNode(){
 const cs=state.caseState;
 const C=CASES[cs.caseId];
 const node=C.nodes[cs.nodeId];
-if(node.isEnd){
-let html='<div class="case-card">\n<div class="case-header">\n<span class="case-badge">КЕЙС ЗАВЕРШЕН</span>\n<span class="case-title">'+C.title+'</span>\n</div>';
+if(node.isEnd){let html='<div class="case-card"><div class="case-header"><span class="case-badge">КЕЙС ЗАВЕРШЕН</span><span class="case-title">'+C.title+'</span></div>';
 html+='<div class="case-intro">'+C.intro+'</div>';
-html+='<div style="padding:20px;background:var(--success-soft);border-radius:16px;margin-bottom:16px">\n<div style="font-size:13px;font-weight:700;color:#2f8b5c;margin-bottom:8px">Итог кейса</div>\n<div style="font-size:13px;line-height:1.6">'+node.summary+'</div>\n</div>';
-html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">\n'+node.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('')+'\n</div>';
+html+='<div style="padding:20px;background:var(--success-soft);border-radius:16px;margin-bottom:16px"><div style="font-size:13px;font-weight:700;color:#2f8b5c;margin-bottom:8px">Итог кейса</div><div style="font-size:13px;line-height:1.6">'+node.summary+'</div></div>';
+html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">'+node.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('')+'</div>';
 html+='<div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">Источник: '+node.source+'</div>';
-html+='<div style="display:flex;gap:12px;flex-wrap:wrap">\n<button class="next-btn" style="flex:1;min-width:180px" onclick="startCase(\''+C.id+'\')">Пройти заново</button>';
-html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'case\')">К списку кейсов</button>\n</div>';
-html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button>\n</div>';
-screenEl.innerHTML=html;
-return;
-}
-let html='<div class="case-card">\n<div class="case-header">\n<span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span>\n<span class="case-title">'+C.title+'</span>\n</div>';
+html+='<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="next-btn" style="flex:1;min-width:180px" onclick="startCase(\''+C.id+'\')">Пройти заново</button>';
+html+='<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen(\'case\')">К списку кейсов</button></div>';
+html+='<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen(\'dashboard\')">На главную</button></div>';
+screenEl.innerHTML=html;return}
+let html='<div class="case-card"><div class="case-header"><span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span><span class="case-title">'+C.title+'</span></div>';
 html+='<div class="case-intro">'+C.intro+'</div>';
 html+='<div class="case-question">'+node.question+'</div>';
-html+='<div class="q-options" id="caseOptions">\n';
-node.options.forEach(function(opt,i){html+='<button class="q-option" onclick="answerCase('+i+')">\n<span class="q-option-letter">'+(i+1)+'</span>\n<span>'+opt.text+'</span>\n</button>'});
-html+='\n</div><div id="caseFeedback"></div>\n</div>';
+html+='<div class="q-options" id="caseOptions">';
+node.options.forEach(function(opt,i){html+='<button class="q-option" onclick="answerCase('+i+')"><span class="q-option-letter">'+(i+1)+'</span><span>'+opt.text+'</span></button>'});
+html+='</div><div id="caseFeedback"></div></div>';
 screenEl.innerHTML=html;
 }
 function answerCase(i){
@@ -878,73 +907,40 @@ function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode()}
 function renderReference(){
 const sections=Array.from(new Set(REFERENCE.map(function(r){return r.section})));
 let html='';
-sections.forEach(function(sec){
-html+='<div class="ref-section">\n<div class="ref-section-title">'+sec+'</div>\n<div class="ref-grid">\n';
-REFERENCE.filter(function(r){return r.section===sec}).forEach(function(r){
-const globalIdx=REFERENCE.indexOf(r);
-html+='<div class="ref-card" onclick="toggleRef('+globalIdx+')">\n<div class="ref-card-head">\n<div class="ref-icon" style="background:'+r.bg+';color:'+r.color+'">'+r.icon+'</div>\n<h3>'+r.title+'</h3>\n</div>\n<p>'+r.desc+'</p>\n<div class="ref-drugs">\n'+r.drugs.map(function(d){return '<span class="ref-drug">'+d+'</span>'}).join('')+'\n</div>\n<div id="refDetails'+globalIdx+'" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">'+r.details+'</div>\n</div>';
-});
-html+='\n</div>\n</div>';
-});
+sections.forEach(function(sec){html+='<div class="ref-section"><div class="ref-section-title">'+sec+'</div><div class="ref-grid">';
+REFERENCE.filter(function(r){return r.section===sec}).forEach(function(r){const globalIdx=REFERENCE.indexOf(r);html+='<div class="ref-card" onclick="toggleRef('+globalIdx+')"><div class="ref-card-head"><div class="ref-icon" style="background:'+r.bg+';color:'+r.color+'">'+r.icon+'</div><h3>'+r.title+'</h3></div><p>'+r.desc+'</p><div class="ref-drugs">'+r.drugs.map(function(d){return '<span class="ref-drug">'+d+'</span>'}).join('')+'</div><div id="refDetails'+globalIdx+'" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">'+r.details+'</div></div>'});
+html+='</div></div>'});
 return html;
 }
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
 function renderSettings(){
 const s=getStats();
-const palettes=[
-{id:'warm',name:'Теплая',sub:'Крем и персик',grad:'linear-gradient(135deg,#ffb8a0,#c5b5e8)'},
-{id:'mint',name:'Мятная',sub:'Свежая и чистая',grad:'linear-gradient(135deg,#8dd4c4,#a8c8e0)'},
-{id:'lavender',name:'Лавандовая',sub:'Мягкая и нежная',grad:'linear-gradient(135deg,#c8aae0,#f0b5d0)'}
-];
-let html='<div style="max-width:700px">\n';
-html+='<div class="panel" style="margin-bottom:16px">\n<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Палитра</h3>\n<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">\n';
-palettes.forEach(function(p){html+='<div class="palette-card '+(getPalette()===p.id?'active':'')+'" onclick="setPalette(\''+p.id+'\')">\n<div class="palette-swatch" style="background:'+p.grad+'"></div>\n<div class="palette-name">'+p.name+'</div>\n<div class="palette-sub">'+p.sub+'</div>\n</div>'});
-html+='\n</div>\n</div>';
-html+='<div class="panel" style="margin-bottom:16px">\n<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Режим</h3>\n<div style="display:flex;gap:10px;flex-wrap:wrap">\n';
+const palettes=[{id:'warm',name:'Теплая',sub:'Крем и персик',grad:'linear-gradient(135deg,#ffb8a0,#c5b5e8)'},{id:'mint',name:'Мятная',sub:'Свежая и чистая',grad:'linear-gradient(135deg,#8dd4c4,#a8c8e0)'},{id:'lavender',name:'Лавандовая',sub:'Мягкая и нежная',grad:'linear-gradient(135deg,#c8aae0,#f0b5d0)'}];
+let html='<div style="max-width:700px">';
+html+='<div class="panel" style="margin-bottom:16px"><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Палитра</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">';
+palettes.forEach(function(p){html+='<div class="palette-card '+(getPalette()===p.id?'active':'')+'" onclick="setPalette(\''+p.id+'\')"><div class="palette-swatch" style="background:'+p.grad+'"></div><div class="palette-name">'+p.name+'</div><div class="palette-sub">'+p.sub+'</div></div>'});
+html+='</div></div>';
+html+='<div class="panel" style="margin-bottom:16px"><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Режим</h3><div style="display:flex;gap:10px;flex-wrap:wrap">';
 [{v:'light',l:'Светлая'},{v:'dark',l:'Темная'},{v:'system',l:'Как в системе'}].forEach(function(o){html+='<button class="theme-toggle" onclick="setMode(\''+o.v+'\')" style="'+(getMode()===o.v?'border-color:var(--accent);color:var(--accent-deep)':'')+'">'+o.l+'</button>'});
-html+='\n</div>\n</div>';
-html+='<div class="panel" style="margin-bottom:16px">\n<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Прогресс</h3>';
-html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">\nПройдено вопросов: <strong style="color:var(--text)">'+s.answered+'</strong><br>\nПройдено тестов: <strong style="color:var(--text)">'+s.tests+'</strong><br>\nТочность: <strong style="color:var(--text)">'+s.accuracy+'%</strong>\n</div>';
-html+='<button class="next-btn" style="background:var(--error);max-width:240px" onclick="resetProgress()">Сбросить прогресс</button>\n</div>';
-html+='<div class="panel">\n<h3 style="font-size:15px;font-weight:700;margin-bottom:12px">О приложении</h3>\n<div style="font-size:13px;color:var(--text-muted);line-height:1.7">\n<strong style="color:var(--text)">PharmStudy</strong> - бета-версия.<br>\nРазделы: Холиномиметики, Холиноблокаторы, Миорелаксанты, Адреномиметики, Адреноблокаторы.<br>Источник: Харкевич Д.А., Фармакология.</div>\n</div>\n</div>';
+html+='</div></div>';
+html+='<div class="panel" style="margin-bottom:16px"><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Прогресс</h3>';
+html+='<div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Пройдено вопросов: <strong style="color:var(--text)">'+s.answered+'</strong><br>Пройдено тестов: <strong style="color:var(--text)">'+s.tests+'</strong><br>Точность: <strong style="color:var(--text)">'+s.accuracy+'%</strong></div>';
+html+='<button class="next-btn" style="background:var(--error);max-width:240px" onclick="resetProgress()">Сбросить прогресс</button></div>';
+html+='<div class="panel"><h3 style="font-size:15px;font-weight:700;margin-bottom:12px">О приложении</h3><div style="font-size:13px;color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">PharmStudy</strong> - бета-версия.<br>Разделы: Холиномиметики, Холиноблокаторы, Миорелаксанты, Адреномиметики, Адреноблокаторы.<br>Источник: Харкевич Д.А., Фармакология.</div></div></div>';
 return html;
 }
 function resetProgress(){if(confirm('Сбросить весь прогресс?')){state.progress={};saveProgress();setScreen('dashboard')}}
 function renderSynapse(){
-screenEl.innerHTML='<div class="synapse-wrap">\n<div class="synapse-scenarios" id="synapseScenarios">\n'+Object.entries(SCENARIOS).map(function(e){const k=e[0],v=e[1];return '<button class="scen-btn '+(k==='normal'?'active':'')+'" data-scen="'+k+'">'+v.name+'</button>'}).join('')+'\n</div>\n<div class="synapse-stage">\n<svg class="synapse-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">'+SYNAPSE_SVG.join('')+'</svg>\n<div class="synapse-tooltip" id="synapseTooltip"></div>\n</div>\n<div class="synapse-info" id="synapseInfo">\n<div class="synapse-info-title">Наведи на любой элемент схемы</div>\n<div class="synapse-info-desc">Кликни - появится подробное описание. Или выбери сценарий сверху.</div>\n</div>\n<div class="synapse-chain">\n<div class="synapse-chain-title">Что происходит</div>\n<div class="synapse-chain-text" id="synapseChainText">Физиологическая передача. Потенциал действия - вход Ca - везикулы сливаются с мембраной - АХ выходит в щель - связывается с рецепторами - АХЭ разрушает АХ.</div>\n</div>\n</div>';
+screenEl.innerHTML='<div class="synapse-wrap"><div class="synapse-scenarios" id="synapseScenarios">'+Object.entries(SCENARIOS).map(function(e){const k=e[0],v=e[1];return '<button class="scen-btn '+(k==='normal'?'active':'')+'" data-scen="'+k+'">'+v.name+'</button>'}).join('')+'</div><div class="synapse-stage"><svg class="synapse-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">'+SYNAPSE_SVG+'</svg><div class="synapse-tooltip" id="synapseTooltip"></div></div><div class="synapse-info" id="synapseInfo"><div class="synapse-info-title">Наведи на любой элемент схемы</div><div class="synapse-info-desc">Кликни - появится подробное описание. Или выбери сценарий сверху.</div></div><div class="synapse-chain"><div class="synapse-chain-title">Что происходит</div><div class="synapse-chain-text" id="synapseChainText">Физиологическая передача. Потенциал действия - вход Ca - везикулы сливаются с мембраной - АХ выходит в щель - связывается с рецепторами - АХЭ разрушает АХ.</div></div></div>';
 const svg=document.getElementById('synapseSvg');
 const tooltip=document.getElementById('synapseTooltip');
 const stage=svg.parentElement;
-svg.querySelectorAll('.synapse-el').forEach(function(el){
-el.addEventListener('mousemove',function(e){const r=stage.getBoundingClientRect();tooltip.textContent=el.dataset.name;tooltip.style.left=(e.clientX-r.left+14)+'px';tooltip.style.top=(e.clientY-r.top+14)+'px';tooltip.classList.add('show')});
-el.addEventListener('mouseleave',function(){tooltip.classList.remove('show')});
-el.addEventListener('click',function(){document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'});
-});
-document.querySelectorAll('#synapseScenarios .scen-btn').forEach(function(b){
-b.addEventListener('click',function(){
-const key=b.dataset.scen;
-document.querySelectorAll('#synapseScenarios .scen-btn').forEach(function(x){x.classList.toggle('active',x===b)});
-svg.setAttribute('data-scenario',key);
-document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
-});
-});
+svg.querySelectorAll('.synapse-el').forEach(function(el){el.addEventListener('mousemove',function(e){const r=stage.getBoundingClientRect();tooltip.textContent=el.dataset.name;tooltip.style.left=(e.clientX-r.left+14)+'px';tooltip.style.top=(e.clientY-r.top+14)+'px';tooltip.classList.add('show')});el.addEventListener('mouseleave',function(){tooltip.classList.remove('show')});el.addEventListener('click',function(){document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'})});
+document.querySelectorAll('#synapseScenarios .scen-btn').forEach(function(b){b.addEventListener('click',function(){const key=b.dataset.scen;document.querySelectorAll('#synapseScenarios .scen-btn').forEach(function(x){x.classList.toggle('active',x===b)});svg.setAttribute('data-scenario',key);document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain})});
 }
 function getPalette(){return localStorage.getItem('pharm_palette')||'warm'}
 function getMode(){return localStorage.getItem('pharm_mode')||'light'}
-function applyTheme(){
-const palette=getPalette();
-let mode=getMode();
-if(mode==='system')mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-document.documentElement.setAttribute('data-theme',palette+'-'+mode);
-let meta=document.querySelector('meta[name="theme-color"]');
-if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}
-const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};
-meta.content=colors[palette][mode];
-const icon=document.getElementById('themeIcon');
-const label=document.getElementById('themeLabel');
-if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Темная'}
-else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая'}
-}
+function applyTheme(){const palette=getPalette();let mode=getMode();if(mode==='system')mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',palette+'-'+mode);let meta=document.querySelector('meta[name="theme-color"]');if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};meta.content=colors[palette][mode];const icon=document.getElementById('themeIcon');const label=document.getElementById('themeLabel');if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Темная'}else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая'}}
 function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 document.getElementById('themeToggle').addEventListener('click',function(){setMode(getMode()==='dark'?'light':'dark')});
