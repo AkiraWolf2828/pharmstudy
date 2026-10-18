@@ -289,6 +289,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .theme-toggle span{display:none}
   .stat-value{font-size:24px}
   .synapse-stage{border-radius:16px}
+/* --- НОВЫЕ СТИЛИ ДЛЯ ГЛАЗА --- */
+.eye-svg {
+  background: #0d1117; /* Темный фон как на твоем скриншоте */
+}
+.eye-svg .eye-part {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.eye-svg .pupil { transform-origin: center; transform-box: fill-box; }
+.eye-svg .lens { transform-origin: center; transform-box: fill-box; }
+.eye-svg .ciliary { transform-origin: center; transform-box: fill-box; }
+
+/* Сценарий: Пилокарпин (Миоз, спазм аккомодации) */
+.eye-svg[data-scenario="m-agonist"] .pupil { transform: scale(0.4); }
+.eye-svg[data-scenario="m-agonist"] .lens { transform: scaleY(1.25) scaleX(1.05); }
+.eye-svg[data-scenario="m-agonist"] .ciliary { transform: scale(0.85); fill: #ff6b6b; }
+
+/* Сценарий: Атропин (Мидриаз, циклоплегия) */
+.eye-svg[data-scenario="m-blocker"] .pupil { transform: scale(1.6); }
+.eye-svg[data-scenario="m-blocker"] .lens { transform: scaleY(0.8) scaleX(0.95); }
+.eye-svg[data-scenario="m-blocker"] .ciliary { transform: scale(1.1); fill: #4a90e2; }
+
+/* Сценарий: Глаукома (Закрытие угла, отек) */
+.eye-svg[data-scenario="acute-glaucoma"] .pupil { transform: scale(1.4); }
+.eye-svg[data-scenario="acute-glaucoma"] .lens { transform: scaleY(1.1); }
+.eye-svg[data-scenario="acute-glaucoma"] .trabecular { 
+  fill: #ff3333; 
+  filter: drop-shadow(0 0 10px #ff0000); 
+  animation: pulseRed 1s infinite alternate; 
+}
+.eye-svg[data-scenario="acute-glaucoma"] .iris {
+  transform: translateY(-5px); /* Радужка выбухает */
+}
+
+@keyframes pulseRed {
+  from { filter: drop-shadow(0 0 5px #ff0000); }
+  to { filter: drop-shadow(0 0 20px #ff0000); }
+}
 }
 </style>
 </head>
@@ -1101,42 +1140,73 @@ function renderSynapseContent(){
   });
 }
 
-const EYE_SVG=[
-'<rect width="1000" height="620" fill="#151b30"/>',
-'<ellipse cx="520" cy="310" rx="340" ry="255" fill="#e5d5c5" stroke="#8a6a5a" stroke-width="5"/>',
-'<ellipse cx="580" cy="310" rx="270" ry="210" fill="#d0e8f5" opacity="0.3"/>',
-'<path d="M 810 110 Q 880 310 810 510" stroke="#ffb0b0" stroke-width="6" fill="none"/>',
-'<path d="M 830 310 L 970 310" stroke="#c09030" stroke-width="26" stroke-linecap="round"/>',
-'<path d="M 230 105 Q 105 310 230 515" fill="#a8d8f0" opacity="0.6" stroke="#88b8d0" stroke-width="4"/>',
-'<path d="M 290 190 Q 330 168 375 190 L 375 245 Q 330 230 290 245 Z" fill="#d85868" class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Сокращается под действием пилокарпина, расслабляется под действием атропина."/>',
-'<path d="M 290 375 Q 330 380 375 375 L 375 430 Q 330 452 290 430 Z" fill="#d85868" class="ciliary-el synapse-el" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Гладкая мышца с М3-рецепторами."/>',
-'<ellipse cx="460" cy="310" rx="48" ry="115" fill="#a0d0e8" stroke="#5a80a0" stroke-width="3" class="lens-el synapse-el" data-el="lens" data-name="Хрусталик" data-desc="Меняет кривизну за счет цилиарной мышцы."/>',
-'<path d="M 230 190 L 290 190 L 290 260 Q 260 275 230 270 Z" fill="#7a5030" class="iris-el synapse-el" data-el="iris" data-name="Радужка" data-desc="Пилокарпин вызывает миоз, атропин - мидриаз."/>',
-'<path d="M 230 350 Q 260 345 290 360 L 290 430 L 230 430 Z" fill="#7a5030" class="iris-el synapse-el" data-el="iris" data-name="Радужка" data-desc="Круговая мышца радужки."/>',
-'<path d="M 230 135 L 260 150 M 230 150 L 260 165 M 230 165 L 260 180" stroke="#e0b060" stroke-width="2" class="trabecular-el synapse-el" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Фильтрация влаги. При глаукоме перекрывается."/>',
-'<g font-family="-apple-system,sans-serif"><text x="80" y="60" font-size="14" font-weight="700" fill="#a8d8f0">Роговица</text><text x="250" y="85" font-size="14" font-weight="700" fill="#e8b8a0">Радужка</text><text x="420" y="85" font-size="14" font-weight="700" fill="#a0d0e8">Хрусталик</text><text x="290" y="155" font-size="12" font-weight="700" fill="#ff8898">Цилиарная мышца</text><text x="830" y="85" font-size="14" font-weight="700" fill="#ffb0b0">Сетчатка</text></g>'
-].join('');
+const EYE_SVG = `
+<image href="eye.svg" x="0" y="0" width="1000" height="620" />
+<!-- Невидимые интерактивные зоны поверх картинки -->
+<g class="synapse-el eye-part pupil" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в радужке. При миозе сужается, при мидриазе расширяется." style="cursor:pointer;">
+  <circle cx="285" cy="310" r="30" fill="transparent" />
+</g>
+<g class="synapse-el eye-part lens" data-el="lens" data-name="Хрусталик" data-desc="Меняет кривизну. Пилокарпин вызывает спазм аккомодации (становится выпуклым), атропин — циклоплегию (уплощается)." style="cursor:pointer;">
+  <ellipse cx="400" cy="310" rx="35" ry="90" fill="transparent" />
+</g>
+<g class="synapse-el eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Сокращается под действием М-холиномиметиков (пилокарпин), расслабляется под действием М-холиноблокаторов (атропин)." style="cursor:pointer;">
+  <path d="M 310 230 Q 350 200 390 230 L 390 260 Q 350 240 310 260 Z" fill="transparent" />
+  <path d="M 310 390 Q 350 420 390 390 L 390 360 Q 350 380 310 360 Z" fill="transparent" />
+</g>
+<g class="synapse-el eye-part trabecular" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Зона оттока внутриглазной жидкости. При глаукоме блокируется радужкой." style="cursor:pointer;">
+  <path d="M 250 200 L 290 200 L 290 240 L 250 230 Z" fill="transparent" />
+</g>
+<g class="synapse-el eye-part iris" data-el="iris" data-name="Радужка" data-desc="Определяет цвет глаз. Содержит мышцы, сужающие и расширяющие зрачок." style="cursor:pointer;">
+  <path d="M 250 220 L 290 220 L 290 280 L 250 280 Z" fill="transparent" />
+  <path d="M 250 340 L 290 340 L 290 400 L 250 400 Z" fill="transparent" />
+</g>
+`;
 
 function renderEyeContent(){
-  document.getElementById('vizContent').innerHTML=`<div class="synapse-wrap"><div class="synapse-scenarios" id="eyeScenarios">${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}</div><div class="synapse-stage"><svg class="eye-svg" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="--iris-shift:0px">${EYE_SVG}</svg><div class="synapse-tooltip" id="eyeTooltip"></div></div><div class="synapse-info" id="eyeInfo"><div class="synapse-info-title">Наведи на элемент схемы</div><div class="synapse-info-desc">Кликни для описания. Выбери сценарий сверху.</div></div><div class="synapse-chain"><div class="synapse-chain-title">Что происходит</div><div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца в умеренном тонусе.</div></div></div>`;
+  document.getElementById('vizContent').innerHTML=`
+    <div class="synapse-wrap">
+      <div class="synapse-scenarios" id="eyeScenarios">
+        ${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
+      </div>
+      <div class="synapse-stage" style="background:#0d1117;">
+        <svg class="eye-svg" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="width:100%; height:auto;">
+          ${EYE_SVG}
+        </svg>
+        <div class="synapse-tooltip" id="eyeTooltip"></div>
+      </div>
+      <div class="synapse-info" id="eyeInfo">
+        <div class="synapse-info-title">Наведи на элемент схемы</div>
+        <div class="synapse-info-desc">Кликни для описания. Выбери сценарий сверху.</div>
+      </div>
+      <div class="synapse-chain">
+        <div class="synapse-chain-title">Что происходит</div>
+        <div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца в умеренном тонусе. Водянистая влага свободно фильтруется.</div>
+      </div>
+    </div>`;
+    
   const svg=document.getElementById('eyeSvg');
   const tooltip=document.getElementById('eyeTooltip');
   const stage=svg.parentElement;
+  
   svg.querySelectorAll('.synapse-el').forEach(el=>{
-    el.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();tooltip.textContent=el.dataset.name;tooltip.style.left=(e.clientX-r.left+14)+'px';tooltip.style.top=(e.clientY-r.top+14)+'px';tooltip.classList.add('show')});
+    el.addEventListener('mousemove',e=>{
+      const r=stage.getBoundingClientRect();
+      tooltip.textContent=el.dataset.name;
+      tooltip.style.left=(e.clientX-r.left+14)+'px';
+      tooltip.style.top=(e.clientY-r.top+14)+'px';
+      tooltip.classList.add('show');
+    });
     el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
-    el.addEventListener('click',()=>{document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'});
+    el.addEventListener('click',()=>{
+      document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'
+    });
   });
+  
   document.querySelectorAll('#eyeScenarios .scen-btn').forEach(b=>{
     b.addEventListener('click',()=>{
       const key=b.dataset.scen;
       document.querySelectorAll('#eyeScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
       svg.setAttribute('data-scenario',key);
-      let shift='0px';
-      if(key==='m-agonist')shift='28px';
-      else if(key==='m-blocker')shift='-28px';
-      else if(key==='acute-glaucoma')shift='-38px';
-      svg.style.setProperty('--iris-shift',shift);
       document.getElementById('eyeChainText').innerHTML=EYE_SCENARIOS[key].chain;
     });
   });
