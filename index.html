@@ -8,11 +8,11 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --mint:#7cc5b8;--mint-soft:#e0f2ef;
-  --lavender-deco:#b8a8e0;--lavender-soft:#ede7f7;
-  --warm:#f5be7c;--warm-soft:#fdf0dd;
-  --success:#7fc99a;--success-soft:#e0f4e7;
-  --error:#f09098;--error-soft:#fde6e8;
+--mint:#7cc5b8;--mint-soft:#e0f2ef;
+--lavender-deco:#b8a8e0;--lavender-soft:#ede7f7;
+--warm:#f5be7c;--warm-soft:#fdf0dd;
+--success:#7fc99a;--success-soft:#e0f4e7;
+--error:#f09098;--error-soft:#fde6e8;
 }
 [data-theme="warm-light"]{--sidebar-bg:#b8d6ce;--sidebar-text:#5d7268;--sidebar-text-active:#2d3f38;--sidebar-active-bg:rgba(255,255,255,0.7);--bg:#faf4ec;--card:#ffffff;--card-2:#f7f0e6;--text:#3d3535;--text-muted:#8a7d78;--border:rgba(180,160,140,0.12);--shadow:0 4px 20px rgba(180,160,140,0.12);--shadow-sm:0 2px 10px rgba(180,160,140,0.08);--accent:#ff9e85;--accent-soft:#ffe6df;--accent-deep:#e8836a;--hero-from:#ffb8a0;--hero-to:#c5b5e8;--avatar-from:#ffc4b0;--avatar-to:#c5b5e8}
 [data-theme="warm-dark"]{--sidebar-bg:#232a28;--sidebar-text:#a8b8b0;--sidebar-text-active:#f0f5f0;--sidebar-active-bg:rgba(124,197,184,0.18);--bg:#2a2520;--card:#38322c;--card-2:#443d36;--text:#f5ede2;--text-muted:#a89c90;--border:rgba(255,255,255,0.05);--shadow:0 4px 20px rgba(0,0,0,0.25);--shadow-sm:0 2px 10px rgba(0,0,0,0.18);--accent:#ffa88e;--accent-soft:rgba(255,168,142,0.15);--accent-deep:#ff9578;--hero-from:#7a5a48;--hero-to:#5a4d70;--avatar-from:#c58a78;--avatar-to:#8a7ab0}
@@ -202,19 +202,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .conspect-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .conspect-card-title{font-size:15px;font-weight:700}
 .conspect-card-drugs{font-size:12px;color:var(--text-muted);margin-bottom:14px;font-weight:500}
-
 .viz-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
 .viz-tab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .viz-tab:hover{border-color:var(--accent);color:var(--text)}
 .viz-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-
 .synapse-wrap{max-width:1100px;margin:0 auto}
 .synapse-scenarios{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .scen-btn{padding:8px 14px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 .scen-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
 .scen-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(232,131,106,0.25)}
-.synapse-stage{position:relative;background:#1a2138;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
-.synapse-svg,.eye-svg{display:block;width:100%;height:auto}
+.synapse-stage{position:relative;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;padding:20px;display:flex;justify-content:center}
+.synapse-svg,.eye-svg{display:block;width:100%;max-width:600px;height:auto}
 .synapse-svg .synapse-el,.eye-svg .synapse-el{cursor:pointer;transition:filter .2s}
 .synapse-svg .synapse-el:hover,.eye-svg .synapse-el:hover{filter:brightness(1.35) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
 .synapse-tooltip{position:absolute;padding:8px 12px;background:rgba(20,28,40,0.95);color:#fff;font-size:12px;font-weight:600;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;border:1px solid rgba(255,255,255,0.15)}
@@ -239,7 +237,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .m-recept,.n-recept{transform-box:fill-box;transform-origin:center;transition:filter .3s}
 .ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:channelGlow 2.5s ease-in-out infinite}
 .block-x{display:none}
-
 @keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
 @keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes achePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
@@ -263,12 +260,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
 .synapse-svg[data-scenario="normal"] .ca-channel-anim{filter:drop-shadow(0 0 8px #b8a0ff)}
 
-/* --- НОВЫЕ СТИЛИ ДЛЯ ГЛАЗА --- */
-.eye-svg .eye-part {
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
-  transform-origin: center;
-  transform-box: fill-box;
-}
+/* --- УЛУЧШЕННЫЕ СТИЛИ ДЛЯ ГЛАЗА (АТЛАСНЫЙ СТИЛЬ) --- */
+.eye-svg .eye-part { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), fill 0.4s ease, filter 0.4s ease; transform-origin: center; transform-box: fill-box; }
 .eye-svg .pupil { transform-origin: center; transform-box: fill-box; }
 .eye-svg .lens { transform-origin: center; transform-box: fill-box; }
 .eye-svg .ciliary { transform-origin: center; transform-box: fill-box; }
@@ -276,78 +269,75 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 /* Сценарий: Пилокарпин (Миоз, спазм аккомодации) */
 .eye-svg[data-scenario="m-agonist"] .pupil { transform: scale(0.4); }
 .eye-svg[data-scenario="m-agonist"] .lens { transform: scaleY(1.25) scaleX(1.05); }
-.eye-svg[data-scenario="m-agonist"] .ciliary { transform: scale(0.85); fill: rgba(255, 107, 107, 0.4); }
+.eye-svg[data-scenario="m-agonist"] .ciliary { transform: scale(0.85); fill: rgba(255, 107, 107, 0.7) !important; }
 
 /* Сценарий: Атропин (Мидриаз, циклоплегия) */
 .eye-svg[data-scenario="m-blocker"] .pupil { transform: scale(1.6); }
 .eye-svg[data-scenario="m-blocker"] .lens { transform: scaleY(0.8) scaleX(0.95); }
-.eye-svg[data-scenario="m-blocker"] .ciliary { transform: scale(1.1); fill: rgba(74, 144, 226, 0.4); }
+.eye-svg[data-scenario="m-blocker"] .ciliary { transform: scale(1.1); fill: rgba(74, 144, 226, 0.7) !important; }
 
 /* Сценарий: Глаукома (Закрытие угла, отек) */
 .eye-svg[data-scenario="acute-glaucoma"] .pupil { transform: scale(1.4); }
 .eye-svg[data-scenario="acute-glaucoma"] .lens { transform: scaleY(1.1); }
-.eye-svg[data-scenario="acute-glaucoma"] .trabecular { 
-  fill: rgba(255, 51, 51, 0.6); 
-  filter: drop-shadow(0 0 10px #ff0000); 
-  animation: pulseRed 1s infinite alternate; 
-}
-.eye-svg[data-scenario="acute-glaucoma"] .iris {
-  transform: translateY(-5px);
-}
-@keyframes pulseRed {
-  from { filter: drop-shadow(0 0 5px #ff0000); }
-  to { filter: drop-shadow(0 0 20px #ff0000); }
-}
+.eye-svg[data-scenario="acute-glaucoma"] .trabecular { fill: rgba(255, 51, 51, 0.8) !important; filter: drop-shadow(0 0 10px #ff0000); animation: pulseRed 1s infinite alternate; }
+.eye-svg[data-scenario="acute-glaucoma"] .iris { transform: translate(6px, -2px); } /* Смещение вперед для имитации iris bombe */
+
+@keyframes pulseRed { from { filter: drop-shadow(0 0 5px #ff0000); } to { filter: drop-shadow(0 0 20px #ff0000); } }
+
+/* Адаптация под темную тему */
+[data-theme$="-dark"] .eye-bg-rect { fill: #1e293b !important; }
+[data-theme$="-dark"] .eye-svg .sclera { fill: #334155 !important; stroke: #475569 !important; }
+[data-theme$="-dark"] .eye-svg .cornea { stroke: #38bdf8 !important; }
 
 @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.row-2{grid-template-columns:1fr}}
 @media (max-width:768px){
-  .sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
-  .profile,.premium-block{display:none}
-  .nav{flex-direction:row;flex:1;justify-content:space-around}
-  .nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}
-  .nav-btn svg{width:22px;height:22px}
-  .content{margin-left:0;padding:16px 14px 100px}
-  .topbar h1{font-size:22px}
-  .hero{padding:24px;border-radius:24px}
-  .hero h2{font-size:20px}.hero p{font-size:13px}
-  .question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}
-  .q-text{font-size:16px}
-  .report-stats{grid-template-columns:1fr 1fr}
-  .theme-toggle span{display:none}
-  .stat-value{font-size:24px}
-  .synapse-stage{border-radius:16px}
+.sidebar{top:auto;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;padding:10px 8px;gap:4px;overflow-x:auto;border-radius:24px 24px 0 0}
+.profile,.premium-block{display:none}
+.nav{flex-direction:row;flex:1;justify-content:space-around}
+.nav-btn{flex-direction:column;gap:4px;padding:10px 6px;font-size:10px;flex:1;justify-content:center;align-items:center;min-width:60px;border-radius:14px}
+.nav-btn svg{width:22px;height:22px}
+.content{margin-left:0;padding:16px 14px 100px}
+.topbar h1{font-size:22px}
+.hero{padding:24px;border-radius:24px}
+.hero h2{font-size:20px}.hero p{font-size:13px}
+.question-card,.case-card,.report-card,.case-picker{padding:24px 20px;border-radius:24px}
+.q-text{font-size:16px}
+.report-stats{grid-template-columns:1fr 1fr}
+.theme-toggle span{display:none}
+.stat-value{font-size:24px}
+.synapse-stage{border-radius:16px;padding:12px}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="profile"><div class="avatar">С</div><div><div class="profile-name">Студент</div><div class="profile-sub">Лечебное дело, 3 курс</div></div></div>
-    <nav class="nav" id="nav">
-      <button class="nav-btn active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Главная</span></button>
-      <button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Тесты</span></button>
-      <button class="nav-btn" data-screen="classify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><polyline points="9 11 12 14 21 5"/></svg><span>Классификация</span></button>
-      <button class="nav-btn" data-screen="synapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4M8 16l4-4M16 16l-4-4"/></svg><span>Визуализация</span></button>
-      <button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
-      <button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
-      <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
-    </nav>
-    <div class="premium-block"><div class="crown">👑</div><h4>PharmStudy Pro</h4><p>ИИ-генерация вопросов</p><button>Скоро</button></div>
-  </aside>
-  <main class="content">
-    <div class="topbar"><h1 id="screen-title">Дашборд</h1><button class="theme-toggle" id="themeToggle"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span id="themeLabel">Тёмная</span></button></div>
-    <div id="screen"></div>
-  </main>
+<aside class="sidebar">
+<div class="profile"><div class="avatar">С</div><div><div class="profile-name">Студент</div><div class="profile-sub">Лечебное дело, 3 курс</div></div></div>
+<nav class="nav" id="nav">
+<button class="nav-btn active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Главная</span></button>
+<button class="nav-btn" data-screen="session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span>Тесты</span></button>
+<button class="nav-btn" data-screen="classify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><polyline points="9 11 12 14 21 5"/></svg><span>Классификация</span></button>
+<button class="nav-btn" data-screen="synapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4M8 16l4-4M16 16l-4-4"/></svg><span>Визуализация</span></button>
+<button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
+<button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
+<button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
+</nav>
+<div class="premium-block"><div class="crown">👑</div><h4>PharmStudy Pro</h4><p>ИИ-генерация вопросов</p><button>Скоро</button></div>
+</aside>
+<main class="content">
+<div class="topbar"><h1 id="screen-title">Дашборд</h1><button class="theme-toggle" id="themeToggle"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span id="themeLabel">Тёмная</span></button></div>
+<div id="screen"></div>
+</main>
 </div>
 <script>
-  const SKILLS={
-  q_001:'Классификация',q_002:'Классификация',q_003:'Показания',q_004:'Побочки',q_005:'Показания',
-  q_006:'Механизм',q_007:'Показания',q_008:'Показания',q_009:'Показания',q_010:'Классификация',
-  q_011:'Классификация',q_012:'Механизм',q_013:'Механизм',q_014:'Классификация',q_015:'Показания',
-  q_016:'Механизм',q_017:'Механизм',q_018:'Механизм',q_019:'Показания',q_020:'Показания',
-  q_021:'Механизм',q_022:'Показания',q_023:'Показания',q_024:'Показания',q_025:'Классификация',
-  q_026:'Классификация',q_027:'Показания',q_028:'Показания',q_029:'Классификация',q_030:'Побочки',
-  q_031:'Механизм',q_032:'Показания',q_033:'Классификация',q_034:'Показания',q_035:'Побочки'
+const SKILLS={
+q_001:'Классификация',q_002:'Классификация',q_003:'Показания',q_004:'Побочки',q_005:'Показания',
+q_006:'Механизм',q_007:'Показания',q_008:'Показания',q_009:'Показания',q_010:'Классификация',
+q_011:'Классификация',q_012:'Механизм',q_013:'Механизм',q_014:'Классификация',q_015:'Показания',
+q_016:'Механизм',q_017:'Механизм',q_018:'Механизм',q_019:'Показания',q_020:'Показания',
+q_021:'Механизм',q_022:'Показания',q_023:'Показания',q_024:'Показания',q_025:'Классификация',
+q_026:'Классификация',q_027:'Показания',q_028:'Показания',q_029:'Классификация',q_030:'Побочки',
+q_031:'Механизм',q_032:'Показания',q_033:'Классификация',q_034:'Показания',q_035:'Побочки'
 };
 const SKILL_LIST=['Классификация','Механизм','Показания','Побочки'];
 const QUESTIONS=[
@@ -387,103 +377,102 @@ const QUESTIONS=[
 {id:'q_034',section:'Адреноблокаторы',text:'Пациенту с ХСН и тахикардией планируется назначить β-блокатор. Какой препарат предпочтителен?',options:['Пропранолол','Бисопролол','Тимолол','Соталол'],correct:1,explanation:'Бисопролол (Конкор) — кардиоселективный β1-АБ. Один из четырёх β-блокаторов, доказавших эффективность при ХСН.',tags:['Селективные β1-АБ','Показания','Бисопролол','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по ХСН'},
 {id:'q_035',section:'Адреноблокаторы',text:'Какое побочное действие характерно для α1-адреноблокаторов?',options:['Бронхоспазм','Ортостатическая гипотензия','Брадикардия','Гиперкалиемия'],correct:1,explanation:'α1-АБ вызывают вазодилатацию → ортостатическая гипотензия, особенно после первой дозы. У уроселективных (тамсулозин) меньше.',tags:['α1-АБ','Побочки','Доксазозин','Сложность 2'],source:'Харкевич Д.А., «Фармакология»'}
 ];
-
 const CASES={
-  case_fos:{id:'case_fos',title:'Отравление ФОС',section:'Холиномиметики',
-    intro:'Мужчина, 48 лет, работник сельского хозяйства. Доставлен с обильным слюнотечением, потливостью, миозом, брадикардией (ЧСС 48), фасцикуляциями мышц и затруднением дыхания. Час назад обрабатывал поле инсектицидом без защитной маски. Найден флакон с ФОС.',
-    start:'node_1',
-    nodes:{
-      node_1:{question:'Ваши первые действия?',options:[
-        {text:'Ввести атропин',next:'node_2',type:'neutral',feedback:'Вы ввели атропин. Слюнотечение уменьшилось, ЧСС поднялась до 72. Но фасцикуляции и слабость сохраняются. Атропин — правильный первый шаг, но он не реактивирует холинэстеразу.'},
-        {text:'Ввести карбоксим',next:'node_2',type:'neutral',feedback:'Вы ввели карбоксим. Фасцикуляции уменьшились, но слюнотечение, брадикардия и миоз сохраняются.'},
-        {text:'Промыть желудок и наблюдать',next:'node_2',type:'bad',feedback:'Вы промыли желудок. Состояние ухудшается: нарастает бронхоспазм, ЧСС падает до 40.'},
-        {text:'Ввести адреналин',next:'node_2',type:'bad',feedback:'Адреналин временно поднял ЧСС, но слюнотечение и фасцикуляции нарастают.'}
-      ]},
-      node_2:{question:'Пациент стабилен, но никотиновые симптомы сохраняются. Что добавите?',options:[
-        {text:'Атропин + Карбоксим',next:'node_end',type:'good',feedback:'✅ Правильно. Комбинация атропина и карбоксима — золотой стандарт при отравлении ФОС.'},
-        {text:'Только атропин',next:'node_end',type:'neutral',feedback:'Мускариновые симптомы уходят, но фасцикуляции и слабость сохраняются.'},
-        {text:'Только карбоксим',next:'node_end',type:'neutral',feedback:'Никотиновые симптомы уменьшаются, но брадикардия и бронхоспазм нарастают.'},
-        {text:'Донепезил',next:'node_end',type:'bad',feedback:'❌ Грубая ошибка. Донепезил — оиХЭ центрального действия. Он усугубит отравление.'}
-      ]},
-      node_end:{isEnd:true,summary:'Мускариновые симптомы → атропин. Никотиновые симптомы → карбоксим. Золотой стандарт: атропин + карбоксим. Категорически нельзя: оиХЭ (донепезил, неостигмин).',tags:['ФОС','Антидот','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по отравлениям ФОС'}
-    }
-  },
-  case_mushroom:{id:'case_mushroom',title:'Отравление мухомором',section:'Холиноблокаторы',
-    intro:'Семья из 3 человек собрала в лесу грибы и пожарила их. Через 40 минут у всех появились тошнота, рвота, обильное слюнотечение, потливость, диарея, зрачки сужены, ЧСС 45–50, дыхание затруднено, бронхоспазм. Признаки мускаринового отравления.',
-    start:'node_1',
-    nodes:{
-      node_1:{question:'Ваши первые действия?',options:[
-        {text:'Ввести атропин',next:'node_2',type:'good',feedback:'✅ Правильно. Атропин — специфический антидот при мускариновом отравлении.'},
-        {text:'Ввести неостигмин',next:'node_2',type:'bad',feedback:'❌ Грубая ошибка. Неостигмин — ингибитор холинэстеразы. Он усилит отравление.'},
-        {text:'Промыть желудок и наблюдать',next:'node_2',type:'neutral',feedback:'Вы промыли желудок, но состояние ухудшается: нарастает бронхоспазм.'},
-        {text:'Ввести адреналин',next:'node_2',type:'bad',feedback:'Адреналин временно поднял ЧСС, но слюнотечение и бронхоспазм нарастают.'}
-      ]},
-      node_2:{question:'Пациент стабилен, но остаётся слабость и сухость во рту. Что дальше?',options:[
-        {text:'Продолжить атропин до появления сухости слизистых',next:'node_end',type:'good',feedback:'✅ Правильно. Атропин вводится повторно до появления сухости слизистых оболочек — критерий достаточной атропинизации.'},
-        {text:'Ввести неостигмин для восстановления тонуса',next:'node_end',type:'bad',feedback:'❌ Грубая ошибка. Неостигмин усугубит отравление.'},
-        {text:'Ввести карбоксим',next:'node_end',type:'neutral',feedback:'Карбоксим — реактиватор холинэстеразы. При отравлении мухомором не нужен.'},
-        {text:'Прекратить лечение',next:'node_end',type:'bad',feedback:'Прекращение лечения приведёт к рецидиву симптомов.'}
-      ]},
-      node_end:{isEnd:true,summary:'Мускариновое отравление → атропин (блокатор М-ХР). Критерий атропинизации — сухость слизистых. Категорически нельзя: ингибиторы холинэстеразы.',tags:['М-ХБ','Антидот','Атропин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по отравлениям'}
-    }
-  },
-  case_extubation:{id:'case_extubation',title:'Экстубация после операции',section:'Миорелаксанты',
-    intro:'Пациент 45 лет после операции на брюшной полости под общей анестезией с использованием рокурония бромида (недеполяризующий миорелаксант). Операция завершена. Врач пытается экстубировать пациента, но самостоятельное дыхание не восстанавливается, мышечный тонус сохранён.',
-    start:'node_1',
-    nodes:{
-      node_1:{question:'Твои действия?',options:[
-        {text:'Ввести неостигмин + атропин',next:'node_2',type:'good',feedback:'✅ Правильно. Неостигмин повышает концентрацию ацетилхолина и competitively вытесняет рокуроний из связи с Н-ХР. Атропин — профилактика брадикардии.'},
-        {text:'Ввести суксаметоний',next:'node_2',type:'bad',feedback:'❌ Ошибка. Суксаметоний — деполяризующий миорелаксант. Он усилит блокаду.'},
-        {text:'Ввести атропин',next:'node_2',type:'neutral',feedback:'Атропин не восстановит нервно-мышечную передачу.'},
-        {text:'Подождать 30 минут',next:'node_2',type:'neutral',feedback:'Ожидание может затянуться. Нужна активная декураризация.'}
-      ]},
-      node_2:{question:'После введения неостигмина+атропина дыхание восстановилось. Что дальше?',options:[
-        {text:'Экстубировать и наблюдать',next:'node_end',type:'good',feedback:'✅ Правильно. Восстановление дыхания и тонуса — показание к экстубации.'},
-        {text:'Ввести ещё неостигмин',next:'node_end',type:'bad',feedback:'Передозировка неостигмина вызовет мускариновые эффекты и холинергический криз.'},
-        {text:'Ввести суксаметоний',next:'node_end',type:'bad',feedback:'Это снова парализует пациента.'},
-        {text:'Ввести дантролен',next:'node_end',type:'neutral',feedback:'Дантролен применяется при злокачественной гипертермии.'}
-      ]},
-      node_end:{isEnd:true,summary:'Остаточная кураризация → неостигмин + атропин. Неостигмин повышает АХ и вытесняет миорелаксант. Атропин — профилактика брадикардии. Нельзя: суксаметоний.',tags:['Миорелаксанты','Декураризация','Неостигмин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по анестезиологии'}
-    }
-  },
-  case_anaphylaxis:{id:'case_anaphylaxis',title:'Анафилактический шок',section:'Адреномиметики',
-    intro:'Пациентка 28 лет после укуса осы почувствовала резкую слабость, зуд, крапивницу, отёк лица и шеи, затруднение дыхания. АД 70/40, ЧСС 130, дыхание свистящее. Диагноз: анафилактический шок.',
-    start:'node_1',
-    nodes:{
-      node_1:{question:'Препарат выбора?',options:[
-        {text:'Эпинефрин',next:'node_2',type:'good',feedback:'✅ Правильно. Эпинефрин — препарат выбора при анафилаксии. Действует на α1 (снимает отёк, поднимает АД), β1 (поддерживает сердце), β2 (купирует бронхоспазм). В/м в бедро.'},
-        {text:'Норэпинефрин',next:'node_2',type:'neutral',feedback:'Норэпинефрин поднимет АД, но не купирует бронхоспазм (нет β2). Неполное лечение.'},
-        {text:'Фенилэфрин',next:'node_2',type:'neutral',feedback:'Фенилэфрин (α1) сузит сосуды, но не устранит бронхоспазм.'},
-        {text:'Сальбутамол',next:'node_2',type:'neutral',feedback:'Сальбутамол расширит бронхи, но не поднимет АД. Монотерапия недостаточна.'}
-      ]},
-      node_2:{question:'Пациентка стабильна, но сохраняется крапивница. Что добавите?',options:[
-        {text:'Глюкокортикоид (преднизолон) + антигистаминный',next:'node_end',type:'good',feedback:'✅ Правильно. ГКС предотвращают отсроченную фазу, антигистаминные купируют кожные проявления.'},
-        {text:'Ещё эпинефрин',next:'node_end',type:'neutral',feedback:'Повторная доза эпинефрина — только если симптомы возвращаются.'},
-        {text:'Атропин',next:'node_end',type:'bad',feedback:'Атропин не применяется при анафилаксии.'},
-        {text:'Допамин',next:'node_end',type:'bad',feedback:'Допамин — при кардиогенном шоке, не при анафилаксии.'}
-      ]},
-      node_end:{isEnd:true,summary:'Анафилаксия → эпинефрин (α1+β1+β2). Дополнительно: ГКС + антигистаминные. Ключ — эпинефрин в/м в переднебоковую поверхность бедра.',tags:['α-,β-АМ','Эпинефрин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по анафилаксии'}
-    }
-  },
-  case_timolol:{id:'case_timolol',title:'Тимолол и астма',section:'Адреноблокаторы',
-    intro:'Пациент 60 лет с открытоугольной глаукомой обратился к офтальмологу. Ему назначен тимолол в виде глазных капель. Через 3 дня он вызывает скорую: сильный приступ удушья, свистящее дыхание, тяжесть в груди. В анамнезе — бронхиальная астма в ремиссии 5 лет.',
-    start:'node_1',
-    nodes:{
-      node_1:{question:'Что произошло?',options:[
-        {text:'Аллергическая реакция на тимолол',next:'node_2',type:'neutral',feedback:'Аллергия возможна, но клиника характерна для бронхоспазма, а не для аллергии.'},
-        {text:'Системная абсорбция тимолола → блокада β2-рецепторов бронхов → бронхоспазм',next:'node_2',type:'good',feedback:'✅ Правильно. Тимолол — неселективный β1,β2-АБ. Даже в виде капель всасывается системно. У пациента с астмой β2-блокада вызывает бронхоспазм.'},
-        {text:'Передозировка тимолола',next:'node_2',type:'neutral',feedback:'Передозировка маловероятна при стандартных каплях.'},
-        {text:'Совпадение с приступом астмы',next:'node_2',type:'neutral',feedback:'Симптомы совпадают по времени с началом применения тимолола — это причинно-следственная связь.'}
-      ]},
-      node_2:{question:'Что делать?',options:[
-        {text:'Отменить тимолол, назначить не-β-блокаторный препарат (латанопрост, дорзоламид)',next:'node_end',type:'good',feedback:'✅ Правильно. Тимолол отменяется. При глаукоме у пациента с астмой используют аналоги простагландинов (латанопрост), ингибиторы карбоангидразы (дорзоламид), α2-агонисты (бримонидин).'},
-        {text:'Продолжить тимолол + сальбутамол',next:'node_end',type:'bad',feedback:'Продолжение тимолола будет постоянно провоцировать бронхоспазм.'},
-        {text:'Заменить тимолол на пропранолол',next:'node_end',type:'bad',feedback:'Пропранолол — тоже неселективный β-АБ, только усугубит ситуацию.'},
-        {text:'Уменьшить дозу тимолола',next:'node_end',type:'neutral',feedback:'Уменьшение дозы не устранит β2-блокаду полностью.'}
-      ]},
-      node_end:{isEnd:true,summary:'Тимолол — неселективный β-АБ, даже в глазных каплях даёт системные эффекты. Противопоказан при БА и ХОБЛ. Альтернативы при глаукоме: латанопрост, дорзоламид, бримонидин.',tags:['Неселективные β-АБ','Побочки','Тимолол','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по глаукоме'}
-    }
-  }
+case_fos:{id:'case_fos',title:'Отравление ФОС',section:'Холиномиметики',
+intro:'Мужчина, 48 лет, работник сельского хозяйства. Доставлен с обильным слюнотечением, потливостью, миозом, брадикардией (ЧСС 48), фасцикуляциями мышц и затруднением дыхания. Час назад обрабатывал поле инсектицидом без защитной маски. Найден флакон с ФОС.',
+start:'node_1',
+nodes:{
+node_1:{question:'Ваши первые действия?',options:[
+{text:'Ввести атропин',next:'node_2',type:'neutral',feedback:'Вы ввели атропин. Слюнотечение уменьшилось, ЧСС поднялась до 72. Но фасцикуляции и слабость сохраняются. Атропин — правильный первый шаг, но он не реактивирует холинэстеразу.'},
+{text:'Ввести карбоксим',next:'node_2',type:'neutral',feedback:'Вы ввели карбоксим. Фасцикуляции уменьшились, но слюнотечение, брадикардия и миоз сохраняются.'},
+{text:'Промыть желудок и наблюдать',next:'node_2',type:'bad',feedback:'Вы промыли желудок. Состояние ухудшается: нарастает бронхоспазм, ЧСС падает до 40.'},
+{text:'Ввести адреналин',next:'node_2',type:'bad',feedback:'Адреналин временно поднял ЧСС, но слюнотечение и фасцикуляции нарастают.'}
+]},
+node_2:{question:'Пациент стабилен, но никотиновые симптомы сохраняются. Что добавите?',options:[
+{text:'Атропин + Карбоксим',next:'node_end',type:'good',feedback:'✅ Правильно. Комбинация атропина и карбоксима — золотой стандарт при отравлении ФОС.'},
+{text:'Только атропин',next:'node_end',type:'neutral',feedback:'Мускариновые симптомы уходят, но фасцикуляции и слабость сохраняются.'},
+{text:'Только карбоксим',next:'node_end',type:'neutral',feedback:'Никотиновые симптомы уменьшаются, но брадикардия и бронхоспазм нарастают.'},
+{text:'Донепезил',next:'node_end',type:'bad',feedback:'❌ Грубая ошибка. Донепезил — оиХЭ центрального действия. Он усугубит отравление.'}
+]},
+node_end:{isEnd:true,summary:'Мускариновые симптомы → атропин. Никотиновые симптомы → карбоксим. Золотой стандарт: атропин + карбоксим. Категорически нельзя: оиХЭ (донепезил, неостигмин).',tags:['ФОС','Антидот','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по отравлениям ФОС'}
+}
+},
+case_mushroom:{id:'case_mushroom',title:'Отравление мухомором',section:'Холиноблокаторы',
+intro:'Семья из 3 человек собрала в лесу грибы и пожарила их. Через 40 минут у всех появились тошнота, рвота, обильное слюнотечение, потливость, диарея, зрачки сужены, ЧСС 45–50, дыхание затруднено, бронхоспазм. Признаки мускаринового отравления.',
+start:'node_1',
+nodes:{
+node_1:{question:'Ваши первые действия?',options:[
+{text:'Ввести атропин',next:'node_2',type:'good',feedback:'✅ Правильно. Атропин — специфический антидот при мускариновом отравлении.'},
+{text:'Ввести неостигмин',next:'node_2',type:'bad',feedback:'❌ Грубая ошибка. Неостигмин — ингибитор холинэстеразы. Он усилит отравление.'},
+{text:'Промыть желудок и наблюдать',next:'node_2',type:'neutral',feedback:'Вы промыли желудок, но состояние ухудшается: нарастает бронхоспазм.'},
+{text:'Ввести адреналин',next:'node_2',type:'bad',feedback:'Адреналин временно поднял ЧСС, но слюнотечение и бронхоспазм нарастают.'}
+]},
+node_2:{question:'Пациент стабилен, но остаётся слабость и сухость во рту. Что дальше?',options:[
+{text:'Продолжить атропин до появления сухости слизистых',next:'node_end',type:'good',feedback:'✅ Правильно. Атропин вводится повторно до появления сухости слизистых оболочек — критерий достаточной атропинизации.'},
+{text:'Ввести неостигмин для восстановления тонуса',next:'node_end',type:'bad',feedback:'❌ Грубая ошибка. Неостигмин усугубит отравление.'},
+{text:'Ввести карбоксим',next:'node_end',type:'neutral',feedback:'Карбоксим — реактиватор холинэстеразы. При отравлении мухомором не нужен.'},
+{text:'Прекратить лечение',next:'node_end',type:'bad',feedback:'Прекращение лечения приведёт к рецидиву симптомов.'}
+]},
+node_end:{isEnd:true,summary:'Мускариновое отравление → атропин (блокатор М-ХР). Критерий атропинизации — сухость слизистых. Категорически нельзя: ингибиторы холинэстеразы.',tags:['М-ХБ','Антидот','Атропин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по отравлениям'}
+}
+},
+case_extubation:{id:'case_extubation',title:'Экстубация после операции',section:'Миорелаксанты',
+intro:'Пациент 45 лет после операции на брюшной полости под общей анестезией с использованием рокурония бромида (недеполяризующий миорелаксант). Операция завершена. Врач пытается экстубировать пациента, но самостоятельное дыхание не восстанавливается, мышечный тонус сохранён.',
+start:'node_1',
+nodes:{
+node_1:{question:'Твои действия?',options:[
+{text:'Ввести неостигмин + атропин',next:'node_2',type:'good',feedback:'✅ Правильно. Неостигмин повышает концентрацию ацетилхолина и competitively вытесняет рокуроний из связи с Н-ХР. Атропин — профилактика брадикардии.'},
+{text:'Ввести суксаметоний',next:'node_2',type:'bad',feedback:'❌ Ошибка. Суксаметоний — деполяризующий миорелаксант. Он усилит блокаду.'},
+{text:'Ввести атропин',next:'node_2',type:'neutral',feedback:'Атропин не восстановит нервно-мышечную передачу.'},
+{text:'Подождать 30 минут',next:'node_2',type:'neutral',feedback:'Ожидание может затянуться. Нужна активная декураризация.'}
+]},
+node_2:{question:'После введения неостигмина+атропина дыхание восстановилось. Что дальше?',options:[
+{text:'Экстубировать и наблюдать',next:'node_end',type:'good',feedback:'✅ Правильно. Восстановление дыхания и тонуса — показание к экстубации.'},
+{text:'Ввести ещё неостигмин',next:'node_end',type:'bad',feedback:'Передозировка неостигмина вызовет мускариновые эффекты и холинергический криз.'},
+{text:'Ввести суксаметоний',next:'node_end',type:'bad',feedback:'Это снова парализует пациента.'},
+{text:'Ввести дантролен',next:'node_end',type:'neutral',feedback:'Дантролен применяется при злокачественной гипертермии.'}
+]},
+node_end:{isEnd:true,summary:'Остаточная кураризация → неостигмин + атропин. Неостигмин повышает АХ и вытесняет миорелаксант. Атропин — профилактика брадикардии. Нельзя: суксаметоний.',tags:['Миорелаксанты','Декураризация','Неостигмин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по анестезиологии'}
+}
+},
+case_anaphylaxis:{id:'case_anaphylaxis',title:'Анафилактический шок',section:'Адреномиметики',
+intro:'Пациентка 28 лет после укуса осы почувствовала резкую слабость, зуд, крапивницу, отёк лица и шеи, затруднение дыхания. АД 70/40, ЧСС 130, дыхание свистящее. Диагноз: анафилактический шок.',
+start:'node_1',
+nodes:{
+node_1:{question:'Препарат выбора?',options:[
+{text:'Эпинефрин',next:'node_2',type:'good',feedback:'✅ Правильно. Эпинефрин — препарат выбора при анафилаксии. Действует на α1 (снимает отёк, поднимает АД), β1 (поддерживает сердце), β2 (купирует бронхоспазм). В/м в бедро.'},
+{text:'Норэпинефрин',next:'node_2',type:'neutral',feedback:'Норэпинефрин поднимет АД, но не купирует бронхоспазм (нет β2). Неполное лечение.'},
+{text:'Фенилэфрин',next:'node_2',type:'neutral',feedback:'Фенилэфрин (α1) сузит сосуды, но не устранит бронхоспазм.'},
+{text:'Сальбутамол',next:'node_2',type:'neutral',feedback:'Сальбутамол расширит бронхи, но не поднимет АД. Монотерапия недостаточна.'}
+]},
+node_2:{question:'Пациентка стабильна, но сохраняется крапивница. Что добавите?',options:[
+{text:'Глюкокортикоид (преднизолон) + антигистаминный',next:'node_end',type:'good',feedback:'✅ Правильно. ГКС предотвращают отсроченную фазу, антигистаминные купируют кожные проявления.'},
+{text:'Ещё эпинефрин',next:'node_end',type:'neutral',feedback:'Повторная доза эпинефрина — только если симптомы возвращаются.'},
+{text:'Атропин',next:'node_end',type:'bad',feedback:'Атропин не применяется при анафилаксии.'},
+{text:'Допамин',next:'node_end',type:'bad',feedback:'Допамин — при кардиогенном шоке, не при анафилаксии.'}
+]},
+node_end:{isEnd:true,summary:'Анафилаксия → эпинефрин (α1+β1+β2). Дополнительно: ГКС + антигистаминные. Ключ — эпинефрин в/м в переднебоковую поверхность бедра.',tags:['α-,β-АМ','Эпинефрин','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по анафилаксии'}
+}
+},
+case_timolol:{id:'case_timolol',title:'Тимолол и астма',section:'Адреноблокаторы',
+intro:'Пациент 60 лет с открытоугольной глаукомой обратился к офтальмологу. Ему назначен тимолол в виде глазных капель. Через 3 дня он вызывает скорую: сильный приступ удушья, свистящее дыхание, тяжесть в груди. В анамнезе — бронхиальная астма в ремиссии 5 лет.',
+start:'node_1',
+nodes:{
+node_1:{question:'Что произошло?',options:[
+{text:'Аллергическая реакция на тимолол',next:'node_2',type:'neutral',feedback:'Аллергия возможна, но клиника характерна для бронхоспазма, а не для аллергии.'},
+{text:'Системная абсорбция тимолола → блокада β2-рецепторов бронхов → бронхоспазм',next:'node_2',type:'good',feedback:'✅ Правильно. Тимолол — неселективный β1,β2-АБ. Даже в виде капель всасывается системно. У пациента с астмой β2-блокада вызывает бронхоспазм.'},
+{text:'Передозировка тимолола',next:'node_2',type:'neutral',feedback:'Передозировка маловероятна при стандартных каплях.'},
+{text:'Совпадение с приступом астмы',next:'node_2',type:'neutral',feedback:'Симптомы совпадают по времени с началом применения тимолола — это причинно-следственная связь.'}
+]},
+node_2:{question:'Что делать?',options:[
+{text:'Отменить тимолол, назначить не-β-блокаторный препарат (латанопрост, дорзоламид)',next:'node_end',type:'good',feedback:'✅ Правильно. Тимолол отменяется. При глаукоме у пациента с астмой используют аналоги простагландинов (латанопрост), ингибиторы карбоангидразы (дорзоламид), α2-агонисты (бримонидин).'},
+{text:'Продолжить тимолол + сальбутамол',next:'node_end',type:'bad',feedback:'Продолжение тимолола будет постоянно провоцировать бронхоспазм.'},
+{text:'Заменить тимолол на пропранолол',next:'node_end',type:'bad',feedback:'Пропранолол — тоже неселективный β-АБ, только усугубит ситуацию.'},
+{text:'Уменьшить дозу тимолола',next:'node_end',type:'neutral',feedback:'Уменьшение дозы не устранит β2-блокаду полностью.'}
+]},
+node_end:{isEnd:true,summary:'Тимолол — неселективный β-АБ, даже в глазных каплях даёт системные эффекты. Противопоказан при БА и ХОБЛ. Альтернативы при глаукоме: латанопрост, дорзоламид, бримонидин.',tags:['Неселективные β-АБ','Побочки','Тимолол','Клинический выбор','Сложность 3'],source:'Харкевич Д.А. + клин. рекомендации по глаукоме'}
+}
+}
 };
 const THEORY=[
 {icon:'⚡',color:'var(--accent)',bg:'var(--accent-soft)',title:'Холинергический синапс',sub:'5 этапов передачи сигнала',body:`
@@ -551,52 +540,51 @@ const THEORY=[
 `}
 ];
 const REFERENCE=[
-  {section:'Холиномиметики',icon:'M',color:'var(--mint)',bg:'var(--mint-soft)',title:'Прямые М-холиномиметики',desc:'Действуют на М-холинорецепторы.',drugs:['Пилокарпин'],details:'Пилокарпин: глаукома (местно), ксеростомия. Побочки: миоз, спазм аккомодации, слезотечение.'},
-  {section:'Холиномиметики',icon:'N',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Н-холиномиметики',desc:'Агонисты никотиновых рецепторов.',drugs:['Никотин','Цитизин','Варениклин'],details:'Никотин — полный агонист. Цитизин и Варениклин — частичные агонисты для отказа от курения.'},
-  {section:'Холиномиметики',icon:'MN',color:'var(--accent)',bg:'var(--accent-soft)',title:'М,Н-холиномиметики',desc:'Действуют на оба типа рецепторов.',drugs:['Карбахол'],details:'Карбахол (Мио-Хол): местно в офтальмологии, устойчив к холинэстеразе.'},
-  {section:'Холиномиметики',icon:'Ц',color:'var(--warm)',bg:'var(--warm-soft)',title:'оиХЭ центрального действия',desc:'Проникают через ГЭБ.',drugs:['Донепезил','Ривастигмин','Галантамин'],details:'При болезни Альцгеймера.'},
-  {section:'Холиномиметики',icon:'ЦП',color:'var(--accent)',bg:'var(--accent-soft)',title:'оиХЭ центрально-периферического',desc:'ЦНС + периферия.',drugs:['Ипидакрин'],details:'Ипидакрин (Нейромидин): неврология, миастения.'},
-  {section:'Холиномиметики',icon:'П',color:'var(--success)',bg:'var(--success-soft)',title:'оиХЭ периферического действия',desc:'Не проникают через ГЭБ.',drugs:['Пиридостигмин','Неостигмин'],details:'Миастения, атония. Антидот передозировки — атропин.'},
-  {section:'Холиномиметики',icon:'R',color:'var(--error)',bg:'var(--error-soft)',title:'Реактиваторы холинэстеразы',desc:'Восстанавливают фермент, ингибированный ФОС.',drugs:['Карбоксим'],details:'Оксимный реактиватор. Разрывает связь ФОС с ферментом, восстанавливая активность АХЭ. Возможность реактивации уменьшается после «старения» комплекса. Применяется только в составе комплексной антидотной терапии вместе с атропином.'},
-  {section:'Холиномиметики',icon:'ХА',color:'var(--warm)',bg:'var(--warm-soft)',title:'Холина альфосцерат (центральное действие)',desc:'Источник холина для синтеза АХ. Не прямой агонист.',drugs:['Холина альфосцерат'],details:'Проникает через ГЭБ, расщепляется на холин + глицерофосфат. Холин → синтез АХ; глицерофосфат → фосфатидилхолин мембран нейронов. Показания: ишемические нарушения мозгового кровообращения, восстановительный период после инсульта и ЧМТ, когнитивные нарушения, психоорганический синдром. Побочки: тошнота. Характерный периферический мускариновый синдром НЕ развивается — потому что препарат не является прямым агонистом М-рецепторов.'},
-  {section:'Холиноблокаторы',icon:'А',color:'var(--mint)',bg:'var(--mint-soft)',title:'Неселективные М-ХБ системного действия',desc:'Блокируют М-рецепторы во всех органах.',drugs:['Атропин','Платифиллин'],details:'Показания: брадикардия, AV-блокада, отравление ФОС и мухомором, спазмы ЖКТ, премедикация.'},
-  {section:'Холиноблокаторы',icon:'У',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Урологические М-ХБ',desc:'Селективная блокада М3 детрузора.',drugs:['Солифенацин','Оксибутинин','Троспия хлорид'],details:'Гиперактивный мочевой пузырь, СНМП.'},
-  {section:'Холиноблокаторы',icon:'И',color:'var(--accent)',bg:'var(--accent-soft)',title:'Ингаляционные М-ХБ',desc:'Бронходилататоры.',drugs:['Ипратропия бромид','Тиотропия бромид','Гликопиррония бромид'],details:'Ипратропий — короткого действия. Тиотропий — длительного.'},
-  {section:'Холиноблокаторы',icon:'О',color:'var(--warm)',bg:'var(--warm-soft)',title:'Офтальмологические М-ХБ',desc:'Мидриаз и циклоплегия.',drugs:['Тропикамид','Циклопентолат'],details:'Диагностика глазного дна.'},
-  {section:'Холиноблокаторы',icon:'С',color:'var(--success)',bg:'var(--success-soft)',title:'Периферические М-ХБ со спазмолитическим действием',desc:'Спазмолитики ЖКТ.',drugs:['Гиосцина бутилбромид','Метоциния йодид'],details:'Бускопан, Галакси.'},
-  {section:'Холиноблокаторы',icon:'Ц',color:'var(--error)',bg:'var(--error-soft)',title:'Центральные М-ХБ',desc:'Блокада М-ХР в стриатуме.',drugs:['Тригексифенидил','Бипериден'],details:'Паркопан, Акинетон.'},
-  {section:'Холиноблокаторы',icon:'Г',color:'var(--mint)',bg:'var(--mint-soft)',title:'Ганглиоблокаторы',desc:'Блокируют Н-ХР вегетативных ганглиев.',drugs:['Азаметония бромид'],details:'Пентамин.'},
-  {section:'Миорелаксанты',icon:'Д',color:'var(--warm)',bg:'var(--warm-soft)',title:'Деполяризующие миорелаксанты',desc:'Стойкая деполяризация → блокада.',drugs:['Суксаметония йодид'],details:'Дитилин. Злокачественная гипертермия, гиперкалиемия.'},
-  {section:'Миорелаксанты',icon:'Н',color:'var(--accent)',bg:'var(--accent-soft)',title:'Недеполяризующие миорелаксанты',desc:'Конкурентная блокада Н-ХР.',drugs:['Пипекурония бромид','Рокурония бромид','Атракурия безилат'],details:'Антидот: неостигмин + атропин.'},
-  {section:'Миорелаксанты',icon:'Б',color:'var(--error)',bg:'var(--error-soft)',title:'Средства, нарушающие высвобождение АХ',desc:'Блокада везикул.',drugs:['Ботулинический токсин типа А'],details:'Ботокс, Диспорт.'},
-  {section:'Миорелаксанты',icon:'Ц',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Миорелаксанты центрального действия',desc:'Снижают тонус через ЦНС.',drugs:['Толперизон','Тизанидин','Баклофен'],details:'Калмирекс, Сирдалуд, Баклосан.'},
-  {section:'Миорелаксанты',icon:'П',color:'var(--success)',bg:'var(--success-soft)',title:'Миорелаксанты прямого действия',desc:'Блокируют Ca-каналы саркоплазматического ретикулума.',drugs:['Дантролен'],details:'Злокачественная гипертермия.'},
-  {section:'Адреномиметики',icon:'Э',color:'var(--mint)',bg:'var(--mint-soft)',title:'Неселективные α-,β-АМ',desc:'Все типы адренорецепторов.',drugs:['Эпинефрин','Норэпинефрин','Допамин'],details:'Эпинефрин — при анафилаксии.'},
-  {section:'Адреномиметики',icon:'α1',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'α1-АМ периферические',desc:'Сужение сосудов, мидриаз.',drugs:['Фенилэфрин'],details:'Мезатон.'},
-  {section:'Адреномиметики',icon:'Д',color:'var(--accent)',bg:'var(--accent-soft)',title:'Топические деконгестанты',desc:'α1,2-АМ местного действия.',drugs:['Нафазолин','Ксилометазолин','Оксиметазолин'],details:'Насморк. Курс не более 5–7 дней.'},
-  {section:'Адреномиметики',icon:'О',color:'var(--warm)',bg:'var(--warm-soft)',title:'Офтальмологические α1,2-АМ',desc:'Снятие покраснения глаз.',drugs:['Тетризолин'],details:'Визин Классический.'},
-  {section:'Адреномиметики',icon:'Г',color:'var(--success)',bg:'var(--success-soft)',title:'Офтальмологические α2-АМ',desc:'Противоглаукомные.',drugs:['Бримонидин'],details:'Альфаган.'},
-  {section:'Адреномиметики',icon:'Ц',color:'var(--error)',bg:'var(--error-soft)',title:'α2-АМ центральные',desc:'Снижение симпатического тонуса.',drugs:['Клонидин','Метилдопа'],details:'Клофелин, Допегит.'},
-  {section:'Адреномиметики',icon:'β1',color:'var(--mint)',bg:'var(--mint-soft)',title:'β1-АМ',desc:'Усиление работы сердца.',drugs:['Добутамин'],details:'Острая декомпенсация ХСН.'},
-  {section:'Адреномиметики',icon:'К',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'β2-АМ короткого действия',desc:'Бронходилатация 4–6 ч.',drugs:['Сальбутамол','Фенотерол'],details:'Купирование приступа астмы.'},
-  {section:'Адреномиметики',icon:'Д',color:'var(--accent)',bg:'var(--accent-soft)',title:'β2-АМ длительного действия',desc:'Бронходилатация 12 ч.',drugs:['Формотерол','Салметерол'],details:'Базисная терапия.'},
-  {section:'Адреномиметики',icon:'У',color:'var(--warm)',bg:'var(--warm-soft)',title:'β2-АМ ультрадлительные',desc:'24 ч.',drugs:['Индакатерол','Олодатерол'],details:'ХОБЛ, 1 раз в сутки.'},
-  {section:'Адреномиметики',icon:'Т',color:'var(--success)',bg:'var(--success-soft)',title:'β2-АМ токолитики',desc:'Расслабление миометрия.',drugs:['Гексопреналин'],details:'Гинипрал.'},
-  {section:'Адреномиметики',icon:'β3',color:'var(--error)',bg:'var(--error-soft)',title:'β3-АМ',desc:'Расслабление детрузора.',drugs:['Мирабегрон'],details:'Бетмига.'},
-  {section:'Адреномиметики',icon:'С',color:'var(--mint)',bg:'var(--mint-soft)',title:'Симпатомиметики',desc:'Непрямое действие.',drugs:['Эфедрин'],details:'Смешанный механизм.'},
-  {section:'Адреноблокаторы',icon:'αβ',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'α,β-АБ',desc:'Блокада α1,β1,β2.',drugs:['Карведилол'],details:'ХСН, ИБС, АГ.'},
-  {section:'Адреноблокаторы',icon:'Н',color:'var(--accent)',bg:'var(--accent-soft)',title:'Неселективные α1,α2-АБ',desc:'Расширение сосудов.',drugs:['Ницерголин'],details:'Сермион.'},
-  {section:'Адреноблокаторы',icon:'У',color:'var(--warm)',bg:'var(--warm-soft)',title:'Уроселективные α1-АБ',desc:'Расслабление простаты.',drugs:['Тамсулозин','Алфузозин','Силодозин'],details:'ДГПЖ, СНМП.'},
-  {section:'Адреноблокаторы',icon:'С',color:'var(--success)',bg:'var(--success-soft)',title:'α1-АБ системного действия',desc:'Снижение АД.',drugs:['Доксазозин','Теразозин'],details:'АГ, ДГПЖ.'},
-  {section:'Адреноблокаторы',icon:'Н',color:'var(--error)',bg:'var(--error-soft)',title:'α1-АБ для неотложной терапии',desc:'В/в введение.',drugs:['Урапидил'],details:'Эбрантил.'},
-  {section:'Адреноблокаторы',icon:'Й',color:'var(--mint)',bg:'var(--mint-soft)',title:'Селективные α2-АБ',desc:'Повышение либидо.',drugs:['Йохимбин'],details:'Эректильная дисфункция.'},
-  {section:'Адреноблокаторы',icon:'Н',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Неселективные β1,β2-АБ',desc:'Блокада всех β-рецепторов.',drugs:['Пропранолол','Тимолол','Соталол'],details:'Противопоказаны при БА и ХОБЛ.'},
-  {section:'Адреноблокаторы',icon:'С',color:'var(--accent)',bg:'var(--accent-soft)',title:'Селективные β1-АБ',desc:'Кардиоселективные.',drugs:['Метопролол','Бисопролол','Атенолол'],details:'АГ, ИБС, ХСН.'},
-  {section:'Адреноблокаторы',icon:'В',color:'var(--warm)',bg:'var(--warm-soft)',title:'β1-АБ с вазодилатацией',desc:'Дополнительное расширение сосудов.',drugs:['Небиволол'],details:'Небилет.'},
-  {section:'Адреноблокаторы',icon:'У',color:'var(--success)',bg:'var(--success-soft)',title:'Ультракороткодействующие β1-АБ',desc:'Управляемая блокада.',drugs:['Эсмолол'],details:'Бревиблок.'},
-  {section:'Адреноблокаторы',icon:'Р',color:'var(--error)',bg:'var(--error-soft)',title:'Симпатолитики',desc:'Истощение запасов норадреналина.',drugs:['Раунатин','Метилдопа'],details:'Раувольфия, метилдопа.'}
+{section:'Холиномиметики',icon:'M',color:'var(--mint)',bg:'var(--mint-soft)',title:'Прямые М-холиномиметики',desc:'Действуют на М-холинорецепторы.',drugs:['Пилокарпин'],details:'Пилокарпин: глаукома (местно), ксеростомия. Побочки: миоз, спазм аккомодации, слезотечение.'},
+{section:'Холиномиметики',icon:'N',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Н-холиномиметики',desc:'Агонисты никотиновых рецепторов.',drugs:['Никотин','Цитизин','Варениклин'],details:'Никотин — полный агонист. Цитизин и Варениклин — частичные агонисты для отказа от курения.'},
+{section:'Холиномиметики',icon:'MN',color:'var(--accent)',bg:'var(--accent-soft)',title:'М,Н-холиномиметики',desc:'Действуют на оба типа рецепторов.',drugs:['Карбахол'],details:'Карбахол (Мио-Хол): местно в офтальмологии, устойчив к холинэстеразе.'},
+{section:'Холиномиметики',icon:'Ц',color:'var(--warm)',bg:'var(--warm-soft)',title:'оиХЭ центрального действия',desc:'Проникают через ГЭБ.',drugs:['Донепезил','Ривастигмин','Галантамин'],details:'При болезни Альцгеймера.'},
+{section:'Холиномиметики',icon:'ЦП',color:'var(--accent)',bg:'var(--accent-soft)',title:'оиХЭ центрально-периферического',desc:'ЦНС + периферия.',drugs:['Ипидакрин'],details:'Ипидакрин (Нейромидин): неврология, миастения.'},
+{section:'Холиномиметики',icon:'П',color:'var(--success)',bg:'var(--success-soft)',title:'оиХЭ периферического действия',desc:'Не проникают через ГЭБ.',drugs:['Пиридостигмин','Неостигмин'],details:'Миастения, атония. Антидот передозировки — атропин.'},
+{section:'Холиномиметики',icon:'R',color:'var(--error)',bg:'var(--error-soft)',title:'Реактиваторы холинэстеразы',desc:'Восстанавливают фермент, ингибированный ФОС.',drugs:['Карбоксим'],details:'Оксимный реактиватор. Разрывает связь ФОС с ферментом, восстанавливая активность АХЭ. Возможность реактивации уменьшается после «старения» комплекса. Применяется только в составе комплексной антидотной терапии вместе с атропином.'},
+{section:'Холиномиметики',icon:'ХА',color:'var(--warm)',bg:'var(--warm-soft)',title:'Холина альфосцерат (центральное действие)',desc:'Источник холина для синтеза АХ. Не прямой агонист.',drugs:['Холина альфосцерат'],details:'Проникает через ГЭБ, расщепляется на холин + глицерофосфат. Холин → синтез АХ; глицерофосфат → фосфатидилхолин мембран нейронов. Показания: ишемические нарушения мозгового кровообращения, восстановительный период после инсульта и ЧМТ, когнитивные нарушения, психоорганический синдром. Побочки: тошнота. Характерный периферический мускариновый синдром НЕ развивается — потому что препарат не является прямым агонистом М-рецепторов.'},
+{section:'Холиноблокаторы',icon:'А',color:'var(--mint)',bg:'var(--mint-soft)',title:'Неселективные М-ХБ системного действия',desc:'Блокируют М-рецепторы во всех органах.',drugs:['Атропин','Платифиллин'],details:'Показания: брадикардия, AV-блокада, отравление ФОС и мухомором, спазмы ЖКТ, премедикация.'},
+{section:'Холиноблокаторы',icon:'У',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Урологические М-ХБ',desc:'Селективная блокада М3 детрузора.',drugs:['Солифенацин','Оксибутинин','Троспия хлорид'],details:'Гиперактивный мочевой пузырь, СНМП.'},
+{section:'Холиноблокаторы',icon:'И',color:'var(--accent)',bg:'var(--accent-soft)',title:'Ингаляционные М-ХБ',desc:'Бронходилататоры.',drugs:['Ипратропия бромид','Тиотропия бромид','Гликопиррония бромид'],details:'Ипратропий — короткого действия. Тиотропий — длительного.'},
+{section:'Холиноблокаторы',icon:'О',color:'var(--warm)',bg:'var(--warm-soft)',title:'Офтальмологические М-ХБ',desc:'Мидриаз и циклоплегия.',drugs:['Тропикамид','Циклопентолат'],details:'Диагностика глазного дна.'},
+{section:'Холиноблокаторы',icon:'С',color:'var(--success)',bg:'var(--success-soft)',title:'Периферические М-ХБ со спазмолитическим действием',desc:'Спазмолитики ЖКТ.',drugs:['Гиосцина бутилбромид','Метоциния йодид'],details:'Бускопан, Галакси.'},
+{section:'Холиноблокаторы',icon:'Ц',color:'var(--error)',bg:'var(--error-soft)',title:'Центральные М-ХБ',desc:'Блокада М-ХР в стриатуме.',drugs:['Тригексифенидил','Бипериден'],details:'Паркопан, Акинетон.'},
+{section:'Холиноблокаторы',icon:'Г',color:'var(--mint)',bg:'var(--mint-soft)',title:'Ганглиоблокаторы',desc:'Блокируют Н-ХР вегетативных ганглиев.',drugs:['Азаметония бромид'],details:'Пентамин.'},
+{section:'Миорелаксанты',icon:'Д',color:'var(--warm)',bg:'var(--warm-soft)',title:'Деполяризующие миорелаксанты',desc:'Стойкая деполяризация → блокада.',drugs:['Суксаметония йодид'],details:'Дитилин. Злокачественная гипертермия, гиперкалиемия.'},
+{section:'Миорелаксанты',icon:'Н',color:'var(--accent)',bg:'var(--accent-soft)',title:'Недеполяризующие миорелаксанты',desc:'Конкурентная блокада Н-ХР.',drugs:['Пипекурония бромид','Рокурония бромид','Атракурия безилат'],details:'Антидот: неостигмин + атропин.'},
+{section:'Миорелаксанты',icon:'Б',color:'var(--error)',bg:'var(--error-soft)',title:'Средства, нарушающие высвобождение АХ',desc:'Блокада везикул.',drugs:['Ботулинический токсин типа А'],details:'Ботокс, Диспорт.'},
+{section:'Миорелаксанты',icon:'Ц',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Миорелаксанты центрального действия',desc:'Снижают тонус через ЦНС.',drugs:['Толперизон','Тизанидин','Баклофен'],details:'Калмирекс, Сирдалуд, Баклосан.'},
+{section:'Миорелаксанты',icon:'П',color:'var(--success)',bg:'var(--success-soft)',title:'Миорелаксанты прямого действия',desc:'Блокируют Ca-каналы саркоплазматического ретикулума.',drugs:['Дантролен'],details:'Злокачественная гипертермия.'},
+{section:'Адреномиметики',icon:'Э',color:'var(--mint)',bg:'var(--mint-soft)',title:'Неселективные α-,β-АМ',desc:'Все типы адренорецепторов.',drugs:['Эпинефрин','Норэпинефрин','Допамин'],details:'Эпинефрин — при анафилаксии.'},
+{section:'Адреномиметики',icon:'α1',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'α1-АМ периферические',desc:'Сужение сосудов, мидриаз.',drugs:['Фенилэфрин'],details:'Мезатон.'},
+{section:'Адреномиметики',icon:'Д',color:'var(--accent)',bg:'var(--accent-soft)',title:'Топические деконгестанты',desc:'α1,2-АМ местного действия.',drugs:['Нафазолин','Ксилометазолин','Оксиметазолин'],details:'Насморк. Курс не более 5–7 дней.'},
+{section:'Адреномиметики',icon:'О',color:'var(--warm)',bg:'var(--warm-soft)',title:'Офтальмологические α1,2-АМ',desc:'Снятие покраснения глаз.',drugs:['Тетризолин'],details:'Визин Классический.'},
+{section:'Адреномиметики',icon:'Г',color:'var(--success)',bg:'var(--success-soft)',title:'Офтальмологические α2-АМ',desc:'Противоглаукомные.',drugs:['Бримонидин'],details:'Альфаган.'},
+{section:'Адреномиметики',icon:'Ц',color:'var(--error)',bg:'var(--error-soft)',title:'α2-АМ центральные',desc:'Снижение симпатического тонуса.',drugs:['Клонидин','Метилдопа'],details:'Клофелин, Допегит.'},
+{section:'Адреномиметики',icon:'β1',color:'var(--mint)',bg:'var(--mint-soft)',title:'β1-АМ',desc:'Усиление работы сердца.',drugs:['Добутамин'],details:'Острая декомпенсация ХСН.'},
+{section:'Адреномиметики',icon:'К',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'β2-АМ короткого действия',desc:'Бронходилатация 4–6 ч.',drugs:['Сальбутамол','Фенотерол'],details:'Купирование приступа астмы.'},
+{section:'Адреномиметики',icon:'Д',color:'var(--accent)',bg:'var(--accent-soft)',title:'β2-АМ длительного действия',desc:'Бронходилатация 12 ч.',drugs:['Формотерол','Салметерол'],details:'Базисная терапия.'},
+{section:'Адреномиметики',icon:'У',color:'var(--warm)',bg:'var(--warm-soft)',title:'β2-АМ ультрадлительные',desc:'24 ч.',drugs:['Индакатерол','Олодатерол'],details:'ХОБЛ, 1 раз в сутки.'},
+{section:'Адреномиметики',icon:'Т',color:'var(--success)',bg:'var(--success-soft)',title:'β2-АМ токолитики',desc:'Расслабление миометрия.',drugs:['Гексопреналин'],details:'Гинипрал.'},
+{section:'Адреномиметики',icon:'β3',color:'var(--error)',bg:'var(--error-soft)',title:'β3-АМ',desc:'Расслабление детрузора.',drugs:['Мирабегрон'],details:'Бетмига.'},
+{section:'Адреномиметики',icon:'С',color:'var(--mint)',bg:'var(--mint-soft)',title:'Симпатомиметики',desc:'Непрямое действие.',drugs:['Эфедрин'],details:'Смешанный механизм.'},
+{section:'Адреноблокаторы',icon:'αβ',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'α,β-АБ',desc:'Блокада α1,β1,β2.',drugs:['Карведилол'],details:'ХСН, ИБС, АГ.'},
+{section:'Адреноблокаторы',icon:'Н',color:'var(--accent)',bg:'var(--accent-soft)',title:'Неселективные α1,α2-АБ',desc:'Расширение сосудов.',drugs:['Ницерголин'],details:'Сермион.'},
+{section:'Адреноблокаторы',icon:'У',color:'var(--warm)',bg:'var(--warm-soft)',title:'Уроселективные α1-АБ',desc:'Расслабление простаты.',drugs:['Тамсулозин','Алфузозин','Силодозин'],details:'ДГПЖ, СНМП.'},
+{section:'Адреноблокаторы',icon:'С',color:'var(--success)',bg:'var(--success-soft)',title:'α1-АБ системного действия',desc:'Снижение АД.',drugs:['Доксазозин','Теразозин'],details:'АГ, ДГПЖ.'},
+{section:'Адреноблокаторы',icon:'Н',color:'var(--error)',bg:'var(--error-soft)',title:'α1-АБ для неотложной терапии',desc:'В/в введение.',drugs:['Урапидил'],details:'Эбрантил.'},
+{section:'Адреноблокаторы',icon:'Й',color:'var(--mint)',bg:'var(--mint-soft)',title:'Селективные α2-АБ',desc:'Повышение либидо.',drugs:['Йохимбин'],details:'Эректильная дисфункция.'},
+{section:'Адреноблокаторы',icon:'Н',color:'var(--lavender-deco)',bg:'var(--lavender-soft)',title:'Неселективные β1,β2-АБ',desc:'Блокада всех β-рецепторов.',drugs:['Пропранолол','Тимолол','Соталол'],details:'Противопоказаны при БА и ХОБЛ.'},
+{section:'Адреноблокаторы',icon:'С',color:'var(--accent)',bg:'var(--accent-soft)',title:'Селективные β1-АБ',desc:'Кардиоселективные.',drugs:['Метопролол','Бисопролол','Атенолол'],details:'АГ, ИБС, ХСН.'},
+{section:'Адреноблокаторы',icon:'В',color:'var(--warm)',bg:'var(--warm-soft)',title:'β1-АБ с вазодилатацией',desc:'Дополнительное расширение сосудов.',drugs:['Небиволол'],details:'Небилет.'},
+{section:'Адреноблокаторы',icon:'У',color:'var(--success)',bg:'var(--success-soft)',title:'Ультракороткодействующие β1-АБ',desc:'Управляемая блокада.',drugs:['Эсмолол'],details:'Бревиблок.'},
+{section:'Адреноблокаторы',icon:'Р',color:'var(--error)',bg:'var(--error-soft)',title:'Симпатолитики',desc:'Истощение запасов норадреналина.',drugs:['Раунатин','Метилдопа'],details:'Раувольфия, метилдопа.'}
 ];
-
 const GROUPS=[
 {section:'Холиномиметики',group:'Прямые М-холиномиметики',drugs:['Пилокарпин'],mechanism:'Прямая стимуляция М-холинорецепторов — эффекты ацетилхолина развиваются без участия холинэстеразы.',sideEffects:['Миоз, спазм аккомодации, слезотечение','Брадикардия, гипотензия','Бронхоспазм, гиперсекреция желёз','Тошнота, диарея']},
 {section:'Холиномиметики',group:'Н-холиномиметики (полные агонисты)',drugs:['Никотин'],mechanism:'Прямая стимуляция Н-холинорецепторов в ЦНС, вегетативных ганглиях и мозговом слое надпочечников.',sideEffects:['Тахикардия, повышение АД','Тошнота, рвота, диарея','Головная боль, тремор','При передозировке — ганглиоблокада','Зависимость']},
@@ -644,816 +632,860 @@ const GROUPS=[
 {section:'Адреноблокаторы',group:'Ультракороткодействующие β1-адреноблокаторы',drugs:['Эсмолол'],mechanism:'Быстрая блокада β1-рецепторов, эффект 1–2 мин — 10–30 мин после инфузии.',sideEffects:['Брадикардия, гипотензия','Бронхоспазм','Тошнота']},
 {section:'Адреноблокаторы',group:'Симпатолитики',drugs:['Раунатин','Метилдопа'],mechanism:'Истощение запасов норадреналина в пресинаптических окончаниях (раувольфия) или ложный медиатор (метилдопа).',sideEffects:['Ортостатическая гипотензия','Брадикардия','Седация','Депрессия','Заложенность носа']}
 ];
-
 const SCENARIOS={
-  normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с М- и Н-рецепторами → АХЭ разрушает АХ. Сигнал проходит, система готова к следующему импульсу.'},
-  'm-agonist':{name:'Прямой М-холиномиметик (Пилокарпин)',chain:'<strong>Пилокарпин стимулирует М-рецепторы напрямую.</strong> АХ не нужен — рецептор активирован. Эффект: брадикардия, слюнотечение, миоз, бронхоспазм, диарея. Классический SLUDGE-синдром.'},
-  'n-agonist':{name:'Н-холиномиметик (Никотин)',chain:'<strong>Стимуляция Н-рецепторов.</strong> В малых дозах — возбуждение ганглиев (тахикардия, повышение АД), в больших — стойкая деполяризация и блокада (брадикардия, падение АД).'},
-  'ache-block':{name:'оиХЭ (Неостигмин)',chain:'<strong>АХЭ ингибирована → АХ не разрушается → накапливается в щели.</strong> Избыточная стимуляция и М-, и Н-рецепторов. Мускариновые эффекты + никотиновые (фасцикуляции, слабость). Антидот — атропин.'},
-  'fos':{name:'ФОС (отравление)',chain:'<strong>Необратимое ингибирование АХЭ.</strong> Фермент «состарен» и не восстанавливается сам. АХ накапливается лавинообразно. Тяжёлое отравление: бронхорея, бронхоспазм, брадикардия, фасцикуляции. Антидот — атропин + карбоксим.'},
-  'reactivator':{name:'Реактиватор (Карбоксим)',chain:'<strong>Карбоксим разрывает связь ФОС с АХЭ.</strong> Фермент восстановлен, АХ снова разрушается. Вводится вместе с атропином: атропин снимает мускариновые симптомы, карбоксим убирает причину.'},
-  'm-blocker':{name:'М-холиноблокатор (Атропин)',chain:'<strong>М-рецепторы заблокированы.</strong> АХ вырабатывается, но не может активировать М-рецептор. Эффекты: тахикардия, сухость, мидриаз, запор, задержка мочи. Н-рецепторы работают — никотиновые эффекты сохраняются.'},
-  'n-blocker':{name:'Н-холиноблокатор (ганглиоблокатор, миорелаксант)',chain:'<strong>Н-рецепторы заблокированы.</strong> Ганглиоблокатор: падение АД, тахикардия, сухость. Миорелаксант: расслабление скелетных мышц, апноэ. Нейромышечная передача нарушена.'},
-  'botox':{name:'Ботулотоксин',chain:'<strong>Выброс АХ из везикул нарушен.</strong> Везикулы не сливаются с мембраной. АХ не попадает в щель. Рецепторы не активируются. Эффект: расслабление мышц (спастичность, косметология). Длится 3–6 месяцев.'}
+normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с М- и Н-рецепторами → АХЭ разрушает АХ. Сигнал проходит, система готова к следующему импульсу.'},
+'m-agonist':{name:'Прямой М-холиномиметик (Пилокарпин)',chain:'<strong>Пилокарпин стимулирует М-рецепторы напрямую.</strong> АХ не нужен — рецептор активирован. Эффект: брадикардия, слюнотечение, миоз, бронхоспазм, диарея. Классический SLUDGE-синдром.'},
+'n-agonist':{name:'Н-холиномиметик (Никотин)',chain:'<strong>Стимуляция Н-рецепторов.</strong> В малых дозах — возбуждение ганглиев (тахикардия, повышение АД), в больших — стойкая деполяризация и блокада (брадикардия, падение АД).'},
+'ache-block':{name:'оиХЭ (Неостигмин)',chain:'<strong>АХЭ ингибирована → АХ не разрушается → накапливается в щели.</strong> Избыточная стимуляция и М-, и Н-рецепторов. Мускариновые эффекты + никотиновые (фасцикуляции, слабость). Антидот — атропин.'},
+'fos':{name:'ФОС (отравление)',chain:'<strong>Необратимое ингибирование АХЭ.</strong> Фермент «состарен» и не восстанавливается сам. АХ накапливается лавинообразно. Тяжёлое отравление: бронхорея, бронхоспазм, брадикардия, фасцикуляции. Антидот — атропин + карбоксим.'},
+'reactivator':{name:'Реактиватор (Карбоксим)',chain:'<strong>Карбоксим разрывает связь ФОС с АХЭ.</strong> Фермент восстановлен, АХ снова разрушается. Вводится вместе с атропином: атропин снимает мускариновые симптомы, карбоксим убирает причину.'},
+'m-blocker':{name:'М-холиноблокатор (Атропин)',chain:'<strong>М-рецепторы заблокированы.</strong> АХ вырабатывается, но не может активировать М-рецептор. Эффекты: тахикардия, сухость, мидриаз, запор, задержка мочи. Н-рецепторы работают — никотиновые эффекты сохраняются.'},
+'n-blocker':{name:'Н-холиноблокатор (ганглиоблокатор, миорелаксант)',chain:'<strong>Н-рецепторы заблокированы.</strong> Ганглиоблокатор: падение АД, тахикардия, сухость. Миорелаксант: расслабление скелетных мышц, апноэ. Нейромышечная передача нарушена.'},
+'botox':{name:'Ботулотоксин',chain:'<strong>Выброс АХ из везикул нарушен.</strong> Везикулы не сливаются с мембраной. АХ не попадает в щель. Рецепторы не активируются. Эффект: расслабление мышц (спастичность, косметология). Длится 3–6 месяцев.'}
 };
-
 const EYE_SCENARIOS={
-  normal:{name:'Норма',chain:'В покое. Сфинктер зрачка и цилиарная мышца в умеренном тонусе. Водянистая влага свободно фильтруется через трабекулярную сеть.'},
-  'm-agonist':{name:'Пилокарпин (М-холиномиметик)',chain:'Пилокарпин стимулирует М3-рецепторы. Миоз. Хрусталик выпуклее (спазм аккомодации). Снижается внутриглазное давление.'},
-  'm-blocker':{name:'Атропин (М-холиноблокатор)',chain:'Атропин блокирует М3-рецепторы. Мидриаз. Хрусталик плоский (паралич аккомодации). Отток влаги ухудшается.'},
-  'acute-glaucoma':{name:'Острый приступ глаукомы',chain:'Радужка перекрывает трабекулярную сеть. Внутриглазное давление растет. Помощь: пилокарпин + средства для снижения ВГД.'}
+normal:{name:'Норма',chain:'В покое. Сфинктер зрачка и цилиарная мышца в умеренном тонусе. Водянистая влага свободно фильтруется через трабекулярную сеть.'},
+'m-agonist':{name:'Пилокарпин (М-холиномиметик)',chain:'Пилокарпин стимулирует М3-рецепторы. Миоз. Хрусталик выпуклее (спазм аккомодации). Снижается внутриглазное давление.'},
+'m-blocker':{name:'Атропин (М-холиноблокатор)',chain:'Атропин блокирует М3-рецепторы. Мидриаз. Хрусталик плоский (паралич аккомодации). Отток влаги ухудшается.'},
+'acute-glaucoma':{name:'Острый приступ глаукомы',chain:'Радужка перекрывает трабекулярную сеть. Внутриглазное давление растет. Помощь: пилокарпин + средства для снижения ВГД.'}
 };
 
 const EYE_SVG = `
-<!-- Подключаем локальный файл -->
-<image href="eye.svg" x="0" y="0" width="434" height="409" />
+<defs>
+    <radialGradient id="scleraGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="90%" stop-color="#f1f5f9"/>
+        <stop offset="100%" stop-color="#e2e8f0"/>
+    </radialGradient>
+    <linearGradient id="corneaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="rgba(186, 230, 253, 0.1)"/>
+        <stop offset="100%" stop-color="rgba(186, 230, 253, 0.4)"/>
+    </linearGradient>
+    <radialGradient id="irisGrad" cx="30%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#818cf8"/>
+        <stop offset="50%" stop-color="#6366f1"/>
+        <stop offset="100%" stop-color="#4338ca"/>
+    </radialGradient>
+    <radialGradient id="lensGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(255,255,255,0.9)"/>
+        <stop offset="80%" stop-color="rgba(255,255,255,0.6)"/>
+        <stop offset="100%" stop-color="rgba(203, 213, 225, 0.8)"/>
+    </radialGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+</defs>
 
-<!-- Невидимые интерактивные зоны (хотспоты) -->
-<g class="synapse-el eye-part pupil" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в радужке. При миозе сужается, при мидриазе расширяется." style="cursor:pointer;">
-  <circle cx="125" cy="90" r="15" fill="transparent" />
-</g>
-<g class="synapse-el eye-part lens" data-el="lens" data-name="Хрусталик" data-desc="Меняет кривизну. Пилокарпин вызывает спазм аккомодации (становится выпуклым), атропин — циклоплегию (уплощается)." style="cursor:pointer;">
-  <ellipse cx="170" cy="90" rx="25" ry="35" fill="transparent" />
-</g>
-<g class="synapse-el eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Сокращается под действием М-холиномиметиков (пилокарпин), расслабляется под действием М-холиноблокаторов (атропин)." style="cursor:pointer;">
-  <path d="M 140 60 L 160 60 L 160 80 L 140 80 Z" fill="transparent" />
-  <path d="M 140 100 L 160 100 L 160 120 L 140 120 Z" fill="transparent" />
-</g>
-<g class="synapse-el eye-part trabecular" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Зона оттока внутриглазной жидкости. При глаукоме блокируется радужкой." style="cursor:pointer;">
-  <path d="M 90 60 L 120 60 L 120 80 L 90 70 Z" fill="transparent" />
-</g>
-<g class="synapse-el eye-part iris" data-el="iris" data-name="Радужка" data-desc="Определяет цвет глаз. Содержит мышцы, сужающие и расширяющие зрачок." style="cursor:pointer;">
-  <path d="M 110 60 L 140 60 L 140 80 L 110 80 Z" fill="transparent" />
-  <path d="M 110 100 L 140 100 L 140 120 L 110 120 Z" fill="transparent" />
-</g>
+<!-- Фон карточки (адаптируется под тему через CSS) -->
+<rect class="eye-bg-rect" width="500" height="400" fill="#f8fafc" rx="20"/>
+
+<!-- Склера (белочная оболочка) -->
+<path class="eye-part sclera" d="M 80 200 C 80 60, 420 60, 420 200 C 420 340, 80 340, 80 200 Z" fill="url(#scleraGrad)" stroke="#cbd5e1" stroke-width="3"/>
+
+<!-- Сосуды склеры (для анатомической правдоподобности) -->
+<path d="M 340 110 Q 370 120 390 140" fill="none" stroke="#fca5a5" stroke-width="1.5" opacity="0.7"/>
+<path d="M 350 130 Q 380 135 400 160" fill="none" stroke="#fca5a5" stroke-width="1" opacity="0.5"/>
+<path d="M 360 290 Q 390 280 410 260" fill="none" stroke="#fca5a5" stroke-width="1.5" opacity="0.7"/>
+<path d="M 340 270 Q 370 265 390 240" fill="none" stroke="#fca5a5" stroke-width="1" opacity="0.5"/>
+
+<!-- Сетчатка (внутренняя выстилка, задняя часть) -->
+<path d="M 410 200 C 410 330, 90 330, 90 200" fill="none" stroke="#fca5a5" stroke-width="4" opacity="0.4"/>
+
+<!-- Роговица -->
+<path class="eye-part cornea" d="M 80 140 C 30 140, 30 260, 80 260" fill="url(#corneaGrad)" stroke="#7dd3fc" stroke-width="3"/>
+
+<!-- Передняя камера (пространство, заполненное влагой) -->
+<path d="M 80 140 C 45 140, 45 260, 80 260 L 80 140" fill="rgba(186, 230, 253, 0.15)"/>
+
+<!-- Хрусталик (двояковыпуклая линза) -->
+<path class="eye-part lens" d="M 150 180 Q 210 180 210 200 Q 210 220 150 220 Q 165 200 150 180 Z" fill="url(#lensGrad)" stroke="#94a3b8" stroke-width="2"/>
+
+<!-- Зрачок -->
+<ellipse class="eye-part pupil" cx="150" cy="200" rx="18" ry="22" fill="#0f172a"/>
+
+<!-- Радужка (верхняя часть) -->
+<path class="eye-part iris" d="M 80 140 Q 120 150 150 180 L 150 192 Q 110 182 80 170 Z" fill="url(#irisGrad)" stroke="#3730a3" stroke-width="1.5"/>
+<!-- Радужка (нижняя часть) -->
+<path class="eye-part iris" d="M 80 260 Q 120 250 150 220 L 150 208 Q 110 218 80 230 Z" fill="url(#irisGrad)" stroke="#3730a3" stroke-width="1.5"/>
+
+<!-- Текстура радужки (тонкие линии) -->
+<path d="M 90 155 L 130 175" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+<path d="M 90 245 L 130 225" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+<path d="M 100 150 L 140 180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+<path d="M 100 250 L 140 220" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+<!-- Цилиарное тело (мышца) -->
+<path class="eye-part ciliary" d="M 90 130 Q 130 120 150 170 L 140 175 Q 120 135 90 145 Z" fill="#f87171" opacity="0.85"/>
+<path class="eye-part ciliary" d="M 90 270 Q 130 280 150 230 L 140 225 Q 120 265 90 255 Z" fill="#f87171" opacity="0.85"/>
+
+<!-- Цинновы связки (подвешивающие хрусталик) -->
+<line x1="142" y1="172" x2="150" y2="182" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="142" y1="228" x2="150" y2="218" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="135" y1="168" x2="155" y2="185" stroke="#94a3b8" stroke-width="1" opacity="0.6"/>
+<line x1="135" y1="232" x2="155" y2="215" stroke="#94a3b8" stroke-width="1" opacity="0.6"/>
+
+<!-- Трабекулярная сеть (угол передней камеры) -->
+<path class="eye-part trabecular" d="M 75 145 L 95 142 L 90 160 Z" fill="#10b981" filter="url(#glow)"/>
+<path class="eye-part trabecular" d="M 75 255 L 95 258 L 90 240 Z" fill="#10b981" filter="url(#glow)"/>
+
+<!-- Шлеммов канал (схематично) -->
+<circle cx="85" cy="150" r="3" fill="#059669" opacity="0.8"/>
+<circle cx="85" cy="250" r="3" fill="#059669" opacity="0.8"/>
+
+<!-- Интерактивные зоны (хотспоты) -->
+<g class="synapse-el eye-part pupil" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в радужке. При миозе (пилокарпин) сужается, при мидриазе (атропин) расширяется. Регулирует количество света." style="cursor:pointer;"><circle cx="150" cy="200" r="35" fill="transparent"/></g>
+<g class="synapse-el eye-part lens" data-el="lens" data-name="Хрусталик" data-desc="Двояковыпуклая линза. Пилокарпин вызывает спазм аккомодации (становится более выпуклым), атропин — циклоплегию (уплощается)." style="cursor:pointer;"><rect x="140" y="170" width="80" height="60" fill="transparent"/></g>
+<g class="synapse-el eye-part ciliary" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Сокращается под действием М-холиномиметиков, расслабляя цинновы связки и делая хрусталик выпуклым." style="cursor:pointer;"><rect x="80" y="110" width="80" height="80" fill="transparent"/><rect x="80" y="210" width="80" height="80" fill="transparent"/></g>
+<g class="synapse-el eye-part trabecular" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Зона оттока внутриглазной жидкости. При остром приступе глаукомы перекрывается радужкой, что ведет к росту внутриглазного давления (пульсирует красным)." style="cursor:pointer;"><rect x="65" y="130" width="40" height="40" fill="transparent"/><rect x="65" y="230" width="40" height="40" fill="transparent"/></g>
+<g class="synapse-el eye-part iris" data-el="iris" data-name="Радужка" data-desc="Содержит мышцы, сужающие и расширяющие зрачок. При глаукоме смещается вперед, перекрывая угол передней камеры." style="cursor:pointer;"><rect x="70" y="130" width="90" height="140" fill="transparent"/></g>
 `;
 
 const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},vizTab:'synapse'};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
 function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
-
 const screenEl=document.getElementById('screen');
 const titleEl=document.getElementById('screen-title');
-
 function setScreen(name){
-  state.screen=name;
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
-  const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
-  document.title='PharmStudy — '+(titles[name]||'');
-  if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
-  else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
-  else if(name==='synapse'){titleEl.textContent='Визуализация';renderVisualization()}
-  else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
-  else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
-  else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
+state.screen=name;
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
+const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
+document.title='PharmStudy — '+(titles[name]||'');
+if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
+else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
+else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
+else if(name==='synapse'){titleEl.textContent='Визуализация';renderVisualization()}
+else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
+else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
+else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
-
 function renderDashboard(){
-  const s=getStats();
-  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
-  return `
-    <div class="hero">
-      <h2>Добрый вечер, Студент!</h2>
-      <p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов · ${GROUPS.length} групп</p>
-      <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
-      <div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
-      <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
-      <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
-    </div>
-    <div class="row-2">
-      <div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
-        <div class="recent-list">
-          ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=colors[i%colors.length];return `<div class="recent-item"><div class="recent-icon" style="background:${col}">${count}</div><div class="recent-info"><div class="recent-title">${sec}</div><div class="recent-sub">${count} вопросов</div></div></div>`;}).join('')}
-          <div class="recent-item" onclick="setScreen('case')"><div class="recent-icon" style="background:var(--warm)">${Object.keys(CASES).length}</div><div class="recent-info"><div class="recent-title">Клинические кейсы</div><div class="recent-sub">Интерактивные истории</div></div></div>
-        </div>
-      </div>
-      <div class="panel"><div class="panel-head"><h3>Прогресс по темам</h3></div>
-        <div class="topic-list">${topics.map(t=>`<div class="topic-row"><div class="topic-top"><span class="topic-name">${t.name}</span><span class="topic-pct">${t.pct}%</span></div><div class="topic-bar"><div class="topic-fill" style="width:${t.pct}%;background:${t.color}"></div></div></div>`).join('')}</div>
-      </div>
-    </div>`;
+const s=getStats();
+const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
+return `
+<div class="hero">
+<h2>Добрый вечер, Студент!</h2>
+<p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов · ${GROUPS.length} групп</p>
+<button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
+</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
+<div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
+<div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
+<div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
+</div>
+<div class="row-2">
+<div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
+<div class="recent-list">
+${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=colors[i%colors.length];return `<div class="recent-item"><div class="recent-icon" style="background:${col}">${count}</div><div class="recent-info"><div class="recent-title">${sec}</div><div class="recent-sub">${count} вопросов</div></div></div>`;}).join('')}
+<div class="recent-item" onclick="setScreen('case')"><div class="recent-icon" style="background:var(--warm)">${Object.keys(CASES).length}</div><div class="recent-info"><div class="recent-title">Клинические кейсы</div><div class="recent-sub">Интерактивные истории</div></div></div>
+</div>
+</div>
+<div class="panel"><div class="panel-head"><h3>Прогресс по темам</h3></div>
+<div class="topic-list">${topics.map(t=>`<div class="topic-row"><div class="topic-top"><span class="topic-name">${t.name}</span><span class="topic-pct">${t.pct}%</span></div><div class="topic-bar"><div class="topic-fill" style="width:${t.pct}%;background:${t.color}"></div></div></div>`).join('')}</div>
+</div>
+</div>`;
 }
-
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function editDist(a,b){const m=a.length,n=b.length;const dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);}return dp[m][n];}
 function normalize(s){return s.toLowerCase().replace(/ё/g,'е').replace(/\([^)]*\)/g,'').replace(/[^а-яa-z0-9\s-]/g,' ').replace(/\s+/g,' ').trim();}
 function isDrugMatch(input,drug){const a=normalize(input),b=normalize(drug);if(!a||a.length<4)return false;if(a===b)return true;if(b.startsWith(a)||a.startsWith(b))return true;const threshold=Math.max(1,Math.floor(Math.max(a.length,b.length)/6));return editDist(a,b)<=threshold;}
 function classifyCheck(input,drugs){
-  const parts=input.split(/[,;]+/).map(s=>s.trim()).filter(s=>s);
-  const usedDrugs=new Set();const usedInputs=new Set();const matched=[];
-  parts.forEach((p,pi)=>{drugs.forEach((d,di)=>{if(usedDrugs.has(di))return;if(isDrugMatch(p,d)){usedDrugs.add(di);usedInputs.add(pi);matched.push(d);}});});
-  const missed=drugs.filter((d,i)=>!usedDrugs.has(i));
-  const extra=parts.filter((p,i)=>!usedInputs.has(i));
-  return {matched,missed,extra,correct:matched.length,total:drugs.length};
+const parts=input.split(/[,;]+/).map(s=>s.trim()).filter(s=>s);
+const usedDrugs=new Set();const usedInputs=new Set();const matched=[];
+parts.forEach((p,pi)=>{drugs.forEach((d,di)=>{if(usedDrugs.has(di))return;if(isDrugMatch(p,d)){usedDrugs.add(di);usedInputs.add(pi);matched.push(d);}});});
+const missed=drugs.filter((d,i)=>!usedDrugs.has(i));
+const extra=parts.filter((p,i)=>!usedInputs.has(i));
+return {matched,missed,extra,correct:matched.length,total:drugs.length};
 }
 function renderSessionSetup(){
-  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  if(state.selectedTopics._init!==true){sections.forEach(s=>state.selectedTopics[s]=true);state.selectedTopics._init=true;}
-  if(state.selectedSkills._init!==true){SKILL_LIST.forEach(s=>state.selectedSkills[s]=true);state.selectedSkills._init=true;}
-  const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
-  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
-  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>{
-    return sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length;
-  },0);
-  screenEl.innerHTML=`
-    <div class="case-picker">
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
-      <div class="skill-filter">
-        <div class="skill-filter-label">Тип вопросов</div>
-        <div class="skill-chips">
-          ${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}
-        </div>
-      </div>
-      <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
-        ${sections.map((sec,i)=>{
-          const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;
-          return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;
-        }).join('')}
-      </div>
-      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
-      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+if(state.selectedTopics._init!==true){sections.forEach(s=>state.selectedTopics[s]=true);state.selectedTopics._init=true;}
+if(state.selectedSkills._init!==true){SKILL_LIST.forEach(s=>state.selectedSkills[s]=true);state.selectedSkills._init=true;}
+const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
+const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
+const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>{
+return sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length;
+},0);
+screenEl.innerHTML=`
+<div class="case-picker">
+<div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
+<div class="skill-filter">
+<div class="skill-filter-label">Тип вопросов</div>
+<div class="skill-chips">
+${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}
+</div>
+</div>
+<div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
+<div style="margin-bottom:24px">
+${sections.map((sec,i)=>{
+const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;
+return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;
+}).join('')}
+</div>
+<div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
+<button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
 function toggleSkill(s){
-  state.selectedSkills[s]=!state.selectedSkills[s];
-  renderSessionSetup();
+state.selectedSkills[s]=!state.selectedSkills[s];
+renderSessionSetup();
 }
 function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionSetup();}
 function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;renderSessionSetup();}
 function startSession(){
-  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const selected=sections.filter(s=>state.selectedTopics[s]);
-  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
-  let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
-  if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
-  pool=shuffle(pool);
-  state.session={questions:pool,index:0,answers:[]};
-  titleEl.textContent='Тестирование';
-  renderQuestion();
+const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+const selected=sections.filter(s=>state.selectedTopics[s]);
+const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
+let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
+if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
+pool=shuffle(pool);
+state.session={questions:pool,index:0,answers:[]};
+titleEl.textContent='Тестирование';
+renderQuestion();
 }
 function renderQuestion(){
-  const s=state.session;
-  if(s.index>=s.questions.length){renderReport();return}
-  const q=s.questions[s.index];
-  const progress=(s.index/s.questions.length)*100;
-  screenEl.innerHTML=`
-    <div class="question-card">
-      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.questions.length}</span></div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${q.section}</div>
-      <div class="q-text">${q.text}</div>
-      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button class="q-option" onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
-      <div id="feedbackArea"></div>
-    </div>`;
+const s=state.session;
+if(s.index>=s.questions.length){renderReport();return}
+const q=s.questions[s.index];
+const progress=(s.index/s.questions.length)*100;
+screenEl.innerHTML=`
+<div class="question-card">
+<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.questions.length}</span></div>
+<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${q.section}</div>
+<div class="q-text">${q.text}</div>
+<div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button class="q-option" onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
+<div id="feedbackArea"></div>
+</div>`;
 }
 function answerQuestion(i){
-  const s=state.session;const q=s.questions[s.index];
-  const buttons=document.querySelectorAll('#qOptions .q-option');
-  buttons.forEach(b=>b.disabled=true);
-  const isCorrect=i===q.correct;
-  buttons[i].classList.add(isCorrect?'correct':'wrong');
-  if(!isCorrect)buttons[q.correct].classList.add('correct');
-  s.answers.push({id:q.id,correct:isCorrect,section:q.section});
-  if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
-  if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
-  saveProgress();
-  document.getElementById('feedbackArea').innerHTML=`
-    <div class="explanation">
-      <h4>${isCorrect?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4>
-      <p>${q.explanation}</p>
-      <div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <div class="source">Источник: ${q.source}</div>
-    </div>
-    <button class="next-btn" onclick="nextQuestion()">${s.index+1>=s.questions.length?'Завершить тест':'Следующий вопрос'}</button>`;
+const s=state.session;const q=s.questions[s.index];
+const buttons=document.querySelectorAll('#qOptions .q-option');
+buttons.forEach(b=>b.disabled=true);
+const isCorrect=i===q.correct;
+buttons[i].classList.add(isCorrect?'correct':'wrong');
+if(!isCorrect)buttons[q.correct].classList.add('correct');
+s.answers.push({id:q.id,correct:isCorrect,section:q.section});
+if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
+if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
+saveProgress();
+document.getElementById('feedbackArea').innerHTML=`
+<div class="explanation">
+<h4>${isCorrect?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4>
+<p>${q.explanation}</p>
+<div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+<div class="source">Источник: ${q.source}</div>
+</div>
+<button class="next-btn" onclick="nextQuestion()">${s.index+1>=s.questions.length?'Завершить тест':'Следующий вопрос'}</button>`;
 }
 function nextQuestion(){state.session.index++;renderQuestion()}
 function renderReport(){
-  const s=state.session;
-  const correct=s.answers.filter(a=>a.correct).length;
-  const total=s.answers.length;
-  const pct=Math.round(correct/total*100);
-  const wrongIds=s.answers.filter(a=>!a.correct).map(a=>a.id);
-  const wrongQs=QUESTIONS.filter(q=>wrongIds.includes(q.id));
-  const weakTags=[...new Set(wrongQs.flatMap(q=>q.tags.slice(0,2)))];
-  state.progress._sessions=(state.progress._sessions||0)+1;
-  saveProgress();
-  screenEl.innerHTML=`
-    <div class="report-card">
-      <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
-      <div class="report-title">Тест завершён</div>
-      <div class="report-sub">${total} вопросов</div>
-      <div class="report-stats">
-        <div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${correct}</div><div class="report-stat-lbl">правильно</div></div>
-        <div class="report-stat"><div class="report-stat-val" style="color:var(--error)">${total-correct}</div><div class="report-stat-lbl">ошибок</div></div>
-        <div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">точность</div></div>
-      </div>
-      ${weakTags.length?`<div class="report-weak"><h4>Слабые места — стоит повторить:</h4><div class="weak-list">${weakTags.map(t=>`<div class="weak-item">${t}</div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>`}
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('session')">Новый тест</button>
-        <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К кейсам</button>
-      </div>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const s=state.session;
+const correct=s.answers.filter(a=>a.correct).length;
+const total=s.answers.length;
+const pct=Math.round(correct/total*100);
+const wrongIds=s.answers.filter(a=>!a.correct).map(a=>a.id);
+const wrongQs=QUESTIONS.filter(q=>wrongIds.includes(q.id));
+const weakTags=[...new Set(wrongQs.flatMap(q=>q.tags.slice(0,2)))];
+state.progress._sessions=(state.progress._sessions||0)+1;
+saveProgress();
+screenEl.innerHTML=`
+<div class="report-card">
+<div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
+<div class="report-title">Тест завершён</div>
+<div class="report-sub">${total} вопросов</div>
+<div class="report-stats">
+<div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${correct}</div><div class="report-stat-lbl">правильно</div></div>
+<div class="report-stat"><div class="report-stat-val" style="color:var(--error)">${total-correct}</div><div class="report-stat-lbl">ошибок</div></div>
+<div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">точность</div></div>
+</div>
+${weakTags.length?`<div class="report-weak"><h4>Слабые места — стоит повторить:</h4><div class="weak-list">${weakTags.map(t=>`<div class="weak-item">${t}</div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>`}
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('session')">Новый тест</button>
+<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К кейсам</button>
+</div>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
-
 function renderClassifySetup(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
-  const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
-  const totalSelected=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).length,0);
-  screenEl.innerHTML=`
-    <div class="case-picker">
-      ${renderClassifyTabs('input')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
-      <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
-        ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).length} групп</div></div></div>`).join('')}
-      </div>
-      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} групп</div><div class="sub">${selectedCount} разделов</div></div>
-      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const sections=[...new Set(GROUPS.map(g=>g.section))];
+const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
+const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
+const totalSelected=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).length,0);
+screenEl.innerHTML=`
+<div class="case-picker">
+${renderClassifyTabs('input')}
+<div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
+<div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
+<div style="margin-bottom:24px">
+${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).length} групп</div></div></div>`).join('')}
+</div>
+<div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} групп</div><div class="sub">${selectedCount} разделов</div></div>
+<button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
 function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup();}
 function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;renderClassifySetup();}
 function startClassify(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const selected=sections.filter(s=>state.selectedClassifySections[s]);
-  let pool=GROUPS.filter(g=>selected.includes(g.section));
-  if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
-  pool=shuffle(pool);
-  state.classifySession={groups:pool,index:0,results:[]};
-  titleEl.textContent='Классификация';
-  renderClassifyQuestion();
+const sections=[...new Set(GROUPS.map(g=>g.section))];
+const selected=sections.filter(s=>state.selectedClassifySections[s]);
+let pool=GROUPS.filter(g=>selected.includes(g.section));
+if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
+pool=shuffle(pool);
+state.classifySession={groups:pool,index:0,results:[]};
+titleEl.textContent='Классификация';
+renderClassifyQuestion();
 }
 function renderClassifyQuestion(){
-  const s=state.classifySession;
-  if(s.index>=s.groups.length){renderClassifyReport();return;}
-  const g=s.groups[s.index];
-  const progress=(s.index/s.groups.length)*100;
-  screenEl.innerHTML=`
-    <div class="question-card">
-      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
-      <div class="q-text">${g.group}</div>
-      <div class="classify-hint">Перечислите препараты через запятую</div>
-      <input type="text" id="classifyInput" class="classify-input" placeholder="Например: Пилокарпин, Карбахол" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkClassifyAnswer()">
-      <button class="next-btn" onclick="checkClassifyAnswer()">Проверить</button>
-    </div>`;
-  setTimeout(()=>{const i=document.getElementById('classifyInput');if(i)i.focus();},50);
+const s=state.classifySession;
+if(s.index>=s.groups.length){renderClassifyReport();return;}
+const g=s.groups[s.index];
+const progress=(s.index/s.groups.length)*100;
+screenEl.innerHTML=`
+<div class="question-card">
+<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
+<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
+<div class="q-text">${g.group}</div>
+<div class="classify-hint">Перечислите препараты через запятую</div>
+<input type="text" id="classifyInput" class="classify-input" placeholder="Например: Пилокарпин, Карбахол" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkClassifyAnswer()">
+<button class="next-btn" onclick="checkClassifyAnswer()">Проверить</button>
+</div>`;
+setTimeout(()=>{const i=document.getElementById('classifyInput');if(i)i.focus();},50);
 }
 function checkClassifyAnswer(){
-  const s=state.classifySession;
-  const g=s.groups[s.index];
-  const input=document.getElementById('classifyInput').value;
-  const res=classifyCheck(input,g.drugs);
-  s.results.push({group:g.group,section:g.section,...res});
-  const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
-  const headerText=status==='good'?'✓ Всё верно':status==='partial'?`~ Частично: ${res.correct} из ${res.total}`:'✗ Ничего не угадано';
-  const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
-  screenEl.innerHTML=`
-    <div class="question-card">
-      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${((s.index+1)/s.groups.length)*100}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
-      <div class="q-text">${g.group}</div>
-      <div class="case-feedback ${headerClass}" style="margin-top:16px">${headerText}</div>
-      <div class="classify-result">
-        ${res.matched.length?`<div class="classify-line"><span class="classify-mark ok">✓</span> ${res.matched.join(', ')}</div>`:''}
-        ${res.missed.length?`<div class="classify-line"><span class="classify-mark miss">✗</span> Пропущено: ${res.missed.join(', ')}</div>`:''}
-        ${res.extra.length?`<div class="classify-line"><span class="classify-mark extra">+</span> Лишнее: ${res.extra.join(', ')}</div>`:''}
-      </div>
-      <div class="conspect">
-        <div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
-        <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-      </div>
-      <button class="next-btn" onclick="nextClassify()">${s.index+1>=s.groups.length?'Завершить':'Следующая группа'}</button>
-    </div>`;
+const s=state.classifySession;
+const g=s.groups[s.index];
+const input=document.getElementById('classifyInput').value;
+const res=classifyCheck(input,g.drugs);
+s.results.push({group:g.group,section:g.section,...res});
+const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
+const headerText=status==='good'?'✓ Всё верно':status==='partial'?`~ Частично: ${res.correct} из ${res.total}`:'✗ Ничего не угадано';
+const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
+screenEl.innerHTML=`
+<div class="question-card">
+<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${((s.index+1)/s.groups.length)*100}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.groups.length}</span></div>
+<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${g.section}</div>
+<div class="q-text">${g.group}</div>
+<div class="case-feedback ${headerClass}" style="margin-top:16px">${headerText}</div>
+<div class="classify-result">
+${res.matched.length?`<div class="classify-line"><span class="classify-mark ok">✓</span> ${res.matched.join(', ')}</div>`:''}
+${res.missed.length?`<div class="classify-line"><span class="classify-mark miss">✗</span> Пропущено: ${res.missed.join(', ')}</div>`:''}
+${res.extra.length?`<div class="classify-line"><span class="classify-mark extra">+</span> Лишнее: ${res.extra.join(', ')}</div>`:''}
+</div>
+<div class="conspect">
+<div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
+<div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+</div>
+<button class="next-btn" onclick="nextClassify()">${s.index+1>=s.groups.length?'Завершить':'Следующая группа'}</button>
+</div>`;
 }
 function nextClassify(){state.classifySession.index++;renderClassifyQuestion();}
 function renderClassifyReport(){
-  const s=state.classifySession;
-  const totalGroups=s.results.length;
-  const fullCorrect=s.results.filter(r=>r.correct===r.total).length;
-  const partial=s.results.filter(r=>r.correct>0&&r.correct<r.total).length;
-  const totalMatched=s.results.reduce((sum,r)=>sum+r.correct,0);
-  const totalDrugs=s.results.reduce((sum,r)=>sum+r.total,0);
-  const pct=totalDrugs?Math.round(totalMatched/totalDrugs*100):0;
-  const weakGroups=s.results.filter(r=>r.correct<r.total);
-  state.progress._classifyTests=(state.progress._classifyTests||0)+1;
-  saveProgress();
-  screenEl.innerHTML=`
-    <div class="report-card">
-      <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
-      <div class="report-title">Классификация завершена</div>
-      <div class="report-sub">${totalGroups} групп · ${totalDrugs} препаратов</div>
-      <div class="report-stats">
-        <div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${fullCorrect}</div><div class="report-stat-lbl">полностью</div></div>
-        <div class="report-stat"><div class="report-stat-val" style="color:var(--warm)">${partial}</div><div class="report-stat-lbl">частично</div></div>
-        <div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">угадано</div></div>
-      </div>
-      ${weakGroups.length?`<div class="report-weak"><h4>Слабые группы:</h4><div class="weak-list">${weakGroups.map(r=>`<div class="weak-item"><strong>${r.group}</strong><br><span style="font-size:12px;color:var(--text-muted)">Угадано ${r.correct} из ${r.total}${r.missed.length?'. Пропущено: '+r.missed.join(', '):''}</span></div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Идеальный результат!</div>`}
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('classify')">Пройти ещё раз</button>
-        <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('session')">К тестам</button>
-      </div>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const s=state.classifySession;
+const totalGroups=s.results.length;
+const fullCorrect=s.results.filter(r=>r.correct===r.total).length;
+const partial=s.results.filter(r=>r.correct>0&&r.correct<r.total).length;
+const totalMatched=s.results.reduce((sum,r)=>sum+r.correct,0);
+const totalDrugs=s.results.reduce((sum,r)=>sum+r.total,0);
+const pct=totalDrugs?Math.round(totalMatched/totalDrugs*100):0;
+const weakGroups=s.results.filter(r=>r.correct<r.total);
+state.progress._classifyTests=(state.progress._classifyTests||0)+1;
+saveProgress();
+screenEl.innerHTML=`
+<div class="report-card">
+<div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
+<div class="report-title">Классификация завершена</div>
+<div class="report-sub">${totalGroups} групп · ${totalDrugs} препаратов</div>
+<div class="report-stats">
+<div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${fullCorrect}</div><div class="report-stat-lbl">полностью</div></div>
+<div class="report-stat"><div class="report-stat-val" style="color:var(--warm)">${partial}</div><div class="report-stat-lbl">частично</div></div>
+<div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">угадано</div></div>
+</div>
+${weakGroups.length?`<div class="report-weak"><h4>Слабые группы:</h4><div class="weak-list">${weakGroups.map(r=>`<div class="weak-item"><strong>${r.group}</strong><br><span style="font-size:12px;color:var(--text-muted)">Угадано ${r.correct} из ${r.total}${r.missed.length?'. Пропущено: '+r.missed.join(', '):''}</span></div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Идеальный результат!</div>`}
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('classify')">Пройти ещё раз</button>
+<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('session')">К тестам</button>
+</div>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
 function renderClassifyConspects(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  screenEl.innerHTML=`
-    <div style="max-width:900px;margin:0 auto">
-      ${renderClassifyTabs('conspect')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Конспекты групп</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:24px">Краткая справка по каждой группе: механизм действия и побочные эффекты.</div>
-      ${sections.map((sec,si)=>`
-        <div style="margin-bottom:28px">
-          <div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">${sec}</div>
-          ${GROUPS.filter(g=>g.section===sec).map(g=>`
-            <div class="conspect-card">
-              <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
-              <div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
-              <div class="conspect-block"><div class="conspect-label">Механизм</div><div class="conspect-text">${g.mechanism}</div></div>
-              <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-            </div>`).join('')}
-        </div>`).join('')}
-      <button class="next-btn" onclick="setScreen('classify')">← Назад к выбору разделов</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const sections=[...new Set(GROUPS.map(g=>g.section))];
+const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+screenEl.innerHTML=`
+<div style="max-width:900px;margin:0 auto">
+${renderClassifyTabs('conspect')}
+<div style="font-size:20px;font-weight:700;margin-bottom:6px">Конспекты групп</div>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:24px">Краткая справка по каждой группе: механизм действия и побочные эффекты.</div>
+${sections.map((sec,si)=>`
+<div style="margin-bottom:28px">
+<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">${sec}</div>
+${GROUPS.filter(g=>g.section===sec).map(g=>`
+<div class="conspect-card">
+<div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
+<div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
+<div class="conspect-block"><div class="conspect-label">Механизм</div><div class="conspect-text">${g.mechanism}</div></div>
+<div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+</div>`).join('')}
+</div>`).join('')}
+<button class="next-btn" onclick="setScreen('classify')">← Назад к выбору разделов</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
-
 function renderVisualization(){
-  const tab=state.vizTab||'synapse';
-  screenEl.innerHTML=`
-    <div class="viz-tabs">
-      <button class="viz-tab ${tab==='synapse'?'active':''}" onclick="switchViz('synapse')">⚡ Синапс</button>
-      <button class="viz-tab ${tab==='eye'?'active':''}" onclick="switchViz('eye')">👁 Глаз</button>
-    </div>
-    <div id="vizContent"></div>`;
-  if(tab==='synapse')renderSynapseContent();
-  else renderEyeContent();
+const tab=state.vizTab||'synapse';
+screenEl.innerHTML=`
+<div class="viz-tabs">
+<button class="viz-tab ${tab==='synapse'?'active':''}" onclick="switchViz('synapse')">⚡ Синапс</button>
+<button class="viz-tab ${tab==='eye'?'active':''}" onclick="switchViz('eye')">👁 Глаз</button>
+</div>
+<div id="vizContent"></div>`;
+if(tab==='synapse')renderSynapseContent();
+else renderEyeContent();
 }
 function switchViz(t){state.vizTab=t;renderVisualization();}
-
 function renderSynapseContent(){
-  document.getElementById('vizContent').innerHTML=`
-    <div class="synapse-wrap">
-      <div class="synapse-scenarios" id="synapseScenarios">
-        ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
-      </div>
-      <div class="synapse-stage">
-        <svg class="synapse-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
-          <defs>
-            <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#3a4870"/><stop offset="100%" stop-color="#1a2138"/></radialGradient>
-            <linearGradient id="preCytoplasm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2828"/><stop offset="100%" stop-color="#5a3a30"/></linearGradient>
-            <linearGradient id="preMembrane" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0c0a8"/><stop offset="50%" stop-color="#d49a80"/><stop offset="100%" stop-color="#a86a58"/></linearGradient>
-            <linearGradient id="cleftGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a2140"/><stop offset="100%" stop-color="#2a3158"/></linearGradient>
-            <linearGradient id="postMembrane" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8ac0e0"/><stop offset="50%" stop-color="#6a9cc8"/><stop offset="100%" stop-color="#3a5a80"/></linearGradient>
-            <linearGradient id="postCytoplasm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a3850"/><stop offset="100%" stop-color="#1a2440"/></linearGradient>
-            <radialGradient id="vesicleGrad" cx="30%" cy="25%" r="75%"><stop offset="0%" stop-color="#c8b8e8"/><stop offset="40%" stop-color="#9a86c8"/><stop offset="100%" stop-color="#5a4a88"/></radialGradient>
-            <radialGradient id="achGrad" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#ffd0d8"/><stop offset="40%" stop-color="#ff7090"/><stop offset="100%" stop-color="#c83060"/></radialGradient>
-            <radialGradient id="caIon" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#ffe0e8"/><stop offset="40%" stop-color="#ff80a8"/><stop offset="100%" stop-color="#c04070"/></radialGradient>
-            <radialGradient id="naIon" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#e0f0ff"/><stop offset="40%" stop-color="#80c8ff"/><stop offset="100%" stop-color="#3070c0"/></radialGradient>
-            <linearGradient id="caChannelGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a7ac8"/><stop offset="50%" stop-color="#b8a8e8"/><stop offset="100%" stop-color="#5a4a98"/></linearGradient>
-            <linearGradient id="mReceptGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d8b8f0"/><stop offset="50%" stop-color="#a888d0"/><stop offset="100%" stop-color="#6a4a98"/></linearGradient>
-            <linearGradient id="nReceptGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a8e8d0"/><stop offset="50%" stop-color="#5ac8a0"/><stop offset="100%" stop-color="#2a8868"/></linearGradient>
-            <radialGradient id="acheGrad" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#ffe8a8"/><stop offset="40%" stop-color="#ffb840"/><stop offset="100%" stop-color="#c07820"/></radialGradient>
-            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
-          </defs>
-          <rect width="1000" height="700" fill="url(#bgGrad)"/>
-          <path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="url(#preCytoplasm)"/>
-          <path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
-          <path d="M 100 60 Q 500 0 900 60 L 900 290 Q 500 320 100 290 Z" fill="#4a3030" opacity="0.4"/>
-          <g opacity="0.85">
-            <ellipse cx="180" cy="120" rx="55" ry="26" fill="#7a5a4a"/><ellipse cx="170" cy="115" rx="35" ry="14" fill="#5a3a2a" opacity="0.6"/><path d="M 145 120 Q 180 105 215 120" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
-            <ellipse cx="820" cy="150" rx="50" ry="24" fill="#7a5a4a"/><ellipse cx="815" cy="145" rx="30" ry="12" fill="#5a3a2a" opacity="0.6"/><path d="M 785 150 Q 820 135 855 150" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
-          </g>
-          <g class="vesicle synapse-el vesicle-bob" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином. При входе Ca²⁺ везикула сливается с пресинаптической мембраной и выбрасывает АХ в синаптическую щель.">
-            <ellipse cx="315" cy="160" rx="40" ry="38" fill="url(#vesicleGrad)"/><ellipse cx="300" cy="142" rx="14" ry="9" fill="#fff" opacity="0.35"/>
-            <circle cx="305" cy="150" r="5" fill="url(#achGrad)"/><circle cx="330" cy="158" r="5" fill="url(#achGrad)"/><circle cx="315" cy="172" r="5" fill="url(#achGrad)"/><circle cx="332" cy="178" r="5" fill="url(#achGrad)"/><circle cx="298" cy="170" r="4" fill="url(#achGrad)"/>
-          </g>
-          <g class="vesicle synapse-el vesicle-bob d1" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
-            <ellipse cx="475" cy="125" rx="36" ry="34" fill="url(#vesicleGrad)"/><ellipse cx="460" cy="110" rx="12" ry="8" fill="#fff" opacity="0.35"/>
-            <circle cx="465" cy="120" r="4" fill="url(#achGrad)"/><circle cx="488" cy="128" r="4" fill="url(#achGrad)"/><circle cx="472" cy="140" r="4" fill="url(#achGrad)"/><circle cx="490" cy="145" r="4" fill="url(#achGrad)"/>
-          </g>
-          <g class="vesicle synapse-el vesicle-bob d2" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
-            <ellipse cx="635" cy="165" rx="42" ry="40" fill="url(#vesicleGrad)"/><ellipse cx="615" cy="145" rx="15" ry="10" fill="#fff" opacity="0.35"/>
-            <circle cx="620" cy="158" r="5" fill="url(#achGrad)"/><circle cx="648" cy="165" r="5" fill="url(#achGrad)"/><circle cx="632" cy="180" r="5" fill="url(#achGrad)"/><circle cx="650" cy="185" r="5" fill="url(#achGrad)"/>
-          </g>
-          <g class="vesicle synapse-el vesicle-bob d3" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
-            <ellipse cx="785" cy="110" rx="34" ry="32" fill="url(#vesicleGrad)"/><ellipse cx="768" cy="95" rx="11" ry="7" fill="#fff" opacity="0.35"/>
-            <circle cx="774" cy="105" r="4" fill="url(#achGrad)"/><circle cx="796" cy="112" r="4" fill="url(#achGrad)"/><circle cx="782" cy="125" r="4" fill="url(#achGrad)"/>
-          </g>
-          <g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации пресинаптической мембраны. Вход Ca²⁺ внутрь терминали запускает слияние везикул с мембраной.">
-            <path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="270" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="270" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
-          </g>
-          <g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации мембраны.">
-            <path d="M 710 290 L 750 290 L 755 320 L 745 335 L 715 335 L 705 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="730" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="730" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
-          </g>
-          <g class="ca-ion-flow"><circle cx="270" cy="290" r="7" fill="url(#caIon)" filter="url(#strongGlow)"/><text x="270" y="293" font-size="7" text-anchor="middle" fill="#600" font-weight="700">Ca</text></g>
-          <g class="ca-ion-flow d1"><circle cx="730" cy="290" r="7" fill="url(#caIon)" filter="url(#strongGlow)"/><text x="730" y="293" font-size="7" text-anchor="middle" fill="#600" font-weight="700">Ca</text></g>
-          <path d="M 50 350 Q 500 320 950 350 L 950 420 Q 500 450 50 420 Z" fill="url(#cleftGrad)"/>
-          <g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин (АХ)" data-desc="Нейромедиатор. Связывается с М- и Н-холинорецепторами, передавая сигнал. Разрушается ацетилхолинэстеразой.">
-            <g class="ach-float" style="animation-delay:0s"><circle cx="150" cy="380" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="147" cy="377" r="3" fill="#fff" opacity="0.5"/></g>
-            <g class="ach-float" style="animation-delay:-0.6s"><circle cx="360" cy="365" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="357" cy="362" r="3" fill="#fff" opacity="0.5"/></g>
-            <g class="ach-float" style="animation-delay:-1.2s"><circle cx="540" cy="400" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="537" cy="397" r="3" fill="#fff" opacity="0.5"/></g>
-            <g class="ach-float" style="animation-delay:-1.8s"><circle cx="700" cy="375" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="697" cy="372" r="3" fill="#fff" opacity="0.5"/></g>
-            <g class="ach-float" style="animation-delay:-2.4s"><circle cx="870" cy="395" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="867" cy="392" r="3" fill="#fff" opacity="0.5"/></g>
-          </g>
-          <g class="ache synapse-el ache-pulse" data-el="ache" data-name="Ацетилхолинэстераза (АХЭ)" data-desc="Фермент, разрушающий ацетилхолин в синаптической щели. Ингибируется ФОС и оиХЭ. Реактивируется карбоксимом.">
-            <path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
-          </g>
-          <path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="url(#postCytoplasm)"/>
-          <path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
-          <path d="M 100 480 Q 500 455 900 480 L 900 660 Q 500 690 100 660 Z" fill="#2a3a5a" opacity="0.5"/>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор (работает через G-белок). Активируется ацетилхолином и пилокарпином. Блокируется атропином.">
-            <path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="178" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="178" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="178" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-            <path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="398" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="398" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="398" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-            <path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="648" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="648" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="648" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
-            <path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="848" cy="444" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="848" cy="457" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="848" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор — сам является ионным каналом. При связывании с АХ открывается, и Na⁺ входит в клетку. Активируется никотином. Блокируется ганглиоблокаторами и миорелаксантами.">
-            <rect x="252" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="262" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="270" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="270" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
-            <rect x="512" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="522" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="530" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="530" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
-            <rect x="722" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="732" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="740" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="740" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
-          </g>
-          <g class="na-ion-flow"><circle cx="270" cy="490" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="270" y="493" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
-          <g class="na-ion-flow d1"><circle cx="530" cy="500" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="530" y="503" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
-          <g class="na-ion-flow d2"><circle cx="740" cy="490" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="740" y="493" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
-          <circle cx="380" cy="580" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="380" y="583" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
-          <circle cx="620" cy="610" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="620" y="613" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
-          <circle cx="820" cy="560" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="820" y="563" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
-          <g font-family="-apple-system,sans-serif">
-            <text x="80" y="80" font-size="15" font-weight="700" fill="#f0c0a8">Пресинаптический нейрон</text>
-            <text x="80" y="100" font-size="11" fill="#c8a088">(аксонная терминаль)</text>
-            <text x="80" y="510" font-size="15" font-weight="700" fill="#8ac0e0">Постсинаптический нейрон</text>
-            <text x="80" y="528" font-size="11" fill="#6a9cc8">(дендрит / тело клетки)</text>
-            <text x="500" y="405" font-size="11" font-weight="700" fill="#6a7a9a" text-anchor="middle">Синаптическая щель</text>
-          </g>
-        </svg>
-        <div class="synapse-tooltip" id="synapseTooltip"></div>
-      </div>
-      <div class="synapse-info" id="synapseInfo">
-        <div class="synapse-info-title">Наведи на любой элемент схемы</div>
-        <div class="synapse-info-desc">Кликни — появится подробное описание. Или выбери сценарий сверху, чтобы увидеть, что происходит при действии разных групп препаратов.</div>
-      </div>
-      <div class="synapse-chain">
-        <div class="synapse-chain-title">Что происходит</div>
-        <div class="synapse-chain-text" id="synapseChainText">Физиологическая передача. Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с рецепторами → АХЭ разрушает АХ.</div>
-      </div>
-    </div>`;
-  const svg=document.getElementById('synapseSvg');
-  const tooltip=document.getElementById('synapseTooltip');
-  const stage=svg.parentElement;
-  svg.querySelectorAll('.synapse-el').forEach(el=>{
-    el.addEventListener('mousemove',e=>{
-      const r=stage.getBoundingClientRect();
-      tooltip.textContent=el.dataset.name;
-      tooltip.style.left=(e.clientX-r.left+14)+'px';
-      tooltip.style.top=(e.clientY-r.top+14)+'px';
-      tooltip.classList.add('show');
-    });
-    el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
-    el.addEventListener('click',()=>{
-      document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
-    });
-  });
-  document.querySelectorAll('#synapseScenarios .scen-btn').forEach(b=>{
-    b.addEventListener('click',()=>{
-      const key=b.dataset.scen;
-      document.querySelectorAll('#synapseScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
-      svg.setAttribute('data-scenario',key);
-      document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
-    });
-  });
+document.getElementById('vizContent').innerHTML=`
+<div class="synapse-wrap">
+<div class="synapse-scenarios" id="synapseScenarios">
+${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
+</div>
+<div class="synapse-stage">
+<svg class="synapse-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
+<defs>
+<radialGradient id="bgGrad" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#3a4870"/><stop offset="100%" stop-color="#1a2138"/></radialGradient>
+<linearGradient id="preCytoplasm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2828"/><stop offset="100%" stop-color="#5a3a30"/></linearGradient>
+<linearGradient id="preMembrane" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0c0a8"/><stop offset="50%" stop-color="#d49a80"/><stop offset="100%" stop-color="#a86a58"/></linearGradient>
+<linearGradient id="cleftGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a2140"/><stop offset="100%" stop-color="#2a3158"/></linearGradient>
+<linearGradient id="postMembrane" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8ac0e0"/><stop offset="50%" stop-color="#6a9cc8"/><stop offset="100%" stop-color="#3a5a80"/></linearGradient>
+<linearGradient id="postCytoplasm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a3850"/><stop offset="100%" stop-color="#1a2440"/></linearGradient>
+<radialGradient id="vesicleGrad" cx="30%" cy="25%" r="75%"><stop offset="0%" stop-color="#c8b8e8"/><stop offset="40%" stop-color="#9a86c8"/><stop offset="100%" stop-color="#5a4a88"/></radialGradient>
+<radialGradient id="achGrad" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#ffd0d8"/><stop offset="40%" stop-color="#ff7090"/><stop offset="100%" stop-color="#c83060"/></radialGradient>
+<radialGradient id="caIon" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#ffe0e8"/><stop offset="40%" stop-color="#ff80a8"/><stop offset="100%" stop-color="#c04070"/></radialGradient>
+<radialGradient id="naIon" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#e0f0ff"/><stop offset="40%" stop-color="#80c8ff"/><stop offset="100%" stop-color="#3070c0"/></radialGradient>
+<linearGradient id="caChannelGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a7ac8"/><stop offset="50%" stop-color="#b8a8e8"/><stop offset="100%" stop-color="#5a4a98"/></linearGradient>
+<linearGradient id="mReceptGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d8b8f0"/><stop offset="50%" stop-color="#a888d0"/><stop offset="100%" stop-color="#6a4a98"/></linearGradient>
+<linearGradient id="nReceptGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a8e8d0"/><stop offset="50%" stop-color="#5ac8a0"/><stop offset="100%" stop-color="#2a8868"/></linearGradient>
+<radialGradient id="acheGrad" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#ffe8a8"/><stop offset="40%" stop-color="#ffb840"/><stop offset="100%" stop-color="#c07820"/></radialGradient>
+<filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
+</defs>
+<rect width="1000" height="700" fill="url(#bgGrad)"/>
+<path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="url(#preCytoplasm)"/>
+<path d="M 50 40 Q 500 -30 950 40 L 950 310 Q 500 350 50 310 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
+<path d="M 100 60 Q 500 0 900 60 L 900 290 Q 500 320 100 290 Z" fill="#4a3030" opacity="0.4"/>
+<g opacity="0.85">
+<ellipse cx="180" cy="120" rx="55" ry="26" fill="#7a5a4a"/><ellipse cx="170" cy="115" rx="35" ry="14" fill="#5a3a2a" opacity="0.6"/><path d="M 145 120 Q 180 105 215 120" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
+<ellipse cx="820" cy="150" rx="50" ry="24" fill="#7a5a4a"/><ellipse cx="815" cy="145" rx="30" ry="12" fill="#5a3a2a" opacity="0.6"/><path d="M 785 150 Q 820 135 855 150" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
+</g>
+<g class="vesicle synapse-el vesicle-bob" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином. При входе Ca²⁺ везикула сливается с пресинаптической мембраной и выбрасывает АХ в синаптическую щель.">
+<ellipse cx="315" cy="160" rx="40" ry="38" fill="url(#vesicleGrad)"/><ellipse cx="300" cy="142" rx="14" ry="9" fill="#fff" opacity="0.35"/>
+<circle cx="305" cy="150" r="5" fill="url(#achGrad)"/><circle cx="330" cy="158" r="5" fill="url(#achGrad)"/><circle cx="315" cy="172" r="5" fill="url(#achGrad)"/><circle cx="332" cy="178" r="5" fill="url(#achGrad)"/><circle cx="298" cy="170" r="4" fill="url(#achGrad)"/>
+</g>
+<g class="vesicle synapse-el vesicle-bob d1" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
+<ellipse cx="475" cy="125" rx="36" ry="34" fill="url(#vesicleGrad)"/><ellipse cx="460" cy="110" rx="12" ry="8" fill="#fff" opacity="0.35"/>
+<circle cx="465" cy="120" r="4" fill="url(#achGrad)"/><circle cx="488" cy="128" r="4" fill="url(#achGrad)"/><circle cx="472" cy="140" r="4" fill="url(#achGrad)"/><circle cx="490" cy="145" r="4" fill="url(#achGrad)"/>
+</g>
+<g class="vesicle synapse-el vesicle-bob d2" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
+<ellipse cx="635" cy="165" rx="42" ry="40" fill="url(#vesicleGrad)"/><ellipse cx="615" cy="145" rx="15" ry="10" fill="#fff" opacity="0.35"/>
+<circle cx="620" cy="158" r="5" fill="url(#achGrad)"/><circle cx="648" cy="165" r="5" fill="url(#achGrad)"/><circle cx="632" cy="180" r="5" fill="url(#achGrad)"/><circle cx="650" cy="185" r="5" fill="url(#achGrad)"/>
+</g>
+<g class="vesicle synapse-el vesicle-bob d3" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином.">
+<ellipse cx="785" cy="110" rx="34" ry="32" fill="url(#vesicleGrad)"/><ellipse cx="768" cy="95" rx="11" ry="7" fill="#fff" opacity="0.35"/>
+<circle cx="774" cy="105" r="4" fill="url(#achGrad)"/><circle cx="796" cy="112" r="4" fill="url(#achGrad)"/><circle cx="782" cy="125" r="4" fill="url(#achGrad)"/>
+</g>
+<g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации пресинаптической мембраны. Вход Ca²⁺ внутрь терминали запускает слияние везикул с мембраной.">
+<path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="270" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="270" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
+</g>
+<g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации мембраны.">
+<path d="M 710 290 L 750 290 L 755 320 L 745 335 L 715 335 L 705 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="730" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="730" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
+</g>
+<g class="ca-ion-flow"><circle cx="270" cy="290" r="7" fill="url(#caIon)" filter="url(#strongGlow)"/><text x="270" y="293" font-size="7" text-anchor="middle" fill="#600" font-weight="700">Ca</text></g>
+<g class="ca-ion-flow d1"><circle cx="730" cy="290" r="7" fill="url(#caIon)" filter="url(#strongGlow)"/><text x="730" y="293" font-size="7" text-anchor="middle" fill="#600" font-weight="700">Ca</text></g>
+<path d="M 50 350 Q 500 320 950 350 L 950 420 Q 500 450 50 420 Z" fill="url(#cleftGrad)"/>
+<g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин (АХ)" data-desc="Нейромедиатор. Связывается с М- и Н-холинорецепторами, передавая сигнал. Разрушается ацетилхолинэстеразой.">
+<g class="ach-float" style="animation-delay:0s"><circle cx="150" cy="380" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="147" cy="377" r="3" fill="#fff" opacity="0.5"/></g>
+<g class="ach-float" style="animation-delay:-0.6s"><circle cx="360" cy="365" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="357" cy="362" r="3" fill="#fff" opacity="0.5"/></g>
+<g class="ach-float" style="animation-delay:-1.2s"><circle cx="540" cy="400" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="537" cy="397" r="3" fill="#fff" opacity="0.5"/></g>
+<g class="ach-float" style="animation-delay:-1.8s"><circle cx="700" cy="375" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="697" cy="372" r="3" fill="#fff" opacity="0.5"/></g>
+<g class="ach-float" style="animation-delay:-2.4s"><circle cx="870" cy="395" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="867" cy="392" r="3" fill="#fff" opacity="0.5"/></g>
+</g>
+<g class="ache synapse-el ache-pulse" data-el="ache" data-name="Ацетилхолинэстераза (АХЭ)" data-desc="Фермент, разрушающий ацетилхолин в синаптической щели. Ингибируется ФОС и оиХЭ. Реактивируется карбоксимом.">
+<path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
+</g>
+<path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="url(#postCytoplasm)"/>
+<path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
+<path d="M 100 480 Q 500 455 900 480 L 900 660 Q 500 690 100 660 Z" fill="#2a3a5a" opacity="0.5"/>
+<g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор (работает через G-белок). Активируется ацетилхолином и пилокарпином. Блокируется атропином.">
+<path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="178" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="178" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="178" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+<path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="398" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="398" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="398" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+<path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="648" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="648" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="648" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+<path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="848" cy="444" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="848" cy="457" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="848" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор — сам является ионным каналом. При связывании с АХ открывается, и Na⁺ входит в клетку. Активируется никотином. Блокируется ганглиоблокаторами и миорелаксантами.">
+<rect x="252" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="262" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="270" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="270" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
+<rect x="512" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="522" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="530" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="530" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
+<rect x="722" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="732" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="740" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="740" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+</g>
+<g class="na-ion-flow"><circle cx="270" cy="490" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="270" y="493" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
+<g class="na-ion-flow d1"><circle cx="530" cy="500" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="530" y="503" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
+<g class="na-ion-flow d2"><circle cx="740" cy="490" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="740" y="493" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
+<circle cx="380" cy="580" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="380" y="583" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
+<circle cx="620" cy="610" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="620" y="613" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
+<circle cx="820" cy="560" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="820" y="563" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
+<g font-family="-apple-system,sans-serif">
+<text x="80" y="80" font-size="15" font-weight="700" fill="#f0c0a8">Пресинаптический нейрон</text>
+<text x="80" y="100" font-size="11" fill="#c8a088">(аксонная терминаль)</text>
+<text x="80" y="510" font-size="15" font-weight="700" fill="#8ac0e0">Постсинаптический нейрон</text>
+<text x="80" y="528" font-size="11" fill="#6a9cc8">(дендрит / тело клетки)</text>
+<text x="500" y="405" font-size="11" font-weight="700" fill="#6a7a9a" text-anchor="middle">Синаптическая щель</text>
+</g>
+</svg>
+<div class="synapse-tooltip" id="synapseTooltip"></div>
+</div>
+<div class="synapse-info" id="synapseInfo">
+<div class="synapse-info-title">Наведи на любой элемент схемы</div>
+<div class="synapse-info-desc">Кликни — появится подробное описание. Или выбери сценарий сверху, чтобы увидеть, что происходит при действии разных групп препаратов.</div>
+</div>
+<div class="synapse-chain">
+<div class="synapse-chain-title">Что происходит</div>
+<div class="synapse-chain-text" id="synapseChainText">Физиологическая передача. Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с рецепторами → АХЭ разрушает АХ.</div>
+</div>
+</div>`;
+const svg=document.getElementById('synapseSvg');
+const tooltip=document.getElementById('synapseTooltip');
+const stage=svg.parentElement;
+svg.querySelectorAll('.synapse-el').forEach(el=>{
+el.addEventListener('mousemove',e=>{
+const r=stage.getBoundingClientRect();
+tooltip.textContent=el.dataset.name;
+tooltip.style.left=(e.clientX-r.left+14)+'px';
+tooltip.style.top=(e.clientY-r.top+14)+'px';
+tooltip.classList.add('show');
+});
+el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
+el.addEventListener('click',()=>{
+document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
+});
+});
+document.querySelectorAll('#synapseScenarios .scen-btn').forEach(b=>{
+b.addEventListener('click',()=>{
+const key=b.dataset.scen;
+document.querySelectorAll('#synapseScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+svg.setAttribute('data-scenario',key);
+document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
+});
+});
 }
-
 function renderEyeContent(){
-  document.getElementById('vizContent').innerHTML=`
-    <div class="synapse-wrap">
-      <div class="synapse-scenarios" id="eyeScenarios">
-        ${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
-      </div>
-      <div class="synapse-stage" style="background:#0d1117; display: flex; justify-content: center; padding: 20px;">
-        <!-- Указываем правильный viewBox под размеры картинки -->
-        <svg class="eye-svg" viewBox="0 0 434 409" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="max-height: 70vh; width: auto; border-radius: 20px; overflow: visible;">
-          <!-- Белая подложка (так как у картинки прозрачный фон) -->
-          <rect width="434" height="409" fill="#f5ede2" rx="20" />
-          ${EYE_SVG}
-        </svg>
-        <div class="synapse-tooltip" id="eyeTooltip"></div>
-      </div>
-      <div class="synapse-info" id="eyeInfo">
-        <div class="synapse-info-title">Наведи на элемент схемы</div>
-        <div class="synapse-info-desc">Кликни для описания. Выбери сценарий сверху.</div>
-      </div>
-      <div class="synapse-chain">
-        <div class="synapse-chain-title">Что происходит</div>
-        <div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца в умеренном тонусе. Водянистая влага свободно фильтруется.</div>
-      </div>
-    </div>`;
-    
-  const svg=document.getElementById('eyeSvg');
-  const tooltip=document.getElementById('eyeTooltip');
-  const stage=svg.parentElement;
-  
-  svg.querySelectorAll('.synapse-el').forEach(el=>{
-    el.addEventListener('mousemove',e=>{
-      const r=stage.getBoundingClientRect();
-      tooltip.textContent=el.dataset.name;
-      tooltip.style.left=(e.clientX-r.left+14)+'px';
-      tooltip.style.top=(e.clientY-r.top+14)+'px';
-      tooltip.classList.add('show');
-    });
-    el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
-    el.addEventListener('click',()=>{
-      document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'
-    });
-  });
-  
-  document.querySelectorAll('#eyeScenarios .scen-btn').forEach(b=>{
-    b.addEventListener('click',()=>{
-      const key=b.dataset.scen;
-      document.querySelectorAll('#eyeScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
-      svg.setAttribute('data-scenario',key);
-      document.getElementById('eyeChainText').innerHTML=EYE_SCENARIOS[key].chain;
-    });
-  });
+document.getElementById('vizContent').innerHTML=`
+<div class="synapse-wrap">
+<div class="synapse-scenarios" id="eyeScenarios">
+${Object.entries(EYE_SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
+</div>
+<div class="synapse-stage">
+<svg class="eye-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="eyeSvg" style="max-height: 70vh; width: 100%; max-width: 600px; border-radius: 20px; overflow: visible;">
+${EYE_SVG}
+</svg>
+<div class="synapse-tooltip" id="eyeTooltip"></div>
+</div>
+<div class="synapse-info" id="eyeInfo">
+<div class="synapse-info-title">Наведи на элемент схемы</div>
+<div class="synapse-info-desc">Кликни для описания. Выбери сценарий сверху.</div>
+</div>
+<div class="synapse-chain">
+<div class="synapse-chain-title">Что происходит</div>
+<div class="synapse-chain-text" id="eyeChainText">В покое сфинктер зрачка и цилиарная мышца в умеренном тонусе. Водянистая влага свободно фильтруется.</div>
+</div>
+</div>`;
+const svg=document.getElementById('eyeSvg');
+const tooltip=document.getElementById('eyeTooltip');
+const stage=svg.parentElement;
+svg.querySelectorAll('.synapse-el').forEach(el=>{
+el.addEventListener('mousemove',e=>{
+const r=stage.getBoundingClientRect();
+tooltip.textContent=el.dataset.name;
+tooltip.style.left=(e.clientX-r.left+14)+'px';
+tooltip.style.top=(e.clientY-r.top+14)+'px';
+tooltip.classList.add('show');
+});
+el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
+el.addEventListener('click',()=>{
+document.getElementById('eyeInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>'
+});
+});
+document.querySelectorAll('#eyeScenarios .scen-btn').forEach(b=>{
+b.addEventListener('click',()=>{
+const key=b.dataset.scen;
+document.querySelectorAll('#eyeScenarios .scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+svg.setAttribute('data-scenario',key);
+document.getElementById('eyeChainText').innerHTML=EYE_SCENARIOS[key].chain;
+});
+});
 }
-
 function renderClassifyTabs(active){
-  return `<div class="classify-tabs">
-    <button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
-    <button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
-    <button class="ctab ${active==='conspect'?'active':''}" onclick="switchClassifyTab('conspect')">📖 Конспекты</button>
-  </div>`;
+return `<div class="classify-tabs">
+<button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
+<button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
+<button class="ctab ${active==='conspect'?'active':''}" onclick="switchClassifyTab('conspect')">📖 Конспекты</button>
+</div>`;
 }
 function switchClassifyTab(t){
-  state.classifyMode=t;
-  if(t==='input')renderClassifySetup();
-  else if(t==='distribute')renderDistributeSetup();
-  else if(t==='conspect')renderClassifyConspects();
+state.classifyMode=t;
+if(t==='input')renderClassifySetup();
+else if(t==='distribute')renderDistributeSetup();
+else if(t==='conspect')renderClassifyConspects();
 }
-
 function renderDistributeSetup(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
-  const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
-  const totalDrugs=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).reduce((a,g)=>a+g.drugs.length,0),0);
-  screenEl.innerHTML=`
-    <div class="case-picker">
-      ${renderClassifyTabs('distribute')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
-      <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
-        ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).reduce((a,g)=>a+g.drugs.length,0)} препаратов</div></div></div>`).join('')}
-      </div>
-      <div class="summary-box"><div class="lbl">Доступно</div><div class="val">${totalDrugs} препаратов</div><div class="sub">${selectedCount} разделов</div></div>
-      <button class="next-btn" ${totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startDistribute()">Начать</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
+const sections=[...new Set(GROUPS.map(g=>g.section))];
+const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+if(state.selectedClassifySections._init!==true){sections.forEach(s=>state.selectedClassifySections[s]=true);state.selectedClassifySections._init=true;}
+const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
+const totalDrugs=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).reduce((a,g)=>a+g.drugs.length,0),0);
+screenEl.innerHTML=`
+<div class="case-picker">
+${renderClassifyTabs('distribute')}
+<div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
+<div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
+<div style="margin-bottom:24px">
+${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).reduce((a,g)=>a+g.drugs.length,0)} препаратов</div></div></div>`).join('')}
+</div>
+<div class="summary-box"><div class="lbl">Доступно</div><div class="val">${totalDrugs} препаратов</div><div class="sub">${selectedCount} разделов</div></div>
+<button class="next-btn" ${totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startDistribute()">Начать</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
 }
-
 function startDistribute(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const selected=sections.filter(s=>state.selectedClassifySections[s]);
-  let pool=GROUPS.filter(g=>selected.includes(g.section));
-  if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
-  const allDrugs=[];
-  pool.forEach(g=>{g.drugs.forEach(d=>allDrugs.push({drug:d,group:g.group,section:g.section}));});
-  const shuffled=shuffle(allDrugs);
-  const count=Math.min(8,shuffled.length);
-  const round=shuffled.slice(0,count);
-  const groups=shuffle([...new Set(round.map(r=>r.group))]);
-  state.distribute={round,groups,placement:{},selected:null,checked:false};
-  titleEl.textContent='Распределение';
-  renderDistributeRound();
+const sections=[...new Set(GROUPS.map(g=>g.section))];
+const selected=sections.filter(s=>state.selectedClassifySections[s]);
+let pool=GROUPS.filter(g=>selected.includes(g.section));
+if(pool.length===0){alert('Выбери хотя бы один раздел');return;}
+const allDrugs=[];
+pool.forEach(g=>{g.drugs.forEach(d=>allDrugs.push({drug:d,group:g.group,section:g.section}));});
+const shuffled=shuffle(allDrugs);
+const count=Math.min(8,shuffled.length);
+const round=shuffled.slice(0,count);
+const groups=shuffle([...new Set(round.map(r=>r.group))]);
+state.distribute={round,groups,placement:{},selected:null,checked:false};
+titleEl.textContent='Распределение';
+renderDistributeRound();
 }
-
 function renderDistributeRound(){
-  const d=state.distribute;
-  const placedCount=Object.keys(d.placement).length;
-  const allPlaced=placedCount===d.round.length;
-  const correctCount=d.round.filter((r,i)=>d.placement[i]===r.group).length;
-  screenEl.innerHTML=`
-    <div class="dist-wrap">
-      <div class="dist-header">
-        <div class="dist-title">Распредели препараты по группам</div>
-        <div class="dist-sub">${d.checked?`Результат: ${correctCount} из ${d.round.length} правильно`:'Перетащи карточку в группу или тапни препарат, потом группу'}</div>
-      </div>
-      <div class="dist-zones">
-        ${d.groups.map((g,gi)=>`
-          <div class="dist-zone ${d.checked?'checked':''}" data-gi="${gi}" onclick="dropDrug(${gi})" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');dropDrug(${gi})">
-            <div class="dist-zone-title">${g}</div>
-            <div class="dist-zone-items">
-              ${d.round.map((r,i)=>{
-                if(d.placement[i]!==g)return '';
-                let cls='';
-                if(d.checked)cls=r.group===g?'correct':'wrong';
-                return `<div class="dist-drug-chip ${cls}">${r.drug}</div>`;
-              }).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-      ${!allPlaced?`
-        <div class="dist-pool-wrap">
-          <div class="dist-pool-title">Осталось распределить: <strong>${d.round.length-placedCount}</strong></div>
-          <div class="dist-pool">
-            ${d.round.map((r,i)=>{
-              if(d.placement[i]!==undefined)return '';
-              const sel=d.selected===i?'selected':'';
-              return `<div class="dist-drug-pool ${sel}" draggable="true" ondragstart="startDrag(${i},event)" onclick="selectDrug(${i})">${r.drug}</div>`;
-            }).join('')}
-          </div>
-        </div>
-      `:''}
-      ${d.checked?`
-        <div class="dist-result">
-          <div class="dist-result-score">${correctCount} / ${d.round.length}</div>
-          <div class="dist-result-label">правильно</div>
-        </div>
-        <button class="next-btn" onclick="startDistribute()">Новый раунд</button>
-        <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
-      `:`
-        <button class="next-btn" ${!allPlaced?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="checkDistribute()">Проверить</button>
-        <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
-      `}
-    </div>`;
+const d=state.distribute;
+const placedCount=Object.keys(d.placement).length;
+const allPlaced=placedCount===d.round.length;
+const correctCount=d.round.filter((r,i)=>d.placement[i]===r.group).length;
+screenEl.innerHTML=`
+<div class="dist-wrap">
+<div class="dist-header">
+<div class="dist-title">Распредели препараты по группам</div>
+<div class="dist-sub">${d.checked?`Результат: ${correctCount} из ${d.round.length} правильно`:'Перетащи карточку в группу или тапни препарат, потом группу'}</div>
+</div>
+<div class="dist-zones">
+${d.groups.map((g,gi)=>`
+<div class="dist-zone ${d.checked?'checked':''}" data-gi="${gi}" onclick="dropDrug(${gi})" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');dropDrug(${gi})">
+<div class="dist-zone-title">${g}</div>
+<div class="dist-zone-items">
+${d.round.map((r,i)=>{
+if(d.placement[i]!==g)return '';
+let cls='';
+if(d.checked)cls=r.group===g?'correct':'wrong';
+return `<div class="dist-drug-chip ${cls}">${r.drug}</div>`;
+}).join('')}
+</div>
+</div>
+`).join('')}
+</div>
+${!allPlaced?`
+<div class="dist-pool-wrap">
+<div class="dist-pool-title">Осталось распределить: <strong>${d.round.length-placedCount}</strong></div>
+<div class="dist-pool">
+${d.round.map((r,i)=>{
+if(d.placement[i]!==undefined)return '';
+const sel=d.selected===i?'selected':'';
+return `<div class="dist-drug-pool ${sel}" draggable="true" ondragstart="startDrag(${i},event)" onclick="selectDrug(${i})">${r.drug}</div>`;
+}).join('')}
+</div>
+</div>
+`:''}
+${d.checked?`
+<div class="dist-result">
+<div class="dist-result-score">${correctCount} / ${d.round.length}</div>
+<div class="dist-result-label">правильно</div>
+</div>
+<button class="next-btn" onclick="startDistribute()">Новый раунд</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
+`:`
+<button class="next-btn" ${!allPlaced?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="checkDistribute()">Проверить</button>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
+`}
+</div>`;
 }
 function selectDrug(i){const d=state.distribute;if(d.checked)return;d.selected=(d.selected===i)?null:i;renderDistributeRound();}
 function startDrag(i,e){state.distribute.selected=i;e.dataTransfer.setData('text/plain',String(i));}
 function dropDrug(gi){const d=state.distribute;if(d.checked)return;if(d.selected===null)return;d.placement[d.selected]=d.groups[gi];d.selected=null;renderDistributeRound();}
 function checkDistribute(){state.distribute.checked=true;renderDistributeRound();}
 function renderCasePicker(){
-  const cases=Object.values(CASES);
-  screenEl.innerHTML=`
-    <div class="case-picker">
-      <div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Интерактивные истории с ветвлением. Каждый выбор ведёт к последствиям.</div>
-      ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
-    </div>`;
+const cases=Object.values(CASES);
+screenEl.innerHTML=`
+<div class="case-picker">
+<div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Интерактивные истории с ветвлением. Каждый выбор ведёт к последствиям.</div>
+${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
+</div>`;
 }
 function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};renderCaseNode()}
 function renderCaseNode(){
-  const cs=state.caseState;
-  const C=CASES[cs.caseId];
-  const node=C.nodes[cs.nodeId];
-  if(node.isEnd){
-    screenEl.innerHTML=`
-      <div class="case-card">
-        <div class="case-header"><span class="case-badge">КЕЙС ЗАВЕРШЁН</span><span class="case-title">${C.title}</span></div>
-        <div class="case-intro">${C.intro}</div>
-        <div style="padding:20px;background:var(--success-soft);border-radius:16px;margin-bottom:16px">
-          <div style="font-size:13px;font-weight:700;color:#2f8b5c;margin-bottom:8px">Итог кейса</div>
-          <div style="font-size:13px;line-height:1.6">${node.summary}</div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${node.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">Источник: ${node.source}</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <button class="next-btn" style="flex:1;min-width:180px" onclick="startCase('${C.id}')">Пройти заново</button>
-          <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К списку кейсов</button>
-        </div>
-        <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
-      </div>`;
-    return;
-  }
-  screenEl.innerHTML=`
-    <div class="case-card">
-      <div class="case-header"><span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span><span class="case-title">${C.title}</span></div>
-      <div class="case-intro">${C.intro}</div>
-      <div class="case-question">${node.question}</div>
-      <div class="q-options" id="caseOptions">${node.options.map((opt,i)=>`<button class="q-option" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
-      <div id="caseFeedback"></div>
-    </div>`;
+const cs=state.caseState;
+const C=CASES[cs.caseId];
+const node=C.nodes[cs.nodeId];
+if(node.isEnd){
+screenEl.innerHTML=`
+<div class="case-card">
+<div class="case-header"><span class="case-badge">КЕЙС ЗАВЕРШЁН</span><span class="case-title">${C.title}</span></div>
+<div class="case-intro">${C.intro}</div>
+<div style="padding:20px;background:var(--success-soft);border-radius:16px;margin-bottom:16px">
+<div style="font-size:13px;font-weight:700;color:#2f8b5c;margin-bottom:8px">Итог кейса</div>
+<div style="font-size:13px;line-height:1.6">${node.summary}</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${node.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+<div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">Источник: ${node.source}</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<button class="next-btn" style="flex:1;min-width:180px" onclick="startCase('${C.id}')">Пройти заново</button>
+<button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К списку кейсов</button>
+</div>
+<button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
+</div>`;
+return;
+}
+screenEl.innerHTML=`
+<div class="case-card">
+<div class="case-header"><span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span><span class="case-title">${C.title}</span></div>
+<div class="case-intro">${C.intro}</div>
+<div class="case-question">${node.question}</div>
+<div class="q-options" id="caseOptions">${node.options.map((opt,i)=>`<button class="q-option" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
+<div id="caseFeedback"></div>
+</div>`;
 }
 function answerCase(i){
-  const cs=state.caseState;
-  const node=CASES[cs.caseId].nodes[cs.nodeId];
-  const opt=node.options[i];
-  document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
-  const fbClass=opt.type==='good'?'good':opt.type==='bad'?'bad':'neutral';
-  document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${fbClass}">${opt.feedback}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
+const cs=state.caseState;
+const node=CASES[cs.caseId].nodes[cs.nodeId];
+const opt=node.options[i];
+document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
+const fbClass=opt.type==='good'?'good':opt.type==='bad'?'bad':'neutral';
+document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${fbClass}">${opt.feedback}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
 }
 function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode()}
-
 function renderReference(){
-  const sections=[...new Set(REFERENCE.map(r=>r.section))];
-  return `
-    <div class="theory-section">
-      <div class="ref-section-title">📚 Основы холинергической передачи</div>
-      ${THEORY.map((t,i)=>`
-        <div class="theory-card" onclick="toggleTheory(${i})">
-          <div class="theory-card-head">
-            <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
-            <div style="flex:1">
-              <div class="theory-card-title">${t.title}</div>
-              <div class="theory-card-sub">${t.sub}</div>
-            </div>
-          </div>
-          <div class="theory-card-body" id="theoryBody${i}">${t.body}</div>
-        </div>`).join('')}
-    </div>
-    ${sections.map(sec=>`
-    <div class="ref-section">
-      <div class="ref-section-title">${sec}</div>
-      <div class="ref-grid">
-        ${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
-            <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
-            <p>${r.desc}</p>
-            <div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
-            <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
-          </div>`;}).join('')}
-      </div>
-    </div>`).join('')}`;
+const sections=[...new Set(REFERENCE.map(r=>r.section))];
+return `
+<div class="theory-section">
+<div class="ref-section-title">📚 Основы холинергической передачи</div>
+${THEORY.map((t,i)=>`
+<div class="theory-card" onclick="toggleTheory(${i})">
+<div class="theory-card-head">
+<div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+<div style="flex:1">
+<div class="theory-card-title">${t.title}</div>
+<div class="theory-card-sub">${t.sub}</div>
+</div>
+</div>
+<div class="theory-card-body" id="theoryBody${i}">${t.body}</div>
+</div>`).join('')}
+</div>
+${sections.map(sec=>`
+<div class="ref-section">
+<div class="ref-section-title">${sec}</div>
+<div class="ref-grid">
+${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
+<div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
+<p>${r.desc}</p>
+<div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
+<div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
+</div>`;}).join('')}
+</div>
+</div>`).join('')}`;
 }
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
-
 function renderSettings(){
-  const s=getStats();
-  const palettes=[
-    {id:'warm',name:'Тёплая',sub:'Крем и персик',grad:'linear-gradient(135deg,#ffb8a0,#c5b5e8)'},
-    {id:'mint',name:'Мятная',sub:'Свежая и чистая',grad:'linear-gradient(135deg,#8dd4c4,#a8c8e0)'},
-    {id:'lavender',name:'Лавандовая',sub:'Мягкая и нежная',grad:'linear-gradient(135deg,#c8aae0,#f0b5d0)'}
-  ];
-  return `
-    <div style="max-width:700px">
-      <div class="panel" style="margin-bottom:16px">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Палитра</h3>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-          ${palettes.map(p=>`<div class="palette-card ${getPalette()===p.id?'active':''}" onclick="setPalette('${p.id}')"><div class="palette-swatch" style="background:${p.grad}"></div><div class="palette-name">${p.name}</div><div class="palette-sub">${p.sub}</div></div>`).join('')}
-        </div>
-      </div>
-      <div class="panel" style="margin-bottom:16px">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Режим</h3>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          ${[{v:'light',l:'Светлая'},{v:'dark',l:'Тёмная'},{v:'system',l:'Как в системе'}].map(o=>`<button class="theme-toggle" onclick="setMode('${o.v}')" style="${getMode()===o.v?'border-color:var(--accent);color:var(--accent-deep)':''}">${o.l}</button>`).join('')}
-        </div>
-      </div>
-      <div class="panel" style="margin-bottom:16px">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Прогресс</h3>
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
-          Пройдено вопросов: <strong style="color:var(--text)">${s.answered}</strong><br>
-          Пройдено тестов: <strong style="color:var(--text)">${s.tests}</strong><br>
-          Точность: <strong style="color:var(--text)">${s.accuracy}%</strong>
-        </div>
-        <button class="next-btn" style="background:var(--error);max-width:240px" onclick="resetProgress()">Сбросить прогресс</button>
-      </div>
-      <div class="panel">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">О приложении</h3>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.7">
-          <strong style="color:var(--text)">PharmStudy</strong> — бета-версия.<br>
-          Разделы: Холиномиметики, Холиноблокаторы, Миорелаксанты, Адреномиметики, Адреноблокаторы.<br>
-          Источник: Харкевич Д.А., «Фармакология».<br>
-          Работает офлайн. Данные хранятся на устройстве.
-        </div>
-      </div>
-    </div>`;
+const s=getStats();
+const palettes=[
+{id:'warm',name:'Тёплая',sub:'Крем и персик',grad:'linear-gradient(135deg,#ffb8a0,#c5b5e8)'},
+{id:'mint',name:'Мятная',sub:'Свежая и чистая',grad:'linear-gradient(135deg,#8dd4c4,#a8c8e0)'},
+{id:'lavender',name:'Лавандовая',sub:'Мягкая и нежная',grad:'linear-gradient(135deg,#c8aae0,#f0b5d0)'}
+];
+return `
+<div style="max-width:700px">
+<div class="panel" style="margin-bottom:16px">
+<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Палитра</h3>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+${palettes.map(p=>`<div class="palette-card ${getPalette()===p.id?'active':''}" onclick="setPalette('${p.id}')"><div class="palette-swatch" style="background:${p.grad}"></div><div class="palette-name">${p.name}</div><div class="palette-sub">${p.sub}</div></div>`).join('')}
+</div>
+</div>
+<div class="panel" style="margin-bottom:16px">
+<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Режим</h3>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+${[{v:'light',l:'Светлая'},{v:'dark',l:'Тёмная'},{v:'system',l:'Как в системе'}].map(o=>`<button class="theme-toggle" onclick="setMode('${o.v}')" style="${getMode()===o.v?'border-color:var(--accent);color:var(--accent-deep)':''}">${o.l}</button>`).join('')}
+</div>
+</div>
+<div class="panel" style="margin-bottom:16px">
+<h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Прогресс</h3>
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">
+Пройдено вопросов: <strong style="color:var(--text)">${s.answered}</strong><br>
+Пройдено тестов: <strong style="color:var(--text)">${s.tests}</strong><br>
+Точность: <strong style="color:var(--text)">${s.accuracy}%</strong>
+</div>
+<button class="next-btn" style="background:var(--error);max-width:240px" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+<div class="panel">
+<h3 style="font-size:15px;font-weight:700;margin-bottom:12px">О приложении</h3>
+<div style="font-size:13px;color:var(--text-muted);line-height:1.7">
+<strong style="color:var(--text)">PharmStudy</strong> — бета-версия.<br>
+Разделы: Холиномиметики, Холиноблокаторы, Миорелаксанты, Адреномиметики, Адреноблокаторы.<br>
+Источник: Харкевич Д.А., «Фармакология».<br>
+Работает офлайн. Данные хранятся на устройстве.
+</div>
+</div>
+</div>`;
 }
 function resetProgress(){if(confirm('Сбросить весь прогресс?')){state.progress={};saveProgress();setScreen('dashboard')}}
-
 function getPalette(){return localStorage.getItem('pharm_palette')||'warm'}
 function getMode(){return localStorage.getItem('pharm_mode')||'light'}
 function applyTheme(){
-  const palette=getPalette();
-  let mode=getMode();
-  if(mode==='system')mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-  document.documentElement.setAttribute('data-theme',palette+'-'+mode);
-  let meta=document.querySelector('meta[name="theme-color"]');
-  if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta);}
-  const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};
-  meta.content=colors[palette][mode];
-  const icon=document.getElementById('themeIcon');
-  const label=document.getElementById('themeLabel');
-  if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Тёмная'}
-  else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая'}
+const palette=getPalette();
+let mode=getMode();
+if(mode==='system')mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+document.documentElement.setAttribute('data-theme',palette+'-'+mode);
+let meta=document.querySelector('meta[name="theme-color"]');
+if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta);}
+const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};
+meta.content=colors[palette][mode];
+const icon=document.getElementById('themeIcon');
+const label=document.getElementById('themeLabel');
+if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Тёмная'}
+else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая'}
 }
 function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
