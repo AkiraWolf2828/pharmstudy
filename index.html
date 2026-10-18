@@ -965,34 +965,75 @@ const EYE_SVG = `
 </g>
 
 <!-- ========== ИНТЕРАКТИВНЫЕ ЗОНЫ ========== -->
-<g class="synapse-el eye-part" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в центре радужки. Регулирует количество света. Сужается (миоз) под действием М-холиномиметиков (пилокарпин). Расширяется (мидриаз) под действием М-холиноблокаторов (атропин) и α1-агонистов." style="cursor:pointer;">
-  <circle cx="220" cy="300" r="40" fill="transparent"/>
-</g>
-<g class="synapse-el eye-part" data-el="lens" data-name="Хрусталик" data-desc="Прозрачная двояковыпуклая линза. Фокусирует свет на сетчатке. Изменяет кривизну при аккомодации. Пилокарпин → спазм аккомодации (выпуклый, ближнее зрение). Атропин → циклоплегия (плоский, дальнее зрение)." style="cursor:pointer;">
-  <rect x="255" y="235" width="70" height="130" fill="transparent"/>
-</g>
-<g class="synapse-el eye-part" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Кольцевая гладкая мышца. Сокращение (М3-агонисты) → расслабление цинновых связок → хрусталик выпуклый. Расслабление (М3-блокаторы) → натяжение связок → хрусталик плоский." style="cursor:pointer;">
-  <rect x="190" y="210" width="90" height="60" fill="transparent"/>
-  <rect x="190" y="330" width="90" height="60" fill="transparent"/>
-</g>
-<g class="synapse-el eye-part" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Губчатая структура в углу передней камеры. Основной путь оттока внутриглазной жидкости. При закрытоугольной глаукоме перекрывается радужкой → резкий рост ВГД. Пульсирует красным при приступе." style="cursor:pointer;">
-  <rect x="135" y="240" width="55" height="45" fill="transparent"/>
-  <rect x="135" y="315" width="55" height="45" fill="transparent"/>
-</g>
-<g class="synapse-el eye-part" data-el="iris" data-name="Радужка" data-desc="Содержит две мышцы: сфинктер зрачка (M3, сужает) и дилататор зрачка (α1, расширяет). Определяет цвет глаз. При узком угле передней камеры может блокировать отток влаги." style="cursor:pointer;">
-  <rect x="165" y="230" width="70" height="140" fill="transparent"/>
-</g>
-<g class="synapse-el eye-part" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка. Главная преломляющая сила глаза (~43 дптр). Не имеет сосудов. При глаукоме может отекать → радужные круги вокруг источников света." style="cursor:pointer;">
-  <rect x="100" y="230" width="70" height="140" fill="transparent"/>
-</g>
+<!-- СЕТЧАТКА — ПЕРВОЙ, чтобы не перекрывала мелкие детали -->
 <g class="synapse-el eye-part" data-el="retina" data-name="Сетчатка" data-desc="Внутренняя светочувствительная оболочка. Содержит фоторецепторы (палочки и колбочки). Макула (жёлтое пятно) — зона наилучшего зрения." style="cursor:pointer;">
-  <path d="M 150 100 L 620 100 L 620 500 L 150 500 Z" fill="transparent"/>
+  <path d="M 200 110 C 500 110, 590 200, 590 300 C 590 400, 500 490, 380 490 C 280 490, 210 430, 190 350 C 175 335, 166 318, 166 300 C 166 282, 175 265, 190 250 C 210 170, 280 110, 380 110 Z" fill="transparent"/>
 </g>
+
+<!-- ЗРАЧОК -->
+<g class="synapse-el eye-part" data-el="pupil" data-name="Зрачок" data-desc="Отверстие в центре радужки. Регулирует количество света. Сужается (миоз) под действием М-холиномиметиков (пилокарпин). Расширяется (мидриаз) под действием М-холиноблокаторов (атропин)." style="cursor:pointer;">
+  <circle cx="220" cy="300" r="35" fill="transparent"/>
+</g>
+
+<!-- ХРУСТАЛИК — должен быть сверху, чтобы реагировал на наведение -->
+<g class="synapse-el eye-part" data-el="lens" data-name="Хрусталик" data-desc="Прозрачная двояковыпуклая линза. Фокусирует свет на сетчатке. Пилокарпин → спазм аккомодации (выпуклый). Атропин → циклоплегия (плоский)." style="cursor:pointer;">
+  <rect x="260" y="240" width="60" height="120" fill="transparent"/>
+</g>
+
+<!-- ЦИЛИАРНАЯ МЫШЦА — сверху -->
+<g class="synapse-el eye-part" data-el="ciliary" data-name="Цилиарная мышца" data-desc="Кольцевая гладкая мышца. Сокращение (М3-агонисты) → расслабление цинновых связок → хрусталик выпуклый. Расслабление (М3-блокаторы) → натяжение связок → хрусталик плоский." style="cursor:pointer;">
+  <rect x="195" y="215" width="80" height="50" fill="transparent"/>
+  <rect x="195" y="335" width="80" height="50" fill="transparent"/>
+</g>
+
+<!-- ТРАБЕКУЛЯРНАЯ СЕТЬ — сверху -->
+<g class="synapse-el eye-part" data-el="trabecular" data-name="Трабекулярная сеть" data-desc="Губчатая структура в углу передней камеры. Основной путь оттока внутриглазной жидкости. При закрытоугольной глаукоме перекрывается радужкой → резкий рост ВГД." style="cursor:pointer;">
+  <rect x="140" y="240" width="50" height="45" fill="transparent"/>
+  <rect x="140" y="315" width="50" height="45" fill="transparent"/>
+</g>
+
+<!-- РАДУЖКА -->
+<g class="synapse-el eye-part" data-el="iris" data-name="Радужка" data-desc="Содержит две мышцы: сфинктер зрачка (M3, сужает) и дилататор зрачка (α1, расширяет). При узком угле передней камеры может блокировать отток влаги." style="cursor:pointer;">
+  <rect x="170" y="235" width="60" height="130" fill="transparent"/>
+</g>
+
+<!-- РОГОВИЦА -->
+<g class="synapse-el eye-part" data-el="cornea" data-name="Роговица" data-desc="Прозрачная передняя оболочка. Главная преломляющая сила глаза (~43 дптр). Не имеет сосудов. При глаукоме может отекать → радужные круги вокруг источников света." style="cursor:pointer;">
+  <rect x="105" y="235" width="65" height="130" fill="transparent"/>
+</g>
+
+<!-- ЗРИТЕЛЬНЫЙ НЕРВ -->
 <g class="synapse-el eye-part" data-el="optic-nerve" data-name="Зрительный нерв" data-desc="II пара черепных нервов. Передаёт зрительные импульсы от сетчатки в зрительную кору. Внутри проходит центральная артерия и вена сетчатки." style="cursor:pointer;">
   <rect x="580" y="270" width="170" height="60" fill="transparent"/>
 </g>
+
+<!-- СОСУДЫ СЕТЧАТКИ -->
 <g class="synapse-el eye-part" data-el="retinal-vessels" data-name="Сосуды сетчатки" data-desc="Центральная артерия и вена сетчатки питают внутренние слои. Выходят из зрительного диска и расходятся по сетчатке. Видны при офтальмоскопии." style="cursor:pointer;">
-  <rect x="350" y="180" width="260" height="240" fill="transparent"/>
+  <rect x="370" y="190" width="240" height="220" fill="transparent"/>
+</g>
+
+<!-- МЫШЦЫ (прямые) -->
+<g class="synapse-el eye-part" data-el="muscle-superior" data-name="Верхняя прямая мышца" data-desc="Поднимает глаз вверх. Иннервируется глазодвигательным нервом (III пара)." style="cursor:pointer;">
+  <rect x="330" y="50" width="100" height="60" fill="transparent"/>
+</g>
+<g class="synapse-el eye-part" data-el="muscle-inferior" data-name="Нижняя прямая мышца" data-desc="Опускает глаз вниз. Иннервируется глазодвигательным нервом (III пара)." style="cursor:pointer;">
+  <rect x="330" y="490" width="100" height="60" fill="transparent"/>
+</g>
+
+<!-- ЦИННОВЫ СВЯЗКИ -->
+<g class="synapse-el eye-part" data-el="zonules" data-name="Цинновы связки" data-desc="Тонкие волокна, соединяющие хрусталик с цилиарным телом. При сокращении цилиарной мышцы связки расслабляются → хрусталик становится выпуклым." style="cursor:pointer;">
+  <rect x="215" y="245" width="65" height="30" fill="transparent"/>
+  <rect x="215" y="325" width="65" height="30" fill="transparent"/>
+</g>
+
+<!-- МАКУЛА -->
+<g class="synapse-el eye-part" data-el="macula" data-name="Макула (жёлтое пятно)" data-desc="Зона наилучшего зрения в центре сетчатки. Содержит только колбочки. Здесь формируется чёткое изображение." style="cursor:pointer;">
+  <circle cx="570" cy="300" r="20" fill="transparent"/>
+</g>
+
+<!-- ЗРИТЕЛЬНЫЙ ДИСК -->
+<g class="synapse-el eye-part" data-el="optic-disc" data-name="Зрительный диск (слепое пятно)" data-desc="Место выхода зрительного нерва из глаза. Здесь нет фоторецепторов — поэтому 'слепое пятно'." style="cursor:pointer;">
+  <circle cx="590" cy="300" r="18" fill="transparent"/>
 </g>
 `;
 
