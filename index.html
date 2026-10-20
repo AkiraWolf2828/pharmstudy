@@ -1002,17 +1002,16 @@ function renderSynapse(){
       <div class="synapse-stage synapse-stage-concept">
         <img class="synapse-concept-image" src="pharmstudy-synapse.webp.webp" alt="Интерактивная схема холинергического синапса" loading="eager">
         <div class="synapse-image-controls" aria-label="Интерактивные элементы схемы">
-          <button class="image-hit scenario-hit" style="left:72.5%;top:15.2%;width:25%;height:8.5%" data-scen-target="m-agonist" aria-label="Сценарий: агонист М-рецепторов"></button>
-          <button class="image-hit scenario-hit" style="left:72.5%;top:24.7%;width:25%;height:8.5%" data-scen-target="n-agonist" aria-label="Сценарий: агонист Н-рецепторов"></button>
-          <button class="image-hit scenario-hit" style="left:72.5%;top:34.5%;width:25%;height:8.5%" data-scen-target="ache-block" aria-label="Сценарий: ингибитор АХЭ"></button>
-          <button class="image-hit scenario-hit" style="left:72.5%;top:44.2%;width:25%;height:9.5%" data-scen-target="m-blocker" aria-label="Сценарий: блокатор М-рецепторов"></button>
-          <button class="image-hit scenario-hit" style="left:72.5%;top:55%;width:25%;height:9.5%" data-scen-target="n-blocker" aria-label="Сценарий: блокатор Н-рецепторов"></button>
-          <button class="image-hit step-hit" style="left:2.8%;top:85.7%;width:14%;height:8.2%" data-step-target="1" aria-label="Этап 1: синтез и упаковка АХ"></button>
-          <button class="image-hit step-hit" style="left:16.8%;top:85.7%;width:13%;height:8.2%" data-step-target="2" aria-label="Этап 2: потенциал действия"></button>
-          <button class="image-hit step-hit" style="left:29.8%;top:85.7%;width:13%;height:8.2%" data-step-target="3" aria-label="Этап 3: выброс АХ"></button>
-          <button class="image-hit step-hit" style="left:42.8%;top:85.7%;width:16%;height:8.2%" data-step-target="4" aria-label="Этап 4: взаимодействие с рецепторами"></button>
-          <button class="image-hit step-hit" style="left:58.8%;top:85.7%;width:11.2%;height:8.2%" data-step-target="5" aria-label="Этап 5: завершение сигнала"></button>
-        </div>
+          <!-- Three scenario cards shown in the approved image -->
+          <button class="image-hit scenario-hit" style="left:72.4%;top:8.4%;width:26%;height:11.5%" data-scen-target="normal" aria-label="Нормальная передача сигнала"></button>
+          <button class="image-hit scenario-hit" style="left:72.4%;top:20.8%;width:26%;height:11.6%" data-scen-target="m-agonist" aria-label="Холиномиметики: открыть сценарий стимуляции рецепторов"></button>
+          <button class="image-hit scenario-hit" style="left:72.4%;top:32.8%;width:26%;height:11.4%" data-scen-target="m-blocker" aria-label="Холиноблокаторы: открыть сценарий блокады рецепторов"></button>
+          <!-- Four timeline stages shown in the image -->
+          <button class="image-hit step-hit" style="left:18.2%;top:71.2%;width:17.5%;height:12.8%" data-step-target="1" aria-label="Этап 1: приход импульса и вход Ca²⁺"></button>
+          <button class="image-hit step-hit" style="left:36.2%;top:71.2%;width:18.2%;height:12.8%" data-step-target="3" aria-label="Этап 2: выброс медиатора"></button>
+          <button class="image-hit step-hit" style="left:55%;top:71.2%;width:18.1%;height:12.8%" data-step-target="4" aria-label="Этап 3: взаимодействие с рецепторами"></button>
+          <button class="image-hit step-hit" style="left:73.5%;top:71.2%;width:25.5%;height:12.8%" data-step-target="5" aria-label="Этап 4: завершение сигнала"></button>
+        </div>  </div>
         <svg class="synapse-svg synapse-svg-overlay" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
           <defs>
             <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#3a4870"/><stop offset="100%" stop-color="#1a2138"/></radialGradient>
