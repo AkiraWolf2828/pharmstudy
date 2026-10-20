@@ -682,7 +682,7 @@ function renderDashboard(){
   const s=getStats();
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  const topics=sections.map((sec,i)=>({name:sec,pct:Math.min(100,Math.round(s.accuracy*0.9)),color:colors[i%colors.length]}));
+  const topics=sections.map((sec,i)=>{const qs=QUESTIONS.filter(q=>q.section===sec);let answered=0,correct=0;qs.forEach(q=>{const p=state.progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});return{name:sec,pct:answered?Math.round(correct/answered*100):0,answered,total:qs.length,color:colors[i%colors.length]};});
   return `
     <div class="hero">
       <h2>Добрый вечер, Студент!</h2>
