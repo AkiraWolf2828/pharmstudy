@@ -225,9 +225,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-scenarios,.synapse-steps{display:none!important}
 .synapse-image-controls{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 .synapse-image-controls .image-hit{pointer-events:auto}
-.image-hit{position:absolute;display:block;padding:0;margin:0;border:0;border-radius:12px;background:transparent;cursor:pointer;appearance:none;-webkit-appearance:none}
-.image-hit:focus-visible{outline:3px solid #a8f0ff;outline-offset:2px;background:rgba(80,200,255,.12)}
-.image-hit:hover{background:rgba(80,200,255,.07)}
+/* TEMPORARY HITBOX DIAGNOSTICS: visible so alignment can be checked without screenshots */
+.image-hit{position:absolute;display:block;padding:0;margin:0;border:2px solid #ff3b70;border-radius:8px;background:rgba(255,35,90,.22);cursor:pointer;appearance:none;-webkit-appearance:none;box-sizing:border-box}
+.image-hit.step-hit{border-color:#38e8ff;background:rgba(25,210,255,.22)}
+.image-hit:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.image-hit:hover{background:rgba(255,255,255,.25)}
 .synapse-hotspot{position:absolute;z-index:2;transform:translate(-50%,-50%);border:1px solid rgba(127,224,255,.8);border-radius:999px;padding:6px 10px;background:rgba(5,20,48,.88);color:#e8fbff;font:700 11px/1.2 inherit;box-shadow:0 0 14px rgba(58,190,255,.28);cursor:pointer;backdrop-filter:blur(5px);transition:transform .18s,background .18s}
 .synapse-hotspot:hover,.synapse-hotspot:focus-visible{background:#12618a;transform:translate(-50%,-50%) scale(1.06);outline:2px solid #a8f0ff;outline-offset:2px}
 .hotspot-ca{left:23%;top:30%}.hotspot-ach{left:49%;top:49%}.hotspot-m{left:74%;top:66%}.hotspot-n{left:83%;top:56%}.hotspot-ache{left:60%;top:59%}
