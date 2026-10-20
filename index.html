@@ -220,7 +220,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-stage{grid-area:stage;position:relative;background:#1a2138;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:0}
 .synapse-stage-concept{background:#06152f}
 .synapse-concept-image{display:block;width:100%;height:auto}
+.synapse-hotspot{position:absolute;z-index:2;transform:translate(-50%,-50%);border:1px solid rgba(127,224,255,.8);border-radius:999px;padding:6px 10px;background:rgba(5,20,48,.88);color:#e8fbff;font:700 11px/1.2 inherit;box-shadow:0 0 14px rgba(58,190,255,.28);cursor:pointer;backdrop-filter:blur(5px);transition:transform .18s,background .18s}
+.synapse-hotspot:hover,.synapse-hotspot:focus-visible{background:#12618a;transform:translate(-50%,-50%) scale(1.06);outline:2px solid #a8f0ff;outline-offset:2px}
+.hotspot-ca{left:23%;top:30%}.hotspot-ach{left:49%;top:49%}.hotspot-m{left:74%;top:66%}.hotspot-n{left:83%;top:56%}.hotspot-ache{left:60%;top:59%}
 .synapse-svg-overlay{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none;opacity:.001;pointer-events:none}
+@media(max-width:600px){.synapse-hotspot{font-size:9px;padding:5px 7px}.hotspot-ca{left:22%;top:30%}.hotspot-ach{left:48%;top:48%}.hotspot-m{left:72%;top:67%}.hotspot-n{left:82%;top:56%}.hotspot-ache{left:58%;top:59%}}
 .synapse-svg{display:block;width:100%;height:auto;min-height:clamp(360px,58vw,620px);max-height:76vh;object-fit:contain}
 .synapse-svg .synapse-el{cursor:pointer;transition:filter .2s}
 .synapse-svg .synapse-el:hover{filter:brightness(1.35) drop-shadow(0 0 10px rgba(255,180,120,0.8))}
@@ -991,6 +995,11 @@ function renderSynapse(){
       </div>
       <div class="synapse-stage synapse-stage-concept">
         <img class="synapse-concept-image" src="pharmstudy-synapse.webp.webp" alt="Утверждённая концепция холинергического синапса PharmStudy" loading="eager">
+        <button class="synapse-hotspot hotspot-ca" data-title="Кальциевые каналы" data-desc="Приход потенциала действия открывает потенциал-зависимые кальциевые каналы. Вход Ca²⁺ участвует в запуске высвобождения ацетилхолина." aria-label="Подробнее о кальциевых каналах">Ca²⁺</button>
+        <button class="synapse-hotspot hotspot-ach" data-title="Ацетилхолин (АХ)" data-desc="Ацетилхолин высвобождается из пресинаптического окончания и диффундирует через синаптическую щель к холинорецепторам." aria-label="Подробнее об ацетилхолине">АХ</button>
+        <button class="synapse-hotspot hotspot-m" data-title="М-холинорецепторы" data-desc="М-холинорецепторы — мускариновые холинорецепторы. Их эффекты зависят от подтипа рецептора и ткани." aria-label="Подробнее о М-холинорецепторах">М-рецептор</button>
+        <button class="synapse-hotspot hotspot-n" data-title="Н-холинорецепторы" data-desc="Н-холинорецепторы — никотиновые холинорецепторы. Они относятся к лиганд-зависимым ионным каналам." aria-label="Подробнее о Н-холинорецепторах">Н-рецептор</button>
+        <button class="synapse-hotspot hotspot-ache" data-title="Ацетилхолинэстераза (АХЭ)" data-desc="Ацетилхолинэстераза расщепляет ацетилхолин в синаптической щели и тем самым завершает его действие." aria-label="Подробнее об ацетилхолинэстеразе">АХЭ</button>
         <svg class="synapse-svg synapse-svg-overlay" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
           <defs>
             <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#3a4870"/><stop offset="100%" stop-color="#1a2138"/></radialGradient>
@@ -1147,6 +1156,11 @@ function renderSynapse(){
   }
   stepButtons.forEach(button=>button.addEventListener('click',()=>activateSynapseStep(button)));
   if(stepButtons.length) activateSynapseStep(stepButtons[0]);
+  document.querySelectorAll('.synapse-hotspot').forEach(button=>{
+    button.addEventListener('click',()=>{
+      document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+button.dataset.title+'</div><div class="synapse-info-desc">'+button.dataset.desc+'</div>';
+    });
+  });
   document.querySelectorAll('.scen-btn').forEach(b=>{
     b.addEventListener('click',()=>{
       const key=b.dataset.scen;
