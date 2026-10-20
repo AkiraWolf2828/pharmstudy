@@ -1092,7 +1092,12 @@ function renderSynapse(){
       tooltip.style.top=(e.clientY-r.top+14)+'px';
       tooltip.classList.add('show');
     });
-    el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));\n    el.setAttribute('tabindex','0');\n    el.setAttribute('role','button');\n    el.setAttribute('aria-label',el.dataset.name||'Элемент синапса');\n    el.addEventListener('focus',()=>{tooltip.innerHTML='<strong style="display:block;font-size:13px;margin-bottom:4px;color:#bfe9ff">'+el.dataset.name+'</strong><span>'+el.dataset.desc+'</span>';tooltip.style.left='12px';tooltip.style.top='12px';tooltip.classList.add('show');});\n    el.addEventListener('blur',()=>tooltip.classList.remove('show'));
+    el.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));;
+    el.setAttribute('tabindex','0');;
+    el.setAttribute('role','button');;
+    el.setAttribute('aria-label',el.dataset.name||'Элемент синапса');;
+    el.addEventListener('focus',()=>{tooltip.innerHTML='<strong style="display:block;font-size:13px;margin-bottom:4px;color:#bfe9ff">'+el.dataset.name+'</strong><span>'+el.dataset.desc+'</span>';tooltip.style.left='12px';tooltip.style.top='12px';tooltip.classList.add('show');});;
+    el.addEventListener('blur',()=>tooltip.classList.remove('show'));
     el.addEventListener('click',()=>{
       document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
     });
