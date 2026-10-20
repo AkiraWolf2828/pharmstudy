@@ -219,10 +219,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .scen-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(232,131,106,0.25)}
 .synapse-stage{grid-area:stage;position:relative;background:#1a2138;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:0}
 .synapse-stage-concept{background:#06152f;grid-column:1/-1;width:100%}
-.synapse-concept-image{display:block;width:100%;height:auto}
+.synapse-image-frame{position:relative;display:block;width:100%;margin:0;padding:0;line-height:0}
+.synapse-concept-image{display:block;width:100%;height:auto;margin:0;padding:0;border:0}
 .synapse-wrap{grid-template-columns:minmax(0,1fr) 270px}
 .synapse-scenarios,.synapse-steps{display:none!important}
-.synapse-image-controls{position:absolute;inset:0;z-index:3}
+.synapse-image-controls{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.synapse-image-controls .image-hit{pointer-events:auto}
 .image-hit{position:absolute;display:block;padding:0;margin:0;border:0;border-radius:12px;background:transparent;cursor:pointer;appearance:none;-webkit-appearance:none}
 .image-hit:focus-visible{outline:3px solid #a8f0ff;outline-offset:2px;background:rgba(80,200,255,.12)}
 .image-hit:hover{background:rgba(80,200,255,.07)}
@@ -1000,8 +1002,9 @@ function renderSynapse(){
         ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
       </div>
       <div class="synapse-stage synapse-stage-concept">
-        <img class="synapse-concept-image" src="pharmstudy-synapse.webp.webp" alt="Интерактивная схема холинергического синапса" loading="eager">
-        <div class="synapse-image-controls" aria-label="Интерактивные элементы схемы">
+        <div class="synapse-image-frame">
+          <img class="synapse-concept-image" src="pharmstudy-synapse.webp.webp" alt="Интерактивная схема холинергического синапса" loading="eager">
+          <div class="synapse-image-controls" aria-label="Интерактивные элементы схемы">
           <!-- Three scenario cards shown in the approved image -->
           <button class="image-hit scenario-hit" style="left:72.8%;top:8.6%;width:25.7%;height:11.1%" data-scen-target="normal" aria-label="Нормальная передача сигнала"></button>
           <button class="image-hit scenario-hit" style="left:72.8%;top:20.8%;width:25.7%;height:11.0%" data-scen-target="m-agonist" aria-label="Холиномиметики: открыть сценарий стимуляции рецепторов"></button>
@@ -1011,6 +1014,7 @@ function renderSynapse(){
           <button class="image-hit step-hit" style="left:38.5%;top:72.2%;width:19.3%;height:10.6%" data-step-target="3" aria-label="Этап 2: выброс медиатора"></button>
           <button class="image-hit step-hit" style="left:57.8%;top:72.2%;width:19.7%;height:10.6%" data-step-target="4" aria-label="Этап 3: взаимодействие с рецепторами"></button>
           <button class="image-hit step-hit" style="left:77.8%;top:72.2%;width:21.2%;height:10.6%" data-step-target="5" aria-label="Этап 4: завершение сигнала"></button>
+          </div>
         </div>
         <svg class="synapse-svg synapse-svg-overlay" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
           <defs>
