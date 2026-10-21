@@ -239,7 +239,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg .step-focus{opacity:1;filter:drop-shadow(0 0 5px rgba(255,211,138,.55));transition:opacity .25s,filter .25s}
 /* ACh release animation runs when step 3 is selected. */
 .synapse-svg .ach-release-particles,.synapse-svg .synthesis-visual,.synapse-svg .recycle-visual,.synapse-svg .impulse-visual,.synapse-svg .breakdown-visual{opacity:0;pointer-events:none;transition:opacity .25s}
-.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
+.synapse-svg.phase-synthesis .synthesis-transfer-visual{opacity:1}.synapse-svg .synthesis-transfer-visual{opacity:0;transition:opacity .25s;pointer-events:none}.synapse-svg.phase-synthesis .synthesis-transfer-particle{transform-box:fill-box;transform-origin:center;animation:synthesisTransfer 1.8s ease-in-out infinite}.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
 .synapse-svg.phase-impulse .impulse-dot{animation:impulseTravel 1.15s ease-in-out infinite}
 .synapse-svg .ca-ion-flow{opacity:0;animation:none}
 .synapse-svg.phase-impulse .ca-ion-flow,.synapse-svg.phase-fusion .ca-ion-flow{opacity:1;animation:caFlow 1.8s linear infinite}
@@ -283,7 +283,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 8px #ff4060) brightness(.68);animation:none}
 .synapse-svg.phase-recycle .ach-molecule{opacity:.22;transition:opacity .3s}
 /* Везикула и содержимое движутся вместе к пресинаптической мембране. */
-@keyframes releaseGroupDock{0%{transform:translateY(0)}100%{transform:translateY(125px)}}
+@keyframes synthesisTransfer{0%{transform:translate(0,0);opacity:.45}20%{opacity:1}100%{transform:translate(20px,-67px);opacity:.95}}\n@keyframes releaseGroupDock{0%{transform:translateY(0)}100%{transform:translateY(125px)}}
 @keyframes achReleaseTravel{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:1}75%{transform:translateY(30px) scale(1);opacity:1}100%{transform:translateY(44px) scale(.9);opacity:0}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(132px)}100%{transform:translateY(125px)}}
 @keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(-24px,-13px) scale(1);opacity:1}}
@@ -1114,6 +1114,12 @@ function renderSynapse(){
             <text x="260" y="228" font-size="13" fill="#e5ddff" font-weight="700" text-anchor="middle">Холин + ацетил-КоА</text>
             <path d="M 175 239 L 175 249 L 345 249 L 345 239" stroke="#bba6ef" stroke-width="1.5" fill="none"/>
             <text x="260" y="266" font-size="11" fill="#ffd0d8" text-anchor="middle">холинацетилтрансфераза → АХ</text>
+          </g>
+          <g class="synthesis-transfer-visual" aria-label="Накопление ацетилхолина в синаптической везикуле" pointer-events="none">
+            <path d="M 390 245 C 420 225 430 190 410 170" stroke="#bba6ef" stroke-width="2.5" stroke-dasharray="5 5" fill="none" opacity=".9"/>
+            <path d="M 403 176 L 410 170 L 415 181" stroke="#bba6ef" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <g class="synthesis-transfer-particle"><circle cx="390" cy="245" r="8" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="390" y="248" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <text x="415" y="215" font-size="10" fill="#e5ddff" text-anchor="middle">АХ в везикулу</text>
           </g>
           <g class="ach-release-particles" aria-label="Выброс ацетилхолина из везикулы в синаптическую щель">
             <g class="ach-release-particle p1"><circle cx="615" cy="165" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="615" y="168" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
