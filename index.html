@@ -1266,9 +1266,16 @@ function renderSynapse(){
       el.classList.toggle('step-focus',match);
       el.classList.toggle('step-dim',!match);
     });
-    ['phase-synthesis','phase-impulse','phase-fusion','phase-release','phase-receptors','phase-breakdown','phase-recycle'].forEach(c=>svg.classList.remove(c));
-    svg.classList.add('phase-'+(button.dataset.phase||'impulse'));
-    svg.setAttribute('data-active-step',button.dataset.step||'');
+    const phaseOrder=['synthesis','impulse','fusion','release','receptors','breakdown','recycle'];
+    const nextStep=Math.max(0,phaseOrder.indexOf(button.dataset.phase||'impulse'));
+    const previousStep=Number(svg.getAttribute('data-active-step')||0);
+    /* При движении вперёд сохраняем уже завершённые стадии: частицы не должны исчезать и начинаться заново при каждом клике. При возврате назад убираем только будущие стадии. */
+    phaseOrder.forEach((phase,index)=>{
+      const className='phase-'+phase;
+      if(index<=nextStep) svg.classList.add(className);
+      else svg.classList.remove(className);
+    });
+    svg.setAttribute('data-active-step',String(nextStep));
     document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+button.dataset.title+'</div><div class="synapse-info-desc">'+button.dataset.desc+'</div>';
     document.getElementById('synapseChainText').innerHTML='<strong>Этап передачи.</strong> '+button.dataset.desc+' <span style="opacity:.8">Режим действия препарата сброшен; выбери сценарий отдельно, чтобы рассмотреть его эффект.</span>';
   }
