@@ -255,7 +255,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .na-ion-flow.d1{animation-delay:-1.2s}
 .na-ion-flow.d2{animation-delay:-2.4s}
 .m-recept,.n-recept{transform-box:fill-box;transform-origin:center;transition:filter .3s}
-.ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:channelGlow 2.5s ease-in-out infinite}
+.ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:none;filter:none;transition:filter .25s}
 .block-x{display:none}
 @keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
 @keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -278,7 +278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="reactivator"] .ache{filter:drop-shadow(0 0 18px #7fc99a) brightness(1.4);animation:achePulse 2s ease-in-out infinite}
 .synapse-svg[data-scenario="botox"] .vesicle-bob{opacity:0.35;filter:grayscale(1);animation-play-state:paused}
 .synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
-.synapse-svg[data-scenario="normal"] .ca-channel-anim{filter:drop-shadow(0 0 8px #b8a0ff)}
+.synapse-svg[data-scenario="normal"] .ca-channel-anim{animation:channelGlow 2.5s ease-in-out infinite;filter:drop-shadow(0 0 8px #b8a0ff)}
 .classify-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
 .ctab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .ctab:hover{border-color:var(--accent);color:var(--text)}
