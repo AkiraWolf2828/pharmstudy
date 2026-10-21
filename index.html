@@ -248,7 +248,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg.phase-receptors .na-ion-flow,.synapse-svg[data-scenario="n-agonist"] .na-ion-flow,.synapse-svg[data-scenario="ache-block"] .na-ion-flow,.synapse-svg[data-scenario="fos"] .na-ion-flow{opacity:1;animation:naFlow 1.8s linear infinite}
 .synapse-svg .ach-molecule .ach-float{opacity:0;animation-play-state:paused;transition:opacity .25s}
 /* В обычной последовательности показываем только молекулы с понятной траекторией. */
-.synapse-svg.phase-release .ach-molecule .ach-float,.synapse-svg.phase-receptors .ach-molecule .ach-float,.synapse-svg.phase-breakdown .ach-molecule .ach-float{opacity:0;animation-play-state:paused}
+.synapse-svg.phase-release .ach-molecule .ach-float,.synapse-svg.phase-breakdown .ach-molecule .ach-float{opacity:0;animation-play-state:paused}
+/* На этапе рецепторов те же молекулы АХ подходят к ближайшим рецепторам, а не исчезают без объяснения. */
+.synapse-svg.phase-receptors .ach-molecule .ach-float{opacity:1;animation:achBind 1.2s cubic-bezier(.2,.65,.25,1) both}
+.synapse-svg.phase-receptors .ach-molecule .ach-float:nth-of-type(1){--bind-x:28px;--bind-y:103px;animation-delay:0s}
+.synapse-svg.phase-receptors .ach-molecule .ach-float:nth-of-type(2){--bind-x:38px;--bind-y:118px;animation-delay:.08s}
+.synapse-svg.phase-receptors .ach-molecule .ach-float:nth-of-type(3){--bind-x:-10px;--bind-y:116px;animation-delay:.16s}
+.synapse-svg.phase-receptors .ach-molecule .ach-float:nth-of-type(4){--bind-x:90px;--bind-y:141px;animation-delay:.24s}
+.synapse-svg.phase-receptors .ach-molecule .ach-float:nth-of-type(5){--bind-x:-32px;--bind-y:88px;animation-delay:.32s}
 .synapse-svg.phase-recycle .ach-molecule .ach-float{opacity:.15;animation-play-state:paused}
 .synapse-svg[data-scenario="normal"]:not([data-active-step]) .ach-molecule .ach-float,
 .synapse-svg[data-scenario="ache-block"] .ach-molecule .ach-float,
@@ -317,6 +324,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:none;filter:brightness(.72);transition:filter .25s}
 .block-x{display:none}
 @keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
+@keyframes achBind{0%{transform:translate(0,0) scale(1);filter:drop-shadow(0 0 4px #7fcfff)}72%{transform:translate(calc(var(--bind-x,0px) * .9),calc(var(--bind-y,0px) * .9)) scale(.9);filter:drop-shadow(0 0 9px #7fcfff)}100%{transform:translate(var(--bind-x,0px),var(--bind-y,0px)) scale(.82);filter:drop-shadow(0 0 7px #7fcfff)}}
 @keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes achePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
 @keyframes caFlow{0%{transform:translate(0,40px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,-40px);opacity:0}}
