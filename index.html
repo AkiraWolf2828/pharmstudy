@@ -1011,9 +1011,9 @@ function renderSynapse(){
             <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
           </defs>
-          <rect width="1000" height="700" fill="url(#bgGrad)"/>
+          <rect width="1000" height="800" fill="url(#bgGrad)"/>
           <path d="M 115 300 C 95 235 110 150 175 90 C 260 12 740 12 825 90 C 890 150 905 235 885 300 C 780 330 650 347 500 350 C 350 347 220 330 115 300 Z" fill="url(#preCytoplasm)"/>
-          <path d="M 50 300 C 42 228 66 145 130 85 C 220 2 780 2 870 85 C 934 145 958 228 950 300 Q 500 350 50 300 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
+          <path d="M 115 300 C 95 235 110 150 175 90 C 260 12 740 12 825 90 C 890 150 905 235 885 300 C 780 330 650 347 500 350 C 350 347 220 330 115 300 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
           <path d="M 155 285 C 140 225 155 165 205 120 C 285 48 715 48 795 120 C 845 165 860 225 845 285 C 755 310 635 325 500 328 C 365 325 245 310 155 285 Z" fill="#4a3030" opacity="0.4"/>
           <g opacity="0.85">
             <ellipse cx="220" cy="150" rx="42" ry="20" fill="#7a5a4a"/><ellipse cx="212" cy="146" rx="27" ry="11" fill="#5a3a2a" opacity="0.6"/><path d="M 193 150 Q 220 138 247 150" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
@@ -1055,7 +1055,7 @@ function renderSynapse(){
             <path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
           </g>
           <path d="M 50 460 Q 500 430 950 460 L 950 770 Q 500 820 50 770 Z" fill="url(#postCytoplasm)"/>
-          <path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
+          <path d="M 50 460 Q 500 430 950 460 L 950 770 Q 500 820 50 770 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
           <path d="M 100 480 Q 500 455 900 480 L 900 750 Q 500 780 100 750 Z" fill="#2a3a5a" opacity="0.5"/>
           <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор (работает через G-белок). Активируется ацетилхолином и пилокарпином. Блокируется атропином."><g transform="translate(178 454) scale(0.84) translate(-178 -454)">
             <path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="178" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="178" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="178" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
