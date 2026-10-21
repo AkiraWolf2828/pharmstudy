@@ -255,16 +255,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="m-blocker"] .ach-molecule .ach-float,
 .synapse-svg[data-scenario="n-blocker"] .ach-molecule .ach-float,
 .synapse-svg[data-scenario="reactivator"] .ach-molecule .ach-float{opacity:1;animation-play-state:running}
-.synapse-svg.phase-breakdown .breakdown-particle{animation:breakdownFade 1.2s ease-out both}
-.synapse-svg.phase-breakdown .breakdown-particle.p2{animation-delay:.22s}
-.synapse-svg.phase-breakdown .breakdown-particle.p3{animation-delay:.44s}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholine .7s ease-out .15s both}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetate .7s ease-out .15s both}
+.synapse-svg .ach-release-particles{transform-box:fill-box;transform-origin:center;}
+.synapse-svg.phase-release .ach-release-particles{animation:releaseGroupDock 1.1s cubic-bezier(.2,.7,.3,1) both}
 .synapse-svg .ach-release-particle{opacity:0}
-.synapse-svg.phase-release .ach-release-particle{animation:achReleaseTravel 1.7s cubic-bezier(.25,.65,.4,1) both}
-.synapse-svg.phase-release .ach-release-particle.p2{animation-delay:.16s}
-.synapse-svg.phase-release .ach-release-particle.p3{animation-delay:.32s}
-.synapse-svg.phase-release .ach-release-particle.p4{animation-delay:.48s}
-.synapse-svg.phase-release .ach-release-particle.p5{animation-delay:.64s}
+.synapse-svg.phase-release .ach-release-particle{animation:achReleaseTravel .7s ease-out 1.1s both}
+.synapse-svg.phase-release .ach-release-particle.p2{animation-delay:1.2s}
+.synapse-svg.phase-release .ach-release-particle.p3{animation-delay:1.3s}
+.synapse-svg.phase-release .ach-release-particle.p4{animation-delay:1.4s}
+.synapse-svg.phase-release .ach-release-particle.p5{animation-delay:1.5s}
 .synapse-svg.phase-fusion .fusion-vesicle,.synapse-svg.phase-release .fusion-vesicle{animation:vesicleDock 1.1s cubic-bezier(.2,.7,.3,1) both}
+.synapse-svg.phase-recycle .choline-return-particle{animation:cholineReturn 1.5s ease-in-out both}
 .synapse-svg.phase-receptors .na-ion-flow{animation:naFlow 1.8s linear infinite}
 .synapse-svg.phase-receptors .n-recept .block-x{opacity:0;transition:opacity .2s}
 .synapse-svg.phase-receptors .n-recept rect:nth-of-type(2){fill:#65e6c2;filter:url(#softGlow)}
@@ -279,11 +281,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="fos"] .m-recept,.synapse-svg[data-scenario="fos"] .n-recept{animation:receptorPulse .7s ease-in-out infinite;filter:drop-shadow(0 0 14px #ff315b) brightness(1.45)}
 .synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 8px #ff4060) brightness(.68);animation:none}
 .synapse-svg.phase-recycle .ach-molecule{opacity:.22;transition:opacity .3s}
-@keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.55);opacity:0}58%{transform:translate(0,118px) scale(.75);opacity:0}66%{transform:translate(0,125px) scale(.9);opacity:1}88%{transform:translate(0,155px) scale(1);opacity:1}100%{transform:translate(0,165px) scale(.82);opacity:0}}
-/* Везикула подходит к пресинаптической мембране, но не проваливается в щель. */
+/* Везикула и содержимое движутся вместе к пресинаптической мембране. */
+@keyframes releaseGroupDock{0%{transform:translateY(0)}100%{transform:translateY(125px)}}
+@keyframes achReleaseTravel{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:1}75%{transform:translateY(30px) scale(1);opacity:1}100%{transform:translateY(44px) scale(.9);opacity:0}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(132px)}100%{transform:translateY(125px)}}
+@keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(-24px,-13px) scale(1);opacity:1}}
+@keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(25px,13px) scale(1);opacity:1}}
+@keyframes cholineReturn{0%{transform:translate(0,0);opacity:0}12%{opacity:1}75%{transform:translate(28px,-54px);opacity:1}100%{transform:translate(48px,-83px);opacity:1}}
 @keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
-@keyframes breakdownFade{0%{opacity:0;transform:translateY(-6px) scale(.7)}20%{opacity:1}100%{opacity:.9;transform:translateY(10px) scale(1)}}
+
 @keyframes naActivate{0%{opacity:.25;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
 
 .synapse-info{grid-area:info;padding:20px;background:var(--card);border-radius:20px;box-shadow:var(--shadow-sm);margin-bottom:16px;min-height:90px}
@@ -1114,17 +1120,18 @@ function renderSynapse(){
             <g class="ach-release-particle p4"><circle cx="655" cy="165" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="655" y="168" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
             <g class="ach-release-particle p5"><circle cx="635" cy="165" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="635" y="168" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
           </g>
-          <g class="breakdown-visual synapse-el" data-el="breakdown" data-name="Гидролиз ацетилхолина" data-desc="Ацетилхолинэстераза гидролизует ацетилхолин до холина и ацетата. Схематические метки показывают продукты реакции, а не точный молекулярный масштаб.">
-            <path d="M 520 394 L 555 394" stroke="#ffd080" stroke-width="2" stroke-dasharray="4 4"/>
-            <g class="breakdown-particle p1"><circle cx="555" cy="394" r="8" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="555" y="397" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text></g>
-            <g class="breakdown-particle p2"><circle cx="575" cy="408" r="7" fill="#f4ca83" stroke="#fff0ca" stroke-width="1.5"/><text x="575" y="411" font-size="6" fill="#5b421e" text-anchor="middle" font-weight="800">Ац</text></g>
-            <g class="breakdown-particle p3"><circle cx="595" cy="390" r="7" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="595" y="393" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text></g>
-            <text x="575" y="430" font-size="10" fill="#ffe1a6" text-anchor="middle">холин + ацетат</text>
+          <g class="breakdown-visual synapse-el" data-el="breakdown" data-name="Гидролиз ацетилхолина" data-desc="Ацетилхолинэстераза гидролизует одну молекулу ацетилхолина с образованием холина и ацетата. Две подписанные части расходятся от места реакции: это продукты гидролиза, а не россыпь одинаковых частиц.">
+            <path d="M 525 395 L 548 395" stroke="#ffd080" stroke-width="2.5" stroke-dasharray="3 3" stroke-linecap="round"/>
+            <g class="breakdown-substrate"><circle cx="548" cy="395" r="10" fill="url(#achGrad)" stroke="#fff0ca" stroke-width="1.5"/><text x="548" y="398" font-size="6" fill="#59315f" text-anchor="middle" font-weight="800">АХ</text></g>
+            <path d="M 555 382 L 565 373 M 555 408 L 565 417" stroke="#ffe1a6" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 3"/>
+            <g class="breakdown-product choline"><circle cx="565" cy="373" r="10" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="565" y="376" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text><text x="565" y="357" font-size="9" fill="#c8f5e8" text-anchor="middle" font-weight="700">Холин</text></g>
+            <g class="breakdown-product acetate"><circle cx="565" cy="417" r="10" fill="#f4ca83" stroke="#fff0ca" stroke-width="1.5"/><text x="565" y="420" font-size="6" fill="#5b421e" text-anchor="middle" font-weight="800">Ац</text><text x="595" y="435" font-size="9" fill="#ffe1a6" text-anchor="middle" font-weight="700">Ацетат</text></g>
+            <text x="550" y="444" font-size="9" fill="#ffe1a6" text-anchor="middle">гидролиз АХ</text>
           </g>
-          <g class="recycle-visual synapse-el" data-el="recycle" data-name="Повторное использование холина" data-desc="Ацетилхолинэстераза расщепляет ацетилхолин на холин и ацетат. Холин переносится обратно в пресинаптическое окончание и используется для нового синтеза АХ.">
+          <g class="recycle-visual synapse-el" data-el="recycle" data-name="Повторное использование холина" data-desc="После гидролиза холин переносится обратно в пресинаптическое окончание через переносчик и используется для синтеза нового ацетилхолина. На схеме одна помеченная частица следует по пути обратного транспорта.">
             <path d="M 780 420 C 900 405 925 360 865 325 C 835 309 800 312 775 322" stroke="#ffd080" stroke-width="3" stroke-dasharray="7 6" fill="none" stroke-linecap="round"/>
             <path d="M 777 313 L 775 322 L 786 322" stroke="#ffd080" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="820" cy="402" r="8" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="820" y="405" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text>
+            <g class="choline-return-particle"><circle cx="820" cy="402" r="9" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="820" y="405" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text></g>
             <text x="825" y="438" font-size="10" fill="#c8f5e8" text-anchor="middle">холин обратно</text>
           </g>
 
