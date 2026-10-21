@@ -1095,11 +1095,11 @@ function renderSynapse(){
             <ellipse cx="785" cy="110" rx="34" ry="32" fill="url(#vesicleGrad)"/><ellipse cx="768" cy="95" rx="11" ry="7" fill="#fff" opacity="0.35"/>
             <circle cx="774" cy="105" r="4" fill="url(#achGrad)"/><circle cx="796" cy="112" r="4" fill="url(#achGrad)"/><circle cx="782" cy="125" r="4" fill="url(#achGrad)"/>
           </g>
-          <g class="impulse-visual synapse-el" data-el="impulse" data-name="Нервный импульс" data-desc="Потенциал действия достигает пресинаптического окончания; деполяризация мембраны открывает потенциалзависимые Ca²⁺-каналы.">
-            <path d="M 170 305 C 260 292 345 292 430 305" stroke="#ffe4a3" stroke-width="4" stroke-dasharray="10 8" fill="none" stroke-linecap="round"/>
-            <path d="M 420 295 L 435 305 L 420 315" stroke="#ffe4a3" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle class="impulse-dot" cx="180" cy="303" r="8" fill="#fff0b7" filter="url(#strongGlow)"/>
-            <text x="300" y="286" font-size="12" text-anchor="middle" fill="#ffe4a3" font-weight="700">потенциал действия →</text>
+          <g class="impulse-visual synapse-el" data-el="impulse" data-name="Нервный импульс" data-desc="Потенциал действия — короткая волна деполяризации мембраны, которая приходит по аксону к нервному окончанию. Здесь она открывает потенциалзависимые Ca²⁺-каналы: Ca²⁺ входит внутрь окончания и запускает слияние везикул с пресинаптической мембраной. Сам потенциал действия не переносит ацетилхолин через щель.">
+            <path d="M 170 337 C 260 329 345 329 430 337" stroke="#ffe4a3" stroke-width="4" stroke-dasharray="10 8" fill="none" stroke-linecap="round"/>
+            <path d="M 420 327 L 435 337 L 420 347" stroke="#ffe4a3" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle class="impulse-dot" cx="180" cy="335" r="8" fill="#fff0b7" filter="url(#strongGlow)"/>
+            <text x="300" y="318" font-size="12" text-anchor="middle" fill="#ffe4a3" font-weight="700">ПД по мембране → открытие Ca²⁺-каналов</text>
           </g>
           <g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации пресинаптической мембраны. Вход Ca²⁺ внутрь терминали запускает слияние везикул с мембраной.">
             <path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="270" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="270" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
