@@ -991,7 +991,7 @@ function renderSynapse(){
         ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
       </div>
       <div class="synapse-stage">
-        <svg class="synapse-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
+        <svg class="synapse-svg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" data-scenario="normal" id="synapseSvg">
           <defs>
             <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#3a4870"/><stop offset="100%" stop-color="#1a2138"/></radialGradient>
             <linearGradient id="preCytoplasm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2828"/><stop offset="100%" stop-color="#5a3a30"/></linearGradient>
@@ -1012,12 +1012,12 @@ function renderSynapse(){
             <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
           </defs>
           <rect width="1000" height="700" fill="url(#bgGrad)"/>
-          <path d="M 50 300 C 42 228 66 145 130 85 C 220 2 780 2 870 85 C 934 145 958 228 950 300 Q 500 350 50 300 Z" fill="url(#preCytoplasm)"/>
+          <path d="M 115 300 C 95 235 110 150 175 90 C 260 12 740 12 825 90 C 890 150 905 235 885 300 C 780 330 650 347 500 350 C 350 347 220 330 115 300 Z" fill="url(#preCytoplasm)"/>
           <path d="M 50 300 C 42 228 66 145 130 85 C 220 2 780 2 870 85 C 934 145 958 228 950 300 Q 500 350 50 300 Z" fill="none" stroke="url(#preMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
-          <path d="M 100 285 C 94 225 116 155 165 110 C 260 35 740 35 835 110 C 884 155 906 225 900 285 Q 500 325 100 285 Z" fill="#4a3030" opacity="0.4"/>
+          <path d="M 155 285 C 140 225 155 165 205 120 C 285 48 715 48 795 120 C 845 165 860 225 845 285 C 755 310 635 325 500 328 C 365 325 245 310 155 285 Z" fill="#4a3030" opacity="0.4"/>
           <g opacity="0.85">
-            <ellipse cx="180" cy="120" rx="55" ry="26" fill="#7a5a4a"/><ellipse cx="170" cy="115" rx="35" ry="14" fill="#5a3a2a" opacity="0.6"/><path d="M 145 120 Q 180 105 215 120" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
-            <ellipse cx="820" cy="150" rx="50" ry="24" fill="#7a5a4a"/><ellipse cx="815" cy="145" rx="30" ry="12" fill="#5a3a2a" opacity="0.6"/><path d="M 785 150 Q 820 135 855 150" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
+            <ellipse cx="220" cy="150" rx="42" ry="20" fill="#7a5a4a"/><ellipse cx="212" cy="146" rx="27" ry="11" fill="#5a3a2a" opacity="0.6"/><path d="M 193 150 Q 220 138 247 150" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
+            <ellipse cx="780" cy="160" rx="42" ry="20" fill="#7a5a4a"/><ellipse cx="773" cy="156" rx="27" ry="11" fill="#5a3a2a" opacity="0.6"/><path d="M 753 160 Q 780 148 807 160" stroke="#c89878" stroke-width="2" fill="none" opacity="0.7"/>
           </g>
           <g class="vesicle synapse-el vesicle-bob" data-el="vesicle" data-name="Синаптическая везикула" data-desc="Мембранный пузырёк, заполненный ацетилхолином. При входе Ca²⁺ везикула сливается с пресинаптической мембраной и выбрасывает АХ в синаптическую щель.">
             <ellipse cx="315" cy="160" rx="40" ry="38" fill="url(#vesicleGrad)"/><ellipse cx="300" cy="142" rx="14" ry="9" fill="#fff" opacity="0.35"/>
@@ -1054,29 +1054,36 @@ function renderSynapse(){
           <g class="ache synapse-el ache-pulse" data-el="ache" data-name="Ацетилхолинэстераза (АХЭ)" data-desc="Фермент, разрушающий ацетилхолин в синаптической щели. Ингибируется ФОС и оиХЭ. Реактивируется карбоксимом.">
             <path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="470" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
           </g>
-          <path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="url(#postCytoplasm)"/>
+          <path d="M 50 460 Q 500 430 950 460 L 950 770 Q 500 820 50 770 Z" fill="url(#postCytoplasm)"/>
           <path d="M 50 460 Q 500 430 950 460 L 950 680 Q 500 720 50 680 Z" fill="none" stroke="url(#postMembrane)" stroke-width="10" stroke-linejoin="round" filter="url(#shadow)"/>
-          <path d="M 100 480 Q 500 455 900 480 L 900 660 Q 500 690 100 660 Z" fill="#2a3a5a" opacity="0.5"/>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор (работает через G-белок). Активируется ацетилхолином и пилокарпином. Блокируется атропином.">
+          <path d="M 100 480 Q 500 455 900 480 L 900 750 Q 500 780 100 750 Z" fill="#2a3a5a" opacity="0.5"/>
+          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор (работает через G-белок). Активируется ацетилхолином и пилокарпином. Блокируется атропином."><g transform="translate(178 454) scale(0.84) translate(-178 -454)">
             <path d="M 158 480 L 158 448 Q 158 428 178 428 Q 198 428 198 448 L 198 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="178" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="178" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="178" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор."><g transform="translate(398 454) scale(0.84) translate(-398 -454)">
             <path d="M 378 480 L 378 448 Q 378 428 398 428 Q 418 428 418 448 L 418 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="398" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="398" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="398" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор."><g transform="translate(648 454) scale(0.84) translate(-648 -454)">
             <path d="M 628 480 L 628 448 Q 628 428 648 428 Q 668 428 668 448 L 668 480" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="648" cy="432" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="648" cy="445" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="648" y="458" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор.">
+          <g class="m-receptor synapse-el m-recept" data-el="m" data-name="М-холинорецептор" data-desc="Метаботропный рецептор."><g transform="translate(848 454) scale(0.84) translate(-848 -454)">
             <path d="M 828 492 L 828 460 Q 828 440 848 440 Q 868 440 868 460 L 868 492" fill="url(#mReceptGrad)" stroke="#5a3a88" stroke-width="1.5"/><ellipse cx="848" cy="444" rx="18" ry="6" fill="#e0c8f8" opacity="0.5"/><circle cx="848" cy="457" r="5" fill="#fff" opacity="0.6"/><text class="block-x" x="848" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор — сам является ионным каналом. При связывании с АХ открывается, и Na⁺ входит в клетку. Активируется никотином. Блокируется ганглиоблокаторами и миорелаксантами.">
+          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор — сам является ионным каналом. При связывании с АХ открывается, и Na⁺ входит в клетку. Активируется никотином. Блокируется ганглиоблокаторами и миорелаксантами."><g transform="translate(270 461) scale(0.84) translate(-270 -461)">
             <rect x="252" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="262" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="270" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="270" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
+          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор."><g transform="translate(530 461) scale(0.84) translate(-530 -461)">
             <rect x="512" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="522" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="530" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="530" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
-          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор.">
+          <g class="n-receptor synapse-el n-recept" data-el="n" data-name="Н-холинорецептор" data-desc="Ионотропный рецептор."><g transform="translate(740 461) scale(0.84) translate(-740 -461)">
             <rect x="722" y="440" width="36" height="42" rx="8" fill="url(#nReceptGrad)" stroke="#1a6850" stroke-width="1.5"/><rect x="732" y="448" width="16" height="26" rx="3" fill="#0a1830"/><ellipse cx="740" cy="442" rx="16" ry="5" fill="#d0f0e0" opacity="0.5"/><text class="block-x" x="740" y="470" font-size="18" text-anchor="middle" fill="#ff4060" font-weight="900">✕</text>
+            </g>
           </g>
           <g class="na-ion-flow"><circle cx="270" cy="490" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="270" y="493" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
           <g class="na-ion-flow d1"><circle cx="530" cy="500" r="8" fill="url(#naIon)" filter="url(#strongGlow)"/><text x="530" y="503" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text></g>
@@ -1085,8 +1092,8 @@ function renderSynapse(){
           <circle cx="620" cy="610" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="620" y="613" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
           <circle cx="820" cy="560" r="8" fill="url(#naIon)" filter="url(#softGlow)"/><text x="820" y="563" font-size="7" text-anchor="middle" fill="#fff" font-weight="700">Na</text>
           <g font-family="-apple-system,sans-serif">
-            <text x="80" y="80" font-size="15" font-weight="700" fill="#f0c0a8">Пресинаптический нейрон</text>
-            <text x="80" y="100" font-size="11" fill="#c8a088">(аксонная терминаль)</text>
+            <text x="190" y="55" font-size="15" font-weight="700" fill="#f0c0a8">Пресинаптический нейрон</text>
+            <text x="190" y="73" font-size="11" fill="#c8a088">(аксонная терминаль)</text>
             <text x="80" y="510" font-size="15" font-weight="700" fill="#8ac0e0">Постсинаптический нейрон</text>
             <text x="80" y="528" font-size="11" fill="#6a9cc8">(дендрит / тело клетки)</text>
             <text x="500" y="405" font-size="11" font-weight="700" fill="#6a7a9a" text-anchor="middle">Синаптическая щель</text>
