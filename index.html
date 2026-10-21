@@ -283,8 +283,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 8px #ff4060) brightness(.68);animation:none}
 .synapse-svg.phase-recycle .ach-molecule{opacity:.22;transition:opacity .3s}
 /* Везикула и содержимое движутся вместе к пресинаптической мембране. */
-@keyframes synthesisTransfer{0%{transform:translate(0,0);opacity:.45}20%{opacity:1}100%{transform:translate(20px,-67px);opacity:.95}}\n@keyframes releaseGroupDock{0%{transform:translateY(0)}100%{transform:translateY(125px)}}
-@keyframes achReleaseTravel{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:1}75%{transform:translateY(30px) scale(1);opacity:1}100%{transform:translateY(44px) scale(.9);opacity:0}}
+@keyframes synthesisTransfer{0%{transform:translate(0,0);opacity:.45}20%{opacity:1}100%{transform:translate(20px,-48px);opacity:.95}}\n@keyframes releaseGroupDock{0%{transform:translateY(0)}100%{transform:translateY(125px)}}
+@keyframes achReleaseTravel{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:1}78%{transform:translateY(150px) scale(1);opacity:1}100%{transform:translateY(180px) scale(.9);opacity:.25}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(132px)}100%{transform:translateY(125px)}}
 @keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(-24px,-13px) scale(1);opacity:1}}
 @keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(25px,13px) scale(1);opacity:1}}
@@ -316,7 +316,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes achFloat{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(5px,-7px) rotate(8deg)}50%{transform:translate(-3px,-12px) rotate(-5deg)}75%{transform:translate(-7px,-5px) rotate(6deg)}}
 @keyframes vesicleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes achePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
-@keyframes caFlow{0%{transform:translate(0,-45px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,45px);opacity:0}}
+@keyframes caFlow{0%{transform:translate(0,40px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,-40px);opacity:0}}
 @keyframes naFlow{0%{transform:translate(0,25px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(0,-55px);opacity:0}}
 @keyframes channelGlow{0%,100%{filter:brightness(.62) drop-shadow(0 0 2px #8d72bd)}50%{filter:brightness(.72) drop-shadow(0 0 5px #b49ae8)}}
 @keyframes receptorPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
@@ -1120,13 +1120,6 @@ function renderSynapse(){
             <path d="M 403 176 L 410 170 L 415 181" stroke="#bba6ef" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             <g class="synthesis-transfer-particle"><circle cx="390" cy="245" r="8" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="390" y="248" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
             <text x="415" y="215" font-size="10" fill="#e5ddff" text-anchor="middle">АХ в везикулу</text>
-            <g class="choline-uptake-visual">
-              <path d="M 790 470 C 805 486 815 500 825 520" stroke="#8de4cf" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/>
-              <path d="M 818 512 L 825 520 L 829 510" stroke="#8de4cf" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="812" y="505" width="26" height="13" rx="5" fill="#4cbaa5" stroke="#d4fff2" stroke-width="1.5"/>
-              <text x="825" y="514" font-size="6" text-anchor="middle" fill="#123b36" font-weight="800">Х</text>
-              <text x="825" y="493" font-size="9" text-anchor="middle" fill="#c8f5e8">захват холина</text>
-            </g>
           </g>
 
             <path d="M 390 245 C 420 225 430 190 410 170" stroke="#bba6ef" stroke-width="2.5" stroke-dasharray="5 5" fill="none" opacity=".9"/>
@@ -1156,6 +1149,14 @@ function renderSynapse(){
             <text x="825" y="438" font-size="10" fill="#c8f5e8" text-anchor="middle">холин обратно</text>
           </g>
 
+
+            <g class="choline-uptake-visual">
+              <path d="M 790 470 C 805 486 815 500 825 520" stroke="#8de4cf" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/>
+              <path d="M 818 512 L 825 520 L 829 510" stroke="#8de4cf" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="812" y="505" width="26" height="13" rx="5" fill="#4cbaa5" stroke="#d4fff2" stroke-width="1.5"/>
+              <text x="825" y="514" font-size="6" text-anchor="middle" fill="#123b36" font-weight="800">Х</text>
+              <text x="825" y="493" font-size="9" text-anchor="middle" fill="#c8f5e8">захват холина</text>
+            </g>
 
           <g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин (АХ)" data-desc="Нейромедиатор. После высвобождения связывается с холинорецепторами соответствующего типа в конкретном синапсе; затем гидролизуется ацетилхолинэстеразой.">
             <g class="ach-float" style="animation-delay:0s"><circle cx="150" cy="380" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="147" cy="377" r="3" fill="#fff" opacity="0.5"/></g>
