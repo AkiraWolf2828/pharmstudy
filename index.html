@@ -239,7 +239,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg .step-focus{opacity:1;filter:drop-shadow(0 0 5px rgba(255,211,138,.55));transition:opacity .25s,filter .25s}
 /* ACh release animation runs when step 3 is selected. */
 .synapse-svg .ach-release-particles,.synapse-svg .synthesis-visual,.synapse-svg .recycle-visual,.synapse-svg .impulse-visual,.synapse-svg .breakdown-visual{opacity:0;pointer-events:none;transition:opacity .25s}
-.synapse-svg.phase-synthesis .synthesis-transfer-visual{opacity:1}.synapse-svg.phase-recycle .choline-uptake-visual{opacity:1}.synapse-svg .choline-uptake-visual{opacity:0;transition:opacity .25s}.synapse-svg .synthesis-transfer-visual{opacity:0;transition:opacity .25s;pointer-events:none}.synapse-svg.phase-synthesis .synthesis-transfer-particle{transform-box:fill-box;transform-origin:center;animation:synthesisTransfer 1.8s ease-in-out infinite}.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
+.synapse-svg.phase-synthesis .synthesis-transfer-visual{opacity:1}.synapse-svg.phase-recycle .choline-uptake-visual{opacity:1}.synapse-svg .choline-uptake-visual{opacity:0;transition:opacity .25s}.synapse-svg .synthesis-transfer-visual{opacity:0;transition:opacity .25s;pointer-events:none}.synapse-svg.phase-synthesis .synthesis-transfer-particle{transform-box:fill-box;transform-origin:center;animation:synthesisTransfer 1.8s ease-in-out infinite}
+/* Повторяющиеся стадии должны оставаться живыми до переключения, а не проигрываться один раз. */
+.synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleDock 1.1s cubic-bezier(.2,.7,.3,1) infinite}
+.synapse-svg.phase-receptors .ach-molecule .ach-float{animation-iteration-count:infinite}
+.synapse-svg.phase-breakdown .breakdown-substrate{animation:substratePulse .9s ease-in-out infinite}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholine .9s ease-out infinite}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetate .9s ease-out infinite}.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
 .synapse-svg.phase-impulse .impulse-dot{animation:impulseTravel 1.15s ease-in-out infinite}
 .synapse-svg .ca-ion-flow{opacity:0;animation:none}
 .synapse-svg.phase-impulse .ca-ion-flow,.synapse-svg.phase-fusion .ca-ion-flow{opacity:1;animation:caFlow 1.8s linear infinite}
@@ -300,6 +306,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.35);opacity:0}30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(28px,16px) scale(.82);opacity:1}100%{transform:translate(112px,52px) scale(1);opacity:1}}
 @keyframes cholineReturn{0%{transform:translate(0,0);opacity:0}10%{opacity:1}38%{transform:translate(56px,-1px);opacity:1}68%{transform:translate(106px,-40px);opacity:1}100%{transform:translate(151px,-61px);opacity:1}}
 @keyframes substrateFade{0%,35%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
+@keyframes substratePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.92)}}
 @keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
 
 @keyframes naActivate{0%{opacity:.25;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
@@ -1267,15 +1274,24 @@ function renderSynapse(){
       el.classList.toggle('step-dim',!match);
     });
     const phaseOrder=['synthesis','impulse','fusion','release','receptors','breakdown','recycle'];
-    const nextStep=Math.max(0,phaseOrder.indexOf(button.dataset.phase||'impulse'));
-    const previousStep=Number(svg.getAttribute('data-active-step')||0);
-    /* При движении вперёд сохраняем уже завершённые стадии: частицы не должны исчезать и начинаться заново при каждом клике. При возврате назад убираем только будущие стадии. */
-    phaseOrder.forEach((phase,index)=>{
-      const className='phase-'+phase;
-      if(index<=nextStep) svg.classList.add(className);
-      else svg.classList.remove(className);
-    });
-    svg.setAttribute('data-active-step',String(nextStep));
+    const nextPhase=button.dataset.phase||'impulse';
+    const nextStep=Math.max(0,phaseOrder.indexOf(nextPhase));
+    const currentPhase=phaseOrder.find(phase=>svg.classList.contains('phase-'+phase));
+    /* Каждая выбранная стадия работает циклически. При переключении оставляем текущую анимацию до конца её цикла, затем меняем фазу; токен отменяет устаревшее переключение, если пользователь нажал другую кнопку. */
+    const transitionToken=String(Number(svg.getAttribute('data-transition-token')||0)+1);
+    svg.setAttribute('data-transition-token',transitionToken);
+    const cycleMs={synthesis:1800,impulse:1800,fusion:1100,release:2450,receptors:1800,breakdown:900,recycle:1500};
+    const applyPhase=()=>{
+      if(svg.getAttribute('data-transition-token')!==transitionToken)return;
+      phaseOrder.forEach(phase=>svg.classList.remove('phase-'+phase));
+      svg.classList.add('phase-'+nextPhase);
+      svg.setAttribute('data-active-step',String(nextStep));
+    };
+    if(currentPhase && currentPhase!==nextPhase){
+      window.setTimeout(applyPhase,cycleMs[currentPhase]||1200);
+    } else {
+      applyPhase();
+    }
     document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+button.dataset.title+'</div><div class="synapse-info-desc">'+button.dataset.desc+'</div>';
     document.getElementById('synapseChainText').innerHTML='<strong>Этап передачи.</strong> '+button.dataset.desc+' <span style="opacity:.8">Режим действия препарата сброшен; выбери сценарий отдельно, чтобы рассмотреть его эффект.</span>';
   }
