@@ -256,9 +256,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="m-blocker"] .ach-molecule .ach-float,
 .synapse-svg[data-scenario="n-blocker"] .ach-molecule .ach-float,
 .synapse-svg[data-scenario="reactivator"] .ach-molecule .ach-float{opacity:1;animation-play-state:running}
+.synapse-svg .breakdown-product{opacity:0;transform-box:fill-box;transform-origin:center}
 .synapse-svg.phase-breakdown .breakdown-substrate{transform-box:fill-box;transform-origin:center;animation:substrateFade .55s ease-in .05s both}
-.synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholine .7s ease-out .6s both}
-.synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetate .7s ease-out .6s both}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholine .85s ease-out .05s both}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetate .85s ease-out .05s both}
 .synapse-svg .ach-release-particles{opacity:0;pointer-events:none;}
 .synapse-svg.phase-release .ach-release-particles{opacity:1;}
 .synapse-svg .ach-release-particle{opacity:0;transform-box:fill-box;transform-origin:center}
@@ -288,8 +289,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes synthesisTransfer{0%{transform:translate(0,0);opacity:.45}20%{opacity:1}100%{transform:translate(-65px,-65px);opacity:.95}}
 @keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.72);opacity:1}35%{transform:translate(calc(var(--ach-x,0px) * .12),55px) scale(.9);opacity:1}75%{transform:translate(calc(var(--ach-x,0px) * .72),135px) scale(1);opacity:1}100%{transform:translate(var(--ach-x,0px),175px) scale(.55);opacity:0}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(132px)}100%{transform:translateY(125px)}}
-@keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:1}100%{transform:translate(-34px,-25px) scale(1);opacity:1}}
-@keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:1}100%{transform:translate(34px,25px) scale(1);opacity:1}}
+@keyframes achSplitCholine{0%,58%{transform:translate(0,0) scale(.55);opacity:0}72%{opacity:1}100%{transform:translate(-42px,-22px) scale(1);opacity:1}}
+@keyframes achSplitAcetate{0%,58%{transform:translate(0,0) scale(.55);opacity:0}72%{opacity:1}100%{transform:translate(42px,22px) scale(1);opacity:1}}
 @keyframes cholineReturn{0%{transform:translate(0,0);opacity:0}12%{opacity:1}75%{transform:translate(-28px,-54px);opacity:1}100%{transform:translate(-45px,-80px);opacity:1}}
 @keyframes substrateFade{0%,35%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
 @keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
