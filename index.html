@@ -288,8 +288,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes synthesisTransfer{0%{transform:translate(0,0);opacity:.45}20%{opacity:1}100%{transform:translate(-65px,-65px);opacity:.95}}
 @keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.72);opacity:1}65%{transform:translate(calc(var(--ach-x,0px) * .78),150px) scale(1);opacity:1}88%{transform:translate(var(--ach-x,0px),178px) scale(.9);opacity:.9}100%{transform:translate(var(--ach-x,0px),190px) scale(.55);opacity:0}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(132px)}100%{transform:translateY(125px)}}
-@keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(-24px,-13px) scale(1);opacity:1}}
-@keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.55);opacity:0}15%{opacity:1}100%{transform:translate(25px,13px) scale(1);opacity:1}}
+@keyframes achSplitCholine{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:1}100%{transform:translate(-34px,-25px) scale(1);opacity:1}}
+@keyframes achSplitAcetate{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:1}100%{transform:translate(34px,25px) scale(1);opacity:1}}
 @keyframes cholineReturn{0%{transform:translate(0,0);opacity:0}12%{opacity:1}75%{transform:translate(-28px,-54px);opacity:1}100%{transform:translate(-45px,-80px);opacity:1}}
 @keyframes substrateFade{0%,35%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
 @keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
@@ -1134,8 +1134,8 @@ function renderSynapse(){
             <path d="M 510 395 L 532 395" stroke="#ffd080" stroke-width="2.5" stroke-dasharray="3 3" stroke-linecap="round"/>
             <g class="breakdown-substrate"><circle cx="542" cy="395" r="11" fill="url(#achGrad)" stroke="#fff0ca" stroke-width="1.5"/><text x="542" y="398" font-size="6" fill="#59315f" text-anchor="middle" font-weight="800">АХ</text></g>
             <path d="M 555 395 L 580 395 M 574 389 L 580 395 L 574 401" stroke="#ffe1a6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <g class="breakdown-product choline"><circle cx="610" cy="370" r="11" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="610" y="373" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text><text x="610" y="351" font-size="10" fill="#c8f5e8" text-anchor="middle" font-weight="700">Холин</text></g>
-            <g class="breakdown-product acetate"><circle cx="610" cy="420" r="11" fill="#f4ca83" stroke="#fff0ca" stroke-width="1.5"/><text x="610" y="423" font-size="6" fill="#5b421e" text-anchor="middle" font-weight="800">Ац</text><text x="610" y="442" font-size="10" fill="#ffe1a6" text-anchor="middle" font-weight="700">Ацетат</text></g>
+            <g class="breakdown-product choline"><circle cx="542" cy="395" r="11" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="542" y="398" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text><text x="542" y="378" font-size="10" fill="#c8f5e8" text-anchor="middle" font-weight="700">Холин</text></g>
+            <g class="breakdown-product acetate"><circle cx="542" cy="395" r="11" fill="#f4ca83" stroke="#fff0ca" stroke-width="1.5"/><text x="542" y="398" font-size="6" fill="#5b421e" text-anchor="middle" font-weight="800">Ац</text><text x="542" y="414" font-size="10" fill="#ffe1a6" text-anchor="middle" font-weight="700">Ацетат</text></g>
             <text x="575" y="466" font-size="9" fill="#ffe1a6" text-anchor="middle">гидролиз АХ</text>
           </g>
           <g class="recycle-visual synapse-el" data-el="recycle" data-name="Повторное использование холина" data-desc="После гидролиза холин возвращается через пресинаптическую мембрану в нервное окончание и повторно используется для синтеза ацетилхолина. Путь возврата и захват холина показаны условно; конкретный переносчик в методичке не назван.">
