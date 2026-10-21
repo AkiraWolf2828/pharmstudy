@@ -235,12 +235,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-step b{font-size:11px;line-height:1.35}
 .synapse-step:hover{transform:translateY(-2px);border-color:var(--accent)}
 .synapse-step.active{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent) inset}
-.synapse-svg .step-dim{opacity:.68;transition:opacity .25s,filter .25s}
+.synapse-svg .step-dim{opacity:.42;transition:opacity .25s,filter .25s}
 .synapse-svg .step-focus{opacity:1;filter:drop-shadow(0 0 5px rgba(255,211,138,.55));transition:opacity .25s,filter .25s}
 /* ACh release animation runs when step 3 is selected. */
 .synapse-svg .ach-release-particles,.synapse-svg .synthesis-visual,.synapse-svg .recycle-visual,.synapse-svg .impulse-visual,.synapse-svg .breakdown-visual{opacity:0;pointer-events:none;transition:opacity .25s}
 .synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
 .synapse-svg.phase-impulse .impulse-dot{animation:impulseTravel 1.15s ease-in-out infinite}
+.synapse-svg .ca-ion-flow{opacity:0;animation:none}
+.synapse-svg.phase-impulse .ca-ion-flow,.synapse-svg.phase-fusion .ca-ion-flow{opacity:1;animation:caFlow 1.8s linear infinite}
+.synapse-svg.phase-impulse .ca-ion-flow.d1,.synapse-svg.phase-fusion .ca-ion-flow.d1{animation-delay:-.9s}
+.synapse-svg .na-ion-flow{opacity:0;animation:none}
+.synapse-svg.phase-receptors .na-ion-flow,.synapse-svg[data-scenario="n-agonist"] .na-ion-flow,.synapse-svg[data-scenario="ache-block"] .na-ion-flow,.synapse-svg[data-scenario="fos"] .na-ion-flow{opacity:1;animation:naFlow 1.8s linear infinite}
+.synapse-svg .ach-molecule .ach-float{opacity:0;animation-play-state:paused;transition:opacity .25s}
+.synapse-svg.phase-release .ach-molecule .ach-float,.synapse-svg.phase-receptors .ach-molecule .ach-float,.synapse-svg.phase-breakdown .ach-molecule .ach-float{opacity:1;animation-play-state:running}
+.synapse-svg.phase-recycle .ach-molecule .ach-float{opacity:.15;animation-play-state:paused}
 .synapse-svg.phase-breakdown .breakdown-particle{animation:breakdownFade 1.2s ease-out both}
 .synapse-svg.phase-breakdown .breakdown-particle.p2{animation-delay:.22s}
 .synapse-svg.phase-breakdown .breakdown-particle.p3{animation-delay:.44s}
@@ -251,12 +259,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg.phase-release .ach-release-particle.p4{animation-delay:.48s}
 .synapse-svg.phase-release .ach-release-particle.p5{animation-delay:.64s}
 .synapse-svg.phase-fusion .fusion-vesicle,.synapse-svg.phase-release .fusion-vesicle{animation:vesicleDock 1.1s cubic-bezier(.2,.7,.3,1) both}
-.synapse-svg.phase-receptors .na-ion-flow{animation:naActivate 1s ease-out both}
+.synapse-svg.phase-receptors .na-ion-flow{animation:naFlow 1.8s linear infinite}
 .synapse-svg.phase-receptors .n-recept .block-x{opacity:0;transition:opacity .2s}
 .synapse-svg.phase-receptors .n-recept rect:nth-of-type(2){fill:#65e6c2;filter:url(#softGlow)}
+.synapse-svg .ache-block-mark{display:none}
+.synapse-svg[data-scenario="ache-block"] .ache-block-mark,.synapse-svg[data-scenario="fos"] .ache-block-mark{display:block}
+.synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 8px #ff4060) brightness(.68);animation:none}
 .synapse-svg.phase-recycle .ach-molecule{opacity:.22;transition:opacity .3s}
-@keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.55);opacity:0}10%{opacity:1}68%{transform:translate(0,160px) scale(1);opacity:1}100%{transform:translate(0,175px) scale(.82);opacity:0}}
-@keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(108px)}100%{transform:translateY(100px)}}
+@keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.55);opacity:0}10%{opacity:1}68%{transform:translate(0,100px) scale(1);opacity:1}100%{transform:translate(0,112px) scale(.82);opacity:0}}
+@keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(165px)}100%{transform:translateY(155px)}}
 @keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
 @keyframes breakdownFade{0%{opacity:0;transform:translateY(-6px) scale(.7)}20%{opacity:1}100%{opacity:.9;transform:translateY(10px) scale(1)}}
 @keyframes naActivate{0%{opacity:.25;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
@@ -273,11 +284,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .vesicle-bob.d2{animation-delay:-1.5s}
 .vesicle-bob.d3{animation-delay:-2.3s}
 .ache-pulse{animation:achePulse 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.ca-ion-flow{animation:caFlow 3s linear infinite;transform-box:fill-box;transform-origin:center}
-.ca-ion-flow.d1{animation-delay:-1.5s}
-.na-ion-flow{animation:naFlow 3.5s linear infinite;transform-box:fill-box;transform-origin:center}
-.na-ion-flow.d1{animation-delay:-1.2s}
-.na-ion-flow.d2{animation-delay:-2.4s}
+.ca-ion-flow{animation:none;opacity:0;transform-box:fill-box;transform-origin:center}
+.ca-ion-flow.d1{animation-delay:0s}
+.na-ion-flow{animation:none;opacity:0;transform-box:fill-box;transform-origin:center}
+.na-ion-flow.d1,.na-ion-flow.d2{animation-delay:0s}
 .m-recept,.n-recept{transform-box:fill-box;transform-origin:center;transition:filter .3s;filter:brightness(1.45) saturate(1.2)}
 .ca-channel-anim{transform-box:fill-box;transform-origin:center;animation:none;filter:brightness(.72);transition:filter .25s}
 .block-x{display:none}
@@ -295,14 +305,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="m-blocker"] .m-recept .block-x{display:block}
 .synapse-svg[data-scenario="n-blocker"] .n-recept{animation:receptorFade 2.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff6080) brightness(0.7)}
 .synapse-svg[data-scenario="n-blocker"] .n-recept .block-x{display:block}
-.synapse-svg[data-scenario="ache-block"] .ache,.synapse-svg[data-scenario="fos"] .ache{filter:drop-shadow(0 0 16px #ff4060) brightness(1.15);animation:achePulse 1.5s ease-in-out infinite}
 .synapse-svg[data-scenario="ache-block"] .ach-float,.synapse-svg[data-scenario="fos"] .ach-float{animation-duration:1.4s;filter:drop-shadow(0 0 10px #ff80a0)}
 .synapse-svg[data-scenario="ache-block"] .n-recept,.synapse-svg[data-scenario="fos"] .n-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #7ce8c8) brightness(1.3)}
 .synapse-svg[data-scenario="ache-block"] .m-recept,.synapse-svg[data-scenario="fos"] .m-recept{animation:receptorPulse 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #c8aaff) brightness(1.3)}
-.synapse-svg[data-scenario="reactivator"] .ache{filter:drop-shadow(0 0 18px #7fc99a) brightness(1.4);animation:achePulse 2s ease-in-out infinite}
+.synapse-svg[data-scenario="reactivator"] .ache{filter:drop-shadow(0 0 10px #7fc99a) brightness(1.08);animation:none}
 .synapse-svg[data-scenario="botox"] .vesicle-bob{opacity:0.35;filter:grayscale(1);animation-play-state:paused}
 .synapse-svg[data-scenario="botox"] .ach-float{opacity:0.15;animation-play-state:paused}
-.synapse-svg[data-scenario="normal"] .ca-channel-anim{animation:channelGlow 2.5s ease-in-out infinite;filter:brightness(.62) drop-shadow(0 0 2px #8d72bd)}
+.synapse-svg[data-scenario="botox"] .ach-release-particles{opacity:0!important}
+.synapse-svg[data-scenario="botox"] .fusion-vesicle{animation:none!important;opacity:.45}
+.synapse-svg[data-scenario="normal"] .ca-channel-anim{animation:none;filter:brightness(.48);transition:filter .25s}
+.synapse-svg[data-scenario="normal"].phase-impulse .ca-channel-anim,.synapse-svg[data-scenario="normal"].phase-fusion .ca-channel-anim{animation:channelGlow 2.5s ease-in-out infinite;filter:brightness(.9) drop-shadow(0 0 5px #b49ae8)}
 .classify-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
 .ctab{padding:10px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .ctab:hover{border-color:var(--accent);color:var(--text)}
@@ -691,15 +703,15 @@ const GROUPS=[
 ];
 
 const SCENARIOS={
-  normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с М- и Н-рецепторами → АХЭ разрушает АХ. Сигнал проходит, система готова к следующему импульсу.'},
+  normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → экзоцитоз везикул → АХ связывается с рецепторами соответствующего типа → АХЭ гидролизует АХ. М- и Н-рецепторы на схеме показаны как варианты разных холинергических синапсов, а не как обязательная пара в одном синапсе.'},
   'm-agonist':{name:'Прямой М-холиномиметик (Пилокарпин)',chain:'<strong>Пилокарпин стимулирует М-рецепторы напрямую.</strong> АХ не нужен — рецептор активирован. Эффект: брадикардия, слюнотечение, миоз, бронхоспазм, диарея. Классический SLUDGE-синдром.'},
   'n-agonist':{name:'Н-холиномиметик (Никотин)',chain:'<strong>Стимуляция Н-рецепторов.</strong> В малых дозах — возбуждение ганглиев (тахикардия, повышение АД), в больших — стойкая деполяризация и блокада (брадикардия, падение АД).'},
-  'ache-block':{name:'оиХЭ (Неостигмин)',chain:'<strong>АХЭ ингибирована → АХ не разрушается → накапливается в щели.</strong> Избыточная стимуляция и М-, и Н-рецепторов. Мускариновые эффекты + никотиновые (фасцикуляции, слабость). Антидот — атропин.'},
-  'fos':{name:'ФОС (отравление)',chain:'<strong>Необратимое ингибирование АХЭ.</strong> Фермент «состарен» и не восстанавливается сам. АХ накапливается лавинообразно. Тяжёлое отравление: бронхорея, бронхоспазм, брадикардия, фасцикуляции. Антидот — атропин + карбоксим.'},
-  'reactivator':{name:'Реактиватор (Карбоксим)',chain:'<strong>Карбоксим разрывает связь ФОС с АХЭ.</strong> Фермент восстановлен, АХ снова разрушается. Вводится вместе с атропином: атропин снимает мускариновые симптомы, карбоксим убирает причину.'},
+  'ache-block':{name:'Обратимый ингибитор АХЭ (Неостигмин)',chain:'<strong>АХЭ временно ингибирована → гидролиз АХ замедляется → АХ накапливается в щели.</strong> Усиливается стимуляция рецепторов, присутствующих в данном синапсе. Возможны мускариновые эффекты и никотиновые эффекты, включая фасцикуляции и слабость; атропин устраняет мускариновые проявления, но не все никотиновые.'},
+  'fos':{name:'ФОС (отравление)',chain:'<strong>ФОС ингибируют АХЭ; после «старения» комплекса реактивация становится невозможной.</strong> АХ накапливается, вызывая избыточную холинергическую стимуляцию. При отравлении применяют атропин и подходящий реактиватор-оксим как можно раньше; конкретная схема зависит от вещества и клинического протокола.'},
+  'reactivator':{name:'Реактиватор АХЭ (Карбоксим)',chain:'<strong>Реактиватор может восстановить активность АХЭ, ингибированной ФОС, если комплекс ещё не подвергся «старению».</strong> Эффект зависит от конкретного ФОС и времени введения; реактиватор не заменяет атропин и не гарантирует восстановление при любом отравлении.'},
   'm-blocker':{name:'М-холиноблокатор (Атропин)',chain:'<strong>М-рецепторы заблокированы.</strong> АХ вырабатывается, но не может активировать М-рецептор. Эффекты: тахикардия, сухость, мидриаз, запор, задержка мочи. Н-рецепторы работают — никотиновые эффекты сохраняются.'},
   'n-blocker':{name:'Н-холиноблокатор (ганглиоблокатор, миорелаксант)',chain:'<strong>Н-рецепторы заблокированы.</strong> Ганглиоблокатор: падение АД, тахикардия, сухость. Миорелаксант: расслабление скелетных мышц, апноэ. Нейромышечная передача нарушена.'},
-  'botox':{name:'Ботулотоксин',chain:'<strong>Выброс АХ из везикул нарушен.</strong> Везикулы не сливаются с мембраной. АХ не попадает в щель. Рецепторы не активируются. Эффект: расслабление мышц (спастичность, косметология). Длится 3–6 месяцев.'}
+  'botox':{name:'Ботулотоксин',chain:'<strong>Нарушается работа белков, необходимых для слияния везикулы с пресинаптической мембраной.</strong> Выброс АХ снижается, поэтому постсинаптические холинорецепторы получают меньше сигнала. Схема показывает блок высвобождения условно; продолжительность эффекта зависит от препарата, дозы и области введения.'}
 };
 
 const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
@@ -1082,11 +1094,11 @@ function renderSynapse(){
             <text x="260" y="266" font-size="11" fill="#ffd0d8" text-anchor="middle">холинацетилтрансфераза → АХ</text>
           </g>
           <g class="ach-release-particles" aria-label="Выброс ацетилхолина из везикулы в синаптическую щель">
-            <g class="ach-release-particle p1"><circle cx="615" cy="265" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="615" y="268" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
-            <g class="ach-release-particle p2"><circle cx="628" cy="265" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="628" y="268" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
-            <g class="ach-release-particle p3"><circle cx="642" cy="265" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="642" y="268" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
-            <g class="ach-release-particle p4"><circle cx="655" cy="265" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="655" y="268" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
-            <g class="ach-release-particle p5"><circle cx="635" cy="265" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="635" y="268" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <g class="ach-release-particle p1"><circle cx="615" cy="320" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="615" y="323" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <g class="ach-release-particle p2"><circle cx="628" cy="320" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="628" y="323" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <g class="ach-release-particle p3"><circle cx="642" cy="320" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="642" y="323" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <g class="ach-release-particle p4"><circle cx="655" cy="320" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="655" y="323" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+            <g class="ach-release-particle p5"><circle cx="635" cy="320" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="635" y="323" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
           </g>
           <g class="breakdown-visual synapse-el" data-el="breakdown" data-name="Гидролиз ацетилхолина" data-desc="Ацетилхолинэстераза гидролизует ацетилхолин до холина и ацетата. Схематические метки показывают продукты реакции, а не точный молекулярный масштаб.">
             <path d="M 520 394 L 555 394" stroke="#ffd080" stroke-width="2" stroke-dasharray="4 4"/>
@@ -1103,7 +1115,7 @@ function renderSynapse(){
           </g>
 
 
-          <g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин (АХ)" data-desc="Нейромедиатор. Связывается с М- и Н-холинорецепторами, передавая сигнал. Разрушается ацетилхолинэстеразой.">
+          <g class="ach-molecule synapse-el" data-el="ach" data-name="Ацетилхолин (АХ)" data-desc="Нейромедиатор. После высвобождения связывается с холинорецепторами соответствующего типа в конкретном синапсе; затем гидролизуется ацетилхолинэстеразой.">
             <g class="ach-float" style="animation-delay:0s"><circle cx="150" cy="380" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="147" cy="377" r="3" fill="#fff" opacity="0.5"/></g>
             <g class="ach-float" style="animation-delay:-0.6s"><circle cx="360" cy="365" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="357" cy="362" r="3" fill="#fff" opacity="0.5"/></g>
             <g class="ach-float" style="animation-delay:-1.2s"><circle cx="540" cy="400" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="537" cy="397" r="3" fill="#fff" opacity="0.5"/></g>
@@ -1111,7 +1123,7 @@ function renderSynapse(){
             <g class="ach-float" style="animation-delay:-2.4s"><circle cx="870" cy="395" r="9" fill="url(#achGrad)" filter="url(#strongGlow)"/><circle cx="867" cy="392" r="3" fill="#fff" opacity="0.5"/></g>
           </g>
           <g class="ache synapse-el ache-pulse" data-el="ache" data-name="Ацетилхолинэстераза (АХЭ)" data-desc="Фермент, быстро гидролизующий ацетилхолин до холина и ацетата. Это прекращает действие медиатора; холин может возвращаться в пресинаптическое окончание.">
-            <path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="445" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text>
+            <path d="M 410 390 Q 410 355 460 355 Q 510 355 510 390 L 520 415 Q 515 435 500 435 L 490 415 Q 460 430 430 415 L 420 435 Q 405 435 400 415 Z" fill="url(#acheGrad)" stroke="#a06818" stroke-width="2"/><ellipse cx="445" cy="375" rx="14" ry="8" fill="#fff" opacity="0.25"/><text x="460" y="445" font-size="12" text-anchor="middle" fill="#ffb840" font-weight="700">АХЭ</text><text class="ache-block-mark" x="460" y="400" font-size="34" text-anchor="middle" fill="#ff4b6e" font-weight="900">×</text>
           </g>
           <path d="M 50 460 Q 500 432 950 460 L 950 770 Q 500 820 50 770 Z" fill="url(#postCytoplasm)"/>
           <path d="M 50 460 Q 500 432 950 460 L 950 770 Q 500 820 50 770 Z" fill="none" stroke="url(#postMembrane)" stroke-width="8" stroke-linejoin="round" filter="url(#shadow)"/>
@@ -1204,6 +1216,8 @@ function renderSynapse(){
   });
   const stepButtons=[...document.querySelectorAll('.synapse-step')];
   function activateSynapseStep(button){
+    document.querySelectorAll('.scen-btn').forEach(x=>x.classList.toggle('active',x.dataset.scen==='normal'));
+    svg.setAttribute('data-scenario','normal');
     stepButtons.forEach(x=>x.classList.toggle('active',x===button));
     const targets=(button.dataset.target||'').split(',');
     svg.querySelectorAll('.synapse-el').forEach(el=>{
@@ -1215,6 +1229,7 @@ function renderSynapse(){
     svg.classList.add('phase-'+(button.dataset.phase||'impulse'));
     svg.setAttribute('data-active-step',button.dataset.step||'');
     document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+button.dataset.title+'</div><div class="synapse-info-desc">'+button.dataset.desc+'</div>';
+    document.getElementById('synapseChainText').innerHTML='<strong>Этап передачи.</strong> '+button.dataset.desc+' <span style="opacity:.8">Режим действия препарата сброшен; выбери сценарий отдельно, чтобы рассмотреть его эффект.</span>';
   }
   stepButtons.forEach(button=>button.addEventListener('click',()=>activateSynapseStep(button)));
   if(stepButtons.length) activateSynapseStep(stepButtons[0]);
@@ -1227,7 +1242,12 @@ function renderSynapse(){
     b.addEventListener('click',()=>{
       const key=b.dataset.scen;
       document.querySelectorAll('.scen-btn').forEach(x=>x.classList.toggle('active',x===b));
+      stepButtons.forEach(x=>x.classList.remove('active'));
+      svg.querySelectorAll('.synapse-el').forEach(el=>el.classList.remove('step-focus','step-dim'));
+      ['phase-synthesis','phase-impulse','phase-fusion','phase-release','phase-receptors','phase-breakdown','phase-recycle'].forEach(c=>svg.classList.remove(c));
+      svg.removeAttribute('data-active-step');
       svg.setAttribute('data-scenario',key);
+      document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+SCENARIOS[key].name+'</div><div class="synapse-info-desc">Режим препарата показан отдельно от пошаговой физиологической передачи. Выбери этап ниже, чтобы вернуться к обычной последовательности.</div>';
       document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
     });
   });
