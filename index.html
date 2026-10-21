@@ -238,8 +238,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg .step-dim{opacity:.68;transition:opacity .25s,filter .25s}
 .synapse-svg .step-focus{opacity:1;filter:drop-shadow(0 0 5px rgba(255,211,138,.55));transition:opacity .25s,filter .25s}
 /* ACh release animation runs when step 3 is selected. */
-.synapse-svg .ach-release-particles,.synapse-svg .synthesis-visual,.synapse-svg .recycle-visual{opacity:0;pointer-events:none;transition:opacity .25s}
-.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
+.synapse-svg .ach-release-particles,.synapse-svg .synthesis-visual,.synapse-svg .recycle-visual,.synapse-svg .impulse-visual,.synapse-svg .breakdown-visual{opacity:0;pointer-events:none;transition:opacity .25s}
+.synapse-svg.phase-synthesis .synthesis-visual,.synapse-svg.phase-impulse .impulse-visual,.synapse-svg.phase-release .ach-release-particles,.synapse-svg.phase-breakdown .breakdown-visual,.synapse-svg.phase-recycle .recycle-visual{opacity:1}
+.synapse-svg.phase-impulse .impulse-dot{animation:impulseTravel 1.15s ease-in-out infinite}
+.synapse-svg.phase-breakdown .breakdown-particle{animation:breakdownFade 1.2s ease-out both}
+.synapse-svg.phase-breakdown .breakdown-particle.p2{animation-delay:.22s}
+.synapse-svg.phase-breakdown .breakdown-particle.p3{animation-delay:.44s}
 .synapse-svg .ach-release-particle{opacity:0}
 .synapse-svg.phase-release .ach-release-particle{animation:achReleaseTravel 1.7s cubic-bezier(.25,.65,.4,1) both}
 .synapse-svg.phase-release .ach-release-particle.p2{animation-delay:.16s}
@@ -253,6 +257,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg.phase-recycle .ach-molecule{opacity:.22;transition:opacity .3s}
 @keyframes achReleaseTravel{0%{transform:translate(0,0) scale(.55);opacity:0}10%{opacity:1}68%{transform:translate(0,220px) scale(1);opacity:1}100%{transform:translate(0,255px) scale(.82);opacity:0}}
 @keyframes vesicleDock{0%{transform:translateY(0)}75%{transform:translateY(108px)}100%{transform:translateY(100px)}}
+@keyframes impulseTravel{0%{cx:180;opacity:.45}50%{opacity:1}100%{cx:420;opacity:.8}}
+@keyframes breakdownFade{0%{opacity:0;transform:translateY(-6px) scale(.7)}20%{opacity:1}100%{opacity:.9;transform:translateY(10px) scale(1)}}
 @keyframes naActivate{0%{opacity:.25;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
 
 .synapse-info{grid-area:info;padding:20px;background:var(--card);border-radius:20px;box-shadow:var(--shadow-sm);margin-bottom:16px;min-height:90px}
@@ -1055,6 +1061,12 @@ function renderSynapse(){
             <ellipse cx="785" cy="110" rx="34" ry="32" fill="url(#vesicleGrad)"/><ellipse cx="768" cy="95" rx="11" ry="7" fill="#fff" opacity="0.35"/>
             <circle cx="774" cy="105" r="4" fill="url(#achGrad)"/><circle cx="796" cy="112" r="4" fill="url(#achGrad)"/><circle cx="782" cy="125" r="4" fill="url(#achGrad)"/>
           </g>
+          <g class="impulse-visual synapse-el" data-el="impulse" data-name="Нервный импульс" data-desc="Потенциал действия достигает пресинаптического окончания; деполяризация мембраны открывает потенциалзависимые Ca²⁺-каналы.">
+            <path d="M 170 305 C 260 292 345 292 430 305" stroke="#ffe4a3" stroke-width="4" stroke-dasharray="10 8" fill="none" stroke-linecap="round"/>
+            <path d="M 420 295 L 435 305 L 420 315" stroke="#ffe4a3" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle class="impulse-dot" cx="180" cy="303" r="8" fill="#fff0b7" filter="url(#strongGlow)"/>
+            <text x="300" y="286" font-size="12" text-anchor="middle" fill="#ffe4a3" font-weight="700">потенциал действия →</text>
+          </g>
           <g class="ca-channel synapse-el ca-channel-anim" data-el="ca" data-name="Потенциалзависимый Ca²⁺-канал" data-desc="Открывается при деполяризации пресинаптической мембраны. Вход Ca²⁺ внутрь терминали запускает слияние везикул с мембраной.">
             <path d="M 250 290 L 290 290 L 295 320 L 285 335 L 255 335 L 245 320 Z" fill="url(#caChannelGrad)" stroke="#5a4a98" stroke-width="1.5"/><ellipse cx="270" cy="292" rx="20" ry="6" fill="#c8b8f0" opacity="0.7"/><text x="270" y="318" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">Ca²⁺</text>
           </g>
@@ -1075,6 +1087,13 @@ function renderSynapse(){
             <g class="ach-release-particle p3"><circle cx="642" cy="185" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="642" y="188" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
             <g class="ach-release-particle p4"><circle cx="655" cy="185" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="655" y="188" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
             <g class="ach-release-particle p5"><circle cx="635" cy="185" r="7" fill="url(#achGrad)" filter="url(#strongGlow)"/><text x="635" y="188" font-size="6" text-anchor="middle" fill="#59315f" font-weight="800">АХ</text></g>
+          </g>
+          <g class="breakdown-visual synapse-el" data-el="breakdown" data-name="Гидролиз ацетилхолина" data-desc="Ацетилхолинэстераза гидролизует ацетилхолин до холина и ацетата. Схематические метки показывают продукты реакции, а не точный молекулярный масштаб.">
+            <path d="M 520 394 L 555 394" stroke="#ffd080" stroke-width="2" stroke-dasharray="4 4"/>
+            <g class="breakdown-particle p1"><circle cx="555" cy="394" r="8" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="555" y="397" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text></g>
+            <g class="breakdown-particle p2"><circle cx="575" cy="408" r="7" fill="#f4ca83" stroke="#fff0ca" stroke-width="1.5"/><text x="575" y="411" font-size="6" fill="#5b421e" text-anchor="middle" font-weight="800">Ац</text></g>
+            <g class="breakdown-particle p3"><circle cx="595" cy="390" r="7" fill="#8de4cf" stroke="#d4fff2" stroke-width="1.5"/><text x="595" y="393" font-size="6" fill="#163e3a" text-anchor="middle" font-weight="800">Х</text></g>
+            <text x="575" y="430" font-size="10" fill="#ffe1a6" text-anchor="middle">холин + ацетат</text>
           </g>
           <g class="recycle-visual synapse-el" data-el="recycle" data-name="Повторное использование холина" data-desc="Ацетилхолинэстераза расщепляет ацетилхолин на холин и ацетат. Холин переносится обратно в пресинаптическое окончание и используется для нового синтеза АХ.">
             <path d="M 780 420 C 900 405 925 360 865 325 C 835 309 800 312 775 322" stroke="#ffd080" stroke-width="3" stroke-dasharray="7 6" fill="none" stroke-linecap="round"/>
@@ -1145,11 +1164,11 @@ function renderSynapse(){
         <div class="synapse-steps-heading">Изучи передачу по этапам</div>
         <div class="synapse-steps-list">
           <button class="synapse-step active" data-step="0" data-phase="synthesis" data-target="synthesis,vesicle" data-title="0. Синтез и запас АХ" data-desc="До прихода импульса холин и ацетил-КоА используются для синтеза ацетилхолина с участием холинацетилтрансферазы. АХ накапливается в синаптических везикулах."><span>00</span><b>Синтез АХ</b></button>
-          <button class="synapse-step" data-step="1" data-phase="impulse" data-target="ca" data-title="1. Приход импульса" data-desc="Потенциал действия достигает пресинаптического окончания. Деполяризация открывает потенциалзависимые Ca²⁺-каналы, и кальций входит в нервное окончание."><span>01</span><b>Импульс и Ca²⁺</b></button>
+          <button class="synapse-step" data-step="1" data-phase="impulse" data-target="impulse,ca" data-title="1. Приход импульса" data-desc="Потенциал действия достигает пресинаптического окончания. Деполяризация открывает потенциалзависимые Ca²⁺-каналы, и кальций входит в нервное окончание."><span>01</span><b>Импульс и Ca²⁺</b></button>
           <button class="synapse-step" data-step="2" data-phase="fusion" data-target="vesicle,ca" data-title="2. Сближение везикулы" data-desc="Вход Ca²⁺ запускает процессы, приводящие к сближению и слиянию везикулы с пресинаптической мембраной. Это этап экзоцитоза; точные молекулярные детали не раскрываются без отдельного источника."><span>02</span><b>Везикула</b></button>
           <button class="synapse-step" data-step="3" data-phase="release" data-target="ach,vesicle" data-title="3. Выброс ацетилхолина" data-desc="После слияния везикулы ацетилхолин выходит в синаптическую щель и диффундирует к холинорецепторам. Частицы на схеме показывают направление движения условно, не в масштабе."><span>03</span><b>Выброс АХ</b></button>
           <button class="synapse-step" data-step="4" data-phase="receptors" data-target="m,n" data-title="4. Ответ рецепторов" data-desc="АХ связывается с рецепторами. Н-холинорецептор является ионным каналом и связан с изменением проницаемости для катионов; М-холинорецепторы передают сигнал через G-белки. Конкретный клеточный ответ зависит от типа синапса."><span>04</span><b>Рецепторы</b></button>
-          <button class="synapse-step" data-step="5" data-phase="breakdown" data-target="ache,ach" data-title="5. Расщепление АХ" data-desc="Ацетилхолинэстераза гидролизует АХ до холина и ацетата, быстро прекращая действие медиатора в синаптической щели."><span>05</span><b>Расщепление</b></button>
+          <button class="synapse-step" data-step="5" data-phase="breakdown" data-target="ache,ach,breakdown" data-title="5. Расщепление АХ" data-desc="Ацетилхолинэстераза гидролизует АХ до холина и ацетата, быстро прекращая действие медиатора в синаптической щели."><span>05</span><b>Расщепление</b></button>
           <button class="synapse-step" data-step="6" data-phase="recycle" data-target="recycle,synthesis" data-title="6. Возврат холина" data-desc="Холин переносится обратно в пресинаптическое окончание и может использоваться для синтеза нового ацетилхолина. Так восстанавливается запас медиатора для следующих циклов."><span>06</span><b>Возврат холина</b></button>
         </div>
       </div>
