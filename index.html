@@ -1241,7 +1241,7 @@ function switchSynapseTab(tab){
   if(!chol||!adr)return;
   chol.style.display=tab==='cholinergic'?'':'none'; adr.style.display=tab==='adrenergic'?'':'none';
   document.querySelectorAll('[data-synapse-tab]').forEach(b=>{const active=b.dataset.synapseTab===tab;b.style.background=active?'var(--accent)':'var(--card)';b.style.color=active?'#fff':'var(--text)';b.style.borderColor=active?'var(--accent)':'var(--border)';});
-  const frame=document.getElementById('adrenergicFrame'); if(tab==='adrenergic'&&frame&&!frame.src)frame.src=frame.dataset.src;
+  const frame=document.getElementById('adrenergicFrame'); if(tab==='adrenergic'&&frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src;
 }
 function renderSynapse(){
   screenEl.innerHTML=`
