@@ -427,6 +427,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes achSplitAcetateLoop{0%,30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(28px,16px) scale(.82);opacity:1}76%{transform:translate(112px,52px) scale(1);opacity:1}100%{transform:translate(112px,52px) scale(1);opacity:0}}
 @keyframes cholineReturnLoop{0%,100%{transform:translate(0,0);opacity:0}10%{opacity:1}38%{transform:translate(56px,-1px);opacity:1}68%{transform:translate(106px,-40px);opacity:1}86%{transform:translate(151px,-61px);opacity:1}96%{transform:translate(151px,-61px);opacity:0}}
 
+/* Переход везикулы между этапами: отскок и опускание, удержание при выбросе, плавный возврат на следующем этапе. */
+.synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleBounceDock 2.8s cubic-bezier(.22,.61,.36,1) forwards!important}
+.synapse-svg.phase-release .fusion-vesicle{animation:none!important;transform:translateY(125px)!important}
+.synapse-svg.phase-receptors .fusion-vesicle{animation:vesicleLift 0.85s cubic-bezier(.22,.61,.36,1) both!important}
+@keyframes vesicleBounceDock{
+  0%{transform:translateY(0)}
+  18%{transform:translateY(-18px)}
+  34%{transform:translateY(5px)}
+  100%{transform:translateY(125px)}
+}
+@keyframes vesicleLift{
+  0%{transform:translateY(125px)}
+  100%{transform:translateY(0)}
+}
+
 /* Немного замедляем движение, но оставляем мгновенное переключение по кнопке. */
 .synapse-svg.phase-synthesis .synthesis-transfer-particle{animation-duration:2.1s}
 .synapse-svg.phase-impulse .impulse-dot{animation-duration:1.35s}
