@@ -414,6 +414,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .synapse-info{order:4}
   .synapse-chain{order:5}
 }
+
+/* Smooth loops: animated elements fade/reset before a new cycle instead of snapping. */
+.synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleDockLoop 1.8s cubic-bezier(.2,.7,.3,1) infinite}
+.synapse-svg.phase-receptors .ach-molecule .ach-float{animation:achBindLoop 1.8s cubic-bezier(.2,.65,.25,1) infinite}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholineLoop .9s ease-out infinite}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetateLoop .9s ease-out infinite}
+.synapse-svg.phase-recycle .choline-return-particle{animation:cholineReturnLoop 1.5s ease-in-out infinite}
+@keyframes vesicleDockLoop{0%,8%{transform:translateY(0)}48%{transform:translateY(132px)}60%{transform:translateY(125px)}100%{transform:translateY(0)}}
+@keyframes achBindLoop{0%{transform:translate(0,0) scale(1);opacity:1;filter:drop-shadow(0 0 4px #7fcfff)}58%{transform:translate(calc(var(--bind-x,0px)),calc(var(--bind-y,0px))) scale(.82);opacity:1;filter:drop-shadow(0 0 7px #7fcfff)}78%,100%{transform:translate(calc(var(--bind-x,0px)),calc(var(--bind-y,0px))) scale(.82);opacity:0;filter:drop-shadow(0 0 0 transparent)}}
+@keyframes achSplitCholineLoop{0%,30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(24px,-18px) scale(.82);opacity:1}76%{transform:translate(82px,-48px) scale(1);opacity:1}100%{transform:translate(82px,-48px) scale(1);opacity:0}}
+@keyframes achSplitAcetateLoop{0%,30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(28px,16px) scale(.82);opacity:1}76%{transform:translate(112px,52px) scale(1);opacity:1}100%{transform:translate(112px,52px) scale(1);opacity:0}}
+@keyframes cholineReturnLoop{0%,100%{transform:translate(0,0);opacity:0}10%{opacity:1}38%{transform:translate(56px,-1px);opacity:1}68%{transform:translate(106px,-40px);opacity:1}86%{transform:translate(151px,-61px);opacity:1}96%{transform:translate(151px,-61px);opacity:0}}
 </style>
 </head>
 <body>
