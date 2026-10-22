@@ -463,6 +463,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg.phase-breakdown .breakdown-substrate{animation-duration:2.52s!important}
 .synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:2.52s!important}
 .synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:2.52s!important}
+
+/* При расщеплении сохраняем исходную молекулу АХ видимой на месте; продукты появляются и движутся от неё. */
+.synapse-svg.phase-breakdown .breakdown-substrate{animation:substratePulse 2.52s ease-in-out infinite!important;opacity:1!important;transform:scale(1)!important}
 </style>
 </head>
 <body>
