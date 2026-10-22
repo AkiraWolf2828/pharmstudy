@@ -458,6 +458,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:1.05s}
 .synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:1.05s}
 .synapse-svg.phase-recycle .choline-return-particle{animation-duration:1.8s}
+
+/* Исправление скорости расщепления: более позднее правило раньше возвращало 1.05s. */
+.synapse-svg.phase-breakdown .breakdown-substrate{animation-duration:2.52s!important}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:2.52s!important}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:2.52s!important}
 </style>
 </head>
 <body>
