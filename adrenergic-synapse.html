@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}
+body{margin:0;background:transparent;color:#f3f5ff}.layout{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:14px;align-items:start}
+.stage{position:relative;overflow:hidden;border-radius:22px;background:#10172c;box-shadow:0 18px 48px #05091755;min-width:0}
+svg{display:block;width:100%;height:auto;min-height:330px}.panel{border:1px solid #ffffff18;background:linear-gradient(155deg,#202a48ee,#121a30ee);border-radius:20px;padding:12px;box-shadow:0 12px 35px #05091744}
+h2{font-size:15px;margin:2px 0 8px}.sub{font-size:12px;color:#aebcda;line-height:1.5;margin:0 0 12px}
+button{font:600 12px/1.35 inherit;cursor:pointer;color:#eaf5ff;background:#1c2946;border:1px solid #ffffff20;border-radius:11px;padding:10px;text-align:left;transition:.18s}
+button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:translateY(-1px)}button.active{background:linear-gradient(110deg,#146d91,#5e4ba0);border-color:#8aeaff;box-shadow:0 0 18px #38cfff30}
+.scenarios{display:grid;gap:7px}.info{margin-top:12px;border:1px solid #ffffff18;background:#131d35;border-radius:16px;padding:14px}.info strong{display:block;color:#9feaff;margin-bottom:6px;font-size:13px}.info p{margin:0;font-size:13px;line-height:1.6;color:#d9e4ff}.key{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:#b8c7e5}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:#ff72d2;box-shadow:0 0 8px currentColor}.dot.cyan{background:#70eaff}.dot.gold{background:#ffd77a}
+.label{font:700 16px system-ui;fill:#eaf6ff;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}.small{font:600 12px system-ui;fill:#bcd1f2;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}
+.particle{filter:url(#glow);animation:float 2.5s ease-in-out infinite}.p2{animation-delay:-.8s}.p3{animation-delay:-1.5s}.p4{animation-delay:-2s}
+@keyframes float{0%,100%{transform:translate(0,0);opacity:.55}50%{transform:translate(10px,16px);opacity:1}}
+@keyframes pulse{0%,100%{filter:url(#glow);opacity:.8}50%{filter:url(#hot);opacity:1}}
+.receptor{cursor:pointer;transition:opacity .2s,filter .2s}.receptor.active{animation:pulse 1.6s ease-in-out infinite}.dim{opacity:.2!important}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.panel{order:2}.scenarios{grid-template-columns:repeat(2,minmax(0,1fr))}svg{min-height:260px}.label{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="layout">
+ <div>
+  <div class="stage">
+   <svg id="scene" viewBox="0 0 900 650" role="img" aria-label="Анимированная схема адренергического синапса">
+    <defs>
+     <radialGradient id="bg"><stop stop-color="#28365c"/><stop offset="1" stop-color="#10172c"/></radialGradient>
+     <linearGradient id="pre" x2="0" y2="1"><stop stop-color="#57417b"/><stop offset="1" stop-color="#282b53"/></linearGradient>
+     <linearGradient id="mem" x2="0" y2="1"><stop stop-color="#ff9be5"/><stop offset=".5" stop-color="#b66de0"/><stop offset="1" stop-color="#6c4aaf"/></linearGradient>
+     <linearGradient id="post" x2="0" y2="1"><stop stop-color="#235c83"/><stop offset="1" stop-color="#182c50"/></linearGradient>
+     <radialGradient id="ves"><stop stop-color="#fff0b0"/><stop offset=".45" stop-color="#ffb85e"/><stop offset="1" stop-color="#b65c95"/></radialGradient>
+     <radialGradient id="nor"><stop stop-color="#fff6bb"/><stop offset=".55" stop-color="#ffc66f"/><stop offset="1" stop-color="#ff75cc"/></radialGradient>
+     <linearGradient id="rec" x2="1" y2="1"><stop stop-color="#7bf3ff"/><stop offset=".5" stop-color="#36b8e6"/><stop offset="1" stop-color="#665be4"/></linearGradient>
+     <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+     <filter id="hot" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="900" height="650" fill="url(#bg)"/>
+    <g opacity=".16" stroke="#8edfff"><path d="M0 100H900M0 200H900M0 300H900M0 400H900M0 500H900M0 600H900"/><path d="M100 0V650M200 0V650M300 0V650M400 0V650M500 0V650M600 0V650M700 0V650M800 0V650"/></g>
+    <path d="M55 305 Q60 175 160 95 Q450 -20 740 95 Q840 175 845 305 Q680 345 450 345 Q220 345 55 305Z" fill="url(#pre)" stroke="url(#mem)" stroke-width="10"/>
+    <path d="M55 305 Q60 175 160 95 Q450 -20 740 95 Q840 175 845 305" fill="none" stroke="#ffb8ef" stroke-width="2" opacity=".7"/>
+    <path d="M40 365 Q450 395 860 365 L860 490 Q450 520 40 490Z" fill="#18213e" stroke="#5f8fcb" stroke-width="2" opacity=".95"/>
+    <path d="M40 490 Q450 520 860 490 L860 650 L40 650Z" fill="url(#post)" stroke="#4ccce9" stroke-width="8"/>
+    <path d="M40 500 Q450 530 860 500" fill="none" stroke="#91edff" stroke-width="2" opacity=".65"/>
+    <text x="70" y="64" class="label">Пресинаптическое окончание</text><text x="70" y="550" class="label">Постсинаптическая клетка</text>
+    <g class="vesicle" data-info="Везикулы: пузырьки пресинаптического окончания. Схема показывает запас медиатора; детали синтеза и упаковки следует сверять с учебной методичкой.">
+     <circle cx="260" cy="170" r="43" fill="url(#ves)" stroke="#ffd5f2" stroke-width="3" filter="url(#glow)"/><circle cx="247" cy="155" r="12" fill="#fff" opacity=".3"/>
+     <circle cx="244" cy="174" r="5" fill="#ff72d2"/><circle cx="266" cy="188" r="5" fill="#ff72d2"/><circle cx="278" cy="163" r="5" fill="#ff72d2"/><circle cx="257" cy="148" r="5" fill="#ff72d2"/>
+    </g>
+    <g class="vesicle" data-info="Везикула с медиатором. В данной учебной схеме медиатор обозначен как норадреналин — наиболее характерный медиатор большинства симпатических окончаний, согласно имеющейся методичке.">
+     <circle cx="440" cy="140" r="37" fill="url(#ves)" stroke="#ffd5f2" stroke-width="3" filter="url(#glow)"/><circle cx="428" cy="128" r="10" fill="#fff" opacity=".3"/>
+     <circle cx="430" cy="145" r="5" fill="#ff72d2"/><circle cx="449" cy="151" r="5" fill="#ff72d2"/><circle cx="450" cy="130" r="5" fill="#ff72d2"/>
+    </g>
+    <g class="vesicle" data-info="Синаптическая щель — пространство между окончанием нерва и клеткой-мишенью.">
+     <text x="365" y="390" class="small">Синаптическая щель</text>
+    </g>
+    <g id="particles">
+     <circle class="particle" cx="350" cy="325" r="7" fill="url(#nor)"/><text x="362" y="328" class="small">НА</text>
+     <circle class="particle p2" cx="440" cy="350" r="7" fill="url(#nor)"/><text x="452" y="353" class="small">НА</text>
+     <circle class="particle p3" cx="525" cy="320" r="7" fill="url(#nor)"/><text x="537" y="323" class="small">НА</text>
+     <circle class="particle p4" cx="610" cy="350" r="7" fill="url(#nor)"/><text x="622" y="353" class="small">НА</text>
+    </g>
+    <g id="rA1" class="receptor active" data-rec="a1" data-info="α₁-адренорецептор. Его стимуляция обычно связана с сокращением ряда гладких мышц, включая сосудистую стенку. Подробные эффекты препаратов будут добавлены после сверки с профильной методичкой.">
+     <path d="M250 485 L250 445 Q250 428 265 428 Q280 428 280 445 L280 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="265" cy="430" r="8" fill="#e9ffff"/>
+     <text x="225" y="520" class="small">α₁</text>
+    </g>
+    <g id="rA2" class="receptor" data-rec="a2" data-info="α₂-адренорецепторы. Подтипы и расположение имеют значение для эффекта; точный пресинаптический механизм в этой первой версии намеренно не детализирован без профильной методички.">
+     <path d="M420 495 L420 455 Q420 438 435 438 Q450 438 450 455 L450 495Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="435" cy="440" r="8" fill="#e9ffff"/>
+     <text x="415" y="526" class="small">α₂</text>
+    </g>
+    <g id="rB1" class="receptor" data-rec="b1" data-info="β₁-адренорецептор. Отдельный тип адренорецептора; для конкретного препарата эффект зависит от селективности, дозы и ткани.">
+     <path d="M570 485 L570 445 Q570 428 585 428 Q600 428 600 445 L600 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="585" cy="430" r="8" fill="#e9ffff"/>
+     <text x="565" y="520" class="small">β₁</text>
+    </g>
+    <g id="rB2" class="receptor" data-rec="b2" data-info="β₂-адренорецептор. Отдельный тип адренорецептора; для демонстрации тканевых эффектов нужно сверить формулировки с профильной методичкой.">
+     <path d="M710 485 L710 445 Q710 428 725 428 Q740 428 740 445 L740 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="725" cy="430" r="8" fill="#e9ffff"/>
+     <text x="705" y="520" class="small">β₂</text>
+    </g>
+    <text x="450" y="600" text-anchor="middle" class="small">Выбери рецептор или сценарий справа</text>
+   </svg>
+  </div>
+  <div class="info"><strong id="infoTitle">Адренергический синапс</strong><p id="infoText">Большинство симпатических нейронов передают сигнал с помощью норадреналина, который действует на адренорецепторы клетки-мишени. Выбери элемент сцены или сценарий справа.</p></div>
+  <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span></div>
+ </div>
+ <aside class="panel">
+  <h2>Адренергическая передача</h2><p class="sub">Интерактивная схема. Нажми на рецептор, чтобы прочитать пояснение. Подробные лекарственные сценарии лучше добавить после проверки профильной методички.</p>
+  <div class="scenarios">
+   <button class="active" data-mode="normal">Нормальная передача</button>
+   <button data-mode="a1">α₁-рецептор</button>
+   <button data-mode="a2">α₂-рецептор</button>
+   <button data-mode="b1">β₁-рецептор</button>
+   <button data-mode="b2">β₂-рецептор</button>
+   <button data-mode="all">Показать все рецепторы</button>
+  </div>
+  <div class="info"><strong>Важно</strong><p>Надписи и типы рецепторов основаны на имеющихся материалах. Конкретные лекарственные эффекты и последовательность внутриклеточных событий не дорисовываются без подтверждения в профильной методичке.</p></div>
+ </aside>
+</div>
+<script>
+const title=document.getElementById('infoTitle'),desc=document.getElementById('infoText'),buttons=[...document.querySelectorAll('[data-mode]')],receptors=[...document.querySelectorAll('.receptor')];
+function showInfo(el){title.textContent=el.dataset.rec?({'a1':'α₁-адренорецептор','a2':'α₂-адренорецептор','b1':'β₁-адренорецептор','b2':'β₂-адренорецептор'}[el.dataset.rec]||'Элемент синапса'):'Элемент синапса';desc.textContent=el.dataset.info||'Элемент схемы адренергической передачи.'}
+receptors.forEach(r=>{r.addEventListener('click',()=>{receptors.forEach(x=>x.classList.remove('active'));r.classList.add('active');showInfo(r)});});
+document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('click',()=>{title.textContent=el.classList.contains('vesicle')?'Синаптическая везикула':'Синаптическая щель';desc.textContent=el.dataset.info;});});
+buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.toggle('active',x===b));const mode=b.dataset.mode;receptors.forEach(r=>{r.classList.toggle('dim',mode!=='all'&&mode!=='normal'&&r.dataset.rec!==mode);r.classList.toggle('active',mode==='all'||mode===r.dataset.rec||(mode==='normal'&&r.dataset.rec==='a1'));});if(mode==='normal'){title.textContent='Адренергический синапс';desc.textContent='Большинство симпатических нейронов передают сигнал с помощью норадреналина, который действует на адренорецепторы клетки-мишени.';}else if(mode==='all'){title.textContent='Типы адренорецепторов';desc.textContent='На схеме раздельно показаны α₁-, α₂-, β₁- и β₂-адренорецепторы. Это обозначение типов, а не утверждение, что все они обязательно присутствуют на одной клетке.';}else{const r=receptors.find(x=>x.dataset.rec===mode);if(r)showInfo(r);}}));
+</script>
+</body></html>
