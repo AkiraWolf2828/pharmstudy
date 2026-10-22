@@ -442,11 +442,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   100%{transform:translateY(0)}
 }
 
-/* Чуть замедляем расщепление АХ, чтобы разделение и разлёт продуктов читались яснее. */
-.synapse-svg.phase-breakdown .breakdown-substrate{animation-duration:1.35s}
-.synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:1.35s}
-.synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:1.35s}
-
+/* Ещё более спокойный темп расщепления: движение продуктов теперь длится заметно дольше. */
+.synapse-svg.phase-breakdown .breakdown-substrate{animation-duration:1.8s}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:1.8s}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:1.8s}
 /* Немного замедляем движение, но оставляем мгновенное переключение по кнопке. */
 .synapse-svg.phase-synthesis .synthesis-transfer-particle{animation-duration:2.1s}
 .synapse-svg.phase-impulse .impulse-dot{animation-duration:1.35s}
