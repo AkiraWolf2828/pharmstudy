@@ -1236,8 +1236,20 @@ function renderClassifyConspects(){
     </div>`;
 }
 
+function switchSynapseTab(tab){
+  const chol=document.getElementById('cholinergicPanel'), adr=document.getElementById('adrenergicPanel');
+  if(!chol||!adr)return;
+  chol.style.display=tab==='cholinergic'?'':'none'; adr.style.display=tab==='adrenergic'?'':'none';
+  document.querySelectorAll('[data-synapse-tab]').forEach(b=>{const active=b.dataset.synapseTab===tab;b.style.background=active?'var(--accent)':'var(--card)';b.style.color=active?'#fff':'var(--text)';b.style.borderColor=active?'var(--accent)':'var(--border)';});
+  const frame=document.getElementById('adrenergicFrame'); if(tab==='adrenergic'&&frame&&!frame.src)frame.src=frame.dataset.src;
+}
 function renderSynapse(){
   screenEl.innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px">
+      <button data-synapse-tab="cholinergic" onclick="switchSynapseTab('cholinergic')" style="padding:11px 16px;border:1px solid var(--accent);border-radius:13px;background:var(--accent);color:#fff;font:600 13px inherit;cursor:pointer">Холинергический синапс</button>
+      <button data-synapse-tab="adrenergic" onclick="switchSynapseTab('adrenergic')" style="padding:11px 16px;border:1px solid var(--border);border-radius:13px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer">Адренергический синапс</button>
+    </div>
+    <div id="cholinergicPanel">
     <div class="synapse-wrap">
       <div class="synapse-scenarios" id="synapseScenarios">
         ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
@@ -1416,7 +1428,9 @@ function renderSynapse(){
         <div class="synapse-chain-title">Что происходит</div>
         <div class="synapse-chain-text" id="synapseChainText">Физиологическая передача. Потенциал действия → вход Ca²⁺ → везикулы сливаются с мембраной → АХ выходит в щель → связывается с рецепторами → АХЭ разрушает АХ.</div>
       </div>
-    </div>`;
+    </div>
+    </div>
+    <div id="adrenergicPanel" style="display:none"><iframe id="adrenergicFrame" data-src="adrenergic-synapse.html" title="Интерактивная визуализация адренергического синапса" style="display:block;width:100%;height:980px;border:0;border-radius:20px;background:transparent" loading="lazy"></iframe></div>`;
   const svg=document.getElementById('synapseSvg');
   const tooltip=document.getElementById('synapseTooltip');
   const stage=svg.parentElement;
