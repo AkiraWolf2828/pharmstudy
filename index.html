@@ -426,6 +426,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes achSplitCholineLoop{0%,30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(24px,-18px) scale(.82);opacity:1}76%{transform:translate(82px,-48px) scale(1);opacity:1}100%{transform:translate(82px,-48px) scale(1);opacity:0}}
 @keyframes achSplitAcetateLoop{0%,30%{transform:translate(0,0) scale(.35);opacity:0}52%{transform:translate(28px,16px) scale(.82);opacity:1}76%{transform:translate(112px,52px) scale(1);opacity:1}100%{transform:translate(112px,52px) scale(1);opacity:0}}
 @keyframes cholineReturnLoop{0%,100%{transform:translate(0,0);opacity:0}10%{opacity:1}38%{transform:translate(56px,-1px);opacity:1}68%{transform:translate(106px,-40px);opacity:1}86%{transform:translate(151px,-61px);opacity:1}96%{transform:translate(151px,-61px);opacity:0}}
+
+/* Немного замедляем движение, но оставляем мгновенное переключение по кнопке. */
+.synapse-svg.phase-synthesis .synthesis-transfer-particle{animation-duration:2.1s}
+.synapse-svg.phase-impulse .impulse-dot{animation-duration:1.35s}
+.synapse-svg.phase-impulse .ca-ion-flow,.synapse-svg.phase-fusion .ca-ion-flow{animation-duration:2.1s}
+.synapse-svg.phase-receptors .na-ion-flow{animation-duration:2.1s}
+.synapse-svg.phase-release .ach-release-particle{animation-duration:2.85s}
+.synapse-svg.phase-fusion .fusion-vesicle{animation-duration:2.1s}
+.synapse-svg.phase-receptors .ach-molecule .ach-float{animation-duration:2.1s}
+.synapse-svg.phase-breakdown .breakdown-substrate{animation-duration:1.05s}
+.synapse-svg.phase-breakdown .breakdown-product.choline{animation-duration:1.05s}
+.synapse-svg.phase-breakdown .breakdown-product.acetate{animation-duration:1.05s}
+.synapse-svg.phase-recycle .choline-return-particle{animation-duration:1.8s}
 </style>
 </head>
 <body>
@@ -1288,22 +1301,10 @@ function renderSynapse(){
     const phaseOrder=['synthesis','impulse','fusion','release','receptors','breakdown','recycle'];
     const nextPhase=button.dataset.phase||'impulse';
     const nextStep=Math.max(0,phaseOrder.indexOf(nextPhase));
-    const currentPhase=phaseOrder.find(phase=>svg.classList.contains('phase-'+phase));
-    /* Каждая выбранная стадия работает циклически. При переключении оставляем текущую анимацию до конца её цикла, затем меняем фазу; токен отменяет устаревшее переключение, если пользователь нажал другую кнопку. */
-    const transitionToken=String(Number(svg.getAttribute('data-transition-token')||0)+1);
-    svg.setAttribute('data-transition-token',transitionToken);
-    const cycleMs={synthesis:1800,impulse:1800,fusion:1100,release:2450,receptors:1800,breakdown:900,recycle:1500};
-    const applyPhase=()=>{
-      if(svg.getAttribute('data-transition-token')!==transitionToken)return;
-      phaseOrder.forEach(phase=>svg.classList.remove('phase-'+phase));
-      svg.classList.add('phase-'+nextPhase);
-      svg.setAttribute('data-active-step',String(nextStep));
-    };
-    if(currentPhase && currentPhase!==nextPhase){
-      window.setTimeout(applyPhase,cycleMs[currentPhase]||1200);
-    } else {
-      applyPhase();
-    }
+    /* Переключаем фазу сразу по нажатию: CSS-переходы смягчают смену, без ожидания следующего цикла. */
+    phaseOrder.forEach(phase=>svg.classList.remove('phase-'+phase));
+    svg.classList.add('phase-'+nextPhase);
+    svg.setAttribute('data-active-step',String(nextStep));
     document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+button.dataset.title+'</div><div class="synapse-info-desc">'+button.dataset.desc+'</div>';
     document.getElementById('synapseChainText').innerHTML='<strong>Этап передачи.</strong> '+button.dataset.desc+' <span style="opacity:.8">Режим действия препарата сброшен; выбери сценарий отдельно, чтобы рассмотреть его эффект.</span>';
   }
