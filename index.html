@@ -224,9 +224,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .topic-pick.selected{border-color:var(--accent);background:var(--accent-soft)}
 
 .session-setup{position:relative}
-.session-desktop-actions{position:fixed;top:24px;right:28px;display:flex;gap:14px;align-items:center;z-index:20}
+.session-desktop-actions{position:fixed;top:24px;right:28px;bottom:24px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;gap:14px;z-index:20;pointer-events:none}.session-desktop-actions button{pointer-events:auto}
 .session-desktop-actions .next-btn{margin:0;padding:0;width:370px;height:80px;min-height:80px;white-space:nowrap;font-size:17px;font-weight:750;border-radius:20px;box-shadow:0 8px 22px rgba(0,0,0,.11)}
-.session-desktop-actions .classify-home-btn{position:fixed;right:28px;bottom:24px;top:auto;left:auto;width:385px!important;height:113px;min-width:0;max-width:none;margin:0;padding:0;background:var(--card);color:var(--text);box-shadow:0 8px 22px rgba(0,0,0,.09)}
+.session-desktop-actions .classify-home-btn{position:static;width:385px!important;height:113px;min-width:0;max-width:none;margin:0;padding:0;background:var(--card);color:var(--text);box-shadow:0 8px 22px rgba(0,0,0,.09)}
 .session-setup .classify-setup-heading{padding-right:0}
 .session-setup .classify-setup-footer{display:none}
 .session-setup .classify-setup-footer>.next-btn{display:none}
@@ -536,7 +536,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .content{height:100dvh;min-height:0;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column}
 .topbar{flex:0 0 auto}
 #screen{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2px 24px 0;scrollbar-gutter:stable}
-.classify-setup{height:calc(100dvh - 32px);max-height:none;min-height:0;box-sizing:border-box}
+.classify-setup{height:calc(100dvh - 112px);max-height:none;min-height:0;box-sizing:border-box}
 .classify-topic-list{overscroll-behavior:contain;scrollbar-width:thin}
 .session-setup .skill-filter{flex-shrink:0;margin-bottom:10px;padding:12px}
 .session-setup .skill-filter-label{margin-bottom:8px}
