@@ -1193,8 +1193,13 @@ function renderClassifySetup(){
       </div>
     </div>`;
 }
-function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup();}
-function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;renderClassifySetup();}
+function renderClassifyCurrentMode(){
+  if(state.classifyMode==='distribute')renderDistributeSetup();
+  else if(state.classifyMode==='conspect')renderClassifyConspects();
+  else renderClassifySetup();
+}
+function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifyCurrentMode();}
+function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;renderClassifyCurrentMode();}
 function startClassify(){
   const sections=[...new Set(GROUPS.map(g=>g.section))];
   const selected=sections.filter(s=>state.selectedClassifySections[s]);
