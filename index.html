@@ -631,7 +631,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
     <div class="premium-block"><div class="crown">👑</div><h4>PharmStudy Pro</h4><p>ИИ-генерация вопросов</p><button>Скоро</button></div>
   </aside>
   <main class="content">
-    <div class="topbar"><h1 id="screen-title">Дашборд</h1><button class="theme-toggle" id="themeToggle"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span id="themeLabel">Тёмная</span></button></div>
+    <div class="topbar"><h1 id="screen-title">Дашборд</h1></div>
     <div id="screen"></div>
   </main>
 </div>
@@ -2139,7 +2139,7 @@ function applyTheme(){
 }
 function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
-document.getElementById('themeToggle').addEventListener('click',()=>{setMode(getMode()==='dark'?'light':'dark')});
+
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
 applyTheme();setScreen('dashboard');
 </script>
