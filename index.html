@@ -2170,7 +2170,7 @@ function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.s
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
-applyTheme();
+try{applyTheme()}catch(err){console.error('PharmStudy: не удалось применить тему оформления',err)}
 function bootPharmStudy(){
   try{
     setScreen('dashboard');
