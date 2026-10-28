@@ -527,6 +527,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-setup .ctab{padding:8px 7px;font-size:11px;}
   .classify-setup-footer .next-btn{font-size:13px;}
 }
+/* Topic progress: clean scientific-style indicators. */
+.dashboard-progress-panel{margin-bottom:16px}
+.dashboard-topic-chart{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}
+.dashboard-topic-row{min-width:0;gap:9px;padding:2px 0}
+.dashboard-topic-row .topic-top{align-items:center;gap:12px;min-height:38px}
+.dashboard-topic-row .topic-name{line-height:1.4;max-width:100%}
+.topic-metric{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.topic-pct{font-variant-numeric:tabular-nums}
+.topic-donut{width:38px;height:38px;flex-shrink:0;overflow:visible}
+.topic-donut-track,.topic-donut-value{fill:none;stroke-width:3.2}
+.topic-donut-track{stroke:var(--card-2)}
+.topic-donut-value{stroke-linecap:round;transform:rotate(-90deg);transform-origin:18px 18px;transition:stroke-dasharray .35s ease}
+.topic-donut-center{font-size:8px;font-weight:700;fill:var(--text-muted);font-variant-numeric:tabular-nums}
+.topic-chart-caption{font-size:10px;line-height:1.35;color:var(--text-muted);letter-spacing:.01em}
+.topic-empty{padding:18px 0;color:var(--text-muted);font-size:13px;line-height:1.6}
+@media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(0,1fr);gap:18px}.dashboard-topic-row .topic-name{font-size:12px}.topic-metric{gap:8px}.topic-donut{width:34px;height:34px}}
 </style>
 </head>
 <body>
@@ -1016,7 +1032,10 @@ function renderDashboard(){
   const s=getStats();
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  const topics=sections.map((sec,i)=>{const qs=QUESTIONS.filter(q=>q.section===sec);let answered=0,correct=0;qs.forEach(q=>{const p=state.progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});return{name:sec,pct:answered?Math.round(correct/answered*100):0,answered,total:qs.length,color:colors[i%colors.length]};});
+  const classifyStats=state.progress._topicClassify||{};
+  const caseActivity=state.progress._topicActivity||{};
+  const allTopics=[...new Set([...sections,...GROUPS.map(g=>g.section),...Object.values(CASES).map(c=>c.section)])];
+  const topics=allTopics.map((name,i)=>{const qs=QUESTIONS.filter(q=>q.section===name);let answered=0,correct=0;qs.forEach(q=>{const p=state.progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});const cp=classifyStats[name];if(cp){answered+=cp.total||0;correct+=cp.correct||0;}const touched=answered>0||!!caseActivity[name];return{name,pct:answered?Math.round(correct/answered*100):null,answered,touched,caseOnly:answered===0&&!!caseActivity[name],color:colors[i%colors.length]};}).filter(t=>t.touched);
   return `
     <div class="hero">
       <h2>Добрый вечер, Студент!</h2>
@@ -1029,6 +1048,9 @@ function renderDashboard(){
       <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
       <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
     </div>
+    <div class="panel dashboard-progress-panel"><div class="panel-head"><h3>Прогресс по темам</h3><span class="badge">${topics.length} активных тем</span></div>
+      ${topics.length?`<div class="topic-list dashboard-topic-chart">${topics.map(t=>{const pct=t.pct===null?0:t.pct;const ring=t.pct===null?0:pct*0.9424778;const label=t.pct===null?"Кейс":pct+"%";const caption=t.pct===null?"Затронуто в клиническом кейсе":t.answered+" оценённых ответов";return `<div class="topic-row dashboard-topic-row"><div class="topic-top"><span class="topic-name">${t.name}</span><span class="topic-metric"><span class="topic-pct">${label}</span><svg class="topic-donut" viewBox="0 0 36 36" role="img" aria-label="${t.pct===null?"Тема затронута в кейсе":"Точность "+pct+" процентов"}"><circle class="topic-donut-track" cx="18" cy="18" r="15"></circle><circle class="topic-donut-value" cx="18" cy="18" r="15" stroke-dasharray="${ring} 94.2478" style="stroke:${t.pct===null?"var(--border)":t.color}"></circle><text x="18" y="20.5" text-anchor="middle" class="topic-donut-center">${t.pct===null?"•":pct}</text></svg></span></div><div class="topic-bar"><div class="topic-fill" style="width:${pct}%;background:${t.color}"></div></div><div class="topic-chart-caption">${caption}</div></div>`;}).join("")}</div>`:"<div class=\"topic-empty\">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>"}
+    </div>
     <div class="row-2">
       <div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
         <details class="dashboard-fold">
@@ -1039,12 +1061,7 @@ function renderDashboard(){
           </div>
         </details>
       </div>
-      <div class="panel"><div class="panel-head"><h3>Прогресс по темам</h3></div>
-        <details class="dashboard-fold">
-          <summary><span>Посмотреть прогресс</span><span class="dashboard-fold-count">${topics.length} тем</span></summary>
-          <div class="topic-list">${topics.map(t=>`<div class="topic-row"><div class="topic-top"><span class="topic-name">${t.name}</span><span class="topic-pct">${t.pct}%</span></div><div class="topic-bar"><div class="topic-fill" style="width:${t.pct}%;background:${t.color}"></div></div></div>`).join('')}</div>
-        </details>
-      </div>
+
     </div>`;
 }
 
@@ -1232,6 +1249,11 @@ function checkClassifyAnswer(){
   const input=document.getElementById('classifyInput').value;
   const res=classifyCheck(input,g.drugs);
   s.results.push({group:g.group,section:g.section,...res});
+  if(!state.progress._topicClassify)state.progress._topicClassify={};
+  if(!state.progress._topicClassify[g.section])state.progress._topicClassify[g.section]={correct:0,total:0};
+  state.progress._topicClassify[g.section].correct+=res.correct;
+  state.progress._topicClassify[g.section].total+=res.total;
+  saveProgress();
   const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
   const headerText=status==='good'?'✓ Всё верно':status==='partial'?`~ Частично: ${res.correct} из ${res.total}`:'✗ Ничего не угадано';
   const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
@@ -1700,7 +1722,7 @@ function renderCasePicker(){
         ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
       </div>
     </div>`;
-}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};renderCaseNode()}
+}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};if(!state.progress._topicActivity)state.progress._topicActivity={};state.progress._topicActivity[CASES[id].section]=true;saveProgress();renderCaseNode()}
 function renderCaseNode(){
   const cs=state.caseState;
   const C=CASES[cs.caseId];
