@@ -1054,18 +1054,21 @@ function openTopicMenu(topic){
   overlay.id='topicMenuOverlay';
   overlay.className='topic-menu-overlay';
   overlay.setAttribute('role','presentation');
+  const hasCholinergicVisualization=/холиномиметик|холиноблокатор/i.test(topic);
+  const options=[
+    '<button class="topic-menu-option" type="button" onclick="setScreen(\'reference\')"><span class="topic-menu-option-icon">📚</span><span><span class="topic-menu-option-title">Справочник</span><span class="topic-menu-option-desc">Материалы и препараты</span></span></button>',
+    '<button class="topic-menu-option" type="button" onclick="setScreen(\'session\')"><span class="topic-menu-option-icon">✍️</span><span><span class="topic-menu-option-title">Тесты</span><span class="topic-menu-option-desc">Проверить знания</span></span></button>',
+    '<button class="topic-menu-option" type="button" onclick="setScreen(\'classify\')"><span class="topic-menu-option-icon">🧩</span><span><span class="topic-menu-option-title">Классификация</span><span class="topic-menu-option-desc">Повторить группы препаратов</span></span></button>',
+    '<button class="topic-menu-option" type="button" onclick="setScreen(\'case\')"><span class="topic-menu-option-icon">🩺</span><span><span class="topic-menu-option-title">Клинические кейсы</span><span class="topic-menu-option-desc">Применить знания на практике</span></span></button>'
+  ];
+  if(hasCholinergicVisualization){
+    options.push('<button class="topic-menu-option" type="button" onclick="setScreen(\'synapse\')"><span class="topic-menu-option-icon">⚛️</span><span><span class="topic-menu-option-title">Визуализация</span><span class="topic-menu-option-desc">Холинергический синапс</span></span></button>');
+  }
   overlay.innerHTML=`
     <section class="topic-menu-dialog" role="dialog" aria-modal="true" aria-labelledby="topicMenuHeading">
       <div class="topic-menu-head"><h2 class="topic-menu-heading" id="topicMenuHeading">${topic}</h2><button type="button" class="topic-menu-close" aria-label="Закрыть" onclick="document.getElementById('topicMenuOverlay')?.remove()">×</button></div>
       <p class="topic-menu-subtitle">Выбери, в каком разделе продолжить изучение этой темы.</p>
-      <div class="topic-menu-options">
-        <button class="topic-menu-option" type="button" onclick="setScreen('reference')"><span class="topic-menu-option-icon">📚</span><span><span class="topic-menu-option-title">Справочник</span><span class="topic-menu-option-desc">Материалы и препараты</span></span></button>
-        <button class="topic-menu-option" type="button" onclick="setScreen('session')"><span class="topic-menu-option-icon">✍️</span><span><span class="topic-menu-option-title">Тесты</span><span class="topic-menu-option-desc">Проверить знания</span></span></button>
-        <button class="topic-menu-option" type="button" onclick="setScreen('classify')"><span class="topic-menu-option-icon">🧩</span><span><span class="topic-menu-option-title">Классификация</span><span class="topic-menu-option-desc">Повторить группы препаратов</span></span></button>
-        <button class="topic-menu-option" type="button" onclick="setScreen('case')"><span class="topic-menu-option-icon">🩺</span><span><span class="topic-menu-option-title">Клинические кейсы</span><span class="topic-menu-option-desc">Применить знания на практике</span></span></button>
-        <button class="topic-menu-option" type="button" onclick="setScreen('synapse')"><span class="topic-menu-option-icon">⚛️</span><span><span class="topic-menu-option-title">Визуализация</span><span class="topic-menu-option-desc">Изучить механизмы действия</span></span></button>
-        <button class="topic-menu-option" type="button" onclick="setScreen('settings')"><span class="topic-menu-option-icon">⚙️</span><span><span class="topic-menu-option-title">Настройки</span><span class="topic-menu-option-desc">Параметры обучения</span></span></button>
-      </div>
+      <div class="topic-menu-options">${options.join('')}</div>
     </section>`;
   overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
   const closeOnEscape=e=>{if(e.key==='Escape'){overlay.remove();document.removeEventListener('keydown',closeOnEscape);}};
