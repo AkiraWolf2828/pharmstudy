@@ -562,7 +562,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .topic-empty{padding:18px 0;color:var(--text-muted);font-size:13px;line-height:1.6}
 @media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(150px,.75fr) minmax(0,1.25fr);gap:12px}.dashboard-topic-ring-wrap{padding:0}.dashboard-topic-labels{gap:6px}.dashboard-topic-label{padding:8px;gap:8px}.dashboard-topic-label-name{font-size:11px}.dashboard-topic-label-pct{font-size:11px}}
 @media(max-width:520px){.dashboard-topic-chart{grid-template-columns:minmax(0,1fr);gap:12px}.dashboard-topic-ring{width:min(68%,230px)}.dashboard-topic-labels{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:380px){.dashboard-topic-label{padding:7px 8px}.dashboard-topic-label-name{font-size:10px}.dashboard-topic-label-pct{font-size:10px}}</style>
+@media(max-width:380px){.dashboard-topic-label{padding:7px 8px}.dashboard-topic-label-name{font-size:10px}.dashboard-topic-label-pct{font-size:10px}}
+.answer-confirm-hint{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--card-2);color:var(--text-muted);font-size:13px;line-height:1.45}
+.answer-confirm-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.answer-confirm-actions .next-btn{flex:1;min-width:150px;margin-top:0}
+.answer-cancel-btn{flex:1;min-width:150px;padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);font:600 14px inherit;cursor:pointer}
+.q-option.selected{border-color:var(--mint)!important;background:var(--card-2)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--mint) 24%,transparent)}
+.dist-remove-drug{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-left:6px;border:0;border-radius:50%;background:rgba(0,0,0,.10);color:inherit;font-size:20px;line-height:1;cursor:pointer;touch-action:manipulation}
+.dist-remove-drug:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+</style>
 </head>
 <body>
 <div class="app">
@@ -1181,17 +1189,41 @@ function renderQuestion(){
   if(s.index>=s.questions.length){renderReport();return}
   const q=s.questions[s.index];
   const progress=(s.index/s.questions.length)*100;
+  s.pendingAnswer=null;
   screenEl.innerHTML=`
     <div class="question-card">
       <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.questions.length}</span></div>
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${q.section}</div>
       <div class="q-text">${q.text}</div>
-      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button class="q-option" onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
-      <div id="feedbackArea"></div>
+      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button type="button" class="q-option" aria-pressed="false" onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
+      <div id="feedbackArea"><div class="answer-confirm-hint">Выбери вариант, затем подтверди ответ.</div></div>
     </div>`;
 }
 function answerQuestion(i){
-  const s=state.session;const q=s.questions[s.index];
+  const s=state.session;
+  if(!s||s.index>=s.questions.length)return;
+  s.pendingAnswer=i;
+  document.querySelectorAll('#qOptions .q-option').forEach((b,index)=>{
+    b.classList.toggle('selected',index===i);
+    b.setAttribute('aria-pressed',index===i?'true':'false');
+  });
+  document.getElementById('feedbackArea').innerHTML=`
+    <div class="answer-confirm-hint">Проверь выбранный вариант. Ответ ещё не засчитан.</div>
+    <div class="answer-confirm-actions">
+      <button type="button" class="next-btn" onclick="confirmAnswerQuestion()">Подтвердить ответ</button>
+      <button type="button" class="answer-cancel-btn" onclick="cancelAnswerQuestion()">Изменить выбор</button>
+    </div>`;
+}
+function cancelAnswerQuestion(){
+  const s=state.session;if(!s)return;
+  s.pendingAnswer=null;
+  document.querySelectorAll('#qOptions .q-option').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+  document.getElementById('feedbackArea').innerHTML='<div class="answer-confirm-hint">Выбери вариант, затем подтверди ответ.</div>';
+}
+function confirmAnswerQuestion(){
+  const s=state.session;if(!s||s.pendingAnswer===null||s.pendingAnswer===undefined)return;
+  const i=s.pendingAnswer,q=s.questions[s.index];
+  s.pendingAnswer=null;
   const buttons=document.querySelectorAll('#qOptions .q-option');
   buttons.forEach(b=>b.disabled=true);
   const isCorrect=i===q.correct;
@@ -1718,7 +1750,7 @@ function renderDistributeRound(){
     <div class="dist-wrap">
       <div class="dist-header">
         <div class="dist-title">Распредели препараты по группам</div>
-        <div class="dist-sub">${d.checked?`Результат: ${correctCount} из ${d.round.length} правильно`:'Перетащи карточку в группу или тапни препарат, потом группу'}</div>
+        <div class="dist-sub">${d.checked?`Результат: ${correctCount} из ${d.round.length} правильно`:'Перетащи карточку в группу или тапни препарат, потом группу. Можно убрать препарат из группы до проверки.'}</div>
       </div>
       <div class="dist-zones">
         ${d.groups.map((g,gi)=>`
@@ -1729,7 +1761,7 @@ function renderDistributeRound(){
                 if(d.placement[i]!==g)return '';
                 let cls='';
                 if(d.checked)cls=r.group===g?'correct':'wrong';
-                return `<div class="dist-drug-chip ${cls}">${r.drug}</div>`;
+                return `<div class="dist-drug-chip ${cls}">${r.drug}${!d.checked?` <button type="button" class="dist-remove-drug" aria-label="Убрать ${r.drug} из группы" title="Убрать из группы" onclick="event.stopPropagation();removePlacedDrug(${i})">×</button>`:''}</div>`;
               }).join('')}
             </div>
           </div>
@@ -1754,16 +1786,17 @@ function renderDistributeRound(){
         </div>
         <button class="next-btn" onclick="startDistribute()">Новый раунд</button>
         <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
-      `:`
+      `: `
         <button class="next-btn" ${!allPlaced?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="checkDistribute()">Проверить</button>
         <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="renderDistributeSetup()">← Назад</button>
       `}
     </div>`;
 }
 function selectDrug(i){const d=state.distribute;if(d.checked)return;d.selected=(d.selected===i)?null:i;renderDistributeRound();}
-function startDrag(i,e){state.distribute.selected=i;e.dataTransfer.setData('text/plain',String(i));}
-function dropDrug(gi){const d=state.distribute;if(d.checked)return;if(d.selected===null)return;d.placement[d.selected]=d.groups[gi];d.selected=null;renderDistributeRound();}
-function checkDistribute(){state.distribute.checked=true;renderDistributeRound();}
+function startDrag(i,e){const d=state.distribute;if(d.checked)return;d.selected=i;e.dataTransfer.setData('text/plain',String(i));}
+function dropDrug(gi){const d=state.distribute;if(d.checked||d.selected===null||d.selected===undefined)return;d.placement[d.selected]=d.groups[gi];d.selected=null;renderDistributeRound();}
+function removePlacedDrug(i){const d=state.distribute;if(d.checked||d.placement[i]===undefined)return;delete d.placement[i];d.selected=null;renderDistributeRound();}
+function checkDistribute(){const d=state.distribute;if(Object.keys(d.placement).length!==d.round.length)return;d.checked=true;d.selected=null;renderDistributeRound();}
 function renderCasePicker(){
   const cases=Object.values(CASES);
   screenEl.innerHTML=`
@@ -1781,6 +1814,7 @@ function renderCaseNode(){
   const cs=state.caseState;
   const C=CASES[cs.caseId];
   const node=C.nodes[cs.nodeId];
+  cs.pendingAnswer=null;
   if(node.isEnd){
     screenEl.innerHTML=`
       <div class="case-card">
@@ -1805,14 +1839,35 @@ function renderCaseNode(){
       <div class="case-header"><span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span><span class="case-title">${C.title}</span></div>
       <div class="case-intro">${C.intro}</div>
       <div class="case-question">${node.question}</div>
-      <div class="q-options" id="caseOptions">${node.options.map((opt,i)=>`<button class="q-option" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
-      <div id="caseFeedback"></div>
+      <div class="q-options" id="caseOptions">${node.options.map((opt,i)=>`<button type="button" class="q-option" aria-pressed="false" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
+      <div id="caseFeedback"><div class="answer-confirm-hint">Выбери вариант, затем подтверди решение.</div></div>
     </div>`;
 }
 function answerCase(i){
   const cs=state.caseState;
   const node=CASES[cs.caseId].nodes[cs.nodeId];
-  const opt=node.options[i];
+  cs.pendingAnswer=i;
+  document.querySelectorAll('#caseOptions .q-option').forEach((b,index)=>{
+    b.classList.toggle('selected',index===i);
+    b.setAttribute('aria-pressed',index===i?'true':'false');
+  });
+  document.getElementById('caseFeedback').innerHTML=`
+    <div class="answer-confirm-hint">Проверь выбранное решение. Переход к следующему этапу пока не выполнен.</div>
+    <div class="answer-confirm-actions">
+      <button type="button" class="next-btn" onclick="confirmCaseAnswer()">Подтвердить выбор</button>
+      <button type="button" class="answer-cancel-btn" onclick="cancelCaseAnswer()">Изменить выбор</button>
+    </div>`;
+}
+function cancelCaseAnswer(){
+  const cs=state.caseState;if(!cs)return;
+  cs.pendingAnswer=null;
+  document.querySelectorAll('#caseOptions .q-option').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+  document.getElementById('caseFeedback').innerHTML='<div class="answer-confirm-hint">Выбери вариант, затем подтверди решение.</div>';
+}
+function confirmCaseAnswer(){
+  const cs=state.caseState;if(!cs||cs.pendingAnswer===null||cs.pendingAnswer===undefined)return;
+  const node=CASES[cs.caseId].nodes[cs.nodeId];
+  const opt=node.options[cs.pendingAnswer];cs.pendingAnswer=null;
   document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
   const fbClass=opt.type==='good'?'good':opt.type==='bad'?'bad':'neutral';
   document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${fbClass}">${opt.feedback}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
