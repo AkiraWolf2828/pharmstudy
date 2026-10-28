@@ -1110,9 +1110,25 @@ const SCENARIOS={
 };
 
 const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
-function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
+function loadProgress(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('pharm_progress')||'{}');
+    return saved&&typeof saved==='object'&&!Array.isArray(saved)?saved:{};
+  }catch{return{}}
+}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
-function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
+function getStats(){
+  let answered=0,correct=0;
+  Object.entries(state.progress||{}).forEach(([id,p])=>{
+    if(id.startsWith('_')||!p||typeof p!=='object')return;
+    const right=Number(p.correct)||0;
+    const wrong=Number(p.wrong)||0;
+    answered+=right+wrong;
+    correct+=right;
+  });
+  const accuracy=answered?Math.round(correct/answered*100):0;
+  return{answered,correct,accuracy,tests:Number(state.progress?._sessions)||0,streak:Number(state.progress?._streak)||1};
+}
 
 const screenEl=document.getElementById('screen');
 const titleEl=document.getElementById('screen-title');
@@ -2140,8 +2156,22 @@ function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(s
 
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
 applyTheme();
-function bootPharmStudy(){const draw=()=>{try{setScreen('dashboard');if(!document.getElementById('screen')?.children.length)throw new Error('Главная страница не отрисовала содержимое')}catch(err){console.error('PharmStudy: ошибка начальной отрисовки',err);const target=document.getElementById('screen');if(target&&!target.children.length)target.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Нажми, чтобы повторить загрузку.</p><button class="next-btn" onclick="setScreen(\'dashboard\')">Повторить загрузку</button></div>';}};draw();requestAnimationFrame(draw);setTimeout(draw,150);}
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true});window.addEventListener('load',bootPharmStudy,{once:true})}else{bootPharmStudy()}
+function bootPharmStudy(){
+  try{
+    setScreen('dashboard');
+    if(!screenEl.children.length)throw new Error('Главная страница не отрисовала содержимое');
+  }catch(err){
+    console.error('PharmStudy: ошибка начальной отрисовки',err);
+    if(screenEl&&!screenEl.children.length){
+      screenEl.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Обнови страницу. Если ошибка повторится, сообщи об этом.</p><button class="next-btn" onclick="setScreen(\\'dashboard\\')">Повторить загрузку</button></div>';
+    }
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true});
+}else{
+  bootPharmStudy();
+}
 </script>
 </body>
 </html>
