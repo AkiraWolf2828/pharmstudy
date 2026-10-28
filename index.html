@@ -1072,7 +1072,7 @@ function setScreen(name){
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='distribute')renderDistributeSetup();else if(state.classifyMode==='conspect')renderClassifyConspects();else renderClassifySetup()}
+  else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
@@ -1345,7 +1345,6 @@ function renderClassifySetup(){
 }
 function renderClassifyCurrentMode(){
   if(state.classifyMode==='distribute')renderDistributeSetup();
-  else if(state.classifyMode==='conspect')renderClassifyConspects();
   else renderClassifySetup();
 }
 function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifyCurrentMode();}
@@ -1438,31 +1437,6 @@ function renderClassifyReport(){
       <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
 }
-function renderClassifyConspects(){
-  const sections=[...new Set(GROUPS.map(g=>g.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  screenEl.innerHTML=`
-    <div style="max-width:900px;margin:0 auto">
-      ${renderClassifyTabs('conspect')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Конспекты групп</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:24px">Краткая справка по каждой группе: механизм действия и побочные эффекты.</div>
-      ${sections.map((sec,si)=>`
-        <div style="margin-bottom:28px">
-          <div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">${sec}</div>
-          ${GROUPS.filter(g=>g.section===sec).map(g=>`
-            <div class="conspect-card">
-              <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
-              <div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
-              ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы'].includes(g.section)?'':'<div style="margin:8px 0;color:var(--text-muted);font-size:11px;font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</div>'}
-              <div class="conspect-block"><div class="conspect-label">Механизм</div><div class="conspect-text">${g.mechanism}</div></div>
-              <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-            </div>`).join('')}
-        </div>`).join('')}
-      <button class="next-btn" onclick="setScreen('classify')">← Назад к выбору разделов</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
-    </div>`;
-}
-
 function switchSynapseTab(tab){
   const chol=document.getElementById('cholinergicPanel'), adr=document.getElementById('adrenergicPanel');
   if(!chol||!adr)return;
@@ -1737,14 +1711,12 @@ function renderClassifyTabs(active){
   return `<div class="classify-tabs">
     <button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
     <button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
-    <button class="ctab ${active==='conspect'?'active':''}" onclick="switchClassifyTab('conspect')">📖 Конспекты</button>
   </div>`;
 }
 function switchClassifyTab(t){
-  state.classifyMode=t;
-  if(t==='input')renderClassifySetup();
-  else if(t==='distribute')renderDistributeSetup();
-  else if(t==='conspect')renderClassifyConspects();
+  state.classifyMode=t==='distribute'?'distribute':'input';
+  if(state.classifyMode==='distribute')renderDistributeSetup();
+  else renderClassifySetup();
 }
 
 function renderDistributeSetup(){
@@ -1923,6 +1895,8 @@ function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode()}
 
 function renderReference(){
   const sections=[...new Set(REFERENCE.map(r=>r.section))];
+  const groupSections=[...new Set(GROUPS.map(g=>g.section))];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
     <div class="theory-section">
       <div class="ref-section-title">📚 Основы холинергической передачи</div>
@@ -1950,7 +1924,23 @@ function renderReference(){
             <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
           </div>`;}).join('')}
       </div>
-    </div>`).join('')}`;
+    </div>`).join('')}
+    <div class="ref-section">
+      <div class="ref-section-title">📖 Конспекты по группам препаратов</div>
+      <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
+      ${groupSections.map((sec,si)=>`
+        <div style="margin-bottom:28px">
+          <div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">${sec}</div>
+          ${GROUPS.filter(g=>g.section===sec).map(g=>`
+            <div class="conspect-card">
+              <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
+              <div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
+              ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(g.section)?'':'<div style="margin:8px 0;color:var(--text-muted);font-size:11px;font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</div>'}
+              <div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
+              <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+            </div>`).join('')}
+        </div>`).join('')}
+    </div>`;
 }
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
