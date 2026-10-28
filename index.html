@@ -2163,7 +2163,8 @@ function bootPharmStudy(){
   }catch(err){
     console.error('PharmStudy: ошибка начальной отрисовки',err);
     if(screenEl&&!screenEl.children.length){
-      screenEl.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Обнови страницу. Если ошибка повторится, сообщи об этом.</p><button class="next-btn" onclick="setScreen(\\'dashboard\\')">Повторить загрузку</button></div>';
+      screenEl.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Обнови страницу. Если ошибка повторится, сообщи об этом.</p><button class="next-btn" id="retryDashboard">Повторить загрузку</button></div>';
+      document.getElementById('retryDashboard')?.addEventListener('click',()=>setScreen('dashboard'));
     }
   }
 }
