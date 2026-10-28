@@ -480,6 +480,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 
 /* При расщеплении сохраняем исходную молекулу АХ видимой на месте; продукты появляются и движутся от неё. */
 .synapse-svg.phase-breakdown .breakdown-substrate{animation:substratePulse 2.52s ease-in-out infinite!important;opacity:1!important;transform:scale(1)!important}
+
+/* Shared viewport: top bar remains visible; screen content scrolls inside its area. */
+.content{height:100dvh;min-height:0;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column}
+.topbar{flex:0 0 auto}
+#screen{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2px 24px 0;scrollbar-gutter:stable}
+.classify-setup{height:calc(100% - 4px);max-height:none;box-sizing:border-box}
+.classify-topic-list{overscroll-behavior:contain;scrollbar-width:thin}
+.session-setup .skill-filter{flex-shrink:0;margin-bottom:10px;padding:12px}
+.session-setup .skill-filter-label{margin-bottom:8px}
+.session-setup .skill-chips{max-height:100px;overflow-y:auto;overscroll-behavior:contain;padding:2px}
+.session-setup .topic-actions{margin-bottom:8px}
+.session-setup .classify-topic-list{margin-bottom:8px}
+.case-setup .case-picker-list{padding-right:6px}
+.case-setup .case-pick-item:last-child{margin-bottom:0}
+.synapse-tabbar{position:sticky;top:0;z-index:20;padding:8px 0 10px;background:var(--bg);background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px)}
 </style>
 </head>
 <body>
@@ -1014,32 +1029,28 @@ function renderSessionSetup(){
   if(state.selectedSkills._init!==true){SKILL_LIST.forEach(s=>state.selectedSkills[s]=true);state.selectedSkills._init=true;}
   const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
   const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
-  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>{
-    return sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length;
-  },0);
+  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length,0);
   screenEl.innerHTML=`
-    <div class="case-picker">
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
+    <div class="case-picker classify-setup session-setup">
+      <div class="classify-setup-heading">
+        <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
+      </div>
       <div class="skill-filter">
         <div class="skill-filter-label">Тип вопросов</div>
-        <div class="skill-chips">
-          ${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}
-        </div>
+        <div class="skill-chips">${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}</div>
       </div>
       <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
-        ${sections.map((sec,i)=>{
-          const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;
-          return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;
-        }).join('')}
+      <div class="classify-topic-list">
+        ${sections.map((sec,i)=>{const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;}).join('')}
       </div>
-      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
-      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+      <div class="classify-setup-footer">
+        <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
+        <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
+        <button class="next-btn classify-home-btn" onclick="setScreen('dashboard')">На главную</button>
+      </div>
     </div>`;
-}
-function toggleSkill(s){
+}function toggleSkill(s){
   state.selectedSkills[s]=!state.selectedSkills[s];
   renderSessionSetup();
 }
@@ -1263,7 +1274,7 @@ function switchSynapseTab(tab){
 }
 function renderSynapse(){
   screenEl.innerHTML=`
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px">
+    <div class="synapse-tabbar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px">
       <button data-synapse-tab="cholinergic" onclick="switchSynapseTab('cholinergic')" style="padding:11px 16px;border:1px solid var(--accent);border-radius:13px;background:var(--accent);color:#fff;font:600 13px inherit;cursor:pointer">Холинергический синапс</button>
       <button data-synapse-tab="adrenergic" onclick="switchSynapseTab('adrenergic')" style="padding:11px 16px;border:1px solid var(--border);border-radius:13px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer">Адренергический синапс</button>
     </div>
@@ -1637,13 +1648,16 @@ function checkDistribute(){state.distribute.checked=true;renderDistributeRound()
 function renderCasePicker(){
   const cases=Object.values(CASES);
   screenEl.innerHTML=`
-    <div class="case-picker">
-      <div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Интерактивные истории с ветвлением. Каждый выбор ведёт к последствиям.</div>
-      ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
+    <div class="case-picker classify-setup case-setup">
+      <div class="classify-setup-heading">
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Выбери кейс</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Интерактивные истории с ветвлением. Каждый выбор ведёт к последствиям.</div>
+      </div>
+      <div class="classify-topic-list case-picker-list">
+        ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
+      </div>
     </div>`;
-}
-function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};renderCaseNode()}
+}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};renderCaseNode()}
 function renderCaseNode(){
   const cs=state.caseState;
   const C=CASES[cs.caseId];
