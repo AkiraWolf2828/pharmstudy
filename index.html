@@ -2140,8 +2140,8 @@ function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(s
 
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
 applyTheme();
-function bootPharmStudy(){try{setScreen('dashboard')}catch(err){console.error('PharmStudy: ошибка начальной отрисовки',err);const target=document.getElementById('screen');if(target)target.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Ошибка начальной загрузки. Нажми, чтобы попробовать ещё раз.</p><button class="next-btn" onclick="setScreen(\'dashboard\')">Повторить загрузку</button></div>';}}
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true})}else{bootPharmStudy()}
+function bootPharmStudy(){const draw=()=>{try{setScreen('dashboard');if(!document.getElementById('screen')?.children.length)throw new Error('Главная страница не отрисовала содержимое')}catch(err){console.error('PharmStudy: ошибка начальной отрисовки',err);const target=document.getElementById('screen');if(target&&!target.children.length)target.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Нажми, чтобы повторить загрузку.</p><button class="next-btn" onclick="setScreen(\'dashboard\')">Повторить загрузку</button></div>';}};draw();requestAnimationFrame(draw);setTimeout(draw,150);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true});window.addEventListener('load',bootPharmStudy,{once:true})}else{bootPharmStudy()}
 </script>
 </body>
 </html>
