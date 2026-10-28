@@ -1969,19 +1969,6 @@ function renderReference(){
         <div class="conspect-text">Адреномиметики: в доступных файлах есть классификационные списки, но отдельной подробной методички с механизмами, показаниями, противопоказаниями и нежелательными реакциями не найдено. Другие фармакологические темы из общего файла «Классификация ЛС осенний семестр 2026» также представлены преимущественно перечнями препаратов. Не добавляю к ним недостающие сведения из общих знаний.</div>
       </div>
     </div>
-    ${sections.map((sec,si)=>`
-    <div class="ref-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('ref-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-ref-${si}">⌄</span></button>
-      <div class="ref-topic-content" id="section-ref-${si}" style="display:none"><div class="ref-grid">
-        ${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
-            <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
-            <p>${r.desc}</p>
-            ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(r.section)?'':'<p style="margin-top:10px;color:var(--text-muted);font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</p>'}
-            <div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
-            <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
-          </div>`;}).join('')}
-      </div></div>
-    </div>`).join('')}
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
       <div class="ref-topic-content" id="section-groupNotes" style="display:none">
@@ -2001,7 +1988,21 @@ function renderReference(){
           </div>
         </div>`).join('')}
       </div>
-    </div>`;
+    </div>
+    ${sections.map((sec,si)=>`
+    <div class="ref-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('ref-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-ref-${si}">⌄</span></button>
+      <div class="ref-topic-content" id="section-ref-${si}" style="display:none"><div class="ref-grid">
+        ${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
+            <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
+            <p>${r.desc}</p>
+            ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(r.section)?'':'<p style="margin-top:10px;color:var(--text-muted);font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</p>'}
+            <div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
+            <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
+          </div>`;}).join('')}
+      </div></div>
+    </div>`).join('')}
+`;
 }
 function toggleReferenceSection(id){
   const el=document.getElementById('section-'+id);
