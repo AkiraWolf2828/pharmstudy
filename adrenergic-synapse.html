@@ -8,12 +8,13 @@ body{margin:0;background:transparent;color:#f3f5ff}.layout{display:grid;grid-tem
 .stage{position:relative;overflow:hidden;border-radius:22px;background:#10172c;box-shadow:0 18px 48px #05091755;min-width:0}
 svg{display:block;width:100%;height:auto;min-height:330px}.panel{border:1px solid #ffffff18;background:linear-gradient(155deg,#202a48ee,#121a30ee);border-radius:20px;padding:12px;box-shadow:0 12px 35px #05091744}
 h2{font-size:15px;margin:2px 0 8px}.sub{font-size:12px;color:#aebcda;line-height:1.5;margin:0 0 12px}
-button{font:600 12px/1.35 inherit;cursor:pointer;color:#eaf5ff;background:#1c2946;border:1px solid #ffffff20;border-radius:11px;padding:10px;text-align:left;transition:.18s}
+button{font:600 12px/1.35 system-ui,sans-serif;cursor:pointer;color:#eaf5ff;background:#1c2946;border:1px solid #ffffff20;border-radius:11px;padding:10px;text-align:left;transition:.18s}
 button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:translateY(-1px)}button.active{background:linear-gradient(110deg,#146d91,#5e4ba0);border-color:#8aeaff;box-shadow:0 0 18px #38cfff30}
 .scenarios{display:grid;gap:7px}.info{margin-top:12px;border:1px solid #ffffff18;background:#131d35;border-radius:16px;padding:14px}.info strong{display:block;color:#9feaff;margin-bottom:6px;font-size:13px}.info p{margin:0;font-size:13px;line-height:1.6;color:#d9e4ff}.key{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:#b8c7e5}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:#ff72d2;box-shadow:0 0 8px currentColor}.dot.cyan{background:#70eaff}.dot.gold{background:#ffd77a}
 .label{font:700 16px system-ui;fill:#eaf6ff;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}.small{font:600 12px system-ui;fill:#bcd1f2;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}
-.particle{filter:url(#glow);animation:float 2.5s ease-in-out infinite}.p2{animation-delay:-.8s}.p3{animation-delay:-1.5s}.p4{animation-delay:-2s}
-@keyframes float{0%,100%{transform:translate(0,0);opacity:.55}50%{transform:translate(10px,16px);opacity:1}}
+.particle{filter:url(#glow);animation:release 6.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.p2{animation-delay:-1.6s}.p3{animation-delay:-3.2s}.p4{animation-delay:-4.8s}
+/* Условный цикл: частица появляется у пресинаптического окончания и проходит в щель. */
+@keyframes release{0%,4%{transform:translate(0,-125px);opacity:0}18%{transform:translate(2px,-100px);opacity:.95}48%{transform:translate(8px,-48px);opacity:1}72%{transform:translate(12px,0);opacity:.85}86%,100%{transform:translate(12px,0);opacity:.45}}
 @keyframes pulse{0%,100%{filter:url(#glow);opacity:.8}50%{filter:url(#hot);opacity:1}}
 .receptor{cursor:pointer;transition:opacity .2s,filter .2s}.receptor.active{animation:pulse 1.6s ease-in-out infinite}.dim{opacity:.2!important}
 .receptor.blocked{opacity:.4!important;filter:grayscale(.7)}
