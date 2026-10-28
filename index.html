@@ -1911,11 +1911,10 @@ function renderReference(){
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
     <div class="ref-subtabs">
-      <button class="ref-subtab ${state.refTab==='notes'?'active':''}" onclick="setReferenceTab('notes')">📖 Конспекты по группам</button>
-      <button class="ref-subtab ${state.refTab==='theory'?'active':''}" onclick="setReferenceTab('theory')">🧠 Теория</button>
+      <button class="ref-subtab ${['notes','theory'].includes(state.refTab)?'active':''}" onclick="setReferenceTab('notes')">📚 Конспекты и теория</button>
       <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
     </div>
-    <div style="display:${state.refTab==='notes'?'block':'none'}">
+    <div style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
       <div class="ref-topic-content" id="section-groupNotes" style="display:none">
@@ -1939,7 +1938,6 @@ function renderReference(){
 
 
     </div>
-    <div style="display:${state.refTab==='theory'?'block':'none'}">
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryBasics')">
         <span>📚 Основы холинергической передачи</span><span class="ref-topic-arrow" id="arrow-theoryBasics">⌄</span>
@@ -1993,6 +1991,7 @@ function renderReference(){
             <div class="theory-card-body" id="theoryBody${n}">${t.body}</div>
           </div>`}).join('')}
       </div>
+    </div>
     </div>
     </div>
     <div style="display:${state.refTab==='drugs'?'block':'none'}">
