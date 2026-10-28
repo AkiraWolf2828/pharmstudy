@@ -194,6 +194,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .ref-card{align-self:start;height:fit-content}
 .ref-section{margin-bottom:32px}
 .ref-section-title{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
+.ref-subtabs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+.ref-subtab{border:1px solid var(--border);border-radius:14px;padding:12px 16px;background:var(--card);color:var(--text-muted);font:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
+.ref-subtab.active{background:var(--accent);color:white;border-color:var(--accent)}
+.ref-subtab:hover{border-color:var(--accent)}
 .ref-topic-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 20px;border:0;border-radius:18px;background:var(--card);color:var(--text);font:inherit;font-size:16px;font-weight:700;text-align:left;cursor:pointer;box-shadow:var(--shadow-sm);margin-bottom:12px}
 .ref-topic-toggle:hover{box-shadow:var(--shadow)}
 .ref-topic-arrow{font-size:22px;color:var(--text-muted);transition:transform .2s}
@@ -1065,7 +1069,7 @@ const SCENARIOS={
   'botox':{name:'Ботулотоксин',chain:'<strong>Этот сценарий не подтверждён предоставленной методичкой.</strong> В ней не разобран механизм ботулотоксина и его клиническое применение. До сверки с отдельным утверждённым источником детали механизма и длительности эффекта не следует считать подтверждёнными по этой методичке.'}
 };
 
-const state={screen:'dashboard',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
+const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
 function loadProgress(){try{return JSON.parse(localStorage.getItem('pharm_progress')||'{}')}catch{return{}}}
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
 function getStats(){let answered=0,correct=0;Object.entries(state.progress).forEach(([id,p])=>{if(id.startsWith('_'))return;answered+=p.correct+p.wrong;correct+=p.correct});const accuracy=answered?Math.round(correct/answered*100):0;return{answered,correct,accuracy,tests:state.progress._sessions||0,streak:state.progress._streak||1}}
@@ -1906,6 +1910,12 @@ function renderReference(){
   const groupSections=[...new Set(GROUPS.map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
+    <div class="ref-subtabs">
+      <button class="ref-subtab ${state.refTab==='notes'?'active':''}" onclick="setReferenceTab('notes')">📖 Конспекты по группам</button>
+      <button class="ref-subtab ${state.refTab==='theory'?'active':''}" onclick="setReferenceTab('theory')">🧠 Теория</button>
+      <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
+    </div>
+    <div style="display:${state.refTab==='notes'?'block':'none'}">
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
       <div class="ref-topic-content" id="section-groupNotes" style="display:none">
@@ -1928,6 +1938,8 @@ function renderReference(){
     </div>
 
 
+    </div>
+    <div style="display:${state.refTab==='theory'?'block':'none'}">
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryBasics')">
         <span>📚 Основы холинергической передачи</span><span class="ref-topic-arrow" id="arrow-theoryBasics">⌄</span>
@@ -1982,6 +1994,8 @@ function renderReference(){
           </div>`}).join('')}
       </div>
     </div>
+    </div>
+    <div style="display:${state.refTab==='drugs'?'block':'none'}">
     ${sections.map((sec,si)=>`
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('ref-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-ref-${si}">⌄</span></button>
@@ -1994,9 +2008,11 @@ function renderReference(){
             <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
           </div>`;}).join('')}
       </div></div>
-    </div>`).join('')}
+    </div>`).join('')}    </div>
+
 `;
 }
+function setReferenceTab(tab){state.refTab=tab;screenEl.innerHTML=renderReference();}
 function toggleReferenceSection(id){
   const el=document.getElementById('section-'+id);
   const arrow=document.getElementById('arrow-'+id);
