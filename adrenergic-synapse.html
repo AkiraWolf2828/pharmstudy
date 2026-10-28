@@ -20,10 +20,8 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
 #scene.mode-a2-block #feedbackArrow{opacity:.12}
 #scene.mode-a2 #feedbackArrow{opacity:1}
 #scene.mode-normal #feedbackArrow{opacity:.9}
-#scene.mode-a2-block #feedbackLabel{fill:#ff9b9b}
-#scene.mode-a2-block #feedbackLabel{opacity:.45}
+#scene.mode-a2-block #feedbackLabel{fill:#ff9b9b;opacity:.45}
 #scene.mode-a2 #feedbackLabel{fill:#ffd77a;opacity:1}
-#scene.mode-a2-block #feedbackLabel{fill:#ff9b9b}
 #scene.mode-sympatholytic #particles{opacity:.18}
 #scene.mode-sympatholytic .vesicle{opacity:.45}
 #scene.mode-a1-block .receptor[data-rec="a1"],#scene.mode-b1-block .receptor[data-rec="b1"],#scene.mode-b2-block .receptor[data-rec="b2"],#scene.mode-carvedilol .receptor[data-rec="a1"],#scene.mode-carvedilol .receptor[data-rec="b1"],#scene.mode-carvedilol .receptor[data-rec="b2"]{filter:grayscale(.8);opacity:.42}
@@ -98,10 +96,10 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
    </svg>
   </div>
   <div class="info"><strong id="infoTitle">Адренергический синапс</strong><p id="infoText">Большинство симпатических нейронов передают сигнал с помощью норадреналина, который действует на адренорецепторы клетки-мишени. Выбери элемент сцены или сценарий справа.</p></div>
-  <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span></div>
+  <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span><span>Схема условная: движение частиц не является точной молекулярной симуляцией.</span></div>
  </div>
  <aside class="panel">
-  <h2>Адренергическая передача</h2><p class="sub">Выбери сценарий: схема подсветит мишень и покажет, что меняется в передаче сигнала.</p>
+  <h2>Адренергическая передача</h2><p class="sub">Выбери сценарий: схема подсветит мишень и объяснит механизм. Анимация иллюстрирует принцип, а не точные молекулярные траектории.</p>
   <div class="scenarios">
    <button class="active" data-mode="normal">1. Нормальная передача</button>
    <button data-mode="a1">α₁-рецептор: эффект</button><button data-mode="a1-block">α₁-блокада</button>
