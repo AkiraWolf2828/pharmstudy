@@ -2135,21 +2135,36 @@ function renderSettings(){
 }
 function resetProgress(){if(confirm('Сбросить весь прогресс?')){state.progress={};saveProgress();setScreen('dashboard')}}
 
-function getPalette(){return localStorage.getItem('pharm_palette')||'warm'}
-function getMode(){return localStorage.getItem('pharm_mode')||'light'}
+function getPalette(){
+  try{
+    const value=localStorage.getItem('pharm_palette');
+    return ['warm','mint','lavender'].includes(value)?value:'warm';
+  }catch{return 'warm'}
+}
+function getMode(){
+  try{
+    const value=localStorage.getItem('pharm_mode');
+    return ['light','dark','system'].includes(value)?value:'light';
+  }catch{return 'light'}
+}
 function applyTheme(){
   const palette=getPalette();
   let mode=getMode();
-  if(mode==='system')mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  if(mode==='system'){
+    try{mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+    catch{mode='light';}
+  }
+  const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};
   document.documentElement.setAttribute('data-theme',palette+'-'+mode);
   let meta=document.querySelector('meta[name="theme-color"]');
   if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta);}
-  const colors={warm:{light:'#faf4ec',dark:'#2a2520'},mint:{light:'#f2f8f6',dark:'#1a2422'},lavender:{light:'#f7f2fa',dark:'#1f1a2a'}};
   meta.content=colors[palette][mode];
   const icon=document.getElementById('themeIcon');
   const label=document.getElementById('themeLabel');
-  if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Тёмная'}
-  else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая'}
+  if(icon&&label){
+    if(mode==='dark'){icon.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';label.textContent='Тёмная';}
+    else{icon.innerHTML='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l-1.41 1.41M17.66 6.34l1.41-1.41"/>';label.textContent='Светлая';}
+  }
 }
 function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
