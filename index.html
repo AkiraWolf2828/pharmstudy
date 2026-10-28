@@ -527,23 +527,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-setup .ctab{padding:8px 7px;font-size:11px;}
   .classify-setup-footer .next-btn{font-size:13px;}
 }
-/* Topic progress: one shared chart for all active topics. */
+/* Topic progress: theme-aware segmented ring report. */
 .dashboard-progress-panel{margin-bottom:16px}
 .row-2{grid-template-columns:minmax(0,1fr)}
-.dashboard-topic-chart{display:grid;grid-template-columns:minmax(150px,.82fr) minmax(0,1.18fr);gap:10px 24px;align-items:start}
-.dashboard-topic-labels,.dashboard-topic-bars{display:grid;grid-auto-rows:minmax(42px,auto);gap:8px;min-width:0}
-.dashboard-topic-label{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:8px 10px;border-radius:12px;background:var(--card-2)}
-.dashboard-topic-label-name{font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.dashboard-topic-chart{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:24px;align-items:center}
+.dashboard-topic-ring-wrap{display:flex;align-items:center;justify-content:center;min-width:0;padding:8px}
+.dashboard-topic-ring{display:block;width:min(100%,260px);height:auto;overflow:visible}
+.dashboard-topic-ring-track{fill:none;stroke:var(--card-2);stroke-width:15;stroke-linecap:round}
+.dashboard-topic-ring-progress{fill:none;stroke-width:15;stroke-linecap:round;transition:opacity .25s ease}
+.dashboard-topic-ring-center{fill:var(--text);font-size:28px;font-weight:750;text-anchor:middle;font-variant-numeric:tabular-nums}
+.dashboard-topic-ring-caption{fill:var(--text-muted);font-size:8px;font-weight:700;letter-spacing:1px;text-anchor:middle}
+.dashboard-topic-labels{display:grid;gap:8px;min-width:0}
+.dashboard-topic-label{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 11px;border-radius:12px;background:var(--card-2)}
+.dashboard-topic-swatch{width:10px;height:10px;flex:0 0 10px;border-radius:50%;box-shadow:0 0 0 3px var(--card)}
+.dashboard-topic-label-name{flex:1;min-width:0;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
 .dashboard-topic-label-pct{font-size:12px;font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
-.dashboard-topic-bar-row{display:flex;align-items:center;min-width:0;height:100%;padding:8px 0}
-.dashboard-topic-bar-track{position:relative;width:100%;height:18px;border-radius:99px;background:var(--card-2);overflow:hidden}
-.dashboard-topic-bar-fill{height:100%;min-width:0;border-radius:99px;transition:width .45s ease;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
-.dashboard-topic-bar-fill.case-only{width:8px!important;opacity:.7}
-.dashboard-topic-bar-caption{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;font-size:10px;font-weight:700;color:var(--text-muted)}
+.dashboard-topic-label-pct.case-only{color:var(--text-muted);font-size:10px;font-weight:650}
 .topic-empty{padding:18px 0;color:var(--text-muted);font-size:13px;line-height:1.6}
-@media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(115px,.9fr) minmax(0,1.1fr);gap:8px 12px}.dashboard-topic-labels,.dashboard-topic-bars{grid-auto-rows:minmax(46px,auto);gap:8px}.dashboard-topic-label{padding:7px 8px;gap:6px}.dashboard-topic-label-name{font-size:11px}.dashboard-topic-label-pct{font-size:11px}.dashboard-topic-bar-track{height:16px}}
-@media(max-width:420px){.dashboard-topic-chart{grid-template-columns:minmax(105px,.95fr) minmax(0,1.05fr);gap:7px 9px}.dashboard-topic-label-name{font-size:10px}.dashboard-topic-label-pct{font-size:10px}}
-</style>
+@media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(150px,.75fr) minmax(0,1.25fr);gap:12px}.dashboard-topic-ring-wrap{padding:0}.dashboard-topic-labels{gap:6px}.dashboard-topic-label{padding:8px;gap:8px}.dashboard-topic-label-name{font-size:11px}.dashboard-topic-label-pct{font-size:11px}}
+@media(max-width:520px){.dashboard-topic-chart{grid-template-columns:minmax(0,1fr);gap:12px}.dashboard-topic-ring{width:min(68%,230px)}.dashboard-topic-labels{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:380px){.dashboard-topic-label{padding:7px 8px}.dashboard-topic-label-name{font-size:10px}.dashboard-topic-label-pct{font-size:10px}}</style>
 </head>
 <body>
 <div class="app">
@@ -1049,7 +1052,12 @@ function renderDashboard(){
       <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
     </div>
     <div class="panel dashboard-progress-panel"><div class="panel-head"><h3>Прогресс по темам</h3><span class="badge">${topics.length} активных тем</span></div>
-      ${topics.length?`<div class="dashboard-topic-chart"><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<div class="dashboard-topic-label"><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct">${t.pct===null?"Кейс":t.pct+"%"}</span></div>`).join("")}</div><div class="dashboard-topic-bars" role="img" aria-label="Общая диаграмма прогресса по всем активным темам">${topics.map(t=>{const pct=t.pct===null?0:t.pct;return `<div class="dashboard-topic-bar-row"><div class="dashboard-topic-bar-track"><div class="dashboard-topic-bar-fill ${t.pct===null?"case-only":""}" style="width:${pct}%;background:${t.pct===null?"var(--border)":t.color}"></div>${t.pct===null?"":`<span class="dashboard-topic-bar-caption">${pct}%</span>`}</div></div>`;}).join("")}</div></div>`:"<div class=\"topic-empty\">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>"}
+      ${topics.length?(()=>{
+        const measured=topics.filter(t=>t.pct!==null);
+        const overall=measured.length?Math.round(measured.reduce((sum,t)=>sum+t.pct,0)/measured.length):null;
+        const ringTopics=topics.map((t,i)=>{const segment=360/topics.length;const gap=Math.min(5,segment*.12);const start=-90+i*segment+gap/2;const end=start+segment-gap;const point=(angle,r)=>({x:110+r*Math.cos(angle*Math.PI/180),y:110+r*Math.sin(angle*Math.PI/180)});const a=point(start,78),b=point(end,78);const path=`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;const progressEnd=start+(end-start)*(t.pct===null?0:t.pct/100);const c=point(progressEnd,78);const progressPath=t.pct===null||t.pct===0?"":`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${c.x.toFixed(2)} ${c.y.toFixed(2)}`;return {t,path,progressPath};});
+        return `<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Кольцевая диаграмма прогресса по активным темам">${ringTopics.map(({t,path,progressPath})=>`<path class="dashboard-topic-ring-track" d="${path}"/>${progressPath?`<path class="dashboard-topic-ring-progress" d="${progressPath}" stroke="${t.color}"/>`:""}`).join("")}<text class="dashboard-topic-ring-center" x="110" y="106">${overall===null?"—":overall+"%"}</text><text class="dashboard-topic-ring-caption" x="110" y="124">${overall===null?"НЕТ ДАННЫХ":"СРЕДНИЙ ПРОГРЕСС"}</text></svg></div><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<div class="dashboard-topic-label"><span class="dashboard-topic-swatch" style="background:${t.color}"></span><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct ${t.pct===null?"case-only":""}">${t.pct===null?"Кейс":t.pct+"%"}</span></div>`).join("")}</div></div>`;
+      })():"<div class=\\"topic-empty\\">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>"}
     </div>
     <div class="row-2">
       <div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
