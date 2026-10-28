@@ -944,7 +944,7 @@ function setScreen(name){
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';state.classifyMode='input';renderClassifySetup()}
+  else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='distribute')renderDistributeSetup();else if(state.classifyMode==='conspect')renderClassifyConspects();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
