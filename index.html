@@ -1056,6 +1056,33 @@ for (const item of EXTRA_CLASSIFICATION) {
   if (options.length===4) QUESTIONS.push({id:'q_'+String(extraQ++).padStart(3,'0'),section:item.section,text:'Какой препарат относится к группе «'+item.group+'» согласно классификации?',options,correct:0,explanation:'В классификации лекарственных средств осеннего семестра 2026 препарат «'+target+'» указан в группе «'+item.group+'». Подробные фармакологические сведения этим вопросом не проверяются.',tags:[item.group,target,'Классификация'],source:'Классификация ЛС осенний семестр 2026'});
 }
 
+// Добавляем вопросы для групп из основных методичек и классификационного списка,
+// которые ещё не представлены в тестах. Используем только название группы и перечень препаратов.
+const extraGroupNames = new Set(EXTRA_CLASSIFICATION.map(item=>item.group));
+const knownQuestionGroups = new Set(QUESTIONS.flatMap(q=>q.tags||[]));
+const allGroupDrugs = [...new Set(GROUPS.flatMap(g=>g.drugs||[]))];
+for (const item of GROUPS) {
+  if (!item.group || !Array.isArray(item.drugs) || !item.drugs.length) continue;
+  if (extraGroupNames.has(item.group) || knownQuestionGroups.has(item.group)) continue;
+  const target = item.drugs[0];
+  const options = [target, ...allGroupDrugs.filter(drug=>!item.drugs.includes(drug)&&drug!==target).filter((drug,index,array)=>array.indexOf(drug)===index).slice(0,3)];
+  if (options.length !== 4) continue;
+  const source = ['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Миорелаксанты','Адреноблокаторы'].includes(item.section)
+    ? 'Предоставленные методички и классификация лекарственных средств'
+    : 'Классификация ЛС осенний семестр 2026';
+  QUESTIONS.push({
+    id:'q_'+String(extraQ++).padStart(3,'0'),
+    section:item.section,
+    text:'Какой препарат в классификации отнесён к группе «'+item.group+'»?',
+    options,
+    correct:0,
+    explanation:'В предоставленной классификации препарат «'+target+'» указан в группе «'+item.group+'». Вопрос проверяет только отнесение препарата к группе.',
+    tags:[item.group,'Классификация'],
+    source
+  });
+  knownQuestionGroups.add(item.group);
+}
+
 
 const SCENARIOS={
   normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → экзоцитоз везикул → АХ связывается с рецепторами соответствующего типа → АХЭ гидролизует АХ. М- и Н-рецепторы на схеме показаны как варианты разных холинергических синапсов, а не как обязательная пара в одном синапсе.'},
