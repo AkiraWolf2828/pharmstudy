@@ -1906,6 +1906,28 @@ function renderReference(){
   const groupSections=[...new Set(GROUPS.map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
+    <div class="ref-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
+      <div class="ref-topic-content" id="section-groupNotes" style="display:none">
+      <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
+      ${groupSections.map((sec,si)=>`
+        <div style="margin-bottom:28px">
+          <button class="ref-topic-toggle" style="font-size:14px;padding:13px 16px" onclick="toggleReferenceSection('notes-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-notes-${si}">⌄</span></button>
+          <div class="ref-topic-content" id="section-notes-${si}" style="display:none">
+          ${GROUPS.filter(g=>g.section===sec).map(g=>`
+            <div class="conspect-card">
+              <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
+              <div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
+              ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(g.section)?'':'<div style="margin:8px 0;color:var(--text-muted);font-size:11px;font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</div>'}
+              <div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
+              <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+            </div>`).join('')}
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryBasics')">
         <span>📚 Основы холинергической передачи</span><span class="ref-topic-arrow" id="arrow-theoryBasics">⌄</span>
@@ -1958,35 +1980,6 @@ function renderReference(){
             </div>
             <div class="theory-card-body" id="theoryBody${n}">${t.body}</div>
           </div>`}).join('')}
-      </div>
-    </div>
-    <div class="ref-section" style="margin-bottom:18px">
-      <div class="ref-section-title">📌 Покрытие методичками</div>
-      <div class="conspect-card">
-        <div class="conspect-card-title">Подробно раскрытые материалы</div>
-        <div class="conspect-text">Холиномиметики — «Холиномиметики: материал для студентов»; холиноблокаторы и миорелаксанты — «Холиноблокирующие средства и миорелаксанты»; адреноблокаторы и симпатолитики — «Адреноблокирующие средства и симпатолитические средства». Карточки расширены только в пределах этих материалов.</div>
-        <div class="conspect-card-title" style="margin-top:12px">Пока не расширено из-за нехватки подробного источника</div>
-        <div class="conspect-text">Адреномиметики: в доступных файлах есть классификационные списки, но отдельной подробной методички с механизмами, показаниями, противопоказаниями и нежелательными реакциями не найдено. Другие фармакологические темы из общего файла «Классификация ЛС осенний семестр 2026» также представлены преимущественно перечнями препаратов. Не добавляю к ним недостающие сведения из общих знаний.</div>
-      </div>
-    </div>
-    <div class="ref-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
-      <div class="ref-topic-content" id="section-groupNotes" style="display:none">
-      <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
-      ${groupSections.map((sec,si)=>`
-        <div style="margin-bottom:28px">
-          <button class="ref-topic-toggle" style="font-size:14px;padding:13px 16px" onclick="toggleReferenceSection('notes-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-notes-${si}">⌄</span></button>
-          <div class="ref-topic-content" id="section-notes-${si}" style="display:none">
-          ${GROUPS.filter(g=>g.section===sec).map(g=>`
-            <div class="conspect-card">
-              <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
-              <div class="conspect-card-drugs">${g.drugs.join(' · ')}</div>
-              ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(g.section)?'':'<div style="margin:8px 0;color:var(--text-muted);font-size:11px;font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</div>'}
-              <div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
-              <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-            </div>`).join('')}
-          </div>
-        </div>`).join('')}
       </div>
     </div>
     ${sections.map((sec,si)=>`
@@ -2054,6 +2047,15 @@ function renderSettings(){
           Работает офлайн. Данные хранятся на устройстве.
         </div>
       </div>
+      <div class="panel" style="margin-bottom:16px">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Сведения о сайте</h3>
+      <div style="font-size:13px;line-height:1.7;color:var(--text-muted)">
+        <div style="font-weight:700;color:var(--text);margin-bottom:4px">Подробно раскрытые материалы</div>
+        <div style="margin-bottom:10px">Холиномиметики — «Холиномиметики: материал для студентов»; холиноблокаторы и миорелаксанты — «Холиноблокирующие средства и миорелаксанты»; адреноблокаторы и симпатолитики — «Адреноблокирующие средства и симпатолитические средства». Карточки расширены только в пределах этих материалов.</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:4px" style="margin-top:12px">Пока не расширено из-за нехватки подробного источника</div>
+        <div style="margin-bottom:10px">Адреномиметики: в доступных файлах есть классификационные списки, но отдельной подробной методички с механизмами, показаниями, противопоказаниями и нежелательными реакциями не найдено. Другие фармакологические темы из общего файла «Классификация ЛС осенний семестр 2026» также представлены преимущественно перечнями препаратов. Не добавляю к ним недостающие сведения из общих знаний.</div>
+      </div>
+    </div>
     </div>`;
 }
 function resetProgress(){if(confirm('Сбросить весь прогресс?')){state.progress={};saveProgress();setScreen('dashboard')}}
