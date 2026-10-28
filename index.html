@@ -111,6 +111,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .q-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--lavender-deco));border-radius:4px;transition:width .3s}
 .q-progress-text{font-size:12px;color:var(--text-muted);font-weight:600}
 .q-text{font-size:19px;font-weight:600;line-height:1.5;margin-bottom:28px}
+.test-question-nav{margin:0 0 20px;padding:14px;background:var(--surface-2,rgba(127,127,127,.07));border:1px solid var(--border);border-radius:14px}.test-question-nav-title{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;font-weight:800;margin-bottom:10px}.test-question-nav-title span,.test-question-footnote{color:var(--text-muted);font-size:12px;font-weight:500}.test-question-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:7px}.test-question-number{min-height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font:700 13px inherit;cursor:pointer;touch-action:manipulation}.test-question-number.answered{background:var(--success-soft);border-color:var(--success);color:var(--success)}.test-question-number.current{outline:2px solid var(--accent);outline-offset:1px}.test-question-number.answered.current{background:var(--success-soft)}.test-question-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;color:var(--text-muted);font-size:11px}.test-question-legend span{display:flex;align-items:center;gap:5px}.legend-dot{width:8px;height:8px;border:1px solid var(--border);border-radius:50%;display:inline-block}.current-dot{background:var(--accent);border-color:var(--accent)}.answered-dot{background:var(--success);border-color:var(--success)}.test-question-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.test-question-controls>button{flex:1;min-width:130px}.test-question-footnote{margin-top:10px;line-height:1.5}.test-question-number:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.test-question-number:active{transform:scale(.97)}
 .q-options{display:flex;flex-direction:column;gap:12px}
 .q-option{padding:18px 20px;border-radius:18px;background:var(--card-2);border:2px solid transparent;color:var(--text);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:14px}
 .q-option:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
@@ -1186,22 +1187,55 @@ function startSession(){
 }
 function renderQuestion(){
   const s=state.session;
-  if(s.index>=s.questions.length){renderReport();return}
+  if(!s)return;
+  if(s.answers.length===s.questions.length){renderReport();return}
   const q=s.questions[s.index];
-  const progress=(s.index/s.questions.length)*100;
+  const answeredIds=new Set(s.answers.map(a=>a.id));
+  const answeredCount=answeredIds.size;
+  const progress=(answeredCount/s.questions.length)*100;
+  const existing=s.answers.find(a=>a.id===q.id);
   s.pendingAnswer=null;
   screenEl.innerHTML=`
     <div class="question-card">
-      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${s.index+1} / ${s.questions.length}</span></div>
+      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">Отвечено: ${answeredCount} / ${s.questions.length}</span></div>
+      <div class="test-question-nav" aria-label="Навигация по вопросам">
+        <div class="test-question-nav-title">Все вопросы <span>${answeredCount} отвечено</span></div>
+        <div class="test-question-grid">${s.questions.map((item,i)=>{const done=answeredIds.has(item.id);return `<button type="button" class="test-question-number ${done?'answered':''} ${i===s.index?'current':''}" aria-label="Вопрос ${i+1}${done?', отвечен':', без ответа'}" aria-current="${i===s.index?'step':'false'}" onclick="goToQuestion(${i})">${i+1}</button>`;}).join('')}</div>
+        <div class="test-question-legend"><span><i class="legend-dot current-dot"></i>Текущий</span><span><i class="legend-dot answered-dot"></i>Отвечен</span><span><i class="legend-dot"></i>Без ответа</span></div>
+      </div>
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${q.section}</div>
       <div class="q-text">${q.text}</div>
-      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button type="button" class="q-option" aria-pressed="false" onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
-      <div id="feedbackArea"><div class="answer-confirm-hint">Выбери вариант, затем подтверди ответ.</div></div>
+      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button type="button" class="q-option ${existing?(i===q.correct?'correct':(i===existing.choice?'wrong':'')):''}" aria-pressed="${existing&&i===existing.choice?'true':'false'}" ${existing?'disabled':''} onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
+      <div id="feedbackArea">${existing?`
+        <div class="explanation">
+          <h4>${existing.correct?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4>
+          <p>${q.explanation}</p>
+          <div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          <div class="source">Источник: ${q.source}</div>
+        </div>`: '<div class="answer-confirm-hint">Выбери вариант и подтверди ответ. Можно переходить между вопросами в любом порядке.</div>'}</div>
+      <div class="test-question-controls">
+        <button type="button" class="answer-cancel-btn" onclick="goToQuestion(${Math.max(0,s.index-1)})" ${s.index===0?'disabled':''}>← Предыдущий</button>
+        ${answeredCount===s.questions.length?'<button type="button" class="next-btn" onclick="renderReport()">Завершить тест</button>':`<button type="button" class="next-btn" onclick="goToNextUnanswered()">Следующий без ответа →</button>`}
+      </div>
+      ${answeredCount<s.questions.length?`<div class="test-question-footnote">Осталось ответить: ${s.questions.length-answeredCount}. Нажми на номер вопроса, чтобы перейти к нему.</div>`:''}
     </div>`;
+}
+function goToQuestion(index){
+  const s=state.session;if(!s||index<0||index>=s.questions.length)return;
+  s.index=index;renderQuestion();
+}
+function goToNextUnanswered(){
+  const s=state.session;if(!s)return;
+  const answeredIds=new Set(s.answers.map(a=>a.id));
+  for(let offset=1;offset<=s.questions.length;offset++){
+    const i=(s.index+offset)%s.questions.length;
+    if(!answeredIds.has(s.questions[i].id)){s.index=i;renderQuestion();return;}
+  }
+  renderReport();
 }
 function answerQuestion(i){
   const s=state.session;
-  if(!s||s.index>=s.questions.length)return;
+  if(!s||s.index>=s.questions.length||s.answers.some(a=>a.id===s.questions[s.index].id))return;
   s.pendingAnswer=i;
   document.querySelectorAll('#qOptions .q-option').forEach((b,index)=>{
     b.classList.toggle('selected',index===i);
@@ -1223,26 +1257,16 @@ function cancelAnswerQuestion(){
 function confirmAnswerQuestion(){
   const s=state.session;if(!s||s.pendingAnswer===null||s.pendingAnswer===undefined)return;
   const i=s.pendingAnswer,q=s.questions[s.index];
+  if(s.answers.some(a=>a.id===q.id))return;
   s.pendingAnswer=null;
-  const buttons=document.querySelectorAll('#qOptions .q-option');
-  buttons.forEach(b=>b.disabled=true);
   const isCorrect=i===q.correct;
-  buttons[i].classList.add(isCorrect?'correct':'wrong');
-  if(!isCorrect)buttons[q.correct].classList.add('correct');
-  s.answers.push({id:q.id,correct:isCorrect,section:q.section});
+  s.answers.push({id:q.id,correct:isCorrect,section:q.section,choice:i});
   if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
   if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
   saveProgress();
-  document.getElementById('feedbackArea').innerHTML=`
-    <div class="explanation">
-      <h4>${isCorrect?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4>
-      <p>${q.explanation}</p>
-      <div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <div class="source">Источник: ${q.source}</div>
-    </div>
-    <button class="next-btn" onclick="nextQuestion()">${s.index+1>=s.questions.length?'Завершить тест':'Следующий вопрос'}</button>`;
+  renderQuestion();
 }
-function nextQuestion(){state.session.index++;renderQuestion()}
+function nextQuestion(){goToNextUnanswered()}
 function renderReport(){
   const s=state.session;
   const correct=s.answers.filter(a=>a.correct).length;
