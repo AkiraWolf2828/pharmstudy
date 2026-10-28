@@ -194,6 +194,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .ref-card{align-self:start;height:fit-content}
 .ref-section{margin-bottom:32px}
 .ref-section-title{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
+.ref-topic-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 20px;border:0;border-radius:18px;background:var(--card);color:var(--text);font:inherit;font-size:16px;font-weight:700;text-align:left;cursor:pointer;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.ref-topic-toggle:hover{box-shadow:var(--shadow)}
+.ref-topic-arrow{font-size:22px;color:var(--text-muted);transition:transform .2s}
+.ref-topic-arrow.open{transform:rotate(180deg)}
+.ref-topic-content{margin-bottom:20px}
+.ref-topic-content .ref-grid{margin-top:14px}
+
 .ref-card{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all .2s}
 .ref-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .ref-card-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -1900,18 +1907,58 @@ function renderReference(){
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
     <div class="theory-section">
-      <div class="ref-section-title">📚 Основы холинергической передачи</div>
-      ${THEORY.map((t,i)=>`
-        <div class="theory-card" onclick="toggleTheory(${i})">
-          <div class="theory-card-head">
-            <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
-            <div style="flex:1">
-              <div class="theory-card-title">${t.title}</div>
-              <div class="theory-card-sub">${t.sub}</div>
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryBasics')">
+        <span>📚 Основы холинергической передачи</span><span class="ref-topic-arrow" id="arrow-theoryBasics">⌄</span>
+      </button>
+      <div class="ref-topic-content" id="section-theoryBasics" style="display:none">
+        ${THEORY.slice(0,5).map((t,i)=>`
+          <div class="theory-card" onclick="toggleTheory(${i})">
+            <div class="theory-card-head">
+              <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+              <div style="flex:1">
+                <div class="theory-card-title">${t.title}</div>
+                <div class="theory-card-sub">${t.sub}</div>
+              </div>
             </div>
-          </div>
-          <div class="theory-card-body" id="theoryBody${i}">${t.body}</div>
-        </div>`).join('')}
+            <div class="theory-card-body" id="theoryBody${i}">${t.body}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="theory-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryCholinoblockers')">
+        <span>💊 Холиноблокаторы</span><span class="ref-topic-arrow" id="arrow-theoryCholinoblockers">⌄</span>
+      </button>
+      <div class="ref-topic-content" id="section-theoryCholinoblockers" style="display:none">
+        ${THEORY.slice(5,6).map((t,i)=>{const n=i+5;return `
+          <div class="theory-card" onclick="toggleTheory(${n})">
+            <div class="theory-card-head">
+              <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+              <div style="flex:1">
+                <div class="theory-card-title">${t.title}</div>
+                <div class="theory-card-sub">${t.sub}</div>
+              </div>
+            </div>
+            <div class="theory-card-body" id="theoryBody${n}">${t.body}</div>
+          </div>`}).join('')}
+      </div>
+    </div>
+    <div class="theory-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryMyorelaxants')">
+        <span>🧠 Миорелаксанты</span><span class="ref-topic-arrow" id="arrow-theoryMyorelaxants">⌄</span>
+      </button>
+      <div class="ref-topic-content" id="section-theoryMyorelaxants" style="display:none">
+        ${THEORY.slice(6).map((t,i)=>{const n=i+6;return `
+          <div class="theory-card" onclick="toggleTheory(${n})">
+            <div class="theory-card-head">
+              <div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+              <div style="flex:1">
+                <div class="theory-card-title">${t.title}</div>
+                <div class="theory-card-sub">${t.sub}</div>
+              </div>
+            </div>
+            <div class="theory-card-body" id="theoryBody${n}">${t.body}</div>
+          </div>`}).join('')}
+      </div>
     </div>
     <div class="ref-section" style="margin-bottom:18px">
       <div class="ref-section-title">📌 Покрытие методичками</div>
@@ -1951,6 +1998,14 @@ function renderReference(){
             </div>`).join('')}
         </div>`).join('')}
     </div>`;
+}
+function toggleReferenceSection(id){
+  const el=document.getElementById('section-'+id);
+  const arrow=document.getElementById('arrow-'+id);
+  if(!el)return;
+  const opening=el.style.display==='none'||!el.style.display;
+  el.style.display=opening?'block':'none';
+  if(arrow)arrow.classList.toggle('open',opening);
 }
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
