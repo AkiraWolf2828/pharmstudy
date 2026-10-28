@@ -538,11 +538,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .dashboard-topic-ring-center{fill:var(--text);font-size:28px;font-weight:750;text-anchor:middle;font-variant-numeric:tabular-nums}
 .dashboard-topic-ring-caption{fill:var(--text-muted);font-size:8px;font-weight:700;letter-spacing:1px;text-anchor:middle}
 .dashboard-topic-labels{display:grid;gap:8px;min-width:0}
-.dashboard-topic-label{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 11px;border-radius:12px;background:var(--card-2)}
+.dashboard-topic-label{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 11px;border-radius:12px;background:var(--card-2);cursor:pointer;text-align:left;border:1px solid transparent;transition:transform .16s ease,border-color .16s ease,background .16s ease}.dashboard-topic-label:hover,.dashboard-topic-label:focus-visible{border-color:var(--mint);transform:translateY(-1px);outline:none}.dashboard-topic-label:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--mint) 25%,transparent)}
 .dashboard-topic-swatch{width:10px;height:10px;flex:0 0 10px;border-radius:50%;box-shadow:0 0 0 3px var(--card)}
 .dashboard-topic-label-name{flex:1;min-width:0;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
 .dashboard-topic-label-pct{font-size:12px;font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
 .dashboard-topic-label-pct.case-only{color:var(--text-muted);font-size:10px;font-weight:650}
+.topic-open-chevron{font-size:20px;line-height:1;color:var(--text-muted);padding-left:3px}
+.topic-menu-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,30,30,.38);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.topic-menu-dialog{width:min(100%,460px);max-height:min(90vh,680px);overflow:auto;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 24px 80px rgba(0,0,0,.2);animation:topicMenuIn .18s ease-out}
+.topic-menu-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.topic-menu-heading{flex:1;min-width:0;margin:0;font-size:20px;line-height:1.3}
+.topic-menu-subtitle{margin:0 0 18px;color:var(--text-muted);font-size:13px;line-height:1.5}
+.topic-menu-close{display:flex;align-items:center;justify-content:center;width:34px;height:34px;flex:0 0 34px;border:0;border-radius:11px;background:var(--card-2);color:var(--text);font-size:22px;cursor:pointer}
+.topic-menu-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.topic-menu-option{display:flex;align-items:center;gap:11px;min-width:0;min-height:68px;padding:12px;border:1px solid var(--border);border-radius:15px;background:var(--card-2);color:var(--text);text-align:left;cursor:pointer;transition:border-color .15s ease,transform .15s ease}
+.topic-menu-option:hover,.topic-menu-option:focus-visible{border-color:var(--mint);transform:translateY(-1px);outline:none}
+.topic-menu-option-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;border-radius:12px;background:var(--card);font-size:18px}
+.topic-menu-option-title{font-size:13px;font-weight:750;line-height:1.3}
+.topic-menu-option-desc{display:block;margin-top:3px;color:var(--text-muted);font-size:10px;line-height:1.35}
+@keyframes topicMenuIn{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:420px){.topic-menu-dialog{padding:17px;border-radius:19px}.topic-menu-options{grid-template-columns:minmax(0,1fr)}.topic-menu-option{min-height:60px}}
+
 .topic-empty{padding:18px 0;color:var(--text-muted);font-size:13px;line-height:1.6}
 @media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(150px,.75fr) minmax(0,1.25fr);gap:12px}.dashboard-topic-ring-wrap{padding:0}.dashboard-topic-labels{gap:6px}.dashboard-topic-label{padding:8px;gap:8px}.dashboard-topic-label-name{font-size:11px}.dashboard-topic-label-pct{font-size:11px}}
 @media(max-width:520px){.dashboard-topic-chart{grid-template-columns:minmax(0,1fr);gap:12px}.dashboard-topic-ring{width:min(68%,230px)}.dashboard-topic-labels{grid-template-columns:minmax(0,1fr)}}
@@ -1031,6 +1047,33 @@ function setScreen(name){
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
 
+function openTopicMenu(topic){
+  const old=document.getElementById('topicMenuOverlay');
+  if(old)old.remove();
+  const overlay=document.createElement('div');
+  overlay.id='topicMenuOverlay';
+  overlay.className='topic-menu-overlay';
+  overlay.setAttribute('role','presentation');
+  overlay.innerHTML=`
+    <section class="topic-menu-dialog" role="dialog" aria-modal="true" aria-labelledby="topicMenuHeading">
+      <div class="topic-menu-head"><h2 class="topic-menu-heading" id="topicMenuHeading">${topic}</h2><button type="button" class="topic-menu-close" aria-label="Закрыть" onclick="document.getElementById('topicMenuOverlay')?.remove()">×</button></div>
+      <p class="topic-menu-subtitle">Выбери, в каком разделе продолжить изучение этой темы.</p>
+      <div class="topic-menu-options">
+        <button class="topic-menu-option" type="button" onclick="setScreen('reference')"><span class="topic-menu-option-icon">📚</span><span><span class="topic-menu-option-title">Справочник</span><span class="topic-menu-option-desc">Материалы и препараты</span></span></button>
+        <button class="topic-menu-option" type="button" onclick="setScreen('session')"><span class="topic-menu-option-icon">✍️</span><span><span class="topic-menu-option-title">Тесты</span><span class="topic-menu-option-desc">Проверить знания</span></span></button>
+        <button class="topic-menu-option" type="button" onclick="setScreen('classify')"><span class="topic-menu-option-icon">🧩</span><span><span class="topic-menu-option-title">Классификация</span><span class="topic-menu-option-desc">Повторить группы препаратов</span></span></button>
+        <button class="topic-menu-option" type="button" onclick="setScreen('case')"><span class="topic-menu-option-icon">🩺</span><span><span class="topic-menu-option-title">Клинические кейсы</span><span class="topic-menu-option-desc">Применить знания на практике</span></span></button>
+        <button class="topic-menu-option" type="button" onclick="setScreen('synapse')"><span class="topic-menu-option-icon">⚛️</span><span><span class="topic-menu-option-title">Визуализация</span><span class="topic-menu-option-desc">Изучить механизмы действия</span></span></button>
+        <button class="topic-menu-option" type="button" onclick="setScreen('settings')"><span class="topic-menu-option-icon">⚙️</span><span><span class="topic-menu-option-title">Настройки</span><span class="topic-menu-option-desc">Параметры обучения</span></span></button>
+      </div>
+    </section>`;
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+  const closeOnEscape=e=>{if(e.key==='Escape'){overlay.remove();document.removeEventListener('keydown',closeOnEscape);}};
+  document.addEventListener('keydown',closeOnEscape);
+  screenEl.appendChild(overlay);
+  overlay.querySelector('.topic-menu-close').focus();
+}
+
 function renderDashboard(){
   const s=getStats();
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
@@ -1056,7 +1099,7 @@ function renderDashboard(){
         const measured=topics.filter(t=>t.pct!==null);
         const overall=measured.length?Math.round(measured.reduce((sum,t)=>sum+t.pct,0)/measured.length):null;
         const ringTopics=topics.map((t,i)=>{const segment=360/topics.length;const gap=Math.min(5,segment*.12);const start=-90+i*segment+gap/2;const end=start+segment-gap;const point=(angle,r)=>({x:110+r*Math.cos(angle*Math.PI/180),y:110+r*Math.sin(angle*Math.PI/180)});const a=point(start,78),b=point(end,78);const path=`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;const progressEnd=start+(end-start)*(t.pct===null?0:t.pct/100);const c=point(progressEnd,78);const progressPath=t.pct===null||t.pct===0?"":`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${c.x.toFixed(2)} ${c.y.toFixed(2)}`;return {t,path,progressPath};});
-        return `<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Кольцевая диаграмма прогресса по активным темам">${ringTopics.map(({t,path,progressPath})=>`<path class="dashboard-topic-ring-track" d="${path}"/>${progressPath?`<path class="dashboard-topic-ring-progress" d="${progressPath}" stroke="${t.color}"/>`:""}`).join("")}<text class="dashboard-topic-ring-center" x="110" y="106">${overall===null?"—":overall+"%"}</text><text class="dashboard-topic-ring-caption" x="110" y="124">${overall===null?"НЕТ ДАННЫХ":"СРЕДНИЙ ПРОГРЕСС"}</text></svg></div><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<div class="dashboard-topic-label"><span class="dashboard-topic-swatch" style="background:${t.color}"></span><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct ${t.pct===null?"case-only":""}">${t.pct===null?"Кейс":t.pct+"%"}</span></div>`).join("")}</div></div>`;
+        return `<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Кольцевая диаграмма прогресса по активным темам">${ringTopics.map(({t,path,progressPath})=>`<path class="dashboard-topic-ring-track" d="${path}"/>${progressPath?`<path class="dashboard-topic-ring-progress" d="${progressPath}" stroke="${t.color}"/>`:""}`).join("")}<text class="dashboard-topic-ring-center" x="110" y="106">${overall===null?"—":overall+"%"}</text><text class="dashboard-topic-ring-caption" x="110" y="124">${overall===null?"НЕТ ДАННЫХ":"СРЕДНИЙ ПРОГРЕСС"}</text></svg></div><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<button type="button" class="dashboard-topic-label" data-topic="${t.name}" onclick="openTopicMenu(this.dataset.topic)" aria-label="Открыть разделы для темы ${t.name}"><span class="dashboard-topic-swatch" style="background:${t.color}"></span><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct ${t.pct===null?"case-only":""}">${t.pct===null?"Кейс":t.pct+"%"}</span><span aria-hidden="true" class="topic-open-chevron">›</span></button>`).join("")}</div></div>`;
       })():'<div class="topic-empty">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>'}
     </div>
     <div class="row-2">
