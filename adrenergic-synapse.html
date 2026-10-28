@@ -16,6 +16,12 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
 @keyframes float{0%,100%{transform:translate(0,0);opacity:.55}50%{transform:translate(10px,16px);opacity:1}}
 @keyframes pulse{0%,100%{filter:url(#glow);opacity:.8}50%{filter:url(#hot);opacity:1}}
 .receptor{cursor:pointer;transition:opacity .2s,filter .2s}.receptor.active{animation:pulse 1.6s ease-in-out infinite}.dim{opacity:.2!important}
+.receptor.blocked{opacity:.4!important;filter:grayscale(.7)}
+#scene.mode-a2-block #feedbackArrow{opacity:.12}
+#scene.mode-a2-block #feedbackLabel{fill:#ff9b9b}
+#scene.mode-sympatholytic #particles{opacity:.18}
+#scene.mode-sympatholytic .vesicle{opacity:.45}
+#scene.mode-a1-block .receptor[data-rec="a1"],#scene.mode-b1-block .receptor[data-rec="b1"],#scene.mode-b2-block .receptor[data-rec="b2"],#scene.mode-carvedilol .receptor[data-rec="a1"],#scene.mode-carvedilol .receptor[data-rec="b1"],#scene.mode-carvedilol .receptor[data-rec="b2"]{filter:grayscale(.8);opacity:.42}
 /* Подсветка всех деталей сцены при наведении */
 [data-info]{cursor:pointer;transition:filter .18s ease,opacity .18s ease}
 [data-info]:hover,[data-info]:focus-visible{filter:url(#hot);opacity:1!important;outline:none}
@@ -30,6 +36,7 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
   <div class="stage">
    <svg id="scene" viewBox="0 0 900 650" role="img" aria-label="Анимированная схема адренергического синапса">
     <defs>
+     <marker id="feedbackHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#ffd77a"/></marker>
      <radialGradient id="bg"><stop stop-color="#28365c"/><stop offset="1" stop-color="#10172c"/></radialGradient>
      <linearGradient id="pre" x2="0" y2="1"><stop stop-color="#57417b"/><stop offset="1" stop-color="#282b53"/></linearGradient>
      <linearGradient id="mem" x2="0" y2="1"><stop stop-color="#ff9be5"/><stop offset=".5" stop-color="#b66de0"/><stop offset="1" stop-color="#6c4aaf"/></linearGradient>
@@ -68,10 +75,12 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
      <path d="M250 485 L250 445 Q250 428 265 428 Q280 428 280 445 L280 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="265" cy="430" r="8" fill="#e9ffff"/>
      <text x="225" y="520" class="small">α₁</text>
     </g>
-    <g id="rA2" class="receptor" data-rec="a2" data-info="α₂-адренорецепторы. Подтипы и расположение имеют значение для эффекта; точный пресинаптический механизм в этой первой версии намеренно не детализирован без профильной методички.">
-     <path d="M420 495 L420 455 Q420 438 435 438 Q450 438 450 455 L450 495Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="435" cy="440" r="8" fill="#e9ffff"/>
-     <text x="415" y="526" class="small">α₂</text>
+    <g id="rA2" class="receptor presynaptic-rec" data-rec="a2" data-info="Пресинаптический α₂-адренорецептор — отрицательная обратная связь: норадреналин активирует его и тормозит дальнейшее высвобождение медиатора. При блокаде α₂ это торможение ослабевает, поэтому высвобождение норадреналина может увеличиваться.">
+     <path d="M520 343 L520 320 Q520 305 535 305 Q550 305 550 320 L550 343Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="535" cy="307" r="8" fill="#e9ffff"/>
+     <text x="515" y="298" class="small">α₂</text>
     </g>
+    <path id="feedbackArrow" d="M560 330 Q590 305 610 280" fill="none" stroke="#ffd77a" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#feedbackHead)" opacity=".9"/>
+    <text id="feedbackLabel" x="600" y="300" class="small" data-info="Отрицательная обратная связь: активация пресинаптических α₂-рецепторов тормозит дальнейшее высвобождение норадреналина.">обратная связь</text>
     <g id="rB1" class="receptor" data-rec="b1" data-info="β₁-адренорецептор. Отдельный тип адренорецептора; для конкретного препарата эффект зависит от селективности, дозы и ткани.">
      <path d="M570 485 L570 445 Q570 428 585 428 Q600 428 600 445 L600 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="585" cy="430" r="8" fill="#e9ffff"/>
      <text x="565" y="520" class="small">β₁</text>
@@ -87,23 +96,40 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
   <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span></div>
  </div>
  <aside class="panel">
-  <h2>Адренергическая передача</h2><p class="sub">Интерактивная схема. Нажми на рецептор, чтобы прочитать пояснение. Подробные лекарственные сценарии лучше добавить после проверки профильной методички.</p>
+  <h2>Адренергическая передача</h2><p class="sub">Выбери сценарий: схема подсветит мишень и покажет, что меняется в передаче сигнала.</p>
   <div class="scenarios">
-   <button class="active" data-mode="normal">Нормальная передача</button>
-   <button data-mode="a1">α₁-рецептор</button>
-   <button data-mode="a2">α₂-рецептор</button>
-   <button data-mode="b1">β₁-рецептор</button>
-   <button data-mode="b2">β₂-рецептор</button>
+   <button class="active" data-mode="normal">1. Нормальная передача</button>
+   <button data-mode="a1">α₁-рецептор: эффект</button><button data-mode="a1-block">α₁-блокада</button>
+   <button data-mode="a2">Пресинаптический α₂</button><button data-mode="a2-block">α₂-блокада</button>
+   <button data-mode="b1">β₁-рецептор: эффект</button><button data-mode="b1-block">β₁-блокада</button>
+   <button data-mode="b2">β₂-рецептор: эффект</button><button data-mode="b2-block">β₂-блокада</button>
+   <button data-mode="carvedilol">Карведилол: α₁ + β₁ + β₂</button><button data-mode="sympatholytic">Симпатолитическое действие</button>
    <button data-mode="all">Показать все рецепторы</button>
   </div>
-  <div class="info"><strong>Важно</strong><p>Надписи и типы рецепторов основаны на имеющихся материалах. Конкретные лекарственные эффекты и последовательность внутриклеточных событий не дорисовываются без подтверждения в профильной методичке.</p></div>
+  <div class="info"><strong>Что важно запомнить</strong><p>Блокада рецептора уменьшает ответ через него, но не обязательно прекращает выделение норадреналина. Симпатолитическое действие может уменьшать количество медиатора или центральную симпатическую импульсацию. Сценарии основаны на методичке «Адреноблокаторы и симпатолитики».</p></div>
  </aside>
 </div>
 <script>
-const title=document.getElementById('infoTitle'),desc=document.getElementById('infoText'),buttons=[...document.querySelectorAll('[data-mode]')],receptors=[...document.querySelectorAll('.receptor')];
-function showInfo(el){title.textContent=el.dataset.rec?({'a1':'α₁-адренорецептор','a2':'α₂-адренорецептор','b1':'β₁-адренорецептор','b2':'β₂-адренорецептор'}[el.dataset.rec]||'Элемент синапса'):'Элемент синапса';desc.textContent=el.dataset.info||'Элемент схемы адренергической передачи.'}
-receptors.forEach(r=>{r.addEventListener('click',()=>{receptors.forEach(x=>x.classList.remove('active'));r.classList.add('active');showInfo(r)});});
-document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('click',()=>{title.textContent=el.classList.contains('vesicle')?'Синаптическая везикула':'Синаптическая щель';desc.textContent=el.dataset.info;});});
-buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.toggle('active',x===b));const mode=b.dataset.mode;receptors.forEach(r=>{r.classList.toggle('dim',mode!=='all'&&mode!=='normal'&&r.dataset.rec!==mode);r.classList.toggle('active',mode==='all'||mode===r.dataset.rec||(mode==='normal'&&r.dataset.rec==='a1'));});if(mode==='normal'){title.textContent='Адренергический синапс';desc.textContent='Большинство симпатических нейронов передают сигнал с помощью норадреналина, который действует на адренорецепторы клетки-мишени.';}else if(mode==='all'){title.textContent='Типы адренорецепторов';desc.textContent='На схеме раздельно показаны α₁-, α₂-, β₁- и β₂-адренорецепторы. Это обозначение типов, а не утверждение, что все они обязательно присутствуют на одной клетке.';}else{const r=receptors.find(x=>x.dataset.rec===mode);if(r)showInfo(r);}}));
+const title=document.getElementById('infoTitle'),desc=document.getElementById('infoText'),buttons=[...document.querySelectorAll('[data-mode]')],receptors=[...document.querySelectorAll('.receptor')],scene=document.getElementById('scene');
+const scenarios={
+ normal:['Нормальная передача','Норадреналин высвобождается из пресинаптического окончания, диффундирует через синаптическую щель и активирует адренорецепторы. Пресинаптические α₂-рецепторы участвуют в отрицательной обратной связи и ограничивают дальнейшее высвобождение медиатора.'],
+ a1:['α₁-адренорецептор','В сосудистой гладкой мускулатуре стимуляция α₁-рецепторов вызывает сокращение и сужение сосудов. α₁-блокада ослабляет этот эффект, расслабляет сосуды и снижает периферическое сопротивление и артериальное давление.'],
+ 'a1-block':['Блокада α₁-рецепторов','Норадреналин может оставаться в синаптической щели, но его действие через α₁-рецептор ослаблено. В сосудах это уменьшает тонус гладкой мускулатуры и периферическое сопротивление; блокада венозных α₁-рецепторов также может уменьшать венозный возврат и способствовать ортостатической гипотензии.'],
+ a2:['Пресинаптический α₂-рецептор','Норадреналин активирует пресинаптический α₂-рецептор, который тормозит дальнейшее высвобождение норадреналина. Это отрицательная обратная связь, ограничивающая интенсивность сигнала.'],
+ 'a2-block':['Блокада α₂-рецепторов','Блокада пресинаптического α₂-рецептора ослабляет отрицательную обратную связь. Торможение выделения медиатора снимается, поэтому высвобождение норадреналина и симпатические влияния могут усиливаться.'],
+ b1:['β₁-адренорецептор','В сердце стимуляция β₁-рецепторов увеличивает частоту и силу сокращений и ускоряет AV-проведение. В юкстагломерулярных клетках почек β₁-стимуляция усиливает выделение ренина.'],
+ 'b1-block':['Блокада β₁-рецепторов','Ослабляется катехоламиновая стимуляция сердца: снижаются частота сокращений, сократимость и скорость AV-проведения. В почках уменьшается выделение ренина, ослабляя активность ренин-ангиотензин-альдостероновой системы.'],
+ b2:['β₂-адренорецептор','В бронхах стимуляция β₂-рецепторов расслабляет гладкую мускулатуру и расширяет бронхи.'],
+ 'b2-block':['Блокада β₂-рецепторов','Ослабляется бронхорасширяющее влияние катехоламинов, поэтому существует риск бронхоспазма. Неселективные β-блокаторы, в том числе карведилол, блокируют β₂-рецепторы.'],
+ carvedilol:['Карведилол: комбинированная блокада','Карведилол блокирует α₁-, β₁- и β₂-адренорецепторы. α₁-блокада расширяет сосуды; β₁-блокада уменьшает частоту и силу сокращений сердца и выделение ренина; β₂-блокада может повышать риск бронхоспазма.'],
+ sympatholytic:['Симпатолитическое действие','Это не то же самое, что блокада рецепторов. При действии резерпина истощаются запасы моноаминов, доступных для высвобождения; средства центрального действия могут снижать симпатическую импульсацию из ЦНС. На схеме уменьшение количества частиц показано условно.'],
+ all:['Типы адренорецепторов','Раздельно показаны α₁-, α₂-, β₁- и β₂-рецепторы. Их расположение и эффекты зависят от ткани; схема не означает, что все четыре типа обязательно присутствуют на одной клетке.']
+};
+function showInfo(el){title.textContent=el.dataset.rec?({'a1':'α₁-адренорецептор','a2':'Пресинаптический α₂-адренорецептор','b1':'β₁-адренорецептор','b2':'β₂-адренорецептор'}[el.dataset.rec]||'Элемент синапса'):(el.classList.contains('vesicle')?'Синаптическая везикула':'Элемент синапса');desc.textContent=el.dataset.info||'Элемент схемы адренергической передачи.'}
+function setMode(mode){scene.className.baseVal='';scene.classList.add('mode-'+mode);buttons.forEach(x=>x.classList.toggle('active',x.dataset.mode===mode));receptors.forEach(r=>{const target=mode===r.dataset.rec||mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec))||mode==='all'||(mode==='normal'&&r.dataset.rec==='a2');r.classList.toggle('dim',!target);r.classList.toggle('active',target&&!mode.endsWith('-block')&&mode!=='sympatholytic');r.classList.toggle('blocked',mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec)));});const s=scenarios[mode]||scenarios.normal;title.textContent=s[0];desc.textContent=s[1];}
+receptors.forEach(r=>{r.addEventListener('click',()=>setMode(r.dataset.rec));r.addEventListener('mouseenter',()=>showInfo(r));r.addEventListener('focus',()=>showInfo(r));});
+document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('mouseenter',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('focus',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('click',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info;});});
+buttons.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+setMode('normal');
 </script>
 </body></html>
