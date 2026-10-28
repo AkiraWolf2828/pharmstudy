@@ -543,7 +543,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .dashboard-topic-label-name{flex:1;min-width:0;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
 .dashboard-topic-label-pct{font-size:12px;font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
 .dashboard-topic-label-pct.case-only{color:var(--text-muted);font-size:10px;font-weight:650}
-.topic-open-chevron{font-size:20px;line-height:1;color:var(--text-muted);padding-left:3px}
+.topic-open-chevron{font-size:20px;line-height:1;color:var(--text-muted);padding-left:3px}.dashboard-base-topic{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;border:1px solid transparent;transition:background .16s ease,border-color .16s ease,transform .16s ease}.dashboard-base-topic:hover,.dashboard-base-topic:focus-visible{border-color:var(--mint);background:var(--card-2);transform:translateY(-1px);outline:none}.dashboard-base-topic:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--mint) 25%,transparent)}
 .topic-menu-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,30,30,.38);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
 .topic-menu-dialog{width:min(100%,460px);max-height:min(90vh,680px);overflow:auto;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 24px 80px rgba(0,0,0,.2);animation:topicMenuIn .18s ease-out}
 .topic-menu-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
@@ -1107,7 +1107,7 @@ function renderDashboard(){
         <details class="dashboard-fold">
           <summary><span>Все темы базы</span><span class="dashboard-fold-count">${sections.length} тем</span></summary>
           <div class="recent-list">
-            ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=colors[i%colors.length];return `<div class="recent-item"><div class="recent-icon" style="background:${col}">${count}</div><div class="recent-info"><div class="recent-title">${sec}</div><div class="recent-sub">${count} вопросов</div></div></div>`;}).join('')}
+            ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=colors[i%colors.length];return `<button type="button" class="recent-item dashboard-base-topic" data-topic="${sec}" onclick="openTopicMenu(this.dataset.topic)" aria-label="Открыть разделы для темы ${sec}"><span class="recent-icon" style="background:${col}">${count}</span><span class="recent-info"><span class="recent-title">${sec}</span><span class="recent-sub">${count} вопросов</span></span><span class="topic-open-chevron" aria-hidden="true">›</span></button>`;}).join('')}
             <div class="recent-item" onclick="setScreen('case')"><div class="recent-icon" style="background:var(--warm)">${Object.keys(CASES).length}</div><div class="recent-info"><div class="recent-title">Клинические кейсы</div><div class="recent-sub">Интерактивные истории</div></div></div>
           </div>
         </details>
