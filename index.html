@@ -1945,7 +1945,7 @@ function renderReference(){
         ${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
             <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
             <p>${r.desc}</p>
-            ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы'].includes(r.section)?'':'<p style="margin-top:10px;color:var(--text-muted);font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</p>'}
+            ${['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Адреноблокаторы'].includes(r.section)?'':'<p style="margin-top:10px;color:var(--text-muted);font-style:italic">Не сверено с предоставленной методичкой; требуется отдельный утверждённый источник.</p>'}
             <div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
             <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
           </div>`;}).join('')}
@@ -1990,7 +1990,7 @@ function renderSettings(){
         <div style="font-size:13px;color:var(--text-muted);line-height:1.7">
           <strong style="color:var(--text)">PharmStudy</strong> — бета-версия.<br>
           Разделы: Холиномиметики, Холиноблокаторы, Миорелаксанты, Адреномиметики, Адреноблокаторы.<br>
-          Для раздела «Холиномиметики» источник — предоставленная методичка «Холиномиметики — материал для студентов». Другие разделы сайта не сверены с этой методичкой и требуют проверки по отдельным утверждённым источникам.<br>
+          Разделы «Холиномиметики» и «Холиноблокаторы» сверяются по предоставленной методичке «Холиномиметики — материал для студентов». Классификации и справочник раздела «Адреноблокаторы» дополнены по методичке «Адреноблокирующие средства и симпатолитические средства». Остальные разделы требуют сверки по соответствующим методическим материалам.<br>
           Работает офлайн. Данные хранятся на устройстве.
         </div>
       </div>
