@@ -1969,10 +1969,10 @@ function renderReference(){
         <div class="conspect-text">Адреномиметики: в доступных файлах есть классификационные списки, но отдельной подробной методички с механизмами, показаниями, противопоказаниями и нежелательными реакциями не найдено. Другие фармакологические темы из общего файла «Классификация ЛС осенний семестр 2026» также представлены преимущественно перечнями препаратов. Не добавляю к ним недостающие сведения из общих знаний.</div>
       </div>
     </div>
-    ${sections.map(sec=>`
+    ${sections.map((sec,si)=>`
     <div class="ref-section">
-      <div class="ref-section-title">${sec}</div>
-      <div class="ref-grid">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('ref-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-ref-${si}">⌄</span></button>
+      <div class="ref-topic-content" id="section-ref-${si}" style="display:none"><div class="ref-grid">
         ${REFERENCE.filter(r=>r.section===sec).map(r=>{const globalIdx=REFERENCE.indexOf(r);return `<div class="ref-card" onclick="toggleRef(${globalIdx})">
             <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.title}</h3></div>
             <p>${r.desc}</p>
@@ -1980,14 +1980,16 @@ function renderReference(){
             <div class="ref-drugs">${r.drugs.map(d=>`<span class="ref-drug">${d}</span>`).join('')}</div>
             <div id="refDetails${globalIdx}" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
           </div>`;}).join('')}
-      </div>
+      </div></div>
     </div>`).join('')}
     <div class="ref-section">
-      <div class="ref-section-title">📖 Конспекты по группам препаратов</div>
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
+      <div class="ref-topic-content" id="section-groupNotes" style="display:none">
       <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
       ${groupSections.map((sec,si)=>`
         <div style="margin-bottom:28px">
-          <div style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text)">${sec}</div>
+          <button class="ref-topic-toggle" style="font-size:14px;padding:13px 16px" onclick="toggleReferenceSection('notes-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-notes-${si}">⌄</span></button>
+          <div class="ref-topic-content" id="section-notes-${si}" style="display:none">
           ${GROUPS.filter(g=>g.section===sec).map(g=>`
             <div class="conspect-card">
               <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
@@ -1996,7 +1998,9 @@ function renderReference(){
               <div class="conspect-block"><div class="conspect-label">Механизм действия</div><div class="conspect-text">${g.mechanism}</div></div>
               <div class="conspect-block"><div class="conspect-label">Побочные эффекты</div><ul class="conspect-list">${g.sideEffects.map(e=>`<li>${e}</li>`).join('')}</ul></div>
             </div>`).join('')}
+          </div>
         </div>`).join('')}
+      </div>
     </div>`;
 }
 function toggleReferenceSection(id){
