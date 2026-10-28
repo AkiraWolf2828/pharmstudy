@@ -179,6 +179,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .topic-pick{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;background:var(--card-2);cursor:pointer;transition:all .2s;border:2px solid transparent;margin-bottom:10px}
 .topic-pick:hover{background:var(--accent-soft)}
 .topic-pick.selected{border-color:var(--accent);background:var(--accent-soft)}
+
+.classify-setup{display:flex;flex-direction:column;max-height:calc(100dvh - 112px);min-height:0;overflow:hidden;padding:24px 28px}
+.classify-setup .classify-tabs{flex-shrink:0;margin-bottom:14px}
+.classify-setup-heading{flex-shrink:0}
+.classify-setup .topic-actions{flex-shrink:0;margin-bottom:10px}
+.classify-topic-list{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 8px 4px 0;margin:0 0 12px}
+.classify-topic-list .topic-pick:last-child{margin-bottom:0}
+.classify-setup-footer{flex-shrink:0;padding-top:2px;background:var(--card)}
+.classify-setup-footer .summary-box{margin-bottom:10px;padding:10px 14px}
+.classify-setup-footer .summary-box .val{font-size:22px}
+.classify-setup-footer .next-btn{margin-top:0;padding:13px}
+.classify-setup-footer .classify-home-btn{background:transparent;color:var(--text-muted);box-shadow:none;margin-top:6px}
+@media(max-width:768px){.classify-setup{max-height:calc(100dvh - 158px);padding:18px 16px;border-radius:22px}.classify-setup .ctab{padding:9px 11px;font-size:12px}.classify-setup-heading>div:first-child{font-size:18px!important}.classify-setup-footer .summary-box{padding:8px 10px}.classify-setup-footer .summary-box .val{font-size:19px}.classify-setup-footer .next-btn{padding:12px}}
+
 .topic-check{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;font-weight:700;transition:all .2s}
 .topic-pick-info{flex:1}
 .topic-pick-title{font-size:14px;font-weight:700;margin-bottom:2px}
@@ -1113,17 +1127,21 @@ function renderClassifySetup(){
   const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
   const totalSelected=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).length,0);
   screenEl.innerHTML=`
-    <div class="case-picker">
+    <div class="case-picker classify-setup">
       ${renderClassifyTabs('input')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
+      <div class="classify-setup-heading">
+        <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
+      </div>
       <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
+      <div class="classify-topic-list">
         ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).length} групп</div></div></div>`).join('')}
       </div>
-      <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} групп</div><div class="sub">${selectedCount} разделов</div></div>
-      <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+      <div class="classify-setup-footer">
+        <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} групп</div><div class="sub">${selectedCount} разделов</div></div>
+        <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startClassify()">Начать тестирование</button>
+        <button class="next-btn classify-home-btn" onclick="setScreen('dashboard')">На главную</button>
+      </div>
     </div>`;
 }
 function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifySetup();}
@@ -1527,17 +1545,21 @@ function renderDistributeSetup(){
   const selectedCount=sections.filter(s=>state.selectedClassifySections[s]).length;
   const totalDrugs=sections.filter(s=>state.selectedClassifySections[s]).reduce((sum,s)=>sum+GROUPS.filter(g=>g.section===s).reduce((a,g)=>a+g.drugs.length,0),0);
   screenEl.innerHTML=`
-    <div class="case-picker">
+    <div class="case-picker classify-setup">
       ${renderClassifyTabs('distribute')}
-      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
+      <div class="classify-setup-heading">
+        <div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
+      </div>
       <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
-      <div style="margin-bottom:24px">
+      <div class="classify-topic-list">
         ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).reduce((a,g)=>a+g.drugs.length,0)} препаратов</div></div></div>`).join('')}
       </div>
-      <div class="summary-box"><div class="lbl">Доступно</div><div class="val">${totalDrugs} препаратов</div><div class="sub">${selectedCount} разделов</div></div>
-      <button class="next-btn" ${totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startDistribute()">Начать</button>
-      <button class="next-btn" style="background:transparent;color:var(--text-muted);box-shadow:none;margin-top:8px" onclick="setScreen('dashboard')">На главную</button>
+      <div class="classify-setup-footer">
+        <div class="summary-box"><div class="lbl">Доступно</div><div class="val">${totalDrugs} препаратов</div><div class="sub">${selectedCount} разделов</div></div>
+        <button class="next-btn" ${totalDrugs===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startDistribute()">Начать</button>
+        <button class="next-btn classify-home-btn" onclick="setScreen('dashboard')">На главную</button>
+      </div>
     </div>`;
 }
 
