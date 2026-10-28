@@ -1906,8 +1906,10 @@ function confirmCaseAnswer(){
 function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode()}
 
 function renderReference(){
-  const sections=[...new Set(REFERENCE.map(r=>r.section))];
-  const groupSections=[...new Set(GROUPS.map(g=>g.section))];
+  // В справочнике показываем только карточки и конспекты, для которых есть подходящий источник.
+  // По адреномиметикам есть классификационный список, но нет подробной методички для механизма/показаний/побочных эффектов.
+  const sections=[...new Set(REFERENCE.filter(r=>r.section!=='Адреномиметики').map(r=>r.section))];
+  const groupSections=[...new Set(GROUPS.filter(g=>g.section!=='Адреномиметики').map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   return `
     <div class="ref-subtabs">
