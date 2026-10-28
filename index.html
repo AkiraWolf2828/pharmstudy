@@ -527,23 +527,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-setup .ctab{padding:8px 7px;font-size:11px;}
   .classify-setup-footer .next-btn{font-size:13px;}
 }
-/* Topic progress: clean scientific-style indicators. */
+/* Topic progress: one shared chart for all active topics. */
 .dashboard-progress-panel{margin-bottom:16px}
 .row-2{grid-template-columns:minmax(0,1fr)}
-.dashboard-topic-chart{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}
-.dashboard-topic-row{min-width:0;gap:9px;padding:2px 0}
-.dashboard-topic-row .topic-top{align-items:center;gap:12px;min-height:38px}
-.dashboard-topic-row .topic-name{line-height:1.4;max-width:100%}
-.topic-metric{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.topic-pct{font-variant-numeric:tabular-nums}
-.topic-donut{width:38px;height:38px;flex-shrink:0;overflow:visible}
-.topic-donut-track,.topic-donut-value{fill:none;stroke-width:3.2}
-.topic-donut-track{stroke:var(--card-2)}
-.topic-donut-value{stroke-linecap:round;transform:rotate(-90deg);transform-origin:18px 18px;transition:stroke-dasharray .35s ease}
-.topic-donut-center{font-size:8px;font-weight:700;fill:var(--text-muted);font-variant-numeric:tabular-nums}
-.topic-chart-caption{font-size:10px;line-height:1.35;color:var(--text-muted);letter-spacing:.01em}
+.dashboard-topic-chart{display:grid;grid-template-columns:minmax(150px,.82fr) minmax(0,1.18fr);gap:10px 24px;align-items:start}
+.dashboard-topic-labels,.dashboard-topic-bars{display:grid;grid-auto-rows:minmax(42px,auto);gap:8px;min-width:0}
+.dashboard-topic-label{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:8px 10px;border-radius:12px;background:var(--card-2)}
+.dashboard-topic-label-name{font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.dashboard-topic-label-pct{font-size:12px;font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dashboard-topic-bar-row{display:flex;align-items:center;min-width:0;height:100%;padding:8px 0}
+.dashboard-topic-bar-track{position:relative;width:100%;height:18px;border-radius:99px;background:var(--card-2);overflow:hidden}
+.dashboard-topic-bar-fill{height:100%;min-width:0;border-radius:99px;transition:width .45s ease;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.dashboard-topic-bar-fill.case-only{width:8px!important;opacity:.7}
+.dashboard-topic-bar-caption{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;font-size:10px;font-weight:700;color:var(--text-muted)}
 .topic-empty{padding:18px 0;color:var(--text-muted);font-size:13px;line-height:1.6}
-@media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(0,1fr);gap:18px}.dashboard-topic-row .topic-name{font-size:12px}.topic-metric{gap:8px}.topic-donut{width:34px;height:34px}}
+@media(max-width:768px){.dashboard-topic-chart{grid-template-columns:minmax(115px,.9fr) minmax(0,1.1fr);gap:8px 12px}.dashboard-topic-labels,.dashboard-topic-bars{grid-auto-rows:minmax(46px,auto);gap:8px}.dashboard-topic-label{padding:7px 8px;gap:6px}.dashboard-topic-label-name{font-size:11px}.dashboard-topic-label-pct{font-size:11px}.dashboard-topic-bar-track{height:16px}}
+@media(max-width:420px){.dashboard-topic-chart{grid-template-columns:minmax(105px,.95fr) minmax(0,1.05fr);gap:7px 9px}.dashboard-topic-label-name{font-size:10px}.dashboard-topic-label-pct{font-size:10px}}
 </style>
 </head>
 <body>
@@ -1050,7 +1049,7 @@ function renderDashboard(){
       <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
     </div>
     <div class="panel dashboard-progress-panel"><div class="panel-head"><h3>Прогресс по темам</h3><span class="badge">${topics.length} активных тем</span></div>
-      ${topics.length?`<div class="topic-list dashboard-topic-chart">${topics.map(t=>{const pct=t.pct===null?0:t.pct;const ring=t.pct===null?0:pct*0.9424778;const label=t.pct===null?"Кейс":pct+"%";const caption=t.pct===null?"Затронуто в клиническом кейсе":t.answered+" оценённых ответов";return `<div class="topic-row dashboard-topic-row"><div class="topic-top"><span class="topic-name">${t.name}</span><span class="topic-metric"><span class="topic-pct">${label}</span><svg class="topic-donut" viewBox="0 0 36 36" role="img" aria-label="${t.pct===null?"Тема затронута в кейсе":"Точность "+pct+" процентов"}"><circle class="topic-donut-track" cx="18" cy="18" r="15"></circle><circle class="topic-donut-value" cx="18" cy="18" r="15" stroke-dasharray="${ring} 94.2478" style="stroke:${t.pct===null?"var(--border)":t.color}"></circle><text x="18" y="20.5" text-anchor="middle" class="topic-donut-center">${t.pct===null?"•":pct}</text></svg></span></div><div class="topic-bar"><div class="topic-fill" style="width:${pct}%;background:${t.color}"></div></div><div class="topic-chart-caption">${caption}</div></div>`;}).join("")}</div>`:"<div class=\"topic-empty\">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>"}
+      ${topics.length?`<div class="dashboard-topic-chart"><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<div class="dashboard-topic-label"><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct">${t.pct===null?"Кейс":t.pct+"%"}</span></div>`).join("")}</div><div class="dashboard-topic-bars" role="img" aria-label="Общая диаграмма прогресса по всем активным темам">${topics.map(t=>{const pct=t.pct===null?0:t.pct;return `<div class="dashboard-topic-bar-row"><div class="dashboard-topic-bar-track"><div class="dashboard-topic-bar-fill ${t.pct===null?"case-only":""}" style="width:${pct}%;background:${t.pct===null?"var(--border)":t.color}"></div>${t.pct===null?"":`<span class="dashboard-topic-bar-caption">${pct}%</span>`}</div></div>`;}).join("")}</div></div>`:"<div class=\"topic-empty\">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс — здесь появится твой прогресс.</div>"}
     </div>
     <div class="row-2">
       <div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
