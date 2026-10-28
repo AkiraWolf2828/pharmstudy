@@ -2139,7 +2139,8 @@ function setMode(v){localStorage.setItem('pharm_mode',v);applyTheme();if(state.s
 function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(state.screen==='settings')setScreen('settings')}
 
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
-applyTheme();setScreen('dashboard');
+applyTheme();
+window.addEventListener('load',()=>{try{setScreen('dashboard')}catch(err){console.error('PharmStudy: не удалось открыть главную страницу',err);screenEl.innerHTML='<div class="panel" style="margin-top:20px"><h3>Не удалось загрузить главную страницу</h3><p style="color:var(--text-muted)">Перезагрузи страницу. Если ошибка повторится, сообщи об этом.</p><button class="next-btn" onclick="setScreen(\'dashboard\')">Повторить загрузку</button></div>';}},{once:true});
 </script>
 </body>
 </html>
