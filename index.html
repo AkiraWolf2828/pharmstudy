@@ -537,7 +537,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .topbar{flex:0 0 auto}
 #screen{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2px 24px 0;scrollbar-gutter:stable}
 .classify-setup{height:calc(100dvh - 160px);max-height:none;min-height:0;box-sizing:border-box}
-#screen:has(.session-setup){scrollbar-width:none}#screen:has(.session-setup)::-webkit-scrollbar{display:none;width:0;height:0}
+#screen:has(.session-setup){overflow:hidden!important;overflow-y:hidden!important;overflow-x:hidden!important;scrollbar-width:none;padding-bottom:0;scrollbar-gutter:auto}#screen:has(.session-setup)::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 .classify-topic-list{overscroll-behavior:contain;scrollbar-width:thin}
 .session-setup .skill-filter{flex-shrink:0;margin-bottom:10px;padding:12px}
 .session-setup .skill-filter-label{margin-bottom:8px}
