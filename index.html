@@ -1265,7 +1265,7 @@ function renderSessionSetup(){
     </div>`;
   const alignSessionActions=()=>{const panel=screenEl.querySelector('.session-setup');const actions=panel?.querySelector('.session-desktop-actions');if(!panel||!actions)return;const buttons=actions.querySelectorAll('button');if(buttons.length<2)return;const rect=panel.getBoundingClientRect();const start=buttons[0],home=buttons[1];start.style.position='fixed';start.style.top=Math.round(rect.top)+'px';start.style.right='28px';start.style.left='auto';start.style.bottom='auto';home.style.position='fixed';home.style.top=Math.round(rect.bottom-home.offsetHeight)+'px';home.style.right='28px';home.style.left='auto';home.style.bottom='auto';};
   requestAnimationFrame(alignSessionActions);
-  window.addEventListener('resize',alignSessionActions,{passive:true});
+  if(window._pharmSessionAlign)window.removeEventListener('resize',window._pharmSessionAlign);window._pharmSessionAlign=alignSessionActions;window.addEventListener('resize',window._pharmSessionAlign,{passive:true});
 }function toggleSkill(s){
   state.selectedSkills[s]=!state.selectedSkills[s];
   renderSessionSetup();
