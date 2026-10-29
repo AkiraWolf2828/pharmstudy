@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}
-body{margin:0;background:transparent;color:#f3f5ff}.layout{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:14px;align-items:start}
-.stage{position:relative;overflow:hidden;border-radius:22px;background:#10172c;box-shadow:0 18px 48px #05091755;min-width:0}
-svg{display:block;width:100%;height:auto;min-height:330px}.panel{border:1px solid #ffffff18;background:linear-gradient(155deg,#202a48ee,#121a30ee);border-radius:20px;padding:12px;box-shadow:0 12px 35px #05091744}
-h2{font-size:15px;margin:2px 0 8px}.sub{font-size:12px;color:#aebcda;line-height:1.5;margin:0 0 12px}
-button{font:600 12px/1.35 system-ui,sans-serif;cursor:pointer;color:#eaf5ff;background:#1c2946;border:1px solid #ffffff20;border-radius:11px;padding:10px;text-align:left;transition:.18s}
-button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:translateY(-1px)}button.active{background:linear-gradient(110deg,#146d91,#5e4ba0);border-color:#8aeaff;box-shadow:0 0 18px #38cfff30}
-.scenarios{display:grid;gap:7px}.info{margin-top:12px;border:1px solid #ffffff18;background:#131d35;border-radius:16px;padding:14px}.info strong{display:block;color:#9feaff;margin-bottom:6px;font-size:13px}.info p{margin:0;font-size:13px;line-height:1.6;color:#d9e4ff}.key{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:#b8c7e5}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:#ff72d2;box-shadow:0 0 8px currentColor}.dot.cyan{background:#70eaff}.dot.gold{background:#ffd77a}
+:root{color-scheme:light;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}
+body{margin:0;background:transparent;color:#3d3940}.layout{display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:16px;align-items:start;width:100%;max-width:1500px;margin:0 auto}
+.stage{position:relative;overflow:hidden;border-radius:24px;background:#1a2138;box-shadow:0 12px 30px #3b2c1b12;min-width:0}
+svg{display:block;width:100%;height:clamp(500px,68vh,720px);min-height:500px;max-height:720px;object-fit:contain}.panel{border:1px solid #f0e8e1;background:#fff;border-radius:22px;padding:12px;box-shadow:0 4px 18px #3b2c1b0d}
+h2{font-size:15px;margin:2px 0 8px;color:#3d3940}.sub{font-size:12px;color:#777078;line-height:1.5;margin:0 0 12px}
+button{font:600 12px/1.35 system-ui,sans-serif;cursor:pointer;color:#4b4548;background:#fff;border:1px solid #f0e9e4;border-radius:13px;padding:11px 12px;text-align:left;transition:background .18s,border-color .18s,transform .18s}
+button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:translateY(-1px)}button.active{background:#ff9b83;color:#fff;border-color:#ff9b83;box-shadow:0 3px 10px #e8836a40}
+.scenarios{display:grid;gap:7px}.info{margin-top:12px;border:1px solid #f0e8e1;background:#fff;border-radius:16px;padding:14px}.info strong{display:block;color:#d96f58;margin-bottom:6px;font-size:13px}.info p{margin:0;font-size:13px;line-height:1.6;color:#5b5559}.key{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:#777078}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:#ff72d2;box-shadow:0 0 8px currentColor}.dot.cyan{background:#70eaff}.dot.gold{background:#ffd77a}
 .label{font:700 16px system-ui;fill:#eaf6ff;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}.small{font:600 12px system-ui;fill:#bcd1f2;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}
 .particle{filter:url(#glow);animation:release 6.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.p2{animation-delay:-1.6s}.p3{animation-delay:-3.2s}.p4{animation-delay:-4.8s}
 /* Условный цикл: частица появляется у пресинаптического окончания и проходит в щель. */
@@ -31,7 +31,7 @@ button:hover,button:focus-visible{border-color:#72e8ff;outline:none;transform:tr
 [data-info]:hover,[data-info]:focus-visible{filter:url(#hot);opacity:1!important;outline:none}
 [data-info]:hover .label,[data-info]:hover .small{fill:#fff}
 .receptor:hover{filter:url(#hot);opacity:1!important}
-@media(max-width:720px){.layout{grid-template-columns:1fr}.panel{order:2}.scenarios{grid-template-columns:repeat(2,minmax(0,1fr))}svg{min-height:260px}.label{font-size:19px}}
+@media(max-width:720px){.layout{grid-template-columns:1fr;gap:12px}.panel{order:2}.scenarios{grid-template-columns:repeat(2,minmax(0,1fr))}svg{height:clamp(360px,65vh,560px);min-height:360px}.label{font-size:19px}}
 </style>
 </head>
 <body>
