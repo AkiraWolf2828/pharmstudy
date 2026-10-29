@@ -35,6 +35,27 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 [data-info]:hover .label,[data-info]:hover .small{fill:#fff}
 .receptor:hover{filter:url(#hot);opacity:1!important}
 @media(max-width:720px){.layout{grid-template-columns:1fr;gap:12px}.panel{order:2}.scenarios{grid-template-columns:repeat(2,minmax(0,1fr))}svg{height:clamp(360px,65vh,560px);min-height:360px}.label{font-size:19px}}
+
+ .stepper{margin-top:12px;padding:14px;border:1px solid #f0e8e1;background:#fff;border-radius:18px}
+ .stepper h3{font-size:14px;margin:0 0 5px;color:#3d3940}.step-intro{font-size:12px;color:#777078;line-height:1.5;margin:0 0 10px}
+ .step-buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+ .step-btn{padding:9px 7px;text-align:center;font-size:11px;line-height:1.3;border-radius:12px;min-height:52px}
+ .step-btn.active{background:#ff9b83;color:#fff;border-color:#ff9b83;box-shadow:0 3px 10px #e8836a40}
+ .step-detail{margin-top:10px;padding:12px;border-radius:13px;background:#fff5f1;border:1px solid #ffe1d7}
+ .step-detail strong{display:block;color:#d96f58;font-size:13px;margin-bottom:4px}.step-detail p{font-size:13px;line-height:1.55;color:#5b5559;margin:0}
+ #scene.step-1 .receptor,#scene.step-1 #feedbackArrow,#scene.step-1 #feedbackLabel,#scene.step-1 #uptakeArrow{opacity:.18}
+ #scene.step-1 #particles{opacity:.15}
+ #scene.step-2 .receptor,#scene.step-2 #feedbackArrow,#scene.step-2 #feedbackLabel,#scene.step-2 #uptakeArrow{opacity:.2}
+ #scene.step-2 .particle{animation-play-state:running}
+ #scene.step-3 .vesicle,#scene.step-3 #feedbackArrow,#scene.step-3 #feedbackLabel,#scene.step-3 #uptakeArrow{opacity:.2}
+ #scene.step-3 #particles{opacity:1}
+ #scene.step-3 .receptor{opacity:1!important;filter:url(#hot)}
+ #scene.step-4 .vesicle,#scene.step-4 .receptor[data-rec="a1"],#scene.step-4 .receptor[data-rec="b1"],#scene.step-4 .receptor[data-rec="b2"],#scene.step-4 #uptakeArrow{opacity:.18}
+ #scene.step-4 #feedbackArrow,#scene.step-4 #feedbackLabel,#scene.step-4 .receptor[data-rec="a2"]{opacity:1!important;filter:url(#hot)}
+ #scene.step-5 .vesicle,#scene.step-5 .receptor,#scene.step-5 #feedbackArrow,#scene.step-5 #feedbackLabel{opacity:.18}
+ #scene.step-5 #uptakeArrow{opacity:1!important;filter:url(#hot)}
+ @media(max-width:720px){.step-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.step-btn:last-child{grid-column:1/-1}}
+
 </style>
 </head>
 <body>
