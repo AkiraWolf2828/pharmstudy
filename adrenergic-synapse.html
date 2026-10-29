@@ -47,6 +47,7 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
  #scene.step-1 #particles{opacity:.15}
  #scene.step-2 .receptor,#scene.step-2 #feedbackArrow,#scene.step-2 #feedbackLabel,#scene.step-2 #uptakeArrow{opacity:.2}
  #scene.step-2 .particle{animation-play-state:running}
+ #scene.step-2 .particle{filter:url(#hot)}
  #scene.step-3 .vesicle,#scene.step-3 #feedbackArrow,#scene.step-3 #feedbackLabel,#scene.step-3 #uptakeArrow{opacity:.2}
  #scene.step-3 #particles{opacity:1}
  #scene.step-3 .receptor{opacity:1!important;filter:url(#hot)}
@@ -55,6 +56,23 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
  #scene.step-5 .vesicle,#scene.step-5 .receptor,#scene.step-5 #feedbackArrow,#scene.step-5 #feedbackLabel{opacity:.18}
  #scene.step-5 #uptakeArrow{opacity:1!important;filter:url(#hot)}
  @media(max-width:720px){.step-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.step-btn:last-child{grid-column:1/-1}}
+
+/* Наглядное движение НА к рецепторам и обратный захват — отдельные частицы */
+.binding-particle,.feedback-particle,.uptake-particle{opacity:0;pointer-events:none;filter:url(#glow)}
+#scene.step-3 .binding-particle{opacity:1;animation:bindNA 2.4s ease-in-out infinite alternate}
+#scene.step-3 .binding-a1{--dx:-85px;--dy:50px}
+#scene.step-3 .binding-b1{--dx:235px;--dy:50px;animation-delay:-.8s}
+#scene.step-3 .binding-b2{--dx:375px;--dy:50px;animation-delay:-1.6s}
+@keyframes bindNA{0%{transform:translate(0,0);opacity:.25}70%,100%{transform:translate(var(--dx),var(--dy));opacity:1}}
+#scene.step-4 .feedback-particle{opacity:1;animation:feedbackMove 1.8s ease-in-out infinite}
+@keyframes feedbackMove{0%{transform:translate(65px,35px);opacity:0}25%{opacity:1}85%{transform:translate(0,0);opacity:1}100%{transform:translate(0,0);opacity:.25}}
+#scene.step-5 .uptake-particle{opacity:1;animation:uptakeMove 1.8s ease-in-out infinite}
+@keyframes uptakeMove{0%{transform:translate(0,0);opacity:1}75%{transform:translate(40px,-60px);opacity:1}100%{transform:translate(40px,-60px);opacity:.2}}
+#scene.step-1 .binding-particle,#scene.step-1 .feedback-particle,#scene.step-1 .uptake-particle,
+#scene.step-2 .binding-particle,#scene.step-2 .feedback-particle,#scene.step-2 .uptake-particle,
+#scene.step-3 .feedback-particle,#scene.step-3 .uptake-particle,
+#scene.step-4 .binding-particle,#scene.step-4 .uptake-particle,
+#scene.step-5 .binding-particle,#scene.step-5 .feedback-particle{opacity:0}
 
 </style>
 </head>
@@ -100,7 +118,16 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
      <g class="particle p2 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="440" cy="350" r="7" fill="url(#nor)"/><text x="452" y="353" class="small">НА</text></g>
      <g class="particle p3 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="525" cy="320" r="7" fill="url(#nor)"/><text x="537" y="323" class="small">НА</text></g>
      <g class="particle p4 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="610" cy="350" r="7" fill="url(#nor)"/><text x="622" y="353" class="small">НА</text></g>
-    </g>    <g id="rA1" class="receptor active" data-rec="a1" data-info="α₁-адренорецептор. Для сосудистой гладкой мускулатуры его активация связана с сокращением; в других тканях эффект зависит от локализации рецептора.">
+    </g>
+    <!-- Отдельные НА: в этапе 3 движутся от щели к рецепторам -->
+    <g class="binding-particle binding-a1" data-info="Частица норадреналина подходит к α₁-рецептору. Положение и траектория условны."><circle cx="350" cy="380" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
+    <g class="binding-particle binding-b1" data-info="Частица норадреналина подходит к β₁-рецептору. Положение и траектория условны."><circle cx="350" cy="380" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
+    <g class="binding-particle binding-b2" data-info="Частица норадреналина подходит к β₂-рецептору. Положение и траектория условны."><circle cx="350" cy="380" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
+    <!-- Частица для пресинаптической обратной связи -->
+    <g class="feedback-particle" data-info="Норадреналин подходит к пресинаптическому α₂-рецептору, запуская тормозную обратную связь."><circle cx="535" cy="307" r="7" fill="url(#nor)"/><text x="546" y="310" class="small">НА</text></g>
+    <!-- Частица возвращается в нервное окончание при обратном захвате -->
+    <g class="uptake-particle" data-info="Условная частица норадреналина движется обратно в пресинаптическое окончание по пути обратного захвата."><circle cx="650" cy="375" r="7" fill="#70eaff"/><text x="660" y="370" class="small">НА</text></g>
+    <g id="rA1" class="receptor active" data-rec="a1" data-info="α₁-адренорецептор. Для сосудистой гладкой мускулатуры его активация связана с сокращением; в других тканях эффект зависит от локализации рецептора.">
      <path d="M250 485 L250 445 Q250 428 265 428 Q280 428 280 445 L280 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="265" cy="430" r="8" fill="#e9ffff"/>
      <text x="225" y="520" class="small">α₁</text>
     </g>
