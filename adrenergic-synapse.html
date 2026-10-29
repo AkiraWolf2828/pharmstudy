@@ -65,7 +65,7 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 #scene.step-3 .binding-b2{--dx:375px;--dy:50px;animation-delay:-1.6s}
 @keyframes bindNA{0%{transform:translate(0,0);opacity:.25}70%,100%{transform:translate(var(--dx),var(--dy));opacity:1}}
 #scene.step-4 .feedback-particle{opacity:1;animation:feedbackMove 1.8s ease-in-out infinite}
-@keyframes feedbackMove{0%{transform:translate(65px,35px);opacity:0}25%{opacity:1}85%{transform:translate(0,0);opacity:1}100%{transform:translate(0,0);opacity:.25}}
+@keyframes feedbackMove{0%{transform:translate(0,0);opacity:.25}15%{opacity:1}85%,100%{transform:translate(0,-48px);opacity:1}}
 #scene.step-5 .uptake-particle{opacity:1;animation:uptakeMove 1.8s ease-in-out infinite}
 @keyframes uptakeMove{0%{transform:translate(0,0);opacity:1}75%{transform:translate(40px,-60px);opacity:1}100%{transform:translate(40px,-60px);opacity:.2}}
 #scene.step-1 .binding-particle,#scene.step-1 .feedback-particle,#scene.step-1 .uptake-particle,
@@ -141,11 +141,11 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
      <g class="particle p4 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="610" cy="350" r="7" fill="url(#nor)"/><text x="622" y="353" class="small">НА</text></g>
     </g>
     <!-- Отдельные НА: в этапе 3 движутся от щели к рецепторам -->
-    <g class="binding-particle binding-a1" data-info="Частица НА подходит к α₁-рецептору. Траектория условная."><circle cx="335" cy="365" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
-    <g class="binding-particle binding-b1" data-info="Частица НА подходит к β₁-рецептору. Траектория условная."><circle cx="565" cy="365" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
-    <g class="binding-particle binding-b2" data-info="Частица НА подходит к β₂-рецептору. Траектория условная."><circle cx="705" cy="365" r="7" fill="url(#nor)"/><text x="362" y="384" class="small">НА</text></g>
+    <g class="binding-particle binding-a1" data-info="Частица НА подходит к α₁-рецептору. Траектория условная."><circle cx="335" cy="365" r="7" fill="url(#nor)"/><text x="347" y="369" class="small">НА</text></g>
+    <g class="binding-particle binding-b1" data-info="Частица НА подходит к β₁-рецептору. Траектория условная."><circle cx="565" cy="365" r="7" fill="url(#nor)"/><text x="577" y="369" class="small">НА</text></g>
+    <g class="binding-particle binding-b2" data-info="Частица НА подходит к β₂-рецептору. Траектория условная."><circle cx="705" cy="365" r="7" fill="url(#nor)"/><text x="717" y="369" class="small">НА</text></g>
     <!-- Частица для пресинаптической обратной связи -->
-    <g class="feedback-particle" data-info="Норадреналин подходит к пресинаптическому α₂-рецептору, запуская тормозную обратную связь."><circle cx="535" cy="355" r="7" fill="url(#nor)"/><text x="546" y="310" class="small">НА</text></g>
+    <g class="feedback-particle" data-info="Норадреналин подходит к пресинаптическому α₂-рецептору, запуская тормозную обратную связь."><circle cx="535" cy="355" r="7" fill="url(#nor)"/><text x="547" y="359" class="small">НА</text></g>
     <!-- Частица возвращается в нервное окончание при обратном захвате -->
     <g class="uptake-particle" data-info="НА движется к переносчику NET на пресинаптической мембране; перенос через мембрану условно не анимирован."><circle cx="625" cy="375" r="7" fill="#70eaff"/><text x="635" y="370" class="small">НА</text></g><g id="netTransporter" data-info="NET — переносчик обратного захвата норадреналина в пресинаптическое окончание."><rect x="610" y="296" width="28" height="18" rx="5" fill="#70eaff" stroke="#d2fbff" stroke-width="2"/><text x="644" y="309" class="small">NET</text></g>
     <g class="release-particle" style="--tx:0px;--ty:205px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="150" r="7" fill="url(#nor)"/><text x="451" y="154" class="small">НА</text></g>
