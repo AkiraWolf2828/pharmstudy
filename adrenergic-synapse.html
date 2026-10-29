@@ -122,7 +122,19 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
    </svg>
   </div>
   <div class="info"><strong id="infoTitle">Адренергический синапс</strong><p id="infoText">Большинство симпатических нейронов передают сигнал с помощью норадреналина, который действует на адренорецепторы клетки-мишени. Выбери элемент сцены или сценарий справа.</p></div>
-  <div class="info remember"><strong>Что важно запомнить</strong><p>Блокада рецептора уменьшает ответ через него, но не обязательно прекращает выделение норадреналина. Действие НА ограничивается, в частности, обратным захватом; метаболизм связан с МАО и КОМТ. Симпатолитическое действие может уменьшать количество медиатора или центральную симпатическую импульсацию. Сверка с методичкой по адреномиметикам ещё не завершена; фармакологические детали, не подтверждённые доступными методичками, требуют отдельной проверки.</p></div>
+  <section class="stepper" aria-label="Поэтапная нормальная передача в адренергическом синапсе">
+    <h3>Нормальная работа синапса — по этапам</h3>
+    <p class="step-intro">Нажимай по порядку: схема выделит соответствующие элементы и объяснит, что происходит на каждом этапе.</p>
+    <div class="step-buttons">
+     <button class="step-btn active" type="button" data-step="1">1. Нервный импульс</button>
+     <button class="step-btn" type="button" data-step="2">2. Выделение НА</button>
+     <button class="step-btn" type="button" data-step="3">3. Рецепторы</button>
+     <button class="step-btn" type="button" data-step="4">4. Обратная связь</button>
+     <button class="step-btn" type="button" data-step="5">5. Прекращение действия</button>
+    </div>
+    <div class="step-detail"><strong id="stepTitle">Этап 1. Приход нервного импульса</strong><p id="stepText">Нервный импульс достигает пресинаптического окончания. Следующий ключевой процесс — высвобождение медиатора.</p></div>
+   </section>
+   <div class="info remember"><strong>Что важно запомнить</strong><p>Блокада рецептора уменьшает ответ через него, но не обязательно прекращает выделение норадреналина. Действие НА ограничивается, в частности, обратным захватом; метаболизм связан с МАО и КОМТ. Симпатолитическое действие может уменьшать количество медиатора или центральную симпатическую импульсацию. Сверка с методичкой по адреномиметикам ещё не завершена; фармакологические детали, не подтверждённые доступными методичками, требуют отдельной проверки.</p></div>
   
   <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span><span>Схема условная: движение частиц не является точной молекулярной симуляцией.</span></div>
  </div>
@@ -141,7 +153,17 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 </div>
 <script>
 const title=document.getElementById('infoTitle'),desc=document.getElementById('infoText'),buttons=[...document.querySelectorAll('[data-mode]')],receptors=[...document.querySelectorAll('.receptor')],scene=document.getElementById('scene');
-const scenarios={
+const stepButtons=[...document.querySelectorAll('[data-step]')],stepTitle=document.getElementById('stepTitle'),stepText=document.getElementById('stepText');
+ const normalSteps={
+  1:['Этап 1. Приход нервного импульса','Нервный импульс достигает пресинаптического окончания. Следующий ключевой процесс — высвобождение норадреналина из нервного окончания. Доступные материалы не описывают подробно электрические и кальциевые этапы именно для этой схемы, поэтому они не изображаются как подтверждённый механизм.'],
+  2:['Этап 2. Высвобождение норадреналина','Норадреналин выходит из пресинаптического окончания в синаптическую щель. Движение частиц на рисунке условное: оно показывает направление передачи, а не реальное число молекул или точную траекторию.'],
+  3:['Этап 3. Связывание с адренорецепторами','Норадреналин связывается с α- и β-адренорецепторами клетки-мишени. Эффект зависит от типа рецептора и ткани: например, α₁-рецепторы сосудов вызывают сокращение гладкой мускулатуры, а β₁-рецепторы сердца усиливают частоту и силу сокращений.'],
+  4:['Этап 4. Отрицательная обратная связь через α₂','Часть норадреналина активирует пресинаптические α₂-рецепторы. Они тормозят дальнейшее высвобождение медиатора и ограничивают интенсивность сигнала. При блокаде этих рецепторов торможение ослабевает.'],
+  5:['Этап 5. Прекращение действия медиатора','Важный путь прекращения действия норадреналина — обратный захват переносчиком NET в пресинаптическое окончание. В метаболизме катехоламинов участвуют МАО и КОМТ. Это отличается от холинергического синапса, где ацетилхолин быстро расщепляет ацетилхолинэстераза.']
+ };
+ function setStep(n){scene.className.baseVal='';scene.classList.add('step-'+n);stepButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===n));const d=normalSteps[n];stepTitle.textContent=d[0];stepText.textContent=d[1];}
+ stepButtons.forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.step))));
+ const scenarios={
  normal:['Нормальная передача','Норадреналин высвобождается из пресинаптического окончания, диффундирует через синаптическую щель и активирует адренорецепторы. Пресинаптические α₂-рецепторы участвуют в отрицательной обратной связи и ограничивают дальнейшее высвобождение медиатора. Важный путь прекращения действия НА — обратный захват в нервное окончание; дальнейший метаболизм связан с ферментами МАО и КОМТ.'],
  a1:['α₁-адренорецептор','Сигнализация: преимущественно Gq → повышение внутриклеточного Ca²⁺. В сосудистой гладкой мускулатуре стимуляция α₁-рецепторов вызывает сокращение и сужение сосудов. α₁-блокада ослабляет этот эффект, расслабляет сосуды и снижает периферическое сопротивление и артериальное давление.'],
  'a1-block':['Блокада α₁-рецепторов','Норадреналин может оставаться в синаптической щели, но его действие через α₁-рецептор ослаблено. В сосудах это уменьшает тонус гладкой мускулатуры и периферическое сопротивление; блокада венозных α₁-рецепторов также может уменьшать венозный возврат и способствовать ортостатической гипотензии.'],
@@ -160,6 +182,6 @@ function setMode(mode){scene.className.baseVal='';scene.classList.add('mode-'+mo
 receptors.forEach(r=>{r.addEventListener('click',()=>setMode(r.dataset.rec));r.addEventListener('mouseenter',()=>showInfo(r));r.addEventListener('focus',()=>showInfo(r));});
 document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('mouseenter',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('focus',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('click',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info;});});
 buttons.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-setMode('normal');
+setMode('normal');setStep(1);
 </script>
 </body></html>
