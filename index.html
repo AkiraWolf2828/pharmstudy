@@ -1301,12 +1301,26 @@ function renderSessionSetup(){
   const alignSessionActions=()=>{const panel=screenEl.querySelector('.session-setup');const actions=panel?.querySelector('.session-desktop-actions');if(!panel||!actions)return;const buttons=actions.querySelectorAll('button');if(buttons.length<2)return;const rect=panel.getBoundingClientRect();const start=buttons[0],home=buttons[1];start.style.position='fixed';start.style.top=Math.round(rect.top)+'px';start.style.right='28px';start.style.left='auto';start.style.bottom='auto';home.style.position='fixed';home.style.top=Math.round(rect.bottom-home.offsetHeight)+'px';home.style.right='28px';home.style.left='auto';home.style.bottom='auto';};
   requestAnimationFrame(alignSessionActions);
   if(window._pharmSessionAlign)window.removeEventListener('resize',window._pharmSessionAlign);window._pharmSessionAlign=alignSessionActions;window.addEventListener('resize',window._pharmSessionAlign,{passive:true});
-}function toggleSkill(s){
-  state.selectedSkills[s]=!state.selectedSkills[s];
-  renderSessionSetup();
 }
-function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionSetup();}
-function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;renderSessionSetup();}
+function rerenderPickerKeepingScroll(renderFn){
+  const screenScroll=screenEl.scrollTop;
+  const listScroll=screenEl.querySelector('.classify-topic-list')?.scrollTop??0;
+  const skillScroll=screenEl.querySelector('.skill-chips')?.scrollTop??0;
+  renderFn();
+  requestAnimationFrame(()=>{
+    screenEl.scrollTop=screenScroll;
+    const list=screenEl.querySelector('.classify-topic-list');
+    if(list)list.scrollTop=listScroll;
+    const skills=screenEl.querySelector('.skill-chips');
+    if(skills)skills.scrollTop=skillScroll;
+  });
+}
+function toggleSkill(s){
+  state.selectedSkills[s]=!state.selectedSkills[s];
+  rerenderPickerKeepingScroll(renderSessionSetup);
+}
+function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];rerenderPickerKeepingScroll(renderSessionSetup);}
+function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;rerenderPickerKeepingScroll(renderSessionSetup);}
 function startSession(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const selected=sections.filter(s=>state.selectedTopics[s]);
@@ -1460,8 +1474,8 @@ function renderClassifyCurrentMode(){
   if(state.classifyMode==='distribute')renderDistributeSetup();
   else renderClassifySetup();
 }
-function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];renderClassifyCurrentMode();}
-function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;renderClassifyCurrentMode();}
+function toggleClassifySection(sec){state.selectedClassifySections[sec]=!state.selectedClassifySections[sec];rerenderPickerKeepingScroll(renderClassifyCurrentMode);}
+function selectAllClassify(v){const sections=[...new Set(GROUPS.map(g=>g.section))];sections.forEach(s=>state.selectedClassifySections[s]=v);state.selectedClassifySections._init=true;rerenderPickerKeepingScroll(renderClassifyCurrentMode);}
 function startClassify(){
   const sections=[...new Set(GROUPS.map(g=>g.section))];
   const selected=sections.filter(s=>state.selectedClassifySections[s]);
