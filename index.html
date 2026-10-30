@@ -112,6 +112,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .q-progress-text{font-size:12px;color:var(--text-muted);font-weight:600}
 .q-text{font-size:19px;font-weight:600;line-height:1.5;margin-bottom:28px}
 .test-question-nav{margin:0 0 20px;padding:14px;background:var(--surface-2,rgba(127,127,127,.07));border:1px solid var(--border);border-radius:14px}.test-question-nav-title{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;font-weight:800;margin-bottom:10px}.test-question-nav-title span,.test-question-footnote{color:var(--text-muted);font-size:12px;font-weight:500}.test-question-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:7px}.test-question-number{min-height:40px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font:700 13px inherit;cursor:pointer;touch-action:manipulation}.test-question-number.answered{background:var(--success-soft);border-color:var(--success);color:var(--success)}.test-question-number.current{outline:2px solid var(--accent);outline-offset:1px}.test-question-number.answered.current{background:var(--success-soft)}.test-question-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;color:var(--text-muted);font-size:11px}.test-question-legend span{display:flex;align-items:center;gap:5px}.legend-dot{width:8px;height:8px;border:1px solid var(--border);border-radius:50%;display:inline-block}.current-dot{background:var(--accent);border-color:var(--accent)}.answered-dot{background:var(--success);border-color:var(--success)}.test-question-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.test-question-controls>button{flex:1;min-width:130px}.test-question-footnote{margin-top:10px;line-height:1.5}.test-question-number:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.test-question-number:active{transform:scale(.97)}
+
+/* Classification: readable reference mode, separate from practice modes. */
+.classify-library{max-width:900px;padding:24px 28px}
+.classify-library .classify-tabs{margin-bottom:16px}
+.classification-library-list{display:flex;flex-direction:column;gap:10px}
+.classification-section{border:1px solid var(--border);border-radius:16px;background:var(--card-2);overflow:hidden}
+.classification-section>summary{display:flex;align-items:center;gap:10px;min-height:58px;padding:13px 16px;cursor:pointer;list-style:none;font-size:14px;font-weight:700}
+.classification-section>summary::-webkit-details-marker{display:none}
+.classification-section>summary:after{content:'＋';margin-left:8px;color:var(--text-muted);font-size:18px}
+.classification-section[open]>summary:after{content:'−'}
+.classification-section-dot{width:11px;height:11px;border-radius:50%;flex:0 0 11px}
+.classification-section-name{min-width:0;flex:1}
+.classification-section-count{font-size:11px;color:var(--text-muted);font-weight:600;white-space:nowrap}
+.classification-groups{padding:0 14px 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.classification-group{min-width:0;padding:14px;border:1px solid var(--border);border-radius:13px;background:var(--card)}
+.classification-group-name{font-size:13px;font-weight:700;line-height:1.45;margin-bottom:10px}
+.classification-drugs{display:flex;flex-wrap:wrap;gap:6px}
+.classification-drug{display:inline-flex;padding:6px 9px;border-radius:9px;background:var(--accent-soft);color:var(--text);font-size:12px;line-height:1.3}
+.classification-back{max-width:260px;margin-top:18px}
+@media(max-width:768px){
+  .classify-library{width:100%;max-width:none;padding:16px 12px;border-radius:22px}
+  .classify-library .classify-tabs{position:sticky;top:0;z-index:25;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px 0;background:var(--card)}
+  .classify-library .ctab{min-width:0;padding:10px 5px;font-size:11px;white-space:normal;line-height:1.25}
+  .classification-section>summary{padding:12px 10px;gap:7px;flex-wrap:wrap}
+  .classification-section-name{flex-basis:calc(100% - 36px);}
+  .classification-section-count{margin-left:18px;white-space:normal}
+  .classification-groups{grid-template-columns:1fr;padding:0 9px 10px}
+  .classification-group{padding:12px}
+  .classification-back{max-width:none;width:100%}
+}
+
 /* PharmStudy mobile test navigation */
 .test-question-grid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px}
 .test-question-number{min-width:44px;min-height:44px;font-family:inherit;font-size:13px;font-weight:700}
@@ -1181,7 +1212,7 @@ function setScreen(name){
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';renderSessionSetup()}
-  else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
+  else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='library')renderClassifyLibrary();else if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
@@ -1295,10 +1326,10 @@ function renderSessionSetup(){
         <div class="skill-chips">${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}</div>
       </div>
       <div class="session-order">
-        <div class="skill-filter-label">Порядок вопросов</div>
+        <div class="skill-filter-label">Модель тестирования · порядок вопросов</div>
         <div class="session-order-options" role="group" aria-label="Порядок вопросов">
           <button type="button" class="session-order-option ${state.sessionOrder==='ordered'?'active':''}" aria-pressed="${state.sessionOrder==='ordered'?'true':'false'}" onclick="setSessionOrder('ordered')">По порядку</button>
-          <button type="button" class="session-order-option ${state.sessionOrder==='random'?'active':''}" aria-pressed="${state.sessionOrder==='random'?'true':'false'}" onclick="setSessionOrder('random')">Случайно</button>
+          <button type="button" class="session-order-option ${state.sessionOrder==='random'?'active':''}" aria-pressed="${state.sessionOrder==='random'?'true':'false'}" onclick="setSessionOrder('random')">Вразброс</button>
         </div>
       </div>
       <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
@@ -1855,14 +1886,44 @@ function renderSynapse(){
 }
 function renderClassifyTabs(active){
   return `<div class="classify-tabs">
+    <button class="ctab ${active==='library'?'active':''}" onclick="switchClassifyTab('library')">📚 Изучить</button>
     <button class="ctab ${active==='input'?'active':''}" onclick="switchClassifyTab('input')">✍️ Ввод ответа</button>
     <button class="ctab ${active==='distribute'?'active':''}" onclick="switchClassifyTab('distribute')">🎯 Распределение</button>
   </div>`;
 }
 function switchClassifyTab(t){
-  state.classifyMode=t==='distribute'?'distribute':'input';
-  if(state.classifyMode==='distribute')renderDistributeSetup();
+  state.classifyMode=['library','distribute'].includes(t)?t:'input';
+  if(state.classifyMode==='library')renderClassifyLibrary();
+  else if(state.classifyMode==='distribute')renderDistributeSetup();
   else renderClassifySetup();
+}
+function renderClassifyLibrary(){
+  const sections=[...new Set(GROUPS.map(g=>g.section))];
+  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
+  screenEl.innerHTML=`
+    <div class="case-picker classify-library">
+      ${renderClassifyTabs('library')}
+      <div class="classify-setup-heading">
+        <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация препаратов</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Выбери раздел, чтобы посмотреть группы препаратов и входящие в них лекарственные средства.</div>
+      </div>
+      <div class="classification-library-list">
+        ${sections.map((sec,i)=>{
+          const groups=GROUPS.filter(g=>g.section===sec);
+          const drugCount=groups.reduce((n,g)=>n+g.drugs.length,0);
+          return `<details class="classification-section">
+            <summary><span class="classification-section-dot" style="background:${colors[i%colors.length]}"></span><span class="classification-section-name">${sec}</span><span class="classification-section-count">${groups.length} групп · ${drugCount} препаратов</span></summary>
+            <div class="classification-groups">
+              ${groups.map(g=>`<article class="classification-group">
+                <div class="classification-group-name">${g.group}</div>
+                <div class="classification-drugs">${g.drugs.map(d=>`<span class="classification-drug">${d}</span>`).join('')}</div>
+              </article>`).join('')}
+            </div>
+          </details>`;
+        }).join('')}
+      </div>
+      <button class="next-btn classification-back" onclick="setScreen('dashboard')">На главную</button>
+    </div>`;
 }
 
 function renderDistributeSetup(){
