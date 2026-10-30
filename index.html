@@ -1057,16 +1057,46 @@ for (const item of EXTRA_CLASSIFICATION) {
   if (!REFERENCE.some(x=>x.title===item.group)) REFERENCE.push({section:item.section,icon:'＋',color:'var(--accent)',bg:'var(--accent-soft)',title:item.group,desc:'Группа по классификации лекарственных средств осеннего семестра 2026.',drugs:item.drugs,details:'В предоставленной классификации указаны эта группа и перечисленные препараты. Подробные механизмы, показания и нежелательные эффекты здесь не добавлены, поскольку в классификации таких сведений нет.'});
   if (!GROUPS.some(x=>x.group===item.group)) GROUPS.push(item);
 }
+// Для отвлекающих вариантов используем только соседние по смыслу группы:
+// общие фармакологические признаки извлекаются из названий групп классификации.
+// Если в разделе недостаточно близких групп, вопрос не создаётся с заведомо чужими вариантами.
+const CLASSIFICATION_STOP_WORDS=new Set(['средства','средство','препараты','препарат','группа','группы','действие','действия','применяемые','применения','для','при','и','на','по','из','общей','общие','лекарственные','лекарственных']);
+function classificationGroupTokens(group){
+  return String(group||'').toLowerCase()
+    .replace(/α/g,' alpha ').replace(/β/g,' beta ')
+    .replace(/ё/g,'е')
+    .match(/[a-zа-я]+[0-9]*|[0-9]+/g)||[]
+    .filter(token=>!CLASSIFICATION_STOP_WORDS.has(token)&&(token.length>=3||/^(alpha|beta|[mn][0-9]*)$/.test(token)));
+}
+function getRelatedClassificationOptions(item,pool){
+  const targetDrugs=new Set(item.drugs||[]);
+  const targetTokens=new Set(classificationGroupTokens(item.group));
+  const related=pool
+    .filter(candidate=>candidate.section===item.section&&candidate.group!==item.group)
+    .map(candidate=>{
+      const shared=classificationGroupTokens(candidate.group).filter(token=>targetTokens.has(token));
+      const score=shared.reduce((sum,token)=>sum+(token.startsWith('alpha')||token.startsWith('beta')?3:token.length>=7?2:1),0);
+      return {candidate,score};
+    })
+    .filter(entry=>entry.score>0)
+    .sort((a,b)=>b.score-a.score);
+  const distractors=[];
+  const seen=new Set(targetDrugs);
+  for(const entry of related){
+    for(const drug of entry.candidate.drugs||[]){
+      if(!seen.has(drug)){
+        seen.add(drug);
+        distractors.push(drug);
+        if(distractors.length===3)return [item.drugs[0],...distractors];
+      }
+    }
+  }
+  return distractors.length>=2?[item.drugs[0],...distractors]:[];
+}
 let extraQ = 47;
 for (const item of EXTRA_CLASSIFICATION) {
   const target=item.drugs[0];
-  // Отвлекающие варианты берём из других групп того же раздела классификации,
-  // чтобы варианты были фармакологически ближе друг к другу.
-  const sameSectionDrugs=EXTRA_CLASSIFICATION
-    .filter(x=>x.section===item.section && x.group!==item.group)
-    .flatMap(x=>x.drugs);
-  const distractors=[...new Set(sameSectionDrugs.filter(x=>!item.drugs.includes(x)&&x!==target))].slice(0,3);
-  const options=[target,...distractors];
+  const options=getRelatedClassificationOptions(item,EXTRA_CLASSIFICATION);
   if (options.length>=3) QUESTIONS.push({id:'q_'+String(extraQ++).padStart(3,'0'),section:item.section,text:'Какой препарат относится к группе «'+item.group+'» согласно классификации?',options,correct:0,explanation:'В классификации лекарственных средств осеннего семестра 2026 препарат «'+target+'» указан в группе «'+item.group+'». Подробные фармакологические сведения этим вопросом не проверяются.',tags:[item.group,target,'Классификация'],source:'Классификация ЛС осенний семестр 2026'});
 }
 
@@ -1078,11 +1108,7 @@ for (const item of GROUPS) {
   if (!item.group || !Array.isArray(item.drugs) || !item.drugs.length) continue;
   if (extraGroupNames.has(item.group) || knownQuestionGroups.has(item.group)) continue;
   const target = item.drugs[0];
-  // Сначала используем препараты из других групп того же фармакологического раздела.
-  const sameSectionDrugs = GROUPS
-    .filter(g=>g.section===item.section && g.group!==item.group)
-    .flatMap(g=>g.drugs||[]);
-  const options = [target, ...sameSectionDrugs.filter(drug=>!item.drugs.includes(drug)&&drug!==target).filter((drug,index,array)=>array.indexOf(drug)===index).slice(0,3)];
+  const options = getRelatedClassificationOptions(item,GROUPS);
   if (options.length < 3) continue;
   const source = ['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Миорелаксанты','Адреноблокаторы'].includes(item.section)
     ? 'Предоставленные методички и классификация лекарственных средств'
