@@ -1280,7 +1280,10 @@ function startSession(){
   const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
   let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
   if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
-  pool=shuffle(pool);
+  pool=shuffle(pool).map(q=>{
+    const shuffledOptions=shuffle(q.options.map((text,index)=>({text,isCorrect:index===q.correct})));
+    return {...q,options:shuffledOptions.map(option=>option.text),correct:shuffledOptions.findIndex(option=>option.isCorrect)};
+  });
   state.session={questions:pool,index:0,answers:[]};
   titleEl.textContent='Тестирование';
   renderQuestion();
