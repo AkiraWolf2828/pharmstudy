@@ -541,6 +541,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 #screen:has(.classify-setup):not(:has(.session-setup)){overflow:hidden!important;overflow-y:hidden!important;overflow-x:hidden!important;scrollbar-width:none;padding-bottom:0;scrollbar-gutter:auto}#screen:has(.classify-setup):not(:has(.session-setup))::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 .classify-topic-list{overscroll-behavior:contain;scrollbar-width:thin}
 .session-setup .skill-filter{flex-shrink:0;margin-bottom:10px;padding:12px}
+.session-order{flex:0 0 auto;margin:0 0 10px;padding:11px 12px;border:1px solid var(--border);border-radius:14px;background:var(--card)}
+.session-order .skill-filter-label{margin-bottom:8px;font-size:12px;font-weight:700;color:var(--text-muted)}
+.session-order-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.session-order-option{min-height:40px;padding:9px 12px;border:1px solid var(--border);border-radius:11px;background:var(--card-2);color:var(--text);font:600 13px inherit;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.session-order-option.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.session-order-option:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .session-setup .skill-filter-label{margin-bottom:8px}
 .session-setup .skill-chips{max-height:100px;overflow-y:auto;overscroll-behavior:contain;padding:2px}
 .session-setup .topic-actions{margin-bottom:8px}
@@ -1144,7 +1150,7 @@ const SCENARIOS={
   'botox':{name:'Ботулотоксин',chain:'<strong>Этот сценарий не подтверждён предоставленной методичкой.</strong> В ней не разобран механизм ботулотоксина и его клиническое применение. До сверки с отдельным утверждённым источником детали механизма и длительности эффекта не следует считать подтверждёнными по этой методичке.'}
 };
 
-const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{}};
+const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},sessionOrder:'random'};
 function loadProgress(){
   try{
     const saved=JSON.parse(localStorage.getItem('pharm_progress')||'{}');
@@ -1282,11 +1288,18 @@ function renderSessionSetup(){
       </div>
       <div class="classify-setup-heading">
         <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Отметь нужные разделы и типы. Вопросы перемешаются случайно.</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Отметь нужные разделы и типы вопросов, затем выбери порядок прохождения.</div>
       </div>
       <div class="skill-filter">
         <div class="skill-filter-label">Тип вопросов</div>
         <div class="skill-chips">${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}</div>
+      </div>
+      <div class="session-order">
+        <div class="skill-filter-label">Порядок вопросов</div>
+        <div class="session-order-options" role="group" aria-label="Порядок вопросов">
+          <button type="button" class="session-order-option ${state.sessionOrder==='ordered'?'active':''}" aria-pressed="${state.sessionOrder==='ordered'?'true':'false'}" onclick="setSessionOrder('ordered')">По порядку</button>
+          <button type="button" class="session-order-option ${state.sessionOrder==='random'?'active':''}" aria-pressed="${state.sessionOrder==='random'?'true':'false'}" onclick="setSessionOrder('random')">Случайно</button>
+        </div>
       </div>
       <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
       <div class="classify-topic-list">
@@ -1315,6 +1328,11 @@ function rerenderPickerKeepingScroll(renderFn){
     if(skills)skills.scrollTop=skillScroll;
   });
 }
+function setSessionOrder(order){
+  if(order!=='ordered'&&order!=='random')return;
+  state.sessionOrder=order;
+  rerenderPickerKeepingScroll(renderSessionSetup);
+}
 function toggleSkill(s){
   state.selectedSkills[s]=!state.selectedSkills[s];
   rerenderPickerKeepingScroll(renderSessionSetup);
@@ -1327,7 +1345,8 @@ function startSession(){
   const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
   let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
   if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
-  pool=shuffle(pool).map(q=>{
+  if(state.sessionOrder==='random')pool=shuffle(pool);
+  pool=pool.map(q=>{
     const shuffledOptions=shuffle(q.options.map((text,index)=>({text,isCorrect:index===q.correct})));
     return {...q,options:shuffledOptions.map(option=>option.text),correct:shuffledOptions.findIndex(option=>option.isCorrect)};
   });
