@@ -827,6 +827,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-setup .topic-pick{padding:9px}
 }
 
+
+/* Keep long classification names and drug lists readable on desktop and narrow phones. */
+.ref-card-head{min-width:0}
+.ref-card-head h3{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.ref-card-entry{min-width:0;overflow-wrap:anywhere}
+.ref-card-entry p,.ref-card-entry div{overflow-wrap:anywhere}
+@media(max-width:768px){
+  .ref-card{padding:16px;border-radius:18px}
+  .ref-card-head{align-items:flex-start;gap:10px}
+  .ref-card-head h3{font-size:13px;line-height:1.4}
+  .ref-card-entry{font-size:13px;line-height:1.55}
+  .ref-card-entry p{font-size:12px;line-height:1.55}
+  .ref-card-entry div{font-size:12px!important;line-height:1.6!important}
+}
+@media(max-width:380px){
+  .ref-card{padding:13px}
+  .ref-card-head{gap:8px}
+  .ref-icon{width:34px;height:34px;flex-basis:34px}
+}
 </style>
 </head>
 <body>
@@ -2434,7 +2453,7 @@ addSecondaryTherapeuticOccurrence('Адреномиметики с широки�
 addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Норэпинефрин'],[...VASOPRESSOR_ROOT,'1.2. α1-, α2-, β1-АМ']);
 addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Допамин'],[...VASOPRESSOR_ROOT,'1.3. Дофаминергические и адренергические средства']);
 addSecondaryTherapeuticOccurrence('α1-АМ периферические',['Фенилэфрин'],[...VASOPRESSOR_ROOT,'1.4. α1-АМ периферического прямого действия']);
-const BRONCHODILATOR_ROOT=['ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ','III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА)','3.1. β2-АМ'];
+const BRONCHODILATOR_ROOT=['ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ','III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА) (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА)','3.1. β2-АМ'];
 addSecondaryTherapeuticOccurrence('β2-АМ короткого действия',['Сальбутамол','Фенотерол'],[...BRONCHODILATOR_ROOT,'3.1.1. Короткого действия']);
 addSecondaryTherapeuticOccurrence('β2-АМ длительного действия',['Формотерол','Салметерол'],[...BRONCHODILATOR_ROOT,'3.1.2. Длительного действия']);
 addSecondaryTherapeuticOccurrence('β2-АМ ультрадлительные',['Индакатерол','Олодатерол'],[...BRONCHODILATOR_ROOT,'3.1.3. Ультрадлительного действия']);
@@ -2458,13 +2477,13 @@ addCholinergicTherapeuticOccurrence('Центральные М-холинобл�
 // Бронходилататоры: ингаляционные М-ХБ повторяются в дыхательной классификации.
 addCholinergicTherapeuticOccurrence('Короткого действия','Короткого действия',['Ипратропия бромид'],[
   'ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ',
-  'III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ',
+  'III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА)',
   '3.2. М-ХБ',
   '3.2.1. Короткого действия'
 ]);
 addCholinergicTherapeuticOccurrence('Длительного действия','Длительного действия',['Тиотропия бромид','Гликопиррония бромид','Умеклидиния бромид'],[
   'ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ',
-  'III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ',
+  'III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА)',
   '3.2. М-ХБ',
   '3.2.2. Длительного действия'
 ]);
