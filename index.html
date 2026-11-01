@@ -2413,9 +2413,8 @@ function renderReferenceClassification(cards,depth=0,prefix='class'){
     const leaf=subset.every(r=>r.classificationPath.length===depth+1);
     if(leaf){
       return `<div class="ref-classification-leaf">
-        <div class="ref-classification-heading" style="font-size:14px;font-weight:750;padding:12px 14px;margin:10px 0;background:var(--panel);border:1px solid var(--border);border-radius:14px">${label}</div>
         <div class="ref-grid">${subset.map(r=>`<div class="ref-card">
-          <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${r.drugs.join(' · ')}</h3></div>
+          <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${label}: ${r.drugs.join('; ')}</h3></div>
           <p>${r.desc}</p>
           <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
         </div>`).join('')}</div>
