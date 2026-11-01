@@ -650,6 +650,78 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .q-option.selected{border-color:var(--mint)!important;background:var(--card-2)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--mint) 24%,transparent)}
 .dist-remove-drug{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-left:6px;border:0;border-radius:50%;background:rgba(0,0,0,.10);color:inherit;font-size:20px;line-height:1;cursor:pointer;touch-action:manipulation}
 .dist-remove-drug:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+
+/* Redesigned two-step testing flow: compact topic picker and separate setup screen. */
+.session-flow-card{max-width:860px;margin:0 auto;background:var(--card);border-radius:26px;padding:28px;box-shadow:var(--shadow)}
+.session-step-kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:8px}
+.session-flow-heading{font-size:23px;font-weight:800;line-height:1.25;margin-bottom:8px}
+.session-flow-description,.session-config-hint{font-size:13px;line-height:1.55;color:var(--text-muted);margin-bottom:18px}
+.session-topic-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-height:min(52vh,560px);overflow:auto;padding:2px 4px 4px 0}
+.session-topic-card{display:flex;align-items:center;gap:12px;min-width:0;min-height:76px;padding:13px 14px;border:1px solid var(--border);border-radius:16px;background:var(--card-2);color:var(--text);text-align:left;font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.session-topic-card.selected{border-color:var(--accent);background:var(--accent-soft)}
+.session-topic-marker{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;background:var(--topic-color);color:#fff;font-size:13px;font-weight:800}
+.session-topic-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.session-topic-copy strong{font-size:14px;line-height:1.35}
+.session-topic-copy small{font-size:11px;color:var(--text-muted)}
+.session-topic-check{display:grid;place-items:center;flex:0 0 26px;height:26px;border:1px solid var(--border);border-radius:50%;font-size:14px;color:var(--accent-deep)}
+.session-topic-card.selected .session-topic-check{background:var(--accent);border-color:var(--accent);color:#fff}
+.session-flow-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.session-selection-summary{display:flex;flex-direction:column;gap:2px;min-width:0}
+.session-selection-summary strong{font-size:14px}
+.session-selection-summary span{font-size:11px;color:var(--text-muted)}
+.session-flow-footer .next-btn{width:auto;min-width:220px;margin:0;padding:14px 18px}
+.session-flow-footer .next-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.session-back-link{display:inline-flex;border:0;background:transparent;color:var(--accent-deep);font:700 13px inherit;cursor:pointer;padding:0;margin-bottom:18px}
+.session-selected-topics{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:14px;background:var(--card-2);margin:14px 0 18px}
+.session-selected-topics span{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);font-weight:800}
+.session-selected-topics strong{font-size:13px;line-height:1.5}
+.session-config-section{padding:17px 0;border-top:1px solid var(--border)}
+.session-config-title{display:block;font-size:13px;font-weight:800;margin-bottom:5px}
+.session-config-hint{margin:0 0 12px;font-size:12px}
+.session-skill-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.session-skill-option{display:flex;align-items:center;gap:8px;min-width:0;padding:11px 10px;border:1px solid var(--border);border-radius:13px;background:var(--card-2);color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.session-skill-option>span{font-size:16px;color:var(--accent-deep)}
+.session-skill-option b{font-size:12px;flex:1}
+.session-skill-option i{font-style:normal;color:var(--text-muted);font-size:13px}
+.session-skill-option.active{background:var(--accent-soft);border-color:var(--accent)}
+.session-skill-option.active i{color:var(--accent-deep);font-weight:800}
+.session-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.session-mode-card{display:grid;grid-template-columns:34px 1fr;column-gap:10px;row-gap:4px;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--card-2);color:var(--text);text-align:left;cursor:pointer}
+.session-mode-card.active{border:2px solid var(--accent);background:var(--accent-soft);padding:13px}
+.session-mode-icon{grid-row:span 2;font-size:23px}
+.session-mode-card strong{font-size:14px}
+.session-mode-card small{font-size:11px;line-height:1.5;color:var(--text-muted)}
+.session-config-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.session-config-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.session-config-field>span{font-size:12px;font-weight:700}
+.session-config-field select{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--card-2);color:var(--text);font:500 13px inherit}
+.session-timer-config{background:var(--accent-soft);border-radius:15px;padding:14px;margin-top:8px}
+.session-timer-config .session-config-field{max-width:260px;margin-top:10px}
+.session-empty-warning{font-size:12px;color:var(--error);margin-top:12px}
+.exam-status{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;margin:-10px 0 18px;border-radius:13px;background:var(--accent-soft);color:var(--accent-deep);font-size:11px;font-weight:800;letter-spacing:.06em}
+.exam-status strong{font-size:19px;font-variant-numeric:tabular-nums;letter-spacing:0}
+.question-section-label{font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.exam-error-item{padding:14px 0;border-top:1px solid var(--border);text-align:left}
+.exam-error-item>strong{font-size:13px;line-height:1.5;display:block}
+.exam-error-answer{font-size:12px;margin-top:7px;line-height:1.45}
+.exam-error-answer span{font-weight:800;color:var(--text-muted)}
+.exam-error-item p{font-size:12px;line-height:1.6;margin-top:9px}
+.exam-error-item small{display:block;color:var(--text-muted);font-size:10px;margin-top:7px}
+@media(max-width:768px){
+  .session-flow-card{width:100%;padding:18px 14px;border-radius:21px}
+  .session-flow-heading{font-size:20px}
+  .session-topic-list{grid-template-columns:1fr;gap:8px;max-height:none;overflow:visible}
+  .session-topic-card{min-height:66px;padding:10px 11px}
+  .session-topic-marker{flex-basis:34px;height:34px}
+  .session-flow-footer{align-items:stretch;flex-direction:column;gap:12px}
+  .session-flow-footer .next-btn{width:100%;min-width:0;min-height:48px}
+  .session-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .session-mode-grid{grid-template-columns:1fr}
+  .session-config-row{grid-template-columns:1fr}
+  .session-selected-topics strong{font-size:12px}
+  .question-card{padding:20px 14px;border-radius:22px}
+  .exam-error-item{padding:12px 0}
+}
 </style>
 </head>
 <body>
@@ -1181,7 +1253,7 @@ const SCENARIOS={
   'botox':{name:'Ботулотоксин',chain:'<strong>Этот сценарий не подтверждён предоставленной методичкой.</strong> В ней не разобран механизм ботулотоксина и его клиническое применение. До сверки с отдельным утверждённым источником детали механизма и длительности эффекта не следует считать подтверждёнными по этой методичке.'}
 };
 
-const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},sessionOrder:'random'};
+const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},sessionOrder:'random',sessionStage:'topics',sessionMode:'study',sessionQuestionCount:'all',sessionTimeLimit:20};
 function loadProgress(){
   try{
     const saved=JSON.parse(localStorage.getItem('pharm_progress')||'{}');
@@ -1341,48 +1413,86 @@ function classifyCheck(input,drugs){
   return {matched,missed,extra,correct:matched.length,total:drugs.length};
 }
 function renderSessionSetup(){
+  if(state.sessionStage==='settings')return renderSessionSettings();
+  return renderSessionTopics();
+}
+function renderSessionTopics(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  if(state.selectedTopics._init!==true){sections.forEach(s=>state.selectedTopics[s]=true);state.selectedTopics._init=true;}
-  if(state.selectedSkills._init!==true){SKILL_LIST.forEach(s=>state.selectedSkills[s]=true);state.selectedSkills._init=true;}
-  const selectedCount=sections.filter(s=>state.selectedTopics[s]).length;
-  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
-  const totalSelected=sections.filter(s=>state.selectedTopics[s]).reduce((sum,s)=>sum+QUESTIONS.filter(q=>q.section===s && activeSkills.includes(SKILLS[q.id])).length,0);
+  if(state.selectedTopics._init!==true){sections.forEach(sec=>state.selectedTopics[sec]=false);state.selectedTopics._init=true;}
+  const selected=sections.filter(sec=>state.selectedTopics[sec]);
+  const total=selected.reduce((sum,sec)=>sum+QUESTIONS.filter(q=>q.section===sec).length,0);
   screenEl.innerHTML=`
-    <div class="case-picker classify-setup session-setup">
-      <div class="session-desktop-actions">
-        <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
-        <button class="next-btn classify-home-btn" onclick="setScreen('dashboard')">На главную</button>
+    <div class="session-flow-card session-topic-step">
+      <div class="session-step-kicker">Шаг 1 из 2</div>
+      <div class="session-flow-heading">Выбор изучаемой темы</div>
+      <p class="session-flow-description">Выбери один или несколько разделов, по которым хочешь проверить знания. Настройки теста будут на следующем экране.</p>
+      <div class="session-topic-list">
+        ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const active=!!state.selectedTopics[sec];return `
+          <button type="button" class="session-topic-card ${active?'selected':''}" aria-pressed="${active?'true':'false'}" onclick="toggleTopic('${sec}')">
+            <span class="session-topic-marker" style="--topic-color:${colors[i%colors.length]}">${active?'✓':String(i+1).padStart(2,'0')}</span>
+            <span class="session-topic-copy"><strong>${sec}</strong><small>${count} вопросов в базе</small></span>
+            <span class="session-topic-check" aria-hidden="true">${active?'✓':'＋'}</span>
+          </button>`;}).join('')}
       </div>
-      <div class="classify-setup-heading">
-        <div style="font-size:20px;font-weight:700;margin-bottom:6px">Выбор темы и типа вопросов</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Отметь нужные разделы и типы вопросов, затем выбери порядок прохождения.</div>
-      </div>
-      <div class="skill-filter">
-        <div class="skill-filter-label">Тип вопросов</div>
-        <div class="skill-chips">${SKILL_LIST.map(s=>`<button class="skill-chip ${state.selectedSkills[s]?'active':''}" onclick="toggleSkill('${s}')">${s}</button>`).join('')}</div>
-      </div>
-      <div class="session-order">
-        <div class="skill-filter-label">Модель тестирования · порядок вопросов</div>
-        <div class="session-order-options" role="group" aria-label="Порядок вопросов">
-          <button type="button" class="session-order-option ${state.sessionOrder==='ordered'?'active':''}" aria-pressed="${state.sessionOrder==='ordered'?'true':'false'}" onclick="setSessionOrder('ordered')">По порядку</button>
-          <button type="button" class="session-order-option ${state.sessionOrder==='random'?'active':''}" aria-pressed="${state.sessionOrder==='random'?'true':'false'}" onclick="setSessionOrder('random')">Вразброс</button>
-        </div>
-      </div>
-      <div class="topic-actions"><button onclick="selectAllTopics(true)">✓ Выбрать все разделы</button><button onclick="selectAllTopics(false)">✗ Снять все</button></div>
-      <div class="classify-topic-list">
-        ${sections.map((sec,i)=>{const cnt=QUESTIONS.filter(q=>q.section===sec && activeSkills.includes(SKILLS[q.id])).length;return `<div class="topic-pick ${state.selectedTopics[sec]?'selected':''}" onclick="toggleTopic('${sec}')"><div class="topic-check" style="background:${state.selectedTopics[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedTopics[sec]?'#fff':'var(--text-muted)'}">${state.selectedTopics[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${cnt} вопросов</div></div></div>`;}).join('')}
-      </div>
-      <div class="classify-setup-footer">
-        <div class="summary-box"><div class="lbl">Выбрано</div><div class="val">${totalSelected} вопросов</div><div class="sub">${selectedCount} разделов · ${activeSkills.length} типов</div></div>
-        <button class="next-btn" ${totalSelected===0?'disabled style="opacity:0.4;cursor:not-allowed;box-shadow:none"':''} onclick="startSession()">Начать тестирование</button>
-        <button class="next-btn classify-home-btn" onclick="setScreen('dashboard')">На главную</button>
+      <div class="session-flow-footer">
+        <div class="session-selection-summary"><strong>${selected.length} ${selected.length===1?'раздел':selected.length>1&&selected.length<5?'раздела':'разделов'}</strong><span>${total} доступных вопросов</span></div>
+        <button type="button" class="next-btn" ${!selected.length?'disabled':''} onclick="openSessionSettings()">Выбрать раздел и продолжить →</button>
       </div>
     </div>`;
-  const alignSessionActions=()=>{const panel=screenEl.querySelector('.session-setup');const actions=panel?.querySelector('.session-desktop-actions');if(!panel||!actions)return;const buttons=actions.querySelectorAll('button');if(buttons.length<2)return;const rect=panel.getBoundingClientRect();const start=buttons[0],home=buttons[1];start.style.position='fixed';start.style.top=Math.round(rect.top)+'px';start.style.right='28px';start.style.left='auto';start.style.bottom='auto';home.style.position='fixed';home.style.top=Math.round(rect.bottom-home.offsetHeight)+'px';home.style.right='28px';home.style.left='auto';home.style.bottom='auto';};
-  requestAnimationFrame(alignSessionActions);
-  if(window._pharmSessionAlign)window.removeEventListener('resize',window._pharmSessionAlign);window._pharmSessionAlign=alignSessionActions;window.addEventListener('resize',window._pharmSessionAlign,{passive:true});
 }
+function openSessionSettings(){
+  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+  if(!sections.some(sec=>state.selectedTopics[sec]))return;
+  state.sessionStage='settings';
+  renderSessionSetup();
+  screenEl.scrollTop=0;
+}
+function renderSessionSettings(){
+  const selected=[...new Set(QUESTIONS.map(q=>q.section))].filter(sec=>state.selectedTopics[sec]);
+  if(state.selectedSkills._init!==true){SKILL_LIST.forEach(skill=>state.selectedSkills[skill]=true);state.selectedSkills._init=true;}
+  const activeSkills=SKILL_LIST.filter(skill=>state.selectedSkills[skill]);
+  const available=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id])).length;
+  const countValue=state.sessionQuestionCount==='all'?available:Math.min(available,Number(state.sessionQuestionCount)||available);
+  screenEl.innerHTML=`
+    <div class="session-flow-card session-settings-step">
+      <button type="button" class="session-back-link" onclick="backToSessionTopics()">← Изменить темы</button>
+      <div class="session-step-kicker">Шаг 2 из 2</div>
+      <div class="session-flow-heading">Настройка тестирования</div>
+      <div class="session-selected-topics"><span>Выбранные разделы</span><strong>${selected.join(' · ')}</strong></div>
+      <section class="session-config-section">
+        <div class="session-config-title">Что проверяем?</div>
+        <p class="session-config-hint">Можно выбрать несколько типов вопросов.</p>
+        <div class="session-skill-grid">${SKILL_LIST.map((skill,i)=>`<button type="button" class="session-skill-option ${state.selectedSkills[skill]?'active':''}" aria-pressed="${state.selectedSkills[skill]?'true':'false'}" onclick="toggleSkill('${skill}')"><span>${['▦','⚙','＋','✚'][i]}</span><b>${skill}</b><i>${state.selectedSkills[skill]?'✓':'＋'}</i></button>`).join('')}</div>
+      </section>
+      <section class="session-config-section">
+        <div class="session-config-title">Модель тестирования</div>
+        <div class="session-mode-grid">
+          <button type="button" class="session-mode-card ${state.sessionMode==='study'?'active':''}" aria-pressed="${state.sessionMode==='study'?'true':'false'}" onclick="setSessionMode('study')"><span class="session-mode-icon">📖</span><strong>Изучение</strong><small>Обратная связь и объяснения после каждого ответа. Свободный переход между вопросами.</small></button>
+          <button type="button" class="session-mode-card ${state.sessionMode==='exam'?'active':''}" aria-pressed="${state.sessionMode==='exam'?'true':'false'}" onclick="setSessionMode('exam')"><span class="session-mode-icon">⏱</span><strong>Экзамен</strong><small>Без подсказок во время теста. Итоговый разбор ошибок после завершения.</small></button>
+        </div>
+      </section>
+      <section class="session-config-section session-config-row">
+        <label class="session-config-field"><span class="session-config-title">Количество вопросов</span><select id="sessionQuestionCount" onchange="setSessionQuestionCount(this.value)"><option value="5" ${state.sessionQuestionCount==='5'?'selected':''}>5 вопросов</option><option value="10" ${state.sessionQuestionCount==='10'?'selected':''}>10 вопросов</option><option value="15" ${state.sessionQuestionCount==='15'?'selected':''}>15 вопросов</option><option value="20" ${state.sessionQuestionCount==='20'?'selected':''}>20 вопросов</option><option value="all" ${state.sessionQuestionCount==='all'?'selected':''}>Все доступные (${available})</option></select></label>
+        <label class="session-config-field"><span class="session-config-title">Порядок вопросов</span><select onchange="setSessionOrder(this.value)"><option value="random" ${state.sessionOrder==='random'?'selected':''}>Вразброс</option><option value="ordered" ${state.sessionOrder==='ordered'?'selected':''}>По порядку</option></select></label>
+      </section>
+      ${state.sessionMode==='exam'? `
+        <section class="session-config-section session-timer-config">
+          <div class="session-config-title">Ограничение времени</div>
+          <p class="session-config-hint">Время на весь экзамен. По истечении тест завершится автоматически.</p>
+          <label class="session-config-field"><span>Продолжительность</span><select onchange="setSessionTimeLimit(this.value)"><option value="5" ${state.sessionTimeLimit===5?'selected':''}>5 минут</option><option value="10" ${state.sessionTimeLimit===10?'selected':''}>10 минут</option><option value="15" ${state.sessionTimeLimit===15?'selected':''}>15 минут</option><option value="20" ${state.sessionTimeLimit===20?'selected':''}>20 минут</option><option value="30" ${state.sessionTimeLimit===30?'selected':''}>30 минут</option><option value="45" ${state.sessionTimeLimit===45?'selected':''}>45 минут</option><option value="60" ${state.sessionTimeLimit===60?'selected':''}>60 минут</option></select></label>
+        </section>` : ''}
+      <div class="session-flow-footer">
+        <div class="session-selection-summary"><strong>${countValue} вопросов</strong><span>${activeSkills.length} типа вопросов · ${selected.length} раздела</span></div>
+        <button type="button" class="next-btn" ${!available?'disabled':''} onclick="startSession()">Начать ${state.sessionMode==='exam'?'экзамен':'изучение'} →</button>
+      </div>
+      ${!available?'<p class="session-empty-warning">Для выбранных разделов и типов нет вопросов. Измени фильтры.</p>':''}
+    </div>`;
+}
+function backToSessionTopics(){state.sessionStage='topics';renderSessionSetup();screenEl.scrollTop=0;}
+function setSessionMode(mode){if(mode!=='study'&&mode!=='exam')return;state.sessionMode=mode;renderSessionSettings();}
+function setSessionQuestionCount(value){state.sessionQuestionCount=value;renderSessionSettings();}
+function setSessionTimeLimit(value){state.sessionTimeLimit=Math.max(1,Number(value)||20);}
 function rerenderPickerKeepingScroll(renderFn){
   const screenScroll=screenEl.scrollTop;
   const listScroll=screenEl.querySelector('.classify-topic-list')?.scrollTop??0;
@@ -1396,64 +1506,70 @@ function rerenderPickerKeepingScroll(renderFn){
     if(skills)skills.scrollTop=skillScroll;
   });
 }
-function setSessionOrder(order){
-  if(order!=='ordered'&&order!=='random')return;
-  state.sessionOrder=order;
-  rerenderPickerKeepingScroll(renderSessionSetup);
-}
-function toggleSkill(s){
-  state.selectedSkills[s]=!state.selectedSkills[s];
-  rerenderPickerKeepingScroll(renderSessionSetup);
-}
-function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];rerenderPickerKeepingScroll(renderSessionSetup);}
+function setSessionOrder(order){if(order!=='ordered'&&order!=='random')return;state.sessionOrder=order;}
+function toggleSkill(s){state.selectedSkills[s]=!state.selectedSkills[s];renderSessionSettings();}
+function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionTopics();}
 function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;rerenderPickerKeepingScroll(renderSessionSetup);}
 function startSession(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const selected=sections.filter(s=>state.selectedTopics[s]);
-  const activeSkills=SKILL_LIST.filter(s=>state.selectedSkills[s]);
-  let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
-  if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
-  if(state.sessionOrder==='random')pool=shuffle(pool);
+  const selected=sections.filter(sec=>state.selectedTopics[sec]);
+  const activeSkills=SKILL_LIST.filter(skill=>state.selectedSkills[skill]);
+  let pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
+  if(!pool.length){alert('Нет вопросов под выбранными фильтрами');return;}
+  const requested=state.sessionQuestionCount==='all'?pool.length:Number(state.sessionQuestionCount)||pool.length;
+  if(state.sessionMode==='study'&&state.sessionQuestionCount==='all'){}
+  pool=shuffle(pool);
+  if(state.sessionOrder==='ordered')pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
+  if(pool.length>requested)pool=pool.slice(0,requested);
   pool=arrangeSessionOptions(pool);
-  state.session={questions:pool,index:0,answers:[]};
-  titleEl.textContent='Тестирование';
+  if(window._pharmExamTimer){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;}
+  state.session={questions:pool,index:0,answers:[],mode:state.sessionMode,startedAt:Date.now(),timeLimit:state.sessionMode==='exam'?state.sessionTimeLimit*60:0,remaining:state.sessionMode==='exam'?state.sessionTimeLimit*60:0,finished:false};
+  titleEl.textContent=state.sessionMode==='exam'?'Экзамен':'Изучение';
   renderQuestion();
+  if(state.session.mode==='exam')startExamTimer();
 }
+function startExamTimer(){
+  if(window._pharmExamTimer)clearInterval(window._pharmExamTimer);
+  window._pharmExamTimer=setInterval(()=>{
+    const session=state.session;if(!session||session.mode!=='exam'||session.finished){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;return;}
+    session.remaining=Math.max(0,Math.ceil((session.startedAt+session.timeLimit*1000-Date.now())/1000));
+    const el=document.getElementById('examTimer');
+    if(el)el.textContent=formatExamTime(session.remaining);
+    if(session.remaining<=0)finishExam();
+  },250);
+}
+function formatExamTime(seconds){const m=Math.floor(seconds/60),sec=seconds%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+function finishExam(){const session=state.session;if(!session||session.finished)return;session.finished=true;if(window._pharmExamTimer){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;}renderReport();}
 function renderQuestion(){
-  const s=state.session;
-  if(!s)return;
-  if(s.answers.length===s.questions.length){renderReport();return}
-  const q=s.questions[s.index];
-  const answeredIds=new Set(s.answers.map(a=>a.id));
-  const answeredCount=answeredIds.size;
-  const progress=(answeredCount/s.questions.length)*100;
-  const existing=s.answers.find(a=>a.id===q.id);
+  const s=state.session;if(!s)return;
+  if(s.mode==='study'&&s.answers.length===s.questions.length){renderReport();return;}
+  const q=s.questions[s.index],existing=s.answers.find(a=>a.id===q.id);
+  const answeredIds=new Set(s.answers.map(a=>a.id)),answeredCount=answeredIds.size;
+  const progress=answeredCount/s.questions.length*100;
   s.pendingAnswer=null;
+  const exam=s.mode==='exam';
   screenEl.innerHTML=`
     <div class="question-card">
-      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">Отвечено: ${answeredCount} / ${s.questions.length}</span></div>
+      <div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div><span class="q-progress-text">${answeredCount} / ${s.questions.length}</span></div>
+      ${exam?`<div class="exam-status"><span>ЭКЗАМЕН</span><strong id="examTimer">${formatExamTime(s.remaining)}</strong></div>`:''}
       <div class="test-question-nav" aria-label="Навигация по вопросам">
         <div class="test-question-nav-title">Все вопросы <span>${answeredCount} отвечено</span></div>
         <div class="test-question-grid">${s.questions.map((item,i)=>{const done=answeredIds.has(item.id);return `<button type="button" class="test-question-number ${done?'answered':''} ${i===s.index?'current':''}" aria-label="Вопрос ${i+1}${done?', отвечен':', без ответа'}" aria-current="${i===s.index?'step':'false'}" onclick="goToQuestion(${i})">${i+1}</button>`;}).join('')}</div>
         <div class="test-question-legend"><span><i class="legend-dot current-dot"></i>Текущий</span><span><i class="legend-dot answered-dot"></i>Отвечен</span><span><i class="legend-dot"></i>Без ответа</span></div>
       </div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px">${q.section}</div>
+      <div class="question-section-label">${q.section}</div>
       <div class="q-text">${q.text}</div>
-      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button type="button" class="q-option ${existing?(i===q.correct?'correct':(i===existing.choice?'wrong':'')):''}" aria-pressed="${existing&&i===existing.choice?'true':'false'}" ${existing?'disabled':''} onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
-      <div id="feedbackArea">${existing?`
-        <div class="explanation">
-          <h4>${existing.correct?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4>
-          <p>${q.explanation}</p>
-          <div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-          <div class="source">Источник: ${q.source}</div>
-        </div>`: '<div class="answer-confirm-hint">Выбери вариант и подтверди ответ. Можно переходить между вопросами в любом порядке.</div>'}</div>
+      <div class="q-options" id="qOptions">${q.options.map((opt,i)=>`<button type="button" class="q-option ${!exam&&existing?(i===q.correct?'correct':(i===existing.choice?'wrong':'')):''}" aria-pressed="${existing&&i===existing.choice?'true':'false'}" ${existing?'disabled':''} onclick="answerQuestion(${i})"><span class="q-option-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div>
+      <div id="feedbackArea">${exam?(existing?'<div class="answer-confirm-hint">Ответ сохранён. Результат будет показан после завершения экзамена.</div>':'<div class="answer-confirm-hint">Выбери вариант и подтверди ответ. Во время экзамена правильность не раскрывается.</div>'):existing?`
+        <div class="explanation"><h4>${existing.correct?'✓ Верно':'✗ Правильный ответ: '+String.fromCharCode(65+q.correct)}</h4><p>${q.explanation}</p><div class="tags">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="source">Источник: ${q.source}</div></div>`:'<div class="answer-confirm-hint">Выбери вариант и подтверди ответ. Можно переходить между вопросами в любом порядке.</div>'}</div>
       <div class="test-question-controls">
         <button type="button" class="answer-cancel-btn" onclick="goToQuestion(${Math.max(0,s.index-1)})" ${s.index===0?'disabled':''}>← Предыдущий</button>
-        ${answeredCount===s.questions.length?'<button type="button" class="next-btn" onclick="renderReport()">Завершить тест</button>':`<button type="button" class="next-btn" onclick="goToNextUnanswered()">Следующий без ответа →</button>`}
+        ${exam?'<button type="button" class="next-btn" onclick="confirmFinishExam()">Завершить экзамен</button>':`<button type="button" class="next-btn" onclick="goToNextUnanswered()">Следующий без ответа →</button>`}
       </div>
-      ${answeredCount<s.questions.length?`<div class="test-question-footnote">Осталось ответить: ${s.questions.length-answeredCount}. Нажми на номер вопроса, чтобы перейти к нему.</div>`:''}
+      ${exam?'<div class="test-question-footnote">Неотвеченные вопросы будут учтены как ошибки в итоговом результате.</div>':`<div class="test-question-footnote">Осталось ответить: ${s.questions.length-answeredCount}. Нажми на номер вопроса, чтобы перейти к нему.</div>`}
     </div>`;
 }
+function confirmFinishExam(){if(confirm('Завершить экзамен сейчас? Неотвеченные вопросы будут засчитаны как ошибки.'))finishExam();}
 function goToQuestion(index){
   const s=state.session;if(!s||index<0||index>=s.questions.length)return;
   s.index=index;renderQuestion();
@@ -1490,38 +1606,38 @@ function cancelAnswerQuestion(){
 }
 function confirmAnswerQuestion(){
   const s=state.session;if(!s||s.pendingAnswer===null||s.pendingAnswer===undefined)return;
-  const i=s.pendingAnswer,q=s.questions[s.index];
-  if(s.answers.some(a=>a.id===q.id))return;
-  s.pendingAnswer=null;
-  const isCorrect=i===q.correct;
+  const i=s.pendingAnswer,q=s.questions[s.index];if(s.answers.some(a=>a.id===q.id))return;
+  s.pendingAnswer=null;const isCorrect=i===q.correct;
   s.answers.push({id:q.id,correct:isCorrect,section:q.section,choice:i});
   if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
   if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
-  saveProgress();
-  renderQuestion();
+  saveProgress();renderQuestion();
 }
 function nextQuestion(){goToNextUnanswered()}
 function renderReport(){
-  const s=state.session;
+  const s=state.session;if(!s)return;
+  if(window._pharmExamTimer){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;}
   const correct=s.answers.filter(a=>a.correct).length;
-  const total=s.answers.length;
-  const pct=Math.round(correct/total*100);
-  const wrongIds=s.answers.filter(a=>!a.correct).map(a=>a.id);
-  const wrongQs=QUESTIONS.filter(q=>wrongIds.includes(q.id));
+  const total=s.questions.length;
+  const pct=total?Math.round(correct/total*100):0;
+  const wrongIds=s.questions.filter(q=>!s.answers.some(a=>a.id===q.id&&a.correct)).map(q=>q.id);
+  const wrongQs=s.questions.filter(q=>wrongIds.includes(q.id));
   const weakTags=[...new Set(wrongQs.flatMap(q=>q.tags.slice(0,2)))];
-  state.progress._sessions=(state.progress._sessions||0)+1;
-  saveProgress();
+  state.progress._sessions=(state.progress._sessions||0)+1;saveProgress();
+  const exam=s.mode==='exam';
   screenEl.innerHTML=`
     <div class="report-card">
       <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
-      <div class="report-title">Тест завершён</div>
-      <div class="report-sub">${total} вопросов</div>
+      <div class="report-title">${exam?'Экзамен завершён':'Тест завершён'}</div>
+      <div class="report-sub">${s.questions.length} вопросов ${exam?'· '+(s.remaining<=0?'время истекло':'время: '+formatExamTime(s.remaining)) :''}</div>
       <div class="report-stats">
         <div class="report-stat"><div class="report-stat-val" style="color:var(--success)">${correct}</div><div class="report-stat-lbl">правильно</div></div>
         <div class="report-stat"><div class="report-stat-val" style="color:var(--error)">${total-correct}</div><div class="report-stat-lbl">ошибок</div></div>
         <div class="report-stat"><div class="report-stat-val">${pct}%</div><div class="report-stat-lbl">точность</div></div>
       </div>
-      ${weakTags.length?`<div class="report-weak"><h4>Слабые места — стоит повторить:</h4><div class="weak-list">${weakTags.map(t=>`<div class="weak-item">${t}</div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Отличный результат!</div>`}
+      ${wrongQs.length?`<div class="report-weak"><h4>${exam?'Разбор ошибок — начни повторение с этих вопросов':'Слабые места — стоит повторить:'}</h4>
+        ${wrongQs.map((q,i)=>{const a=s.answers.find(x=>x.id===q.id);return `<article class="exam-error-item"><strong>${i+1}. ${q.text}</strong><div class="exam-error-answer"><span>Твой ответ: </span>${a?q.options[a.choice]:'Нет ответа'}</div><div class="exam-error-answer"><span>Правильный ответ: </span>${q.options[q.correct]}</div><p>${q.explanation}</p><small>Источник: ${q.source}</small></article>`;}).join('')}
+        <div class="weak-list">${weakTags.map(t=>`<div class="weak-item">${t}</div>`).join('')}</div></div>`:`<div style="padding:16px;background:var(--success-soft);border-radius:12px;margin-bottom:20px;color:#2f8b5c;font-weight:700;font-size:14px">Ошибок нет. Отличный результат!</div>`}
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <button class="next-btn" style="flex:1;min-width:180px" onclick="setScreen('session')">Новый тест</button>
         <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К кейсам</button>
@@ -1529,7 +1645,6 @@ function renderReport(){
       <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
 }
-
 function renderClassifySetup(){
   const sections=[...new Set(GROUPS.map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
