@@ -2449,9 +2449,9 @@ const addSecondaryTherapeuticOccurrence=(baseTitle,drugs,path)=>{
   REFERENCE_CARDS.push({...base,title:path[path.length-1],drugs:[...drugs],classificationPath:[...path]});
 };
 const VASOPRESSOR_ROOT=['ЛЕКАРСТВЕННЫЕ СРЕДСТВА, РЕГУЛИРУЮЩИЕ АРТЕРИАЛЬНОЕ ДАВЛЕНИЕ И СИСТЕМНУЮ ГЕМОДИНАМИКУ','II. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ АРТЕРИАЛЬНОЙ ГИПОТЕНЗИИ И ШОКЕ','I. Вазопрессорные средства','1. Адренергические вазопрессоры'];
-addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Эпинефрин'],[...VASOPRESSOR_ROOT,'1.1. α1-, α2-, β1-, β2-АМ']);
-addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Норэпинефрин'],[...VASOPRESSOR_ROOT,'1.2. α1-, α2-, β1-АМ']);
-addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Допамин'],[...VASOPRESSOR_ROOT,'1.3. Дофаминергические и адренергические средства']);
+addSecondaryTherapeuticOccurrence('α1-, α2-, β1-, β2-АМ',['Эпинефрин'],[...VASOPRESSOR_ROOT,'1.1. α1-, α2-, β1-, β2-АМ']);
+addSecondaryTherapeuticOccurrence('α1-, α2-, β1-АМ',['Норэпинефрин'],[...VASOPRESSOR_ROOT,'1.2. α1-, α2-, β1-АМ']);
+addSecondaryTherapeuticOccurrence('Дофаминергические и адренергические средства',['Допамин'],[...VASOPRESSOR_ROOT,'1.3. Дофаминергические и адренергические средства']);
 addSecondaryTherapeuticOccurrence('α1-АМ периферические',['Фенилэфрин'],[...VASOPRESSOR_ROOT,'1.4. α1-АМ периферического прямого действия']);
 const BRONCHODILATOR_ROOT=['ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ','III. СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ БРОНХООБСТРУКТИВНОМ СИНДРОМЕ (БРОНХОЛИТИЧЕСКИЕ СРЕДСТВА)','3.1. β2-АМ'];
 addSecondaryTherapeuticOccurrence('β2-АМ короткого действия',['Сальбутамол','Фенотерол'],[...BRONCHODILATOR_ROOT,'3.1.1. Короткого действия']);
@@ -2469,7 +2469,7 @@ addSecondaryTherapeuticOccurrence('β1-АМ',['Добутамин'],[
   '2. Негликозидные кардиотонические средства',
   '2.1. β1-АМ'
 ]);
-addSecondaryTherapeuticOccurrence('Адреномиметики с широким профилем действия',['Допамин'],[
+addSecondaryTherapeuticOccurrence('Дофаминергические и адренергические средства',['Допамин'],[
   'ПРОТИВОАРИТМИЧЕСКИЕ И КАРДИОТОНИЧЕСКИЕ СРЕДСТВА',
   'II. КАРДИОТОНИЧЕСКИЕ СРЕДСТВА',
   '2. Негликозидные кардиотонические средства',
