@@ -1293,42 +1293,40 @@ function renderDashboard(){
 
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function arrangeSessionOptions(pool){
-  const positionCounts=new Map();
+  const remainingPositions=new Map();
+  const previousPositions=new Map();
   const seenOrders=new Set();
-  let previousCorrectPosition=-1;
   return pool.map(q=>{
     const indexed=q.options.map((text,index)=>({text,isCorrect:index===q.correct}));
     const count=indexed.length;
     if(count<2)return {...q,options:indexed.map(o=>o.text),correct:Math.max(0,q.correct||0)};
-    let positions=Array.from({length:count},(_,i)=>i).filter(i=>i!==previousCorrectPosition);
-    const minCount=Math.min(...positions.map(i=>positionCounts.get(count+':'+i)||0));
-    positions=shuffle(positions.filter(i=>(positionCounts.get(count+':'+i)||0)===minCount));
+    let remaining=remainingPositions.get(count);
+    if(!remaining||remaining.length===0)remaining=Array.from({length:count},(_,i)=>i);
+    const previous=previousPositions.get(count);
+    let candidates=remaining.filter(i=>i!==previous);
+    if(!candidates.length)candidates=remaining;
+    const correctPosition=shuffle(candidates)[0];
+    remaining=remaining.filter(i=>i!==correctPosition);
+    remainingPositions.set(count,remaining);
+    previousPositions.set(count,correctPosition);
+    const distractors=indexed.filter(o=>!o.isCorrect);
     let chosen=null;
-    for(const correctPosition of positions){
-      const distractors=indexed.filter(o=>!o.isCorrect);
-      for(let attempt=0;attempt<60;attempt++){
-        const shuffledDistractors=shuffle(distractors);
-        const arranged=[...shuffledDistractors];
-        arranged.splice(correctPosition,0,indexed[q.correct]);
-        const signature=JSON.stringify(arranged.map(o=>String(o.text)));
-        if(!seenOrders.has(signature)){
-          chosen={arranged,correctPosition,signature};
-          break;
-        }
+    for(let attempt=0;attempt<80;attempt++){
+      const arranged=shuffle(distractors);
+      arranged.splice(correctPosition,0,indexed[q.correct]);
+      const signature=JSON.stringify(arranged.map(o=>String(o.text)));
+      if(!seenOrders.has(signature)){
+        chosen={arranged,signature};
+        break;
       }
-      if(chosen)break;
     }
     if(!chosen){
-      const correctPosition=positions[0]??((previousCorrectPosition+1)%count);
-      const arranged=shuffle(indexed.filter(o=>!o.isCorrect));
+      const arranged=shuffle(distractors);
       arranged.splice(correctPosition,0,indexed[q.correct]);
-      chosen={arranged,correctPosition,signature:JSON.stringify(arranged.map(o=>String(o.text)))};
+      chosen={arranged,signature:JSON.stringify(arranged.map(o=>String(o.text)))};
     }
     seenOrders.add(chosen.signature);
-    const key=count+':'+chosen.correctPosition;
-    positionCounts.set(key,(positionCounts.get(key)||0)+1);
-    previousCorrectPosition=chosen.correctPosition;
-    return {...q,options:chosen.arranged.map(o=>o.text),correct:chosen.correctPosition};
+    return {...q,options:chosen.arranged.map(o=>o.text),correct:correctPosition};
   });
 }
 function editDist(a,b){const m=a.length,n=b.length;const dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);}return dp[m][n];}
