@@ -791,6 +791,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-back,.classification-back{padding:10px 12px}
 }
 
+
+/* Classification: compact mobile controls and secondary selection actions. */
+.classify-extra-settings{flex:0 0 auto;margin:0 0 10px;border:1px solid var(--border);border-radius:12px;background:var(--card-2);overflow:hidden}
+.classify-extra-settings>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;cursor:pointer;list-style:none;color:var(--text-muted);font-size:12px;font-weight:700}
+.classify-extra-settings>summary::-webkit-details-marker{display:none}
+.classify-extra-settings>summary:after{content:'＋';font-size:15px}
+.classify-extra-settings[open]>summary:after{content:'−'}
+.classify-extra-actions{display:flex;flex-wrap:wrap;gap:7px;padding:0 10px 10px}
+.classify-extra-actions button{padding:6px 10px;border:1px solid var(--border);border-radius:9px;background:var(--card);color:var(--text);font:600 11px inherit;cursor:pointer}
+@media(max-width:768px){
+  .classify-setup{padding:14px 12px}
+  .classify-setup .classify-tabs{gap:5px;margin-bottom:10px;padding:6px 0}
+  .classify-setup .ctab{min-height:36px;padding:7px 6px;font-size:11px;line-height:1.2;border-width:1px;border-radius:10px}
+  .classify-setup-heading>div:first-child{margin-bottom:4px!important}
+  .classify-setup-heading>div:nth-child(2){margin-bottom:9px!important}
+  .classify-setup .topic-pick{gap:10px;padding:10px 11px;border-radius:13px;margin-bottom:7px;border-width:1px}
+  .classify-setup .topic-check{width:32px;height:32px;border-radius:10px;font-size:14px}
+  .classify-setup .topic-pick-title{font-size:14px;line-height:1.3}
+  .classify-setup .topic-pick-sub{font-size:11px}
+  .classify-extra-settings{margin-bottom:8px}
+  .classify-setup-footer .summary-box{margin-bottom:7px;padding:6px 9px}
+  .classify-setup-footer .summary-box .val{font-size:18px}
+  .classify-setup-footer .next-btn{min-height:40px;padding:9px 12px;border-radius:12px}
+  .classify-setup-footer .classify-home-btn{min-height:32px;padding:5px 10px;margin-top:3px}
+  .classify-library .classify-tabs{gap:5px}
+  .classify-library .ctab{min-height:36px;padding:7px 5px;font-size:11px;border-width:1px;border-radius:10px}
+  .classification-section>summary{min-height:46px;padding:9px 10px}
+  .classification-group{padding:10px}
+  .classification-drug{padding:5px 7px}
+  .classification-back{min-height:40px;padding:9px 12px}
+}
+@media(max-width:380px){
+  .classify-setup .ctab{padding:7px 4px;font-size:10px}
+  .classify-setup .topic-pick{padding:9px}
+}
+
 </style>
 </head>
 <body>
@@ -1732,7 +1768,7 @@ function renderClassifySetup(){
         <div style="font-size:20px;font-weight:700;margin-bottom:6px">Классификация: ввод ответа</div>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Дано название группы. Нужно перечислить препараты через запятую. Формат ответа: только МНН.</div>
       </div>
-      <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
+      <details class="classify-extra-settings"><summary>Дополнительные настройки</summary><div class="classify-extra-actions"><button type="button" onclick="selectAllClassify(true)">✓ Выбрать все разделы</button><button type="button" onclick="selectAllClassify(false)">✗ Снять все</button></div></details>
       <div class="classify-topic-list">
         ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).length} групп</div></div></div>`).join('')}
       </div>
@@ -2162,7 +2198,7 @@ function renderDistributeSetup(){
         <div style="font-size:20px;font-weight:700;margin-bottom:6px">Распределение по группам</div>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Даны препараты. Нужно разложить их по группам. Перетаскивай карточки мышкой или тапни препарат → группу.</div>
       </div>
-      <div class="topic-actions"><button onclick="selectAllClassify(true)">✓ Выбрать все</button><button onclick="selectAllClassify(false)">✗ Снять все</button></div>
+      <details class="classify-extra-settings"><summary>Дополнительные настройки</summary><div class="classify-extra-actions"><button type="button" onclick="selectAllClassify(true)">✓ Выбрать все разделы</button><button type="button" onclick="selectAllClassify(false)">✗ Снять все</button></div></details>
       <div class="classify-topic-list">
         ${sections.map((sec,i)=>`<div class="topic-pick ${state.selectedClassifySections[sec]?'selected':''}" onclick="toggleClassifySection('${sec}')"><div class="topic-check" style="background:${state.selectedClassifySections[sec]?colors[i%colors.length]:'var(--card)'};color:${state.selectedClassifySections[sec]?'#fff':'var(--text-muted)'}">${state.selectedClassifySections[sec]?'✓':''}</div><div class="topic-pick-info"><div class="topic-pick-title">${sec}</div><div class="topic-pick-sub">${GROUPS.filter(g=>g.section===sec).reduce((a,g)=>a+g.drugs.length,0)} препаратов</div></div></div>`).join('')}
       </div>
