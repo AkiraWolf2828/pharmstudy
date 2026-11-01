@@ -2412,12 +2412,16 @@ function renderReferenceClassification(cards,depth=0,prefix='class'){
     const subset=cards.filter(r=>r.classificationPath[depth]===label);
     const leaf=subset.every(r=>r.classificationPath.length===depth+1);
     if(leaf){
+      const groupDrugs=subset.flatMap(r=>r.drugs);
+      const first=subset[0];
       return `<div class="ref-classification-leaf">
-        <div class="ref-grid">${subset.map(r=>`<div class="ref-card">
-          <div class="ref-card-head"><div class="ref-icon" style="background:${r.bg};color:${r.color}">${r.icon}</div><h3>${label}: ${r.drugs.join('; ')}</h3></div>
-          <p>${r.desc}</p>
-          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
-        </div>`).join('')}</div>
+        <div class="ref-grid"><div class="ref-card">
+          <div class="ref-card-head"><div class="ref-icon" style="background:${first.bg};color:${first.color}">${first.icon}</div><h3>${label}: ${groupDrugs.join('; ')}</h3></div>
+          ${subset.map((r,i)=>`<div class="ref-card-entry" ${i?'style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)"':''}>
+            <p>${r.desc}</p>
+            <div style="margin-top:10px;font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
+          </div>`).join('')}
+        </div></div>
       </div>`;
     }
     const id=`${prefix}-${depth}-${i}`;
