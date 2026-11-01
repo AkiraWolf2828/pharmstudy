@@ -1292,6 +1292,45 @@ function renderDashboard(){
 }
 
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function arrangeSessionOptions(pool){
+  const positionCounts=new Map();
+  const seenOrders=new Set();
+  let previousCorrectPosition=-1;
+  return pool.map(q=>{
+    const indexed=q.options.map((text,index)=>({text,isCorrect:index===q.correct}));
+    const count=indexed.length;
+    if(count<2)return {...q,options:indexed.map(o=>o.text),correct:Math.max(0,q.correct||0)};
+    let positions=Array.from({length:count},(_,i)=>i).filter(i=>i!==previousCorrectPosition);
+    const minCount=Math.min(...positions.map(i=>positionCounts.get(count+':'+i)||0));
+    positions=shuffle(positions.filter(i=>(positionCounts.get(count+':'+i)||0)===minCount));
+    let chosen=null;
+    for(const correctPosition of positions){
+      const distractors=indexed.filter(o=>!o.isCorrect);
+      for(let attempt=0;attempt<60;attempt++){
+        const shuffledDistractors=shuffle(distractors);
+        const arranged=[...shuffledDistractors];
+        arranged.splice(correctPosition,0,indexed[q.correct]);
+        const signature=JSON.stringify(arranged.map(o=>String(o.text)));
+        if(!seenOrders.has(signature)){
+          chosen={arranged,correctPosition,signature};
+          break;
+        }
+      }
+      if(chosen)break;
+    }
+    if(!chosen){
+      const correctPosition=positions[0]??((previousCorrectPosition+1)%count);
+      const arranged=shuffle(indexed.filter(o=>!o.isCorrect));
+      arranged.splice(correctPosition,0,indexed[q.correct]);
+      chosen={arranged,correctPosition,signature:JSON.stringify(arranged.map(o=>String(o.text)))};
+    }
+    seenOrders.add(chosen.signature);
+    const key=count+':'+chosen.correctPosition;
+    positionCounts.set(key,(positionCounts.get(key)||0)+1);
+    previousCorrectPosition=chosen.correctPosition;
+    return {...q,options:chosen.arranged.map(o=>o.text),correct:chosen.correctPosition};
+  });
+}
 function editDist(a,b){const m=a.length,n=b.length;const dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);}return dp[m][n];}
 function normalize(s){return s.toLowerCase().replace(/ё/g,'е').replace(/\([^)]*\)/g,'').replace(/[^а-яa-z0-9\s-]/g,' ').replace(/\s+/g,' ').trim();}
 function isDrugMatch(input,drug){const a=normalize(input),b=normalize(drug);if(!a||a.length<4)return false;if(a===b)return true;if(b.startsWith(a)||a.startsWith(b))return true;const threshold=Math.max(1,Math.floor(Math.max(a.length,b.length)/6));return editDist(a,b)<=threshold;}
@@ -1377,10 +1416,7 @@ function startSession(){
   let pool=QUESTIONS.filter(q=>selected.includes(q.section) && activeSkills.includes(SKILLS[q.id]));
   if(pool.length===0){alert('Нет вопросов под выбранные фильтры');return;}
   if(state.sessionOrder==='random')pool=shuffle(pool);
-  pool=pool.map(q=>{
-    const shuffledOptions=shuffle(q.options.map((text,index)=>({text,isCorrect:index===q.correct})));
-    return {...q,options:shuffledOptions.map(option=>option.text),correct:shuffledOptions.findIndex(option=>option.isCorrect)};
-  });
+  pool=arrangeSessionOptions(pool);
   state.session={questions:pool,index:0,answers:[]};
   titleEl.textContent='Тестирование';
   renderQuestion();
