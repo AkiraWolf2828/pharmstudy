@@ -768,6 +768,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   padding:0;
 }
 .test-question-legend{flex-wrap:nowrap;white-space:nowrap}
+
+/* Mobile compact controls: preserve typography while reducing excess button padding and height. */
+@media(max-width:768px){
+  .q-option{padding:12px 14px;gap:10px;border-radius:14px}
+  .q-option-letter{width:26px;height:26px}
+  .next-btn{padding:12px 14px}
+  .test-question-controls>button{min-height:42px;padding:9px 12px}
+  .classify-tabs .ctab,.classify-setup .ctab{padding:8px 10px}
+  .ref-topic-toggle{padding:12px 14px;gap:10px;border-radius:14px}
+  .topic-actions button{padding:6px 11px}
+  .session-order-option{min-height:36px;padding:7px 10px}
+  .session-topic-card{min-height:58px;padding:8px 10px;gap:10px}
+  .session-topic-marker{flex-basis:30px;height:30px}
+  .session-skill-option{padding:8px 9px;gap:7px}
+  .session-mode-card{padding:11px}
+  .session-mode-card.active{padding:10px}
+  .case-pick-item{padding:12px;gap:12px;border-radius:16px}
+  .case-pick-icon{width:40px;height:40px;border-radius:13px}
+  .answer-cancel-btn{padding:9px 12px}
+  .answer-confirm-actions .next-btn{padding:10px 12px}
+  .classify-back,.classification-back{padding:10px 12px}
+}
+
 </style>
 </head>
 <body>
