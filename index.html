@@ -2887,7 +2887,7 @@ function renderControlDictationVariants(){
 }
 function startControlDictation(n){if(!controlDictationVariants||!controlDictationVariants[n])return;controlDictationAttempt={variant:n,answers:controlDictationVariants[n].map(()=>({section:'',group:''})),result:null};renderControlDictationAttempt();}
 function normalizeControlAnswer(v){
- return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[«»"'\u2018\u2019]/g,'').replace(/[.,;:()]/g,' ').replace(/[–—-]/g,' ').replace(/\\s+/g,' ').trim();
+ return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[«»"'\u2018\u2019]/g,'').replace(/[.,;:()]/g,' ').replace(/[–—-]/g,' ').replace(/\s+/g,' ').trim();
 }
 function controlEditDistance(a,b){
  const p=Array.from({length:b.length+1},(_,i)=>i);
