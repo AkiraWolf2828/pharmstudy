@@ -897,6 +897,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .classification-drug-group{margin-bottom:15px}
 }
 @media(prefers-reduced-motion:reduce){.classification-drug-overlay,.classification-drug-dialog{animation:none}.classification-drug-link,.classification-drug-close{transition:none}}
+
+/* Итоговое кафедральное занятие */
+.control-page{max-width:980px;margin:0 auto}
+.control-hero{position:relative;overflow:hidden;padding:28px 30px;margin-bottom:20px;border-radius:25px;background:linear-gradient(130deg,var(--mint-soft),var(--lavender-soft));border:1px solid var(--border)}
+.control-hero-icon{display:grid;place-items:center;width:48px;height:48px;margin-bottom:14px;border-radius:15px;background:var(--card);font-size:23px;box-shadow:var(--shadow-sm)}
+.control-kicker{font-size:10px;font-weight:850;letter-spacing:.12em;color:var(--accent-deep);margin-bottom:6px}
+.control-hero h2{font-size:25px;line-height:1.25;margin-bottom:8px}
+.control-hero>p{max-width:680px;color:var(--text-muted);font-size:14px;line-height:1.65}
+.control-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.control-facts span{padding:6px 10px;border:1px solid var(--border);border-radius:10px;background:var(--card);font-size:11px;font-weight:700;color:var(--text-muted)}
+.control-section-heading{margin:24px 2px 12px}
+.control-section-heading h3{font-size:17px;font-weight:800}
+.control-section-heading p{margin-top:3px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.control-stage-list{display:grid;gap:10px}
+.control-stage{display:grid;grid-template-columns:38px 44px minmax(0,1fr);align-items:start;gap:13px;padding:17px;border:1px solid var(--border);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm)}
+.control-stage-number{padding-top:5px;color:var(--text-muted);font-size:12px;font-weight:850;font-variant-numeric:tabular-nums}
+.control-stage-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--card-2);font-size:20px}
+.control-stage-content{min-width:0}
+.control-stage-title-row{display:flex;align-items:center;flex-wrap:wrap;gap:7px 12px}
+.control-stage-title-row h4{font-size:14px;font-weight:800}
+.control-stage-status{display:inline-flex;padding:4px 8px;border-radius:8px;background:var(--card-2);color:var(--text-muted);font-size:10px;font-weight:700}
+.control-stage-meta{margin-top:4px;color:var(--accent-deep);font-size:11px;font-weight:750}
+.control-stage-content p{margin-top:7px;color:var(--text-muted);font-size:12px;line-height:1.6}
+.control-stage-mint .control-stage-icon{background:var(--mint-soft)}
+.control-stage-lavender .control-stage-icon{background:var(--lavender-soft)}
+.control-stage-warm .control-stage-icon{background:var(--warm-soft)}
+.control-note{margin-top:17px;padding:17px 19px;border-left:3px solid var(--mint);border-radius:13px;background:var(--card-2)}
+.control-note strong{font-size:12px}
+.control-note p{margin-top:5px;color:var(--text-muted);font-size:12px;line-height:1.65}
+@media(max-width:768px){
+ .control-hero{padding:21px 17px;border-radius:20px}
+ .control-hero h2{font-size:22px}
+ .control-hero>p{font-size:13px}
+ .control-stage{grid-template-columns:28px 38px minmax(0,1fr);gap:9px;padding:13px 11px;border-radius:15px}
+ .control-stage-icon{width:36px;height:36px;border-radius:11px;font-size:18px}
+ .control-stage-number{font-size:11px}
+ .control-stage-title-row{align-items:flex-start;flex-direction:column;gap:5px}
+ .control-stage-title-row h4{font-size:13px}
+ .control-stage-content p{font-size:11px}
+ .control-note{padding:14px}
+}
+@media(max-width:380px){
+ .control-stage{grid-template-columns:23px 32px minmax(0,1fr);gap:7px;padding:11px 9px}
+ .control-stage-icon{width:31px;height:31px;font-size:16px}
+}
+
 </style>
 </head>
 <body>
@@ -909,6 +955,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
       <button class="nav-btn" data-screen="classify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><polyline points="9 11 12 14 21 5"/></svg><span>Классификация</span></button>
       <button class="nav-btn" data-screen="synapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4M8 16l4-4M16 16l-4-4"/></svg><span>Визуализация</span></button>
       <button class="nav-btn" data-screen="case"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg><span>Кейсы</span></button>
+      <button class="nav-btn" data-screen="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h8"/></svg><span>Контроль</span></button>
       <button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
       <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
     </nav>
@@ -1474,13 +1521,14 @@ const titleEl=document.getElementById('screen-title');
 function setScreen(name){
   state.screen=name;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
-  const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',reference:'Справочник',settings:'Настройки'};
+  const titles={dashboard:'Дашборд',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',control:'Контроль',reference:'Справочник',settings:'Настройки'};
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Дашборд';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';state.sessionStage='topics';renderSessionSetup()}
   else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='library')renderClassifyLibrary();else if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
+  else if(name==='control'){titleEl.textContent='Контроль';screenEl.innerHTML=renderControl()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
@@ -2735,6 +2783,40 @@ function toggleReferenceSection(id){
 }
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
+
+function renderControl(){
+  const stages=[
+    {number:'01',icon:'💊',title:'Диктант препаратов',meta:'20 препаратов · все четыре изученные темы',description:'Случайная подборка препаратов из общего материала. Будут предусмотрены два варианта и отдельная проверка диктанта.',status:'Первый этап разработки',tone:'mint'},
+    {number:'02',icon:'📝',title:'Выписывание рецептов',meta:'4 препарата',description:'Самостоятельное оформление рецептов: лекарственная форма, дозировка, правила записи и сигнатура по предоставленным тобой материалам и репетурам.',status:'Ожидает рецептурные материалы',tone:'lavender'},
+    {number:'03',icon:'🧩',title:'Воспроизведение классификации',meta:'Одна заданная группа или подгруппа',description:'Студент самостоятельно перечисляет препараты. Проверка будет учитывать полноту ответа и точное соответствие кафедральной классификации.',status:'Запланировано',tone:'warm'},
+    {number:'04',icon:'🧠',title:'Сборка схемы',meta:'Синапс или схема нервной системы',description:'Интерактивный конструктор: перетаскивание элементов, размещение на рабочем поле и проверка связей и расположения по эталону из методички.',status:'Запланировано',tone:'mint'},
+    {number:'05',icon:'🩺',title:'Клиническая задача',meta:'1 задача',description:'Пока используются клинические задачи, уже размещённые в PharmStudy. Новые кафедральные задачи добавим после получения.',status:'Будут подключены существующие кейсы',tone:'lavender'}
+  ];
+  return `
+    <div class="control-page">
+      <section class="control-hero">
+        <div class="control-hero-icon">📋</div>
+        <div class="control-kicker">КАФЕДРАЛЬНЫЙ ФОРМАТ</div>
+        <h2>Итоговое занятие</h2>
+        <p>Комплексная репетиция итогового контроля: диктант препаратов, рецепты, классификация, схемы и клиническая задача.</p>
+        <div class="control-facts"><span>5 этапов</span><span>Самостоятельные ответы</span><span>Раздельная проверка</span></div>
+      </section>
+      <div class="control-section-heading"><div><h3>Структура занятия</h3><p>Этапы будут открываться по мере подготовки заданий и критериев проверки.</p></div></div>
+      <div class="control-stage-list">
+        ${stages.map(s=>`
+          <article class="control-stage control-stage-${s.tone}">
+            <div class="control-stage-number">${s.number}</div>
+            <div class="control-stage-icon">${s.icon}</div>
+            <div class="control-stage-content">
+              <div class="control-stage-title-row"><h4>${s.title}</h4><span class="control-stage-status">${s.status}</span></div>
+              <div class="control-stage-meta">${s.meta}</div>
+              <p>${s.description}</p>
+            </div>
+          </article>`).join('')}
+      </div>
+      <div class="control-note"><strong>Принцип проверки</strong><p>Ответы и эталоны будут сверяться с твоими методичками, кафедральной классификацией и присланными рецептурными материалами. До получения источников сайт не будет подставлять дозировки, сигнатуры или элементы схем из общих знаний.</p></div>
+    </div>`;
+}
 
 function renderSettings(){
   const s=getStats();
