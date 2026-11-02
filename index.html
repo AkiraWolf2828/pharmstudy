@@ -2860,7 +2860,7 @@ function evaluateControlDictationAnswer(answer,paths){
  if(!s&&!g)return{status:'empty',label:'Не заполнено'};
  if(!s||!g)return{status:'partial',label:'Заполнены не все уровни'};
  const match=paths.find(p=>controlTextMatches(s,p.section,'section')&&controlTextMatches(g,p.group,'group'));
- if(match){const exact=normalizeControlAnswer(s)===normalizeControlAnswer(match.section)&&normalizeControlAnswer(g)===normalizeControlAnswer(match.group);return{status:exact?'correct':'typo',label:exact?'Верно':'Верно, с опечаткой'};}
+ if(match){const sectionAlias=normalizeControlAnswer(s)==='хм'&&normalizeControlAnswer(match.section)==='холиномиметики';const exact=(normalizeControlAnswer(s)===normalizeControlAnswer(match.section)||sectionAlias)&&normalizeControlAnswer(g)===normalizeControlAnswer(match.group);return{status:exact?'correct':'typo',label:exact?'Верно':'Верно, с опечаткой'};}
  if(paths.some(p=>controlTextMatches(s,p.group,'group')&&controlTextMatches(g,p.section,'section')))return{status:'order',label:'Перепутаны местами раздел и группа'};
  const sm=paths.some(p=>controlTextMatches(s,p.section,'section')),gm=paths.some(p=>controlTextMatches(g,p.group,'group'));
  if(sm&&!gm)return{status:'group',label:'Раздел верный, группа/подгруппа — нет'};
