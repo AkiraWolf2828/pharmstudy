@@ -1045,6 +1045,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .control-classification-actions{display:grid;grid-template-columns:minmax(0,1fr)}
  .control-classification-actions button{width:100%;min-height:48px}
 }
+/* Итог 1: интерактивная сборка холинергического синапса */
+.control-synapse-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+.control-synapse-zone{min-height:145px;padding:12px;border:2px dashed var(--border);border-radius:14px;background:var(--card-2)}
+.control-synapse-zone h4{font-size:13px;margin:0 0 8px}
+.control-synapse-slot{display:flex;flex-direction:column;gap:6px;min-height:82px}
+.control-synapse-placed{padding:8px;border-radius:9px;background:var(--card);font-size:12px;line-height:1.35}
+.control-synapse-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.control-synapse-part{min-height:46px;padding:10px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text);font:600 12px inherit;text-align:left;cursor:grab;touch-action:none}
+.control-synapse-part.is-selected{border:2px solid var(--accent);background:var(--accent-soft)}
+.control-synapse-result{padding:12px;border-radius:12px;background:var(--card-2);font-size:13px;line-height:1.55}
+.control-synapse-result .ok{color:var(--success)}.control-synapse-result .miss{color:var(--error)}
+.control-case-back{display:inline-flex;margin:0 0 14px;padding:9px 13px;border:0;border-radius:11px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer}
+@media(max-width:650px){.control-synapse-board{grid-template-columns:1fr}.control-synapse-zone{min-height:100px}.control-synapse-parts{grid-template-columns:1fr}.control-synapse-part{min-height:48px;font-size:14px}}
 /* Control section index and nested final-session navigation */
 .control-final-card{width:100%;display:flex;align-items:center;gap:14px;margin-top:16px;padding:18px;border:1px solid var(--border);border-radius:17px;background:var(--card);color:var(--text);text-align:left;cursor:pointer;transition:border-color .18s,transform .18s}
 .control-final-card:hover{border-color:var(--mint);transform:translateY(-1px)}
@@ -3102,6 +3115,13 @@ function renderControlFinalOne(){
      <button class="control-action-btn" type="button" data-control-action="start-classification">Начать классификацию</button>
     </div>
     <div id="controlClassificationResults"></div>
+   </section>
+   <section class="control-classification">
+    <div class="control-classification-head"><div><h3>Схема / рисунок</h3><p>Собери холинергический синапс: перетащи элементы в нужные области. На телефоне можно нажать на элемент, а затем на область.</p></div><button class="control-action-btn" type="button" onclick="startControlSynapsePuzzle()">Начать сборку</button></div>
+    <div id="controlSynapseResults"><div class="control-dictation-empty">Нажми «Начать сборку», чтобы разместить элементы синапса.</div></div>
+   </section>
+   <section class="control-classification">
+    <div class="control-classification-head"><div><h3>Клиническая задача</h3><p>Используется существующий на сайте кейс «Отравление ФОС» без изменения сценария.</p></div><button class="control-action-btn" type="button" onclick="startControlCase()">Начать задачу</button></div>
    </section>
   </div>`;
 }
