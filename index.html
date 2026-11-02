@@ -846,6 +846,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .ref-card-head{gap:8px}
   .ref-icon{width:34px;height:34px;flex-basis:34px}
 }
+
+/* Классификация как единый учебный документ */
+.classification-document-section{margin:0 0 18px;padding:0}
+.classification-document-section>.classification-document-heading{margin:0 0 10px;font-size:17px;line-height:1.45;font-weight:800;color:var(--text)}
+.classification-document-section.classification-depth-1>.classification-document-heading{font-size:15px;margin-top:14px}
+.classification-document-section.classification-depth-2>.classification-document-heading{font-size:14px;margin-top:12px}
+.classification-document-section.classification-depth-3>.classification-document-heading{font-size:13px;margin-top:10px}
+.classification-document-group{margin:0 0 13px;padding:0}
+.classification-document-group>.classification-document-heading{font-size:13px;line-height:1.5;font-weight:700;color:var(--text);margin:0 0 3px}
+.classification-document-drugs{font-size:13px;line-height:1.85;color:var(--text);overflow-wrap:anywhere}
+.classification-drug-link{display:inline;padding:0;border:0;background:none;color:var(--accent-deep);font:inherit;font-weight:600;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer}
+.classification-drug-link:hover,.classification-drug-link:focus-visible{color:var(--accent);text-decoration-style:solid;outline:none}
+.classification-drug-separator{color:var(--text-muted)}
+.classification-drug-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(25,28,32,.48);backdrop-filter:blur(3px)}
+.classification-drug-dialog{position:relative;width:min(620px,100%);max-height:min(82dvh,760px);overflow:auto;padding:28px;border-radius:18px;background:var(--card);color:var(--text);box-shadow:0 18px 60px rgba(0,0,0,.22)}
+.classification-drug-close{position:absolute;right:14px;top:10px;width:36px;height:36px;border:0;border-radius:50%;background:var(--card-2);color:var(--text);font-size:25px;line-height:1;cursor:pointer}
+.classification-drug-kicker{padding-right:42px;margin-bottom:8px;color:var(--text-muted);font-size:11px;line-height:1.5}
+.classification-drug-dialog h2{padding-right:36px;margin:0 0 8px;font-size:21px;line-height:1.3}
+.classification-drug-group{margin-bottom:16px;color:var(--accent-deep);font-size:12px;font-weight:700;line-height:1.5}
+.classification-drug-summary{margin:0 0 14px;color:var(--text-muted);font-size:13px;line-height:1.65}
+.classification-drug-details{font-size:13px;line-height:1.75;overflow-wrap:anywhere}
+.classification-drug-details p{margin:0 0 10px}
+@media(max-width:600px){.classification-document-section{margin-bottom:14px}.classification-document-section>.classification-document-heading{font-size:15px}.classification-document-section.classification-depth-1>.classification-document-heading{font-size:14px}.classification-document-group>.classification-document-heading,.classification-document-drugs{font-size:12px}.classification-drug-overlay{align-items:flex-end;padding:10px}.classification-drug-dialog{max-height:84dvh;padding:24px 20px 22px;border-radius:18px 18px 12px 12px}.classification-drug-dialog h2{font-size:19px}}
 </style>
 </head>
 <body>
@@ -1396,7 +1419,7 @@ const SCENARIOS={
   'botox':{name:'Ботулотоксин',chain:'<strong>Этот сценарий не подтверждён предоставленной методичкой.</strong> В ней не разобран механизм ботулотоксина и его клиническое применение. До сверки с отдельным утверждённым источником детали механизма и длительности эффекта не следует считать подтверждёнными по этой методичке.'}
 };
 
-const state={screen:'dashboard',refTab:'notes',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},sessionOrder:'random',sessionStage:'topics',sessionMode:'study',sessionQuestionCount:'all',sessionTimeLimit:20};
+const state={screen:'dashboard',refTab:'drugs',progress:loadProgress(),session:null,caseState:null,selectedTopics:{},classifySession:null,selectedClassifySections:{},classifyMode:'input',distribute:null,selectedSkills:{},sessionOrder:'random',sessionStage:'topics',sessionMode:'study',sessionQuestionCount:'all',sessionTimeLimit:20};
 function loadProgress(){
   try{
     const saved=JSON.parse(localStorage.getItem('pharm_progress')||'{}');
@@ -2565,32 +2588,56 @@ REFERENCE_CARDS.forEach(card=>{
   if(card.title==='Деполяризующие миорелаксанты')card.drugs=['Суксаметония йодид/хлорид'];
   card.drugs=card.drugs.map(drug=>CLASSIFICATION_DRUG_LABELS[drug]||drug);
 });
-function renderReferenceClassification(cards,depth=0,prefix='class'){
+function renderReferenceClassification(cards,depth=0){
   const labels=[...new Set(cards.map(r=>r.classificationPath[depth]).filter(Boolean))];
-  return labels.map((label,i)=>{
+  return labels.map(label=>{
     const subset=cards.filter(r=>r.classificationPath[depth]===label);
     const leaf=subset.every(r=>r.classificationPath.length===depth+1);
     if(leaf){
-      const groupDrugs=subset.flatMap(r=>r.drugs);
-      const first=subset[0];
-      return `<div class="ref-classification-leaf">
-        <div class="ref-grid"><div class="ref-card">
-          <div class="ref-card-head"><div class="ref-icon" style="background:${first.bg};color:${first.color}">${first.icon}</div><h3>${label}: ${groupDrugs.join('; ')}</h3></div>
-          ${subset.map((r,i)=>`<div class="ref-card-entry" ${i?'style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)"':''}>
-            <p>${r.desc}</p>
-            <div style="margin-top:10px;font-size:12px;line-height:1.6;color:var(--text-muted)">${r.details}</div>
-          </div>`).join('')}
-        </div></div>
-      </div>`;
+      const drugLinks=subset.flatMap(card=>{
+        const cardIndex=REFERENCE_CARDS.indexOf(card);
+        return card.drugs.map((drug,drugIndex)=>`<button type="button" class="classification-drug-link" onclick="openClassificationDrugCard(${cardIndex},${drugIndex})">${drug}</button>`);
+      });
+      return `<section class="classification-document-group">
+        <h${Math.min(depth+2,5)} class="classification-document-heading">${label}</h${Math.min(depth+2,5)}>
+        <div class="classification-document-drugs">${drugLinks.join('<span class="classification-drug-separator">; </span>')}</div>
+      </section>`;
     }
-    const id=`${prefix}-${depth}-${i}`;
-    return `<div class="ref-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('${id}')"><span>${label}</span><span class="ref-topic-arrow" id="arrow-${id}">⌄</span></button>
-      <div class="ref-topic-content" id="section-${id}" style="display:none">${renderReferenceClassification(subset,depth+1,id)}</div>
-    </div>`;
+    const headingLevel=Math.min(depth+1,4);
+    return `<section class="classification-document-section classification-depth-${depth}">
+      <h${headingLevel} class="classification-document-heading">${label}</h${headingLevel}>
+      ${renderReferenceClassification(subset,depth+1)}
+    </section>`;
   }).join('');
 }
 
+function openClassificationDrugCard(cardIndex,drugIndex){
+  const card=REFERENCE_CARDS[cardIndex];
+  const drug=card&&card.drugs?card.drugs[drugIndex]:null;
+  if(!card||!drug)return;
+  document.getElementById('classificationDrugOverlay')?.remove();
+  const overlay=document.createElement('div');
+  overlay.id='classificationDrugOverlay';
+  overlay.className='classification-drug-overlay';
+  overlay.innerHTML=`<article class="classification-drug-dialog" role="dialog" aria-modal="true" aria-label="Карточка препарата: ${drug}">
+    <button type="button" class="classification-drug-close" aria-label="Закрыть" onclick="document.getElementById('classificationDrugOverlay')?.remove()">×</button>
+    <div class="classification-drug-kicker">${card.section||'Классификация лекарственных средств'}</div>
+    <h2>${drug}</h2>
+    <div class="classification-drug-group">${card.title||''}</div>
+    ${card.desc?`<p class="classification-drug-summary">${card.desc}</p>`:''}
+    <div class="classification-drug-details">${card.details||'Подробное описание для этой позиции пока не добавлено.'}</div>
+  </article>`;
+  overlay.addEventListener('click',event=>{if(event.target===overlay)overlay.remove()});
+  document.body.appendChild(overlay);
+  const closeOnEscape=event=>{
+    if(event.key==='Escape'){
+      overlay.remove();
+      document.removeEventListener('keydown',closeOnEscape);
+    }
+  };
+  document.addEventListener('keydown',closeOnEscape);
+  overlay.querySelector('.classification-drug-close')?.addEventListener('click',()=>document.removeEventListener('keydown',closeOnEscape));
+}
 function renderReference(){
   const groupSections=[...new Set(GROUPS.filter(g=>g.section!=='Адреномиметики').map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
