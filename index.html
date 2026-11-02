@@ -1009,6 +1009,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .control-stage-icon{width:31px;height:31px;font-size:16px}
 }
 
+
+/* Final assessment: written classification task */
+.control-classification{margin:18px 0 22px;padding:20px;border:1px solid var(--border);border-radius:20px;background:var(--card);box-shadow:var(--shadow-sm)}
+.control-classification-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.control-classification-head>div{min-width:0;flex:1 1 220px}
+.control-classification-head h3{font-size:16px;font-weight:800}
+.control-classification-head p{margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.55}
+.control-classification-step{margin-top:14px;padding:15px;border:1px solid var(--border);border-radius:15px;background:var(--card-2)}
+.control-classification-progress{display:flex;justify-content:space-between;gap:8px;color:var(--text-muted);font-size:11px;font-weight:700}
+.control-classification-track{height:6px;margin-top:8px;border-radius:99px;background:var(--border);overflow:hidden}
+.control-classification-track span{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.control-classification-section{margin-top:15px;color:var(--text-muted);font-size:11px;font-weight:750}
+.control-classification-group{margin-top:5px;font-size:17px;font-weight:800;line-height:1.4;overflow-wrap:anywhere}
+.control-classification-hint{margin-top:7px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.control-classification-input{display:block;box-sizing:border-box;width:100%;min-height:94px;margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text);font:inherit;font-size:14px;line-height:1.5;resize:vertical}
+.control-classification-feedback{margin-top:12px;padding:12px;border-radius:11px;background:var(--card);font-size:12px;line-height:1.6}
+.control-classification-feedback strong{display:block;margin-bottom:5px}
+.control-classification-feedback .ok{color:var(--success)}
+.control-classification-feedback .miss{color:var(--error)}
+.control-classification-feedback .extra{color:var(--warm)}
+.control-classification-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.control-classification-actions button{flex:1 1 150px}
+.control-classification-report{margin-top:14px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--card-2)}
+.control-classification-report h4{font-size:16px;font-weight:800}
+.control-classification-report p{margin-top:5px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.control-classification-weak{display:grid;gap:7px;margin-top:12px}
+.control-classification-weak article{padding:10px;border-radius:10px;background:var(--card);font-size:11px;line-height:1.5}
+@media(max-width:600px){
+ .control-classification{padding:14px 11px}
+ .control-classification-head{display:flex;flex-direction:column;align-items:stretch}
+ .control-classification-head .control-action-btn{width:100%;min-height:48px}
+ .control-classification-step{padding:12px 10px}
+ .control-classification-input{min-height:104px;font-size:16px}
+ .control-classification-actions{display:grid;grid-template-columns:minmax(0,1fr)}
+ .control-classification-actions button{width:100%;min-height:48px}
+}
 /* Control section index and nested final-session navigation */
 .control-final-card{width:100%;display:flex;align-items:center;gap:14px;margin-top:16px;padding:18px;border:1px solid var(--border);border-radius:17px;background:var(--card);color:var(--text);text-align:left;cursor:pointer;transition:border-color .18s,transform .18s}
 .control-final-card:hover{border-color:var(--mint);transform:translateY(-1px)}
@@ -2950,6 +2986,62 @@ function renderControlDictationAttempt(){
 function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt||controlDictationAttempt.result||!controlDictationAttempt.answers[i])return;controlDictationAttempt.answers[i][field]=value;}
 function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
 
+let controlClassificationAttempt=null;
+function startControlClassification(){
+ const groups=GROUPS.filter(g=>g.section&&g.group&&Array.isArray(g.drugs)&&g.drugs.length);
+ if(!groups.length)return;
+ controlClassificationAttempt={groups:groups.map(g=>({section:g.section,group:g.group,drugs:[...g.drugs]})),index:0,results:[],answer:'',checked:false};
+ renderControlClassification();
+}
+function renderControlClassification(){
+ const root=document.getElementById('controlClassificationResults');
+ const a=controlClassificationAttempt;
+ if(!root)return;
+ if(!a){root.innerHTML='<div class="control-dictation-empty">Нажми «Начать классификацию», чтобы последовательно заполнить все группы.</div>';return;}
+ if(a.index>=a.groups.length){renderControlClassificationReport();return;}
+ const item=a.groups[a.index],result=a.results[a.index];
+ const pct=Math.round(a.index/a.groups.length*100);
+ const feedback=result?'<div class="control-classification-feedback"><strong class="'+(result.correct===result.total?'ok':'miss')+'">'+(result.correct===result.total?'✓ Все препараты указаны':'Результат: '+result.correct+' из '+result.total)+'</strong>'+
+  (result.matched.length?'<div class="ok">Верно: '+result.matched.map(escapeHtml).join(', ')+'</div>':'')+
+  (result.missed.length?'<div class="miss">Пропущено: '+result.missed.map(escapeHtml).join(', ')+'</div>':'')+
+  (result.extra.length?'<div class="extra">Лишнее: '+result.extra.map(escapeHtml).join(', ')+'</div>':'')+
+  '<div style="margin-top:7px">Эталон: '+item.drugs.map(escapeHtml).join(', ')+'</div></div>':'';
+ root.innerHTML='<div class="control-classification-step">'+
+  '<div class="control-classification-progress"><span>Группа '+(a.index+1)+' из '+a.groups.length+'</span><span>'+pct+'% пройдено</span></div>'+
+  '<div class="control-classification-track"><span style="width:'+pct+'%"></span></div>'+
+  '<div class="control-classification-section">'+escapeHtml(item.section)+'</div>'+
+  '<div class="control-classification-group">'+escapeHtml(item.group)+'</div>'+
+  '<div class="control-classification-hint">Самостоятельно перечисли все препараты этой группы через запятую. Порядок препаратов не важен.</div>'+
+  (result?feedback:'<textarea class="control-classification-input" id="controlClassificationInput" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введи названия препаратов через запятую">'+escapeHtml(a.answer)+'</textarea>')+
+  '<div class="control-classification-actions">'+
+  (result?'<button class="control-action-btn" type="button" onclick="nextControlClassification()">Следующая группа</button>':'<button class="control-action-btn" type="button" onclick="checkControlClassification()">Проверить ответ</button>')+
+  '<button class="control-action-btn control-secondary-btn" type="button" onclick="cancelControlClassification()">Выйти к заданиям</button>'+
+  '</div></div>';
+}
+function checkControlClassification(){
+ const a=controlClassificationAttempt;if(!a||a.results[a.index])return;
+ const field=document.getElementById('controlClassificationInput');if(!field)return;
+ a.answer=field.value;
+ const item=a.groups[a.index];
+ a.results[a.index]=classifyCheck(a.answer,item.drugs);
+ renderControlClassification();
+}
+function nextControlClassification(){
+ const a=controlClassificationAttempt;if(!a||!a.results[a.index])return;
+ a.index++;a.answer='';
+ renderControlClassification();
+}
+function renderControlClassificationReport(){
+ const root=document.getElementById('controlClassificationResults'),a=controlClassificationAttempt;if(!root||!a)return;
+ const total=a.results.reduce((n,r)=>n+r.total,0),correct=a.results.reduce((n,r)=>n+r.correct,0);
+ const full=a.results.filter(r=>r.correct===r.total).length;
+ const weak=a.results.map((r,i)=>({r,item:a.groups[i]})).filter(x=>x.r.correct<x.r.total);
+ const pct=total?Math.round(correct/total*100):0;
+ root.innerHTML='<div class="control-classification-report"><h4>Классификация завершена</h4><p>Групп: '+a.groups.length+' · Правильно указано: '+correct+' из '+total+' препаратов ('+pct+'%) · Полностью верных групп: '+full+'</p>'+
+ (weak.length?'<div class="control-classification-weak"><strong>Группы, которые стоит повторить</strong>'+weak.map(x=>'<article><b>'+escapeHtml(x.item.section)+' → '+escapeHtml(x.item.group)+'</b><br>Пропущено: '+x.r.missed.map(escapeHtml).join(', ')+(x.r.extra.length?'<br>Лишнее: '+x.r.extra.map(escapeHtml).join(', '):'')+'</article>').join('')+'</div>':'<p class="ok">Все группы заполнены без ошибок.</p>')+
+ '<div class="control-classification-actions"><button class="control-action-btn" type="button" onclick="startControlClassification()">Пройти заново</button><button class="control-action-btn control-secondary-btn" type="button" onclick="cancelControlClassification()">К заданиям Итога 1</button></div></div>';
+}
+function cancelControlClassification(){controlClassificationAttempt=null;renderControlClassification();}
 let controlView='list';
 function openControlFinal(number){
  controlView='final'+number;
@@ -2996,6 +3088,13 @@ function renderControlFinalOne(){
      <button class="control-action-btn" type="button" onclick="generateControlDictation()">Сформировать варианты</button>
     </div>
     <div id="controlDictationResults"></div>
+   </section>
+   <section class="control-classification">
+    <div class="control-classification-head">
+     <div><h3>Классификация</h3><p>Даны раздел и группа. Самостоятельно перечисли препараты, относящиеся к ней. Проверяются все классификационные позиции, включая намеренные повторы препаратов в разных группах.</p></div>
+     <button class="control-action-btn" type="button" onclick="startControlClassification()">Начать классификацию</button>
+    </div>
+    <div id="controlClassificationResults"></div>
    </section>
   </div>`;
 }
