@@ -911,6 +911,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .control-section-heading h3{font-size:17px;font-weight:800}
 .control-section-heading p{margin-top:3px;color:var(--text-muted);font-size:12px;line-height:1.5}
 .control-stage-list{display:grid;gap:10px}
+
+.control-dictation{margin:18px 0 22px;padding:20px;border:1px solid var(--border);border-radius:20px;background:var(--card);box-shadow:var(--shadow-sm)}
+.control-dictation-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.control-dictation-head h3{font-size:16px;font-weight:800}
+.control-dictation-head p{margin-top:4px;color:var(--text-muted);font-size:12px;line-height:1.55}
+.control-action-btn{min-height:44px;padding:11px 16px;border:0;border-radius:13px;background:var(--accent);color:#fff;font:700 12px inherit;cursor:pointer;touch-action:manipulation}
+.control-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.control-variant{min-width:0;padding:15px;border:1px solid var(--border);border-radius:15px;background:var(--card-2)}
+.control-variant h4{margin-bottom:10px;font-size:14px;font-weight:800}
+.control-variant ol{padding-left:24px;columns:2;column-gap:24px}
+.control-variant li{break-inside:avoid;padding:3px 0;color:var(--text);font-size:12px;line-height:1.45}
+.control-dictation-empty{margin-top:14px;padding:14px;border-radius:13px;background:var(--card-2);color:var(--text-muted);font-size:12px;line-height:1.55}
+.control-dictation-foot{margin-top:12px;color:var(--text-muted);font-size:11px;line-height:1.5}
+@media(max-width:600px){.control-dictation{padding:15px 12px}.control-variants{grid-template-columns:1fr}.control-variant ol{columns:2;column-gap:18px}.control-action-btn{width:100%}}
+@media print{.sidebar,.topbar,.control-action-btn{display:none!important}.content{margin:0;padding:0}.control-variant{break-inside:avoid}}
+
 .control-stage{display:grid;grid-template-columns:38px 44px minmax(0,1fr);align-items:start;gap:13px;padding:17px;border:1px solid var(--border);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm)}
 .control-stage-number{padding-top:5px;color:var(--text-muted);font-size:12px;font-weight:850;font-variant-numeric:tabular-nums}
 .control-stage-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--card-2);font-size:20px}
@@ -2784,9 +2800,55 @@ function toggleReferenceSection(id){
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
 
+let controlDictationVariants=null;
+
+function getControlDictationPool(){
+  const seen=new Set();
+  const pool=[];
+  GROUPS.forEach(group=>{
+    group.drugs.forEach(drug=>{
+      const name=String(drug).trim();
+      if(name&&!seen.has(name)){
+        seen.add(name);
+        pool.push(name);
+      }
+    });
+  });
+  return pool;
+}
+
+function generateControlDictation(){
+  const pool=getControlDictationPool();
+  if(pool.length<40){
+    const target=document.getElementById('controlDictationResults');
+    if(target)target.innerHTML='<div class="control-dictation-empty">В классификации пока недостаточно уникальных препаратов для двух полных вариантов по 20 заданий.</div>';
+    return;
+  }
+  for(let i=pool.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [pool[i],pool[j]]=[pool[j],pool[i]];
+  }
+  controlDictationVariants=[pool.slice(0,20),pool.slice(20,40)];
+  renderControlDictationVariants();
+}
+
+function renderControlDictationVariants(){
+  const target=document.getElementById('controlDictationResults');
+  if(!target)return;
+  if(!controlDictationVariants){
+    target.innerHTML='<div class="control-dictation-empty">Нажми «Сформировать варианты», чтобы случайно распределить препараты по двум непересекающимся спискам. Каждый вариант содержит 20 позиций.</div>';
+    return;
+  }
+  target.innerHTML='<div class="control-variants">'+controlDictationVariants.map((items,index)=>'<section class="control-variant"><h4>Вариант '+(index===0?'А':'Б')+' · 20 препаратов</h4><ol>'+items.map(name=>'<li>'+escapeHtml(name)+'</li>').join('')+'</ol></section>').join('')+'</div><p class="control-dictation-foot">Варианты сформированы из уникальных названий препаратов кафедральной классификации. В пределах одной пары варианты не повторяются; новая генерация создаёт новую пару.</p>';
+}
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+
 function renderControl(){
   const stages=[
-    {number:'01',icon:'💊',title:'Диктант препаратов',meta:'20 препаратов · все четыре изученные темы',description:'Случайная подборка препаратов из общего материала. Будут предусмотрены два варианта и отдельная проверка диктанта.',status:'Первый этап разработки',tone:'mint'},
+    {number:'01',icon:'💊',title:'Диктант препаратов',meta:'2 варианта по 20 препаратов · все разделы до адреноблокаторов включительно',description:'Случайная подборка из общей кафедральной классификации. Варианты формируются независимо по составу, без повторения препаратов между А и Б.',status:'Генератор готов',tone:'mint'},
     {number:'02',icon:'📝',title:'Выписывание рецептов',meta:'4 препарата',description:'Самостоятельное оформление рецептов: лекарственная форма, дозировка, правила записи и сигнатура по предоставленным тобой материалам и репетурам.',status:'Ожидает рецептурные материалы',tone:'lavender'},
     {number:'03',icon:'🧩',title:'Воспроизведение классификации',meta:'Одна заданная группа или подгруппа',description:'Студент самостоятельно перечисляет препараты. Проверка будет учитывать полноту ответа и точное соответствие кафедральной классификации.',status:'Запланировано',tone:'warm'},
     {number:'04',icon:'🧠',title:'Сборка схемы',meta:'Синапс или схема нервной системы',description:'Интерактивный конструктор: перетаскивание элементов, размещение на рабочем поле и проверка связей и расположения по эталону из методички.',status:'Запланировано',tone:'mint'},
@@ -2800,6 +2862,13 @@ function renderControl(){
         <h2>Итоговое занятие</h2>
         <p>Комплексная репетиция итогового контроля: диктант препаратов, рецепты, классификация, схемы и клиническая задача.</p>
         <div class="control-facts"><span>5 этапов</span><span>Самостоятельные ответы</span><span>Раздельная проверка</span></div>
+      </section>
+      <section class="control-dictation">
+        <div class="control-dictation-head">
+          <div><h3>Этап 1. Диктант препаратов</h3><p>Два варианта по 20 препаратов. Источник — все разделы кафедральной классификации от холиномиметиков до адреноблокаторов включительно.</p></div>
+          <button class="control-action-btn" type="button" onclick="generateControlDictation()">Сформировать варианты</button>
+        </div>
+        <div id="controlDictationResults"></div>
       </section>
       <div class="control-section-heading"><div><h3>Структура занятия</h3><p>Этапы будут открываться по мере подготовки заданий и критериев проверки.</p></div></div>
       <div class="control-stage-list">
