@@ -3200,28 +3200,38 @@ function bootPharmStudy(){
   }
 }
 
-/* Делегированные обработчики итогового контроля: работают и для динамически созданных элементов. */
-document.addEventListener('click',function(event){
+/* Обработчики контроля на корневом контейнере в capture-фазе.
+   Так клик перехватывается до возможных обработчиков вложенных компонентов. */
+screenEl.addEventListener('click',function(event){
  const button=event.target.closest('[data-control-action]');
- if(!button)return;
+ if(!button||!screenEl.contains(button))return;
  const action=button.dataset.controlAction;
- if(action==='open-final')openControlFinal(Number(button.dataset.controlNumber||1));
- else if(action==='back-list')backToControlList();
- else if(action==='generate-dictation')generateControlDictation();
- else if(action==='start-dictation')startControlDictation(Number(button.dataset.controlIndex||0));
- else if(action==='restart-dictation')startControlDictation(Number(controlDictationAttempt?.variant||0));
- else if(action==='dictation-to-variants'){controlDictationAttempt=null;renderControlDictationVariants();}
- else if(action==='submit-dictation')submitControlDictation();
- else if(action==='start-classification')startControlClassification();
- else if(action==='check-classification')checkControlClassification();
- else if(action==='next-classification')nextControlClassification();
- else if(action==='cancel-classification')cancelControlClassification();
-});
-document.addEventListener('input',function(event){
+ try{
+  if(action==='open-final')openControlFinal(Number(button.dataset.controlNumber||1));
+  else if(action==='back-list')backToControlList();
+  else if(action==='generate-dictation')generateControlDictation();
+  else if(action==='start-dictation')startControlDictation(Number(button.dataset.controlIndex||0));
+  else if(action==='restart-dictation')startControlDictation(Number(controlDictationAttempt?.variant||0));
+  else if(action==='dictation-to-variants'){controlDictationAttempt=null;renderControlDictationVariants();}
+  else if(action==='submit-dictation')submitControlDictation();
+  else if(action==='start-classification')startControlClassification();
+  else if(action==='check-classification')checkControlClassification();
+  else if(action==='next-classification')nextControlClassification();
+  else if(action==='cancel-classification')cancelControlClassification();
+  else return;
+  event.preventDefault();
+  event.stopPropagation();
+ }catch(error){
+  console.error('Ошибка задания Итога 1:',error);
+  const root=document.getElementById('controlDictationResults')||document.getElementById('controlClassificationResults');
+  if(root)root.innerHTML='<div class="control-dictation-empty" role="alert">Ошибка задания: '+escapeHtml(error&&error.message?error.message:String(error))+'</div>';
+ }
+},true);
+screenEl.addEventListener('input',function(event){
  const field=event.target.closest('[data-control-input]');
- if(!field)return;
+ if(!field||!screenEl.contains(field))return;
  updateControlDictationAnswer(Number(field.dataset.controlIndex),field.dataset.controlField,field.value);
-});
+},true);
 
 if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true});
