@@ -1544,7 +1544,7 @@ function setScreen(name){
   else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='library')renderClassifyLibrary();else if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
-  else if(name==='control'){titleEl.textContent='Контроль';screenEl.innerHTML=renderControl()}
+  else if(name==='control'){titleEl.textContent='Контроль';screenEl.innerHTML=renderControl();renderControlDictationVariants()}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
