@@ -2919,7 +2919,7 @@ function renderControlDictationVariants(){
  const t=document.getElementById('controlDictationResults');if(!t)return;
  if(!controlDictationVariants){t.innerHTML='<div class="control-dictation-empty">Нажми «Сформировать варианты», чтобы получить два списка по 20 препаратов.</div>';return;}
  if(controlDictationAttempt){renderControlDictationAttempt();return;}
- t.innerHTML='<div class="control-variants">'+controlDictationVariants.map((items,n)=>'<section class="control-variant"><h4>Вариант '+(n?'Б':'А')+' · 20 препаратов</h4><ol>'+items.map(x=>'<li>'+escapeHtml(x.name)+'</li>').join('')+'</ol><button class="control-action-btn control-start-variant" onclick="runControlAction('start-dictation','+n+')">Выполнить вариант '+(n?'Б':'А')+'</button></section>').join('')+'</div><p class="control-dictation-foot">Студент видит препарат и самостоятельно вписывает раздел, затем группу/подгруппу. Эталон скрыт до сдачи.</p>';
+ t.innerHTML='<div class="control-variants">'+controlDictationVariants.map((items,n)=>'<section class="control-variant"><h4>Вариант '+(n?'Б':'А')+' · 20 препаратов</h4><ol>'+items.map(x=>'<li>'+escapeHtml(x.name)+'</li>').join('')+'</ol><button class="control-action-btn control-start-variant" data-control-action="start-dictation" data-control-index="'+n+'">Выполнить вариант '+(n?'Б':'А')+'</button></section>').join('')+'</div><p class="control-dictation-foot">Студент видит препарат и самостоятельно вписывает раздел, затем группу/подгруппу. Эталон скрыт до сдачи.</p>';
 }
 function startControlDictation(n){if(!controlDictationVariants||!controlDictationVariants[n])return;controlDictationAttempt={variant:n,answers:controlDictationVariants[n].map(()=>({section:'',group:''})),result:null};renderControlDictationAttempt();}
 function normalizeControlAnswer(v){
@@ -2979,9 +2979,9 @@ function renderControlDictationAttempt(){
  const items=controlDictationVariants[controlDictationAttempt.variant],results=controlDictationAttempt.result;
  if(results){
   const good=results.filter(x=>x.status==='correct'||x.status==='typo').length;
-  t.innerHTML='<div class="control-attempt-head"><h4>Результат · вариант '+(controlDictationAttempt.variant?'Б':'А')+'</h4><p>Зачтено: <strong>'+good+'/20</strong> · Опечатки: '+results.filter(x=>x.status==='typo').length+' · Ошибки классификации: '+(20-good)+'</p></div><div class="control-review-list">'+items.map((item,i)=>{const r=results[i],a=controlDictationAttempt.answers[i];return '<article class="control-review-item is-'+r.status+'"><div class="control-review-title">'+(i+1)+'. '+escapeHtml(item.name)+' <span>'+escapeHtml(r.label)+'</span></div><div class="control-review-answer">Твой ответ: '+escapeHtml(a.section||'—')+' → '+escapeHtml(a.group||'—')+'</div><div class="control-review-answer control-review-key">Эталон: '+item.paths.map(p=>escapeHtml(p.section)+' → '+escapeHtml(p.group)).join(' / ')+'</div></article>';}).join('')+'</div><div class="control-attempt-actions"><button class="control-action-btn" onclick="runControlAction('dictation-to-variants')">К вариантам</button><button class="control-action-btn control-secondary-btn" onclick="runControlAction('restart-dictation')">Пройти заново</button></div>';return;
+  t.innerHTML='<div class="control-attempt-head"><h4>Результат · вариант '+(controlDictationAttempt.variant?'Б':'А')+'</h4><p>Зачтено: <strong>'+good+'/20</strong> · Опечатки: '+results.filter(x=>x.status==='typo').length+' · Ошибки классификации: '+(20-good)+'</p></div><div class="control-review-list">'+items.map((item,i)=>{const r=results[i],a=controlDictationAttempt.answers[i];return '<article class="control-review-item is-'+r.status+'"><div class="control-review-title">'+(i+1)+'. '+escapeHtml(item.name)+' <span>'+escapeHtml(r.label)+'</span></div><div class="control-review-answer">Твой ответ: '+escapeHtml(a.section||'—')+' → '+escapeHtml(a.group||'—')+'</div><div class="control-review-answer control-review-key">Эталон: '+item.paths.map(p=>escapeHtml(p.section)+' → '+escapeHtml(p.group)).join(' / ')+'</div></article>';}).join('')+'</div><div class="control-attempt-actions"><button class="control-action-btn" data-control-action="dictation-to-variants">К вариантам</button><button class="control-action-btn control-secondary-btn" data-control-action="restart-dictation">Пройти заново</button></div>';return;
  }
- t.innerHTML='<div class="control-attempt-head"><h4>Вариант '+(controlDictationAttempt.variant?'Б':'А')+' · заполнение классификации</h4><p>Для каждого препарата укажи сначала раздел, затем группу/подгруппу. Эталон не показывается.</p></div><div class="control-answer-list">'+items.map((item,i)=>{const a=controlDictationAttempt.answers[i];return '<article class="control-answer-row"><div class="control-answer-drug">'+(i+1)+'. '+escapeHtml(item.name)+'</div><label>Раздел<input type="text" autocomplete="off" value="'+escapeHtml(a.section)+'" placeholder="Например, Холиномиметики" data-control-input="1" data-control-index="'+i+'" data-control-field="section"></label><label>Группа / подгруппа<input type="text" autocomplete="off" value="'+escapeHtml(a.group)+'" placeholder="Название по классификации" data-control-input="1" data-control-index="'+i+'" data-control-field="group"></label></article>';}).join('')+'</div><div class="control-submit-row"><button class="control-action-btn" onclick="runControlAction('submit-dictation')">Проверить ответы</button><button class="control-action-btn control-secondary-btn" onclick="runControlAction('dictation-to-variants')">Отмена</button></div>';
+ t.innerHTML='<div class="control-attempt-head"><h4>Вариант '+(controlDictationAttempt.variant?'Б':'А')+' · заполнение классификации</h4><p>Для каждого препарата укажи сначала раздел, затем группу/подгруппу. Эталон не показывается.</p></div><div class="control-answer-list">'+items.map((item,i)=>{const a=controlDictationAttempt.answers[i];return '<article class="control-answer-row"><div class="control-answer-drug">'+(i+1)+'. '+escapeHtml(item.name)+'</div><label>Раздел<input type="text" autocomplete="off" value="'+escapeHtml(a.section)+'" placeholder="Например, Холиномиметики" data-control-input="1" data-control-index="'+i+'" data-control-field="section"></label><label>Группа / подгруппа<input type="text" autocomplete="off" value="'+escapeHtml(a.group)+'" placeholder="Название по классификации" data-control-input="1" data-control-index="'+i+'" data-control-field="group"></label></article>';}).join('')+'</div><div class="control-submit-row"><button class="control-action-btn" data-control-action="submit-dictation">Проверить ответы</button><button class="control-action-btn control-secondary-btn" data-control-action="dictation-to-variants">Отмена</button></div>';
 }
 function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt||controlDictationAttempt.result||!controlDictationAttempt.answers[i])return;controlDictationAttempt.answers[i][field]=value;}
 function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
@@ -3014,8 +3014,8 @@ function renderControlClassification(){
   '<div class="control-classification-hint">Самостоятельно перечисли все препараты этой группы через запятую. Порядок препаратов не важен.</div>'+
   (result?feedback:'<textarea class="control-classification-input" id="controlClassificationInput" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введи названия препаратов через запятую">'+escapeHtml(a.answer)+'</textarea>')+
   '<div class="control-classification-actions">'+
-  (result?'<button class="control-action-btn" type="button" onclick="runControlAction('next-classification')">Следующая группа</button>':'<button class="control-action-btn" type="button" onclick="runControlAction('check-classification')">Проверить ответ</button>')+
-  '<button class="control-action-btn control-secondary-btn" type="button" onclick="runControlAction('cancel-classification')">Выйти к заданиям</button>'+
+  (result?'<button class="control-action-btn" type="button" data-control-action="next-classification">Следующая группа</button>':'<button class="control-action-btn" type="button" data-control-action="check-classification">Проверить ответ</button>')+
+  '<button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">Выйти к заданиям</button>'+
   '</div></div>';
 }
 function checkControlClassification(){
@@ -3039,7 +3039,7 @@ function renderControlClassificationReport(){
  const pct=total?Math.round(correct/total*100):0;
  root.innerHTML='<div class="control-classification-report"><h4>Классификация завершена</h4><p>Групп: '+a.groups.length+' · Правильно указано: '+correct+' из '+total+' препаратов ('+pct+'%) · Полностью верных групп: '+full+'</p>'+
  (weak.length?'<div class="control-classification-weak"><strong>Группы, которые стоит повторить</strong>'+weak.map(x=>'<article><b>'+escapeHtml(x.item.section)+' → '+escapeHtml(x.item.group)+'</b><br>Пропущено: '+x.r.missed.map(escapeHtml).join(', ')+(x.r.extra.length?'<br>Лишнее: '+x.r.extra.map(escapeHtml).join(', '):'')+'</article>').join('')+'</div>':'<p class="ok">Все группы заполнены без ошибок.</p>')+
- '<div class="control-classification-actions"><button class="control-action-btn" type="button" onclick="runControlAction('start-classification')">Пройти заново</button><button class="control-action-btn control-secondary-btn" type="button" onclick="runControlAction('cancel-classification')">К заданиям Итога 1</button></div></div>';
+ '<div class="control-classification-actions"><button class="control-action-btn" type="button" data-control-action="start-classification">Пройти заново</button><button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">К заданиям Итога 1</button></div></div>';
 }
 function cancelControlClassification(){controlClassificationAttempt=null;renderControlClassification();}
 let controlView='list';
@@ -3063,7 +3063,7 @@ function renderControl(){
     <h2>Контроль знаний</h2>
     <p>Выбери итоговое занятие. Каждое занятие будет открываться отдельно и включать собственные задания.</p>
    </section>
-   <button class="control-final-card" type="button" onclick="runControlAction('open-final',1)">
+   <button class="control-final-card" type="button" data-control-action="open-final" data-control-number="1">
     <span class="control-final-card-icon">①</span>
     <span class="control-final-card-copy"><strong>Итог 1</strong><small>Первое итоговое занятие · диктант, рецепты, классификация и практические задания</small></span>
     <span class="control-final-card-arrow" aria-hidden="true">→</span>
@@ -3074,7 +3074,7 @@ function renderControl(){
 function renderControlFinalOne(){
  return `
   <div class="control-page">
-   <button class="control-back-btn" type="button" onclick="runControlAction('back-list')">← Все итоговые занятия</button>
+   <button class="control-back-btn" type="button" data-control-action="back-list">← Все итоговые занятия</button>
    <section class="control-hero">
     <div class="control-hero-icon">📋</div>
     <div class="control-kicker">КАФЕДРАЛЬНЫЙ ФОРМАТ · ПЕРВОЕ ИТОГОВОЕ</div>
@@ -3085,14 +3085,14 @@ function renderControlFinalOne(){
    <section class="control-dictation">
     <div class="control-dictation-head">
      <div><h3>Диктант препаратов</h3><p>Два варианта по 20 препаратов. Студент видит название препарата и самостоятельно вписывает раздел и группу/подгруппу. Сайт проверяет структуру ответа, последовательность, сокращения и опечатки.</p></div>
-     <button class="control-action-btn" type="button" onclick="runControlAction('generate-dictation')">Сформировать варианты</button>
+     <button class="control-action-btn" type="button" data-control-action="generate-dictation">Сформировать варианты</button>
     </div>
     <div id="controlDictationResults"></div>
    </section>
    <section class="control-classification">
     <div class="control-classification-head">
      <div><h3>Классификация</h3><p>Даны раздел и группа. Самостоятельно перечисли препараты, относящиеся к ней. Проверяются все классификационные позиции, включая намеренные повторы препаратов в разных группах.</p></div>
-     <button class="control-action-btn" type="button" onclick="runControlAction('start-classification')">Начать классификацию</button>
+     <button class="control-action-btn" type="button" data-control-action="start-classification">Начать классификацию</button>
     </div>
     <div id="controlClassificationResults"></div>
    </section>
@@ -3198,26 +3198,6 @@ function bootPharmStudy(){
       document.getElementById('retryDashboard')?.addEventListener('click',()=>setScreen('dashboard'));
     }
   }
-}
-
-function runControlAction(action,arg){
- try{
-  if(action==="open-final")openControlFinal(Number(arg||1));
-  else if(action==="back-list")backToControlList();
-  else if(action==="generate-dictation")generateControlDictation();
-  else if(action==="start-dictation")startControlDictation(Number(arg||0));
-  else if(action==="restart-dictation")startControlDictation(Number(controlDictationAttempt?.variant||0));
-  else if(action==="dictation-to-variants"){controlDictationAttempt=null;renderControlDictationVariants();}
-  else if(action==="submit-dictation")submitControlDictation();
-  else if(action==="start-classification")startControlClassification();
-  else if(action==="check-classification")checkControlClassification();
-  else if(action==="next-classification")nextControlClassification();
-  else if(action==="cancel-classification")cancelControlClassification();
- }catch(error){
-  console.error("Ошибка задания Итога 1:",error);
-  const root=document.getElementById("controlDictationResults")||document.getElementById("controlClassificationResults");
-  if(root)root.innerHTML='<div class="control-dictation-empty" role="alert">Не удалось выполнить действие: '+escapeHtml(error&&error.message?error.message:String(error))+'</div>';
- }
 }
 
 /* Делегированные обработчики итогового контроля: работают и для динамически созданных элементов. */
