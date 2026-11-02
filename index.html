@@ -2886,22 +2886,54 @@ function renderControlDictationVariants(){
  t.innerHTML='<div class="control-variants">'+controlDictationVariants.map((items,n)=>'<section class="control-variant"><h4>Вариант '+(n?'Б':'А')+' · 20 препаратов</h4><ol>'+items.map(x=>'<li>'+escapeHtml(x.name)+'</li>').join('')+'</ol><button class="control-action-btn control-start-variant" onclick="startControlDictation('+n+')">Выполнить вариант '+(n?'Б':'А')+'</button></section>').join('')+'</div><p class="control-dictation-foot">Студент видит препарат и самостоятельно вписывает раздел, затем группу/подгруппу. Эталон скрыт до сдачи.</p>';
 }
 function startControlDictation(n){if(!controlDictationVariants||!controlDictationVariants[n])return;controlDictationAttempt={variant:n,answers:controlDictationVariants[n].map(()=>({section:'',group:''})),result:null};renderControlDictationAttempt();}
-function normalizeControlAnswer(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[«»"']/g,'').replace(/[.,;:()]/g,' ').replace(/[–—-]/g,' ').replace(/\s+/g,' ').trim();}
-function controlEditDistance(a,b){const p=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let d=p[0];p[0]=i;for(let j=1;j<=b.length;j++){const old=p[j];p[j]=Math.min(p[j]+1,p[j-1]+1,d+(a[i-1]===b[j-1]?0:1));d=old;}}return p[b.length];}
+function normalizeControlAnswer(v){
+ return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[«»"'\u2018\u2019]/g,'').replace(/[.,;:()]/g,' ').replace(/[–—-]/g,' ').replace(/\\s+/g,' ').trim();
+}
+function controlEditDistance(a,b){
+ const p=Array.from({length:b.length+1},(_,i)=>i);
+ for(let i=1;i<=a.length;i++){
+  let d=p[0];p[0]=i;
+  for(let j=1;j<=b.length;j++){
+   const old=p[j];
+   p[j]=Math.min(p[j]+1,p[j-1]+1,d+(a[i-1]===b[j-1]?0:1));
+   d=old;
+  }
+ }
+ return p[b.length];
+}
+function controlCanonicalAnswer(value,kind){
+ const valueNormalized=normalizeControlAnswer(value);
+ const aliases={
+  section:{
+   'хм':'холиномиметики',
+   'холиномиметик':'холиномиметики',
+   'фос':'средства при отравлении фос',
+   'средства при отравлении фос':'средства при отравлении фос'
+  }
+ };
+ return aliases[kind]&&aliases[kind][valueNormalized]||valueNormalized;
+}
 function controlTextMatches(input,expected,kind){
- const actual=normalizeControlAnswer(input),target=normalizeControlAnswer(expected);if(!actual||!target)return false;
- const aliases={section:{'хм':'холиномиметики','холиномиметик':'холиномиметики','фос':'средства при отравлении фос'}};
- const a=(aliases[kind]&&aliases[kind][actual])||actual,b=(aliases[kind]&&aliases[kind][target])||target;
- if(a===b)return true;return controlEditDistance(a,b)<=(b.length>=12?2:(b.length>=6?1:0));
+ const actual=controlCanonicalAnswer(input,kind),target=controlCanonicalAnswer(expected,kind);
+ if(!actual||!target)return false;
+ if(actual===target)return true;
+ // Допускаем только небольшое число опечаток; перестановка слов и пропуск части названия не считаются совпадением.
+ const limit=target.length>=16?2:(target.length>=6?1:0);
+ return limit>0&&Math.abs(actual.length-target.length)<=limit&&controlEditDistance(actual,target)<=limit;
 }
 function evaluateControlDictationAnswer(answer,paths){
  const s=String(answer.section||'').trim(),g=String(answer.group||'').trim();
  if(!s&&!g)return{status:'empty',label:'Не заполнено'};
  if(!s||!g)return{status:'partial',label:'Заполнены не все уровни'};
  const match=paths.find(p=>controlTextMatches(s,p.section,'section')&&controlTextMatches(g,p.group,'group'));
- if(match){const sectionAlias=normalizeControlAnswer(s)==='хм'&&normalizeControlAnswer(match.section)==='холиномиметики';const exact=(normalizeControlAnswer(s)===normalizeControlAnswer(match.section)||sectionAlias)&&normalizeControlAnswer(g)===normalizeControlAnswer(match.group);return{status:exact?'correct':'typo',label:exact?'Верно':'Верно, с опечаткой'};}
- if(paths.some(p=>controlTextMatches(s,p.group,'group')&&controlTextMatches(g,p.section,'section')))return{status:'order',label:'Перепутаны местами раздел и группа'};
- const sm=paths.some(p=>controlTextMatches(s,p.section,'section')),gm=paths.some(p=>controlTextMatches(g,p.group,'group'));
+ if(match){
+  const exact=normalizeControlAnswer(s)===normalizeControlAnswer(match.section)&&normalizeControlAnswer(g)===normalizeControlAnswer(match.group);
+  const shortAlias=normalizeControlAnswer(s)==='хм'&&normalizeControlAnswer(match.section)==='холиномиметики';
+  return{status:exact||shortAlias?'correct':'typo',label:exact||shortAlias?'Верно':'Верно, с опечаткой'};
+ }
+ if(paths.some(p=>controlTextMatches(s,p.group,'group')&&controlTextMatches(g,p.section,'section')))return{status:'order',label:'Перепутаны местами раздел и группа/подгруппа'};
+ const sm=paths.some(p=>controlTextMatches(s,p.section,'section'));
+ const gm=paths.some(p=>controlTextMatches(g,p.group,'group'));
  if(sm&&!gm)return{status:'group',label:'Раздел верный, группа/подгруппа — нет'};
  if(gm&&!sm)return{status:'section',label:'Группа/подгруппа верная, раздел — нет'};
  return{status:'wrong',label:'Неверная классификация'};
