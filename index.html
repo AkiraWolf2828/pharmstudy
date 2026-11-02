@@ -861,9 +861,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .classification-document-group{margin:0 0 14px;padding:0 0 0 12px}
 .classification-document-group>.classification-document-heading{font-size:13px;line-height:1.5;font-weight:700;color:var(--text);margin:0 0 3px}
 .classification-document-drugs{font-size:13px;line-height:1.95;color:var(--text);overflow-wrap:anywhere}
-.classification-drug-link{display:inline;border:0;border-radius:5px;padding:1px 2px;margin:0;background:transparent;color:var(--accent-deep);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;transition:background .16s,color .16s,box-shadow .16s}
-.classification-drug-link:hover,.classification-drug-link:focus-visible{color:var(--text);background:var(--accent-soft);text-decoration:underline;text-underline-offset:3px;outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
-@media(pointer:coarse),(any-pointer:coarse){.classification-drug-link{display:inline-block;min-height:36px;padding:7px 5px;margin:1px 2px 1px 0;line-height:1.45;vertical-align:middle;touch-action:manipulation}}
+.classification-drug-link{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;min-height:30px;padding:4px 10px;margin:3px 5px 3px 0;border:1px solid color-mix(in srgb,var(--accent-deep) 17%,var(--border));border-radius:9px;background:var(--card-2);color:var(--accent-deep);font:inherit;font-size:.94em;font-weight:650;line-height:1.45;text-decoration:none;white-space:normal;cursor:pointer;transition:background .16s,border-color .16s,color .16s,box-shadow .16s,transform .16s}
+.classification-drug-link:hover,.classification-drug-link:focus-visible{color:var(--text);background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent-deep) 36%,var(--border));outline:none;box-shadow:0 2px 8px color-mix(in srgb,var(--accent-deep) 12%,transparent)}
+.classification-drug-link:active{transform:translateY(1px)}
+@media(pointer:coarse),(any-pointer:coarse){.classification-drug-link{min-height:40px;padding:8px 11px;margin:4px 5px 4px 0;touch-action:manipulation}}
 .classification-drug-separator{color:var(--text-muted);opacity:.7}
 .classification-drug-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(35,39,43,.42);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);animation:classificationFadeIn .18s ease-out}
 .classification-drug-dialog{position:relative;width:min(640px,100%);max-height:min(84vh,780px);max-height:min(84dvh,780px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:32px 34px 30px;border:1px solid color-mix(in srgb,var(--text-muted) 13%,transparent);border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 22px 70px rgba(35,39,43,.2);animation:classificationCardIn .2s ease-out}
@@ -2627,7 +2628,7 @@ function renderReferenceClassification(cards,depth=0){
       });
       return `<section class="classification-document-group">
         <h${Math.min(depth+2,5)} class="classification-document-heading">${label}</h${Math.min(depth+2,5)}>
-        <div class="classification-document-drugs">${drugLinks.join('<span class="classification-drug-separator">; </span>')}</div>
+        <div class="classification-document-drugs">${drugLinks.join(' ')}</div>
       </section>`;
     }
     const headingLevel=Math.min(depth+1,4);
