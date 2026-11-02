@@ -2564,7 +2564,7 @@ function renderCasePicker(){
         ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
       </div>
     </div>`;
-}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};if(!state.progress._topicActivity)state.progress._topicActivity={};state.progress._topicActivity[CASES[id].section]=true;saveProgress();renderCaseNode()}
+}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};if(!state.progress._topicActivity)state.progress._topicActivity={};state.progress._topicActivity[CASES[id].section]=true;saveProgress();renderCaseNode();addControlCaseBackButton()}
 function renderCaseNode(){
   const cs=state.caseState;
   const C=CASES[cs.caseId];
@@ -3070,7 +3070,7 @@ function placeControlSynapsePart(zone){if(!controlSynapsePuzzle||controlSynapseP
 function dropControlSynapsePart(event,zone){event.preventDefault();const id=controlSynapseDragging;controlSynapseDragging=null;if(!id||!controlSynapsePuzzle||controlSynapsePuzzle.checked||controlSynapsePuzzle.placements[id])return;controlSynapsePuzzle.placements[id]=zone;renderControlSynapsePuzzle();}
 function renderControlSynapsePuzzle(){const root=document.getElementById('controlSynapseResults'),p=controlSynapsePuzzle;if(!root)return;if(!p){root.innerHTML='<div class="control-dictation-empty">Нажми «Начать сборку», чтобы разместить элементы.</div>';return;}const zones=[{id:'pre',title:'Пресинаптическое окончание'},{id:'cleft',title:'Синаптическая щель'},{id:'post',title:'Постсинаптическая мембрана'}];const board=zones.map(z=>'<div class="control-synapse-zone" ondragover="event.preventDefault()" ondrop="dropControlSynapsePart(event,\''+z.id+'\')" onclick="placeControlSynapsePart(\''+z.id+'\')"><h4>'+z.title+'</h4>'+CONTROL_SYNAPSE_PARTS.filter(x=>p.placements[x.id]===z.id).map(x=>'<div class="control-synapse-placed">'+x.name+'</div>').join('')+'</div>').join('');const parts=p.ids.filter(id=>!p.placements[id]).map(id=>{const x=CONTROL_SYNAPSE_PARTS.find(y=>y.id===id);return '<button type="button" draggable="true" class="control-synapse-part '+(controlSynapseSelected===id?'is-selected':'')+'" ondragstart="controlSynapseDragging=\''+id+'\'" onclick="selectControlSynapsePart(\''+id+'\')">'+x.name+'</button>';}).join('');let result='';if(p.checked){const n=CONTROL_SYNAPSE_PARTS.filter(x=>p.placements[x.id]===x.zone).length;result='<div class="control-synapse-result"><b>'+n+' из 6 элементов размещено правильно.</b><p>Эталон: пресинаптическое окончание — везикула и Ca²⁺-канал; синаптическая щель — АХ и АХЭ; постсинаптическая мембрана — М- и Н-холинорецепторы.</p><button class="control-action-btn" onclick="startControlSynapsePuzzle()">Собрать заново</button></div>';}root.innerHTML='<div class="control-synapse-board">'+board+'</div><div class="control-synapse-parts">'+parts+'</div>'+(p.checked?result:'<div class="control-classification-actions"><button class="control-action-btn" onclick="checkControlSynapsePuzzle()" '+(Object.keys(p.placements).length!==6?'disabled':'')+'>Проверить схему</button><button class="control-action-btn control-secondary-btn" onclick="startControlSynapsePuzzle()">Сбросить</button></div>');}
 function checkControlSynapsePuzzle(){if(!controlSynapsePuzzle||Object.keys(controlSynapsePuzzle.placements).length!==6)return;controlSynapsePuzzle.checked=true;renderControlSynapsePuzzle();}
-function startControlCase(){controlCaseActive=true;state.caseState={caseId:'case_fos',nodeId:CASES.case_fos.start,pendingAnswer:null};renderCaseNode();addControlCaseBackButton();}
+function startControlCase(){controlCaseActive=true;state.caseState={caseId:'case_oxybutynin',nodeId:CASES.case_oxybutynin.start,pendingAnswer:null};renderCaseNode();addControlCaseBackButton();}
 function addControlCaseBackButton(){if(controlCaseActive)screenEl.insertAdjacentHTML('afterbegin','<button class="control-case-back" onclick="exitControlCase()">← К заданиям Итога 1</button>');}
 function exitControlCase(){controlCaseActive=false;state.caseState=null;screenEl.innerHTML=renderControlFinalOne();renderControlDictationVariants();renderControlClassification();renderControlSynapsePuzzle();}
 let controlView='list';
@@ -3133,7 +3133,7 @@ function renderControlFinalOne(){
     <div id="controlSynapseResults"><div class="control-dictation-empty">Нажми «Начать сборку», чтобы разместить элементы синапса.</div></div>
    </section>
    <section class="control-classification">
-    <div class="control-classification-head"><div><h3>Клиническая задача</h3><p>Используется существующий на сайте кейс «Отравление ФОС» без изменения сценария.</p></div><button class="control-action-btn" type="button" onclick="startControlCase()">Начать задачу</button></div>
+    <div class="control-classification-head"><div><h3>Клиническая задача</h3><p>Используется существующий на сайте кейс «Задержка мочи на фоне М-холиноблокатора» без изменения сценария.</p></div><button class="control-action-btn" type="button" onclick="startControlCase()">Начать задачу</button></div>
    </section>
   </div>`;
 }
