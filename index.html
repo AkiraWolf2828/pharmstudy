@@ -1080,6 +1080,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   </main>
 </div>
 <script>
+/* Безопасное экранирование текста перед вставкой в HTML-разметку. */
+function escapeHtml(value){
+ return String(value==null?'':value).replace(/[&<>"']/g,function(char){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+ });
+}
+
   const SKILLS={
   q_001:'Классификация',q_002:'Классификация',q_003:'Показания',q_004:'Побочки',q_005:'Показания',
   q_006:'Механизм',q_007:'Показания',q_008:'Показания',q_009:'Показания',q_010:'Классификация',
