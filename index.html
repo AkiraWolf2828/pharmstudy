@@ -2908,7 +2908,7 @@ function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt
 function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
 
 function renderControl(){
- return \`
+ return `
   <div class="control-page">
    <section class="control-hero">
     <div class="control-hero-icon">📋</div>
@@ -2925,7 +2925,7 @@ function renderControl(){
     <div id="controlDictationResults"></div>
    </section>
    <div class="control-note"><strong>Только первое итоговое занятие</strong><p>Сейчас готовится именно этот контроль. Следующие итоговые занятия будут добавляться отдельно, собственными вкладками, после подготовки их материалов.</p></div>
-  </div>\`;
+  </div>`;
 }
 
 function renderSettings(){
