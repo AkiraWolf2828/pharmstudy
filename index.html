@@ -1009,6 +1009,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .control-stage-icon{width:31px;height:31px;font-size:16px}
 }
 
+/* Control section index and nested final-session navigation */
+.control-final-card{width:100%;display:flex;align-items:center;gap:14px;margin-top:16px;padding:18px;border:1px solid var(--border);border-radius:17px;background:var(--card);color:var(--text);text-align:left;cursor:pointer;transition:border-color .18s,transform .18s}
+.control-final-card:hover{border-color:var(--mint);transform:translateY(-1px)}
+.control-final-card-icon{display:grid;place-items:center;flex:0 0 43px;width:43px;height:43px;border-radius:13px;background:var(--mint-soft);font-size:21px}
+.control-final-card-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}
+.control-final-card-copy strong{font-size:16px}
+.control-final-card-copy small{color:var(--text-muted);font-size:12px;line-height:1.5}
+.control-final-card-arrow{font-size:22px;color:var(--text-muted)}
+.control-back-btn{margin:0 0 14px;padding:9px 13px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer}
+@media(max-width:768px){.control-final-card{gap:10px;padding:14px;border-radius:14px}.control-final-card-copy strong{font-size:14px}.control-final-card-copy small{font-size:11px}.control-final-card-icon{flex-basis:38px;width:38px;height:38px}.control-back-btn{min-height:40px}}
+
 </style>
 </head>
 <body>
@@ -1594,7 +1605,7 @@ function setScreen(name){
   else if(name==='classify'){titleEl.textContent='Классификация';if(state.classifyMode==='library')renderClassifyLibrary();else if(state.classifyMode==='distribute')renderDistributeSetup();else renderClassifySetup()}
   else if(name==='synapse'){titleEl.textContent='Визуализация';renderSynapse()}
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
-  else if(name==='control'){titleEl.textContent='Контроль';screenEl.innerHTML=renderControl();renderControlDictationVariants()}
+  else if(name==='control'){titleEl.textContent='Контроль';controlView='list';screenEl.innerHTML=renderControl();}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
@@ -2907,13 +2918,43 @@ function renderControlDictationAttempt(){
 function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt||controlDictationAttempt.result||!controlDictationAttempt.answers[i])return;controlDictationAttempt.answers[i][field]=value;}
 function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
 
+let controlView='list';
+function openControlFinal(number){
+ controlView='final'+number;
+ if(number===1){
+  screenEl.innerHTML=renderControlFinalOne();
+  renderControlDictationVariants();
+ }
+}
+function backToControlList(){
+ controlView='list';
+ screenEl.innerHTML=renderControl();
+}
 function renderControl(){
  return `
   <div class="control-page">
    <section class="control-hero">
     <div class="control-hero-icon">📋</div>
+    <div class="control-kicker">ИТОГОВАЯ ПОДГОТОВКА</div>
+    <h2>Контроль знаний</h2>
+    <p>Выбери итоговое занятие. Каждое занятие будет открываться отдельно и включать собственные задания.</p>
+   </section>
+   <button class="control-final-card" type="button" onclick="openControlFinal(1)">
+    <span class="control-final-card-icon">①</span>
+    <span class="control-final-card-copy"><strong>Итог 1</strong><small>Первое итоговое занятие · диктант, рецепты, классификация и практические задания</small></span>
+    <span class="control-final-card-arrow" aria-hidden="true">→</span>
+   </button>
+   <div class="control-note"><strong>Другие итоговые занятия</strong><p>Новые разделы будут добавляться сюда по мере подготовки материалов.</p></div>
+  </div>`;
+}
+function renderControlFinalOne(){
+ return `
+  <div class="control-page">
+   <button class="control-back-btn" type="button" onclick="backToControlList()">← Все итоговые занятия</button>
+   <section class="control-hero">
+    <div class="control-hero-icon">📋</div>
     <div class="control-kicker">КАФЕДРАЛЬНЫЙ ФОРМАТ · ПЕРВОЕ ИТОГОВОЕ</div>
-    <h2>Итоговое занятие № 1</h2>
+    <h2>Итог 1</h2>
     <p>Первое итоговое занятие. Диктант включает препараты из всех изучаемых тем.</p>
     <div class="control-facts"><span>6 разделов</span><span>20 препаратов в варианте</span><span>Автоматическая проверка</span></div>
    </section>
@@ -2924,7 +2965,6 @@ function renderControl(){
     </div>
     <div id="controlDictationResults"></div>
    </section>
-   <div class="control-note"><strong>Раздел «Контроль»</strong><p>Здесь будут размещаться несколько итоговых занятий. Каждое будет оформлено отдельным разделом внутри этой вкладки.</p></div>
   </div>`;
 }
 
