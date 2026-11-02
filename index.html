@@ -863,9 +863,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .classification-document-drugs{font-size:13px;line-height:1.95;color:var(--text);overflow-wrap:anywhere}
 .classification-drug-link{display:inline;border:0;border-radius:5px;padding:1px 2px;margin:0;background:transparent;color:var(--accent-deep);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;transition:background .16s,color .16s,box-shadow .16s}
 .classification-drug-link:hover,.classification-drug-link:focus-visible{color:var(--text);background:var(--accent-soft);text-decoration:underline;text-underline-offset:3px;outline:none;box-shadow:0 0 0 2px var(--accent-soft)}
+@media(pointer:coarse),(any-pointer:coarse){.classification-drug-link{display:inline-block;min-height:36px;padding:7px 5px;margin:1px 2px 1px 0;line-height:1.45;vertical-align:middle;touch-action:manipulation}}
 .classification-drug-separator{color:var(--text-muted);opacity:.7}
 .classification-drug-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(35,39,43,.42);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);animation:classificationFadeIn .18s ease-out}
-.classification-drug-dialog{position:relative;width:min(640px,100%);max-height:min(84dvh,780px);overflow:auto;padding:32px 34px 30px;border:1px solid color-mix(in srgb,var(--text-muted) 13%,transparent);border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 22px 70px rgba(35,39,43,.2);animation:classificationCardIn .2s ease-out}
+.classification-drug-dialog{position:relative;width:min(640px,100%);max-height:min(84vh,780px);max-height:min(84dvh,780px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:32px 34px 30px;border:1px solid color-mix(in srgb,var(--text-muted) 13%,transparent);border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 22px 70px rgba(35,39,43,.2);animation:classificationCardIn .2s ease-out}
 .classification-drug-dialog:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,var(--mint),var(--lavender-deco),var(--warm))}
 .classification-drug-close{position:sticky;float:right;top:0;margin:-5px -7px 4px 12px;width:36px;height:36px;border:0;border-radius:50%;background:var(--card-2);color:var(--text-muted);font-size:23px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
 .classification-drug-close:hover{background:var(--accent-soft);color:var(--text)}
@@ -890,7 +891,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .classification-document-group>.classification-document-heading,.classification-document-drugs{font-size:12px}
  .classification-document-drugs{line-height:2}
  .classification-drug-overlay{align-items:flex-end;padding:10px}
- .classification-drug-dialog{max-height:86dvh;padding:27px 21px 24px;border-radius:20px 20px 13px 13px}
+ .classification-drug-dialog{max-height:86vh;max-height:86dvh;padding:27px 21px 24px;border-radius:20px 20px 13px 13px}
  .classification-drug-dialog h2{font-size:21px}
  .classification-drug-group{margin-bottom:15px}
 }
