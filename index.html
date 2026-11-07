@@ -2578,6 +2578,7 @@ function renderCaseNode(){
   if(node.isEnd){
     if(controlCaseActive&&controlFinalAttempt&&!controlFinalAttempt.caseResult){
       controlFinalAttempt.caseResult={earned:controlFinalAttempt.caseCorrect,possible:controlFinalAttempt.caseTotal||1,note:'Правильных решений: '+controlFinalAttempt.caseCorrect+' из '+controlFinalAttempt.caseTotal+'.'};
+      if(controlFinalStages().every(s=>s.done))controlFinalAttempt.finished=true;
     }
     screenEl.innerHTML=`
       <div class="case-card">
@@ -2987,7 +2988,11 @@ function restartControlFinalAttempt(){
  if(!controlFinalAttempt?.finished)return;
  controlFinalAttempt=null;startControlFinalAttempt();
 }
-function refreshControlFinalAttempt(){if(controlFinalAttempt)renderControlFinalAttempt();}
+function refreshControlFinalAttempt(){
+ if(!controlFinalAttempt)return;
+ if(!controlFinalAttempt.finished&&controlFinalStages().every(s=>s.done))controlFinalAttempt.finished=true;
+ renderControlFinalAttempt();
+}
 
 let controlDictationVariants=null;
 let controlDictationAttempt=null;
@@ -3145,7 +3150,7 @@ function checkControlClassification(){
  a.result=classifyCheck(a.answer,a.item.drugs);
  a.finished=true;
  if(controlFinalAttempt){
-  controlFinalAttempt.classification={earned:a.result.correct,possible:a.result.total,note:a.item.section+' → '+a.item.group+'. Пропущено: '+(a.result.missed.join(', ')||'нет')+'. Лишнее: '+(a.result.extra.join(', ')||'нет')};
+  controlFinalAttempt.classification={earned:Math.max(0,a.result.correct-a.result.extra.length),possible:a.result.total,note:a.item.section+' → '+a.item.group+'. Пропущено: '+(a.result.missed.join(', ')||'нет')+'. Лишнее: '+(a.result.extra.join(', ')||'нет')};
  }
  renderControlClassification();refreshControlFinalAttempt();
 }
@@ -3424,8 +3429,8 @@ screenEl.addEventListener('click',function(event){
   else if(action==='back-list')backToControlList();
   else if(action==='generate-dictation')generateControlDictation();
   else if(action==='start-dictation')startControlDictation(Number(button.dataset.controlIndex||0));
-  else if(action==='restart-dictation')startControlDictation(Number(controlDictationAttempt?.variant||0));
-  else if(action==='dictation-to-variants'){controlDictationAttempt=null;renderControlDictationVariants();}
+  else if(action==='restart-dictation'){if(!controlFinalAttempt)startControlDictation(Number(controlDictationAttempt?.variant||0));}
+  else if(action==='dictation-to-variants'){if(!controlFinalAttempt){controlDictationAttempt=null;renderControlDictationVariants();}}
   else if(action==='submit-dictation')submitControlDictation();
   else if(action==='start-classification')startControlClassification();
   else if(action==='check-classification')checkControlClassification();
