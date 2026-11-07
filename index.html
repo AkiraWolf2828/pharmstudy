@@ -2956,11 +2956,11 @@ function renderControlFinalAttempt(){
  const root=document.getElementById('controlFinalAttempt');
  if(!root)return;
  if(!controlFinalAttempt){
-  root.innerHTML='<h3>Единая контрольная работа</h3><p>Одна попытка включает диктант (20 препаратов), классификацию, рисунок и клиническую задачу. Общий результат — только после завершения всех четырёх частей.</p><p>Рецепты пока не реализованы и в баллы не входят.</p><button class="control-action-btn" data-control-action="start-final-attempt">Начать контрольную работу</button>';
+  root.innerHTML='<h3>Единая контрольная работа</h3><p>Одна попытка включает диктант (20 препаратов), классификацию, рисунок и клиническую задачу. Две отдельные оценки выводятся после завершения всех четырёх частей: основная за 20 препаратов, вторая — за остальные задания.</p><p>Рецепты пока не реализованы и в баллы не входят.</p><button class="control-action-btn" data-control-action="start-final-attempt">Начать контрольную работу</button>';
   return;
  }
  const a=controlFinalAttempt,stages=controlFinalStages(),done=stages.filter(x=>x.done).length;
- root.innerHTML='<h3>Контрольная работа · Итог 1</h3><p>Выполнено '+done+' из 4 оцениваемых заданий. '+(a.finished?'Работа завершена.':'Результаты будут доступны после завершения всех заданий.')+'</p>'+
+ root.innerHTML='<h3>Контрольная работа · Итог 1</h3><p>Выполнено '+done+' из 4 оцениваемых заданий. '+(a.finished?'Работа завершена.':'Две оценки появятся после завершения всех заданий.')+'</p>'+
  '<div class="control-classification-track"><span style="width:'+(done/4*100)+'%"></span></div>'+
  '<div class="control-variants">'+stages.map((s,i)=>'<div class="control-variant"><strong>'+(i+1)+'. '+s.label+'</strong><p>'+(s.done?'✓ Ответ сдан':'Ожидает выполнения')+'</p></div>').join('')+'</div>'+
  (a.finished?controlFinalReportHtml():
@@ -2968,15 +2968,36 @@ function renderControlFinalAttempt(){
  '<p>После выполнения каждого задания вернись к списку этапов. Не завершённые этапы остаются доступны.</p>')+
  (a.finished?'<div class="control-classification-actions"><button class="control-action-btn" data-control-action="restart-final-attempt">Новая контрольная работа</button></div>':'');
 }
+function controlGradeFromTwenty(correct){
+ const n=Math.max(0,Math.min(20,Number(correct)||0));
+ return n===20?5:n>=15?4:n>=12?3:2;
+}
+function controlGradeFromRatio(earned,possible){
+ // Вторая оценка: предварительно используем пропорциональные пороги первой.
+ if(!possible)return null;
+ const ratio=Math.max(0,Math.min(1,earned/possible));
+ return ratio===1?5:ratio>=0.75?4:ratio>=0.6?3:2;
+}
 function controlFinalReportHtml(){
  const a=controlFinalAttempt;if(!a||!a.finished)return '';
- const stages=controlFinalStages();
- const earned=stages.reduce((n,s)=>n+(s.result?.earned||0),0);
- const possible=stages.reduce((n,s)=>n+(s.result?.possible||0),0);
+ const primary=a.dictation;
+ const primaryGrade=controlGradeFromTwenty(primary.earned);
+ const secondary=[
+  {label:'Классификация',result:a.classification},
+  {label:'Рисунок синапса',result:a.synapse},
+  {label:'Клиническая задача',result:a.caseResult}
+ ];
+ const earned=secondary.reduce((n,s)=>n+(s.result?.earned||0),0);
+ const possible=secondary.reduce((n,s)=>n+(s.result?.possible||0),0);
  const pct=possible?Math.round(earned/possible*100):0;
- return '<section class="control-classification-report"><h3>Итоговая ведомость</h3><p><strong>'+pct+'%</strong> · '+earned+' из '+possible+' баллов</p>'+
- stages.map(s=>'<article style="padding:10px 0;border-bottom:1px solid var(--border)"><b>'+escapeHtml(s.label)+'</b>: '+s.result.earned+' / '+s.result.possible+'<p>'+escapeHtml(s.result.note||'')+'</p></article>').join('')+
- '<p>Это учебная оценка по четырём работающим этапам. Рецепты не включены; официальная кафедральная оценка и пороги ещё не заданы.</p></section>';
+ const secondaryGrade=controlGradeFromRatio(earned,possible);
+ return '<section class="control-classification-report"><h3>Итоговая ведомость · Итог 1</h3>'+
+ '<div class="control-variants">'+
+ '<article class="control-variant"><h4>Основная оценка — '+primaryGrade+'</h4><p>Классификация 20 препаратов: '+primary.earned+' из 20 правильных ответов.</p><p>20 = 5; 15–19 = 4; 12–14 = 3; 0–11 = 2. Допустимые опечатки засчитываются.</p></article>'+
+ '<article class="control-variant"><h4>Вторая оценка — '+secondaryGrade+'</h4><p>Остальные задания вместе: '+earned+' из '+possible+' баллов ('+pct+'%).</p><p>Предварительная шкала: 100% = 5; от 75% = 4; от 60% = 3; ниже = 2.</p></article>'+
+ '</div>'+
+ secondary.map(s=>'<article style="padding:10px 0;border-bottom:1px solid var(--border)"><b>'+escapeHtml(s.label)+'</b>: '+s.result.earned+' / '+s.result.possible+'<p>'+escapeHtml(s.result.note||'')+'</p></article>').join('')+
+ '<p>Оценки независимы: первая по 20 препаратам — основная, вторая — за остальные задания. Рецепты пока не реализованы и не включены во вторую оценку. Пороги второй оценки предварительные до утверждения кафедральной шкалы.</p></section>';
 }
 function finishControlFinalAttempt(){
  if(!controlFinalAttempt||controlFinalAttempt.finished||controlFinalStages().some(s=>!s.done))return;
