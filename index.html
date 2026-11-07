@@ -2576,6 +2576,9 @@ function renderCaseNode(){
   const node=C.nodes[cs.nodeId];
   cs.pendingAnswer=null;
   if(node.isEnd){
+    if(controlCaseActive&&controlFinalAttempt&&!controlFinalAttempt.caseResult){
+      controlFinalAttempt.caseResult={earned:controlFinalAttempt.caseCorrect,possible:controlFinalAttempt.caseTotal||1,note:'Правильных решений: '+controlFinalAttempt.caseCorrect+' из '+controlFinalAttempt.caseTotal+'.'};
+    }
     screenEl.innerHTML=`
       <div class="case-card">
         <div class="case-header"><span class="case-badge">КЕЙС ЗАВЕРШЁН</span><span class="case-title">${C.title}</span></div>
@@ -2628,6 +2631,7 @@ function confirmCaseAnswer(){
   const cs=state.caseState;if(!cs||cs.pendingAnswer===null||cs.pendingAnswer===undefined)return;
   const node=CASES[cs.caseId].nodes[cs.nodeId];
   const opt=node.options[cs.pendingAnswer];cs.pendingAnswer=null;
+  if(controlFinalAttempt&&!controlFinalAttempt.caseResult){controlFinalAttempt.caseTotal++;if(opt.type==='good')controlFinalAttempt.caseCorrect++;}
   document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
   const fbClass=opt.type==='good'?'good':opt.type==='bad'?'bad':'neutral';
   document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${fbClass}">${opt.feedback}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
@@ -2922,6 +2926,69 @@ function toggleReferenceSection(id){
 function toggleTheory(i){const el=document.getElementById('theoryBody'+i);el.classList.toggle('show');}
 function toggleRef(i){const el=document.getElementById('refDetails'+i);el.style.display=el.style.display==='none'?'block':'none'}
 
+// Единая контрольная попытка первого итога. Рецепты пока не реализованы, поэтому не оцениваются.
+let controlFinalAttempt=null;
+function startControlFinalAttempt(){
+ if(controlFinalAttempt&&!controlFinalAttempt.finished)return;
+ controlDictationAttempt=null;controlDictationVariants=null;
+ controlClassificationAttempt=null;controlSynapsePuzzle=null;controlCaseActive=false;
+ controlFinalAttempt={startedAt:Date.now(),finished:false,dictation:null,classification:null,synapse:null,caseResult:null,caseCorrect:0,caseTotal:0};
+ const pool=getControlDictationPool();
+ if(pool.length<20){controlFinalAttempt=null;return;}
+ for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+ controlDictationVariants=[pool.slice(0,20)];
+ startControlDictation(0);
+ startControlClassification();
+ startControlSynapsePuzzle();
+ renderControlFinalAttempt();
+}
+function controlFinalStages(){
+ const a=controlFinalAttempt;
+ return [
+  {label:'Диктант',done:!!a?.dictation,result:a?.dictation},
+  {label:'Классификация',done:!!a?.classification,result:a?.classification},
+  {label:'Рисунок синапса',done:!!a?.synapse,result:a?.synapse},
+  {label:'Клиническая задача',done:!!a?.caseResult,result:a?.caseResult}
+ ];
+}
+function renderControlFinalAttempt(){
+ const root=document.getElementById('controlFinalAttempt');
+ if(!root)return;
+ if(!controlFinalAttempt){
+  root.innerHTML='<h3>Единая контрольная работа</h3><p>Одна попытка включает диктант (20 препаратов), классификацию, рисунок и клиническую задачу. Общий результат — только после завершения всех четырёх частей.</p><p>Рецепты пока не реализованы и в баллы не входят.</p><button class="control-action-btn" data-control-action="start-final-attempt">Начать контрольную работу</button>';
+  return;
+ }
+ const a=controlFinalAttempt,stages=controlFinalStages(),done=stages.filter(x=>x.done).length;
+ root.innerHTML='<h3>Контрольная работа · Итог 1</h3><p>Выполнено '+done+' из 4 оцениваемых заданий. '+(a.finished?'Работа завершена.':'Результаты будут доступны после завершения всех заданий.')+'</p>'+
+ '<div class="control-classification-track"><span style="width:'+(done/4*100)+'%"></span></div>'+
+ '<div class="control-variants">'+stages.map((s,i)=>'<div class="control-variant"><strong>'+(i+1)+'. '+s.label+'</strong><p>'+(s.done?'✓ Ответ сдан':'Ожидает выполнения')+'</p></div>').join('')+'</div>'+
+ (a.finished?controlFinalReportHtml():
+ done===4?'<div class="control-classification-actions"><button class="control-action-btn" data-control-action="finish-final-attempt">Завершить Итог 1 и получить результат</button></div>':
+ '<p>После выполнения каждого задания вернись к списку этапов. Не завершённые этапы остаются доступны.</p>')+
+ (a.finished?'<div class="control-classification-actions"><button class="control-action-btn" data-control-action="restart-final-attempt">Новая контрольная работа</button></div>':'');
+}
+function controlFinalReportHtml(){
+ const a=controlFinalAttempt;if(!a||!a.finished)return '';
+ const stages=controlFinalStages();
+ const earned=stages.reduce((n,s)=>n+(s.result?.earned||0),0);
+ const possible=stages.reduce((n,s)=>n+(s.result?.possible||0),0);
+ const pct=possible?Math.round(earned/possible*100):0;
+ return '<section class="control-classification-report"><h3>Итоговая ведомость</h3><p><strong>'+pct+'%</strong> · '+earned+' из '+possible+' баллов</p>'+
+ stages.map(s=>'<article style="padding:10px 0;border-bottom:1px solid var(--border)"><b>'+escapeHtml(s.label)+'</b>: '+s.result.earned+' / '+s.result.possible+'<p>'+escapeHtml(s.result.note||'')+'</p></article>').join('')+
+ '<p>Это учебная оценка по четырём работающим этапам. Рецепты не включены; официальная кафедральная оценка и пороги ещё не заданы.</p></section>';
+}
+function finishControlFinalAttempt(){
+ if(!controlFinalAttempt||controlFinalAttempt.finished||controlFinalStages().some(s=>!s.done))return;
+ controlFinalAttempt.finished=true;
+ renderControlFinalAttempt();
+ document.getElementById('controlFinalAttempt')?.scrollIntoView({block:'start',behavior:'smooth'});
+}
+function restartControlFinalAttempt(){
+ if(!controlFinalAttempt?.finished)return;
+ controlFinalAttempt=null;startControlFinalAttempt();
+}
+function refreshControlFinalAttempt(){if(controlFinalAttempt)renderControlFinalAttempt();}
+
 let controlDictationVariants=null;
 let controlDictationAttempt=null;
 function getControlDictationPool(){
@@ -2935,6 +3002,7 @@ function getControlDictationPool(){
  return [...map.values()];
 }
 function generateControlDictation(){
+ if(controlFinalAttempt)return;
  const pool=getControlDictationPool();
  if(pool.length<40){const t=document.getElementById('controlDictationResults');if(t)t.innerHTML='<div class="control-dictation-empty">Недостаточно уникальных препаратов для двух вариантов по 20.</div>';return;}
  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
@@ -2946,7 +3014,7 @@ function renderControlDictationVariants(){
  if(controlDictationAttempt){renderControlDictationAttempt();return;}
  t.innerHTML='<div class="control-variants">'+controlDictationVariants.map((items,n)=>'<section class="control-variant"><h4>Вариант '+(n?'Б':'А')+' · 20 препаратов</h4><ol>'+items.map(x=>'<li>'+escapeHtml(x.name)+'</li>').join('')+'</ol><button class="control-action-btn control-start-variant" data-control-action="start-dictation" data-control-index="'+n+'">Выполнить вариант '+(n?'Б':'А')+'</button></section>').join('')+'</div><p class="control-dictation-foot">Студент видит препарат и самостоятельно вписывает раздел, затем группу/подгруппу. Эталон скрыт до сдачи.</p>';
 }
-function startControlDictation(n){if(!controlDictationVariants||!controlDictationVariants[n])return;controlDictationAttempt={variant:n,answers:controlDictationVariants[n].map(()=>({section:'',group:''})),result:null};renderControlDictationAttempt();}
+function startControlDictation(n){if(controlFinalAttempt?.dictation)return;if(!controlDictationVariants||!controlDictationVariants[n])return;controlDictationAttempt={variant:n,answers:controlDictationVariants[n].map(()=>({section:'',group:''})),result:null};renderControlDictationAttempt();}
 function normalizeControlAnswer(v){
  return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[«»"'\u2018\u2019]/g,'').replace(/[.,;:()]/g,' ').replace(/[–—-]/g,' ').replace(/\s+/g,' ').trim();
 }
@@ -3009,7 +3077,16 @@ function renderControlDictationAttempt(){
  t.innerHTML='<div class="control-attempt-head"><h4>Вариант '+(controlDictationAttempt.variant?'Б':'А')+' · заполнение классификации</h4><p>Для каждого препарата укажи сначала раздел, затем группу/подгруппу. Эталон не показывается.</p></div><div class="control-answer-list">'+items.map((item,i)=>{const a=controlDictationAttempt.answers[i];return '<article class="control-answer-row"><div class="control-answer-drug">'+(i+1)+'. '+escapeHtml(item.name)+'</div><label>Раздел<input type="text" autocomplete="off" value="'+escapeHtml(a.section)+'" placeholder="Например, Холиномиметики" data-control-input="1" data-control-index="'+i+'" data-control-field="section"></label><label>Группа / подгруппа<input type="text" autocomplete="off" value="'+escapeHtml(a.group)+'" placeholder="Название по классификации" data-control-input="1" data-control-index="'+i+'" data-control-field="group"></label></article>';}).join('')+'</div><div class="control-submit-row"><button class="control-action-btn" data-control-action="submit-dictation">Проверить ответы</button><button class="control-action-btn control-secondary-btn" data-control-action="dictation-to-variants">Отмена</button></div>';
 }
 function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt||controlDictationAttempt.result||!controlDictationAttempt.answers[i])return;controlDictationAttempt.answers[i][field]=value;}
-function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
+function submitControlDictation(){
+ if(!controlDictationAttempt||controlDictationAttempt.result||controlFinalAttempt?.dictation)return;
+ const items=controlDictationVariants[controlDictationAttempt.variant];
+ controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));
+ if(controlFinalAttempt){
+ const good=controlDictationAttempt.result.filter(x=>x.status==='correct'||x.status==='typo').length;
+ controlFinalAttempt.dictation={earned:good,possible:20,note:'Правильных классификаций: '+good+' из 20.'};
+ }
+ renderControlDictationAttempt();refreshControlFinalAttempt();
+}
 
 let controlClassificationAttempt=null;
 let controlClassificationLastSection=null;
@@ -3019,6 +3096,7 @@ const CONTROL_FINAL_ONE_SECTIONS=new Set([
  'Миорелаксанты','Адреномиметики','Адреноблокаторы'
 ]);
 function startControlClassification(){
+ if(controlFinalAttempt?.classification)return;
  // Не разрешаем незаметно сбросить незавершённую попытку верхней кнопкой.
  if(controlClassificationAttempt&&!controlClassificationAttempt.finished){
   renderControlClassification();return;
@@ -3066,7 +3144,10 @@ function checkControlClassification(){
  a.answer=field.value;
  a.result=classifyCheck(a.answer,a.item.drugs);
  a.finished=true;
- renderControlClassification();
+ if(controlFinalAttempt){
+  controlFinalAttempt.classification={earned:a.result.correct,possible:a.result.total,note:a.item.section+' → '+a.item.group+'. Пропущено: '+(a.result.missed.join(', ')||'нет')+'. Лишнее: '+(a.result.extra.join(', ')||'нет')};
+ }
+ renderControlClassification();refreshControlFinalAttempt();
 }
 function nextControlClassification(){
  // Совместимость со старой разметкой: больше нет перехода по 229 группам.
@@ -3089,7 +3170,7 @@ function renderControlClassificationReport(){
   '<div class="control-classification-actions"><button class="control-action-btn" type="button" data-control-action="start-classification">Новая попытка</button>'+
   '<button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">К заданиям Итога 1</button></div></div>';
 }
-function cancelControlClassification(){controlClassificationAttempt=null;renderControlClassification();}
+function cancelControlClassification(){if(controlFinalAttempt)return;controlClassificationAttempt=null;renderControlClassification();}
 const CONTROL_SYNAPSE_PARTS=[
 {id:'vesicle',name:'Синаптическая везикула',symbol:'◉',target:'vesicle',explain:'Везикула находится внутри пресинаптического окончания.'},
 {id:'ca',name:'Потенциалзависимый Ca²⁺-канал',symbol:'▥',target:'ca',explain:'Канал расположен в пресинаптической мембране.'},
@@ -3098,7 +3179,7 @@ const CONTROL_SYNAPSE_PARTS=[
 {id:'m',name:'М-холинорецептор',symbol:'M',target:'m',explain:'М-холинорецептор расположен на постсинаптической мембране.'},
 {id:'n',name:'Н-холинорецептор',symbol:'N',target:'n',explain:'Н-холинорецептор расположен на постсинаптической мембране.'}];
 let controlSynapsePuzzle=null,controlSynapseSelected=null,controlSynapseDragging=null,controlCaseActive=false;
-function startControlSynapsePuzzle(){const ids=CONTROL_SYNAPSE_PARTS.map(x=>x.id);for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]];}controlSynapsePuzzle={ids,placements:{},checked:false};controlSynapseSelected=null;renderControlSynapsePuzzle();}
+function startControlSynapsePuzzle(){if(controlFinalAttempt?.synapse)return;const ids=CONTROL_SYNAPSE_PARTS.map(x=>x.id);for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]];}controlSynapsePuzzle={ids,placements:{},checked:false};controlSynapseSelected=null;renderControlSynapsePuzzle();}
 function selectControlSynapsePart(id){if(!controlSynapsePuzzle||controlSynapsePuzzle.checked||controlSynapsePuzzle.placements[id])return;controlSynapseSelected=controlSynapseSelected===id?null:id;renderControlSynapsePuzzle();}
 function placeControlSynapsePart(target){const p=controlSynapsePuzzle;if(!p||p.checked||!controlSynapseSelected||Object.values(p.placements).includes(target))return;p.placements[controlSynapseSelected]=target;controlSynapseSelected=null;renderControlSynapsePuzzle();}
 function dropControlSynapsePart(event,target){event.preventDefault();const id=controlSynapseDragging;controlSynapseDragging=null;const p=controlSynapsePuzzle;if(!id||!p||p.checked||p.placements[id]||Object.values(p.placements).includes(target))return;p.placements[id]=target;controlSynapseSelected=null;renderControlSynapsePuzzle();}
@@ -3150,17 +3231,25 @@ root.innerHTML=`<p class="control-synapse-intro">Перетащи каждый �
 <g font-family="Arial,sans-serif" font-weight="700" text-anchor="middle"><text x="380" y="24" fill="#286b60" font-size="16">ПРЕСИНАПТИЧЕСКОЕ ОКОНЧАНИЕ</text><text x="380" y="242" fill="#876d83" font-size="15">СИНАПТИЧЕСКАЯ ЩЕЛЬ</text><text x="380" y="419" fill="#705b98" font-size="15">ПОСТСИНАПТИЧЕСКАЯ КЛЕТКА</text></g>
 </svg>${targets}</div><div class="control-synapse-parts">${pieces}</div><div class="control-synapse-hint">${controlSynapseSelected?'Выбран элемент. Теперь нажми на нужную позицию рисунка.':'Каждая позиция на рисунке предназначена для одного элемента.'}</div>${result}`;
 }
-function checkControlSynapsePuzzle(){if(!controlSynapsePuzzle||Object.keys(controlSynapsePuzzle.placements).length!==6)return;controlSynapsePuzzle.checked=true;controlSynapseSelected=null;renderControlSynapsePuzzle();}
-function startControlCase(){controlCaseActive=true;state.caseState={caseId:'case_oxybutynin',nodeId:CASES.case_oxybutynin.start,pendingAnswer:null};renderCaseNode();addControlCaseBackButton();}
+function checkControlSynapsePuzzle(){
+ if(!controlSynapsePuzzle||controlSynapsePuzzle.checked||Object.keys(controlSynapsePuzzle.placements).length!==6)return;
+ controlSynapsePuzzle.checked=true;controlSynapseSelected=null;
+ if(controlFinalAttempt){
+ const good=CONTROL_SYNAPSE_PARTS.filter(x=>controlSynapsePuzzle.placements[x.id]===x.target).length;
+ controlFinalAttempt.synapse={earned:good,possible:6,note:'Верно расположено элементов: '+good+' из 6.'};
+ }
+ renderControlSynapsePuzzle();refreshControlFinalAttempt();
+}
+function startControlCase(){if(controlFinalAttempt?.caseResult)return;if(controlFinalAttempt){controlFinalAttempt.caseCorrect=0;controlFinalAttempt.caseTotal=0;}controlCaseActive=true;state.caseState={caseId:'case_oxybutynin',nodeId:CASES.case_oxybutynin.start,pendingAnswer:null};renderCaseNode();addControlCaseBackButton();}
 function addControlCaseBackButton(){if(controlCaseActive)screenEl.insertAdjacentHTML('afterbegin','<button class="control-case-back" onclick="exitControlCase()">← К заданиям Итога 1</button>');}
-function exitControlCase(){controlCaseActive=false;state.caseState=null;screenEl.innerHTML=renderControlFinalOne();renderControlDictationVariants();renderControlClassification();renderControlSynapsePuzzle();}
+function exitControlCase(){controlCaseActive=false;state.caseState=null;screenEl.innerHTML=renderControlFinalOne();renderControlDictationVariants();renderControlClassification();renderControlSynapsePuzzle();renderControlFinalAttempt();}
 let controlView='list';
 function openControlFinal(number){
  controlView='final'+number;
  if(number===1){
-  controlCaseActive=false;controlSynapsePuzzle=null;controlClassificationAttempt=null;
+  controlCaseActive=false;if(!controlFinalAttempt){controlSynapsePuzzle=null;controlClassificationAttempt=null;}
   screenEl.innerHTML=renderControlFinalOne();
-  renderControlDictationVariants();renderControlClassification();renderControlSynapsePuzzle();
+  renderControlDictationVariants();renderControlClassification();renderControlSynapsePuzzle();renderControlFinalAttempt();
  }
 }
 function backToControlList(){
@@ -3195,6 +3284,7 @@ function renderControlFinalOne(){
     <p>Первое итоговое занятие. Диктант включает препараты из всех изучаемых тем.</p>
     <div class="control-facts"><span>6 разделов</span><span>20 препаратов в варианте</span><span>Автоматическая проверка</span></div>
    </section>
+   <section class="control-classification" id="controlFinalAttempt"></section>
    <section class="control-dictation">
     <div class="control-dictation-head">
      <div><h3>Диктант препаратов</h3><p>Два варианта по 20 препаратов. Студент видит название препарата и самостоятельно вписывает раздел и группу/подгруппу. Сайт проверяет структуру ответа, последовательность, сокращения и опечатки.</p></div>
@@ -3327,7 +3417,10 @@ screenEl.addEventListener('click',function(event){
  if(!button||!screenEl.contains(button))return;
  const action=button.dataset.controlAction;
  try{
-  if(action==='open-final')openControlFinal(Number(button.dataset.controlNumber||1));
+  if(action==='start-final-attempt')startControlFinalAttempt();
+  else if(action==='finish-final-attempt')finishControlFinalAttempt();
+  else if(action==='restart-final-attempt')restartControlFinalAttempt();
+  else if(action==='open-final')openControlFinal(Number(button.dataset.controlNumber||1));
   else if(action==='back-list')backToControlList();
   else if(action==='generate-dictation')generateControlDictation();
   else if(action==='start-dictation')startControlDictation(Number(button.dataset.controlIndex||0));
