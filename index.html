@@ -3012,59 +3012,82 @@ function updateControlDictationAnswer(i,field,value){if(!controlDictationAttempt
 function submitControlDictation(){if(!controlDictationAttempt||controlDictationAttempt.result)return;const items=controlDictationVariants[controlDictationAttempt.variant];controlDictationAttempt.result=items.map((x,i)=>evaluateControlDictationAnswer(controlDictationAttempt.answers[i],x.paths));renderControlDictationAttempt();}
 
 let controlClassificationAttempt=null;
+let controlClassificationLastSection=null;
+let controlClassificationLastGroup=null;
+const CONTROL_FINAL_ONE_SECTIONS=new Set([
+ 'Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы',
+ 'Миорелаксанты','Адреномиметики','Адреноблокаторы'
+]);
 function startControlClassification(){
- const groups=GROUPS.filter(g=>g.section&&g.group&&Array.isArray(g.drugs)&&g.drugs.length);
- if(!groups.length)return;
- controlClassificationAttempt={groups:groups.map(g=>({section:g.section,group:g.group,drugs:[...g.drugs]})),index:0,results:[],answer:'',checked:false};
+ // Не разрешаем незаметно сбросить незавершённую попытку верхней кнопкой.
+ if(controlClassificationAttempt&&!controlClassificationAttempt.finished){
+  renderControlClassification();return;
+ }
+ const pool=GROUPS.filter(g=>CONTROL_FINAL_ONE_SECTIONS.has(g.section)&&g.group&&Array.isArray(g.drugs)&&g.drugs.length);
+ const sections=[...new Set(pool.map(g=>g.section))];
+ if(!sections.length)return;
+ const eligible=sections.filter(s=>s!==controlClassificationLastSection);
+ const sectionChoices=eligible.length?eligible:sections;
+ const section=sectionChoices[Math.floor(Math.random()*sectionChoices.length)];
+ const groupChoices=pool.filter(g=>g.section===section&&
+  (pool.length===1||g.section+'|'+g.group!==controlClassificationLastGroup));
+ const candidates=groupChoices.length?groupChoices:pool.filter(g=>g.section===section);
+ const selected=candidates[Math.floor(Math.random()*candidates.length)];
+ controlClassificationLastSection=selected.section;
+ controlClassificationLastGroup=selected.section+'|'+selected.group;
+ controlClassificationAttempt={
+  item:{section:selected.section,group:selected.group,drugs:[...selected.drugs]},
+  answer:'',result:null,finished:false
+ };
  renderControlClassification();
 }
 function renderControlClassification(){
  const root=document.getElementById('controlClassificationResults');
  const a=controlClassificationAttempt;
  if(!root)return;
- if(!a){root.innerHTML='<div class="control-dictation-empty">Нажми «Начать классификацию», чтобы последовательно заполнить все группы.</div>';return;}
- if(a.index>=a.groups.length){renderControlClassificationReport();return;}
- const item=a.groups[a.index],result=a.results[a.index];
- const pct=Math.round(a.index/a.groups.length*100);
- const feedback=result?'<div class="control-classification-feedback"><strong class="'+(result.correct===result.total?'ok':'miss')+'">'+(result.correct===result.total?'✓ Все препараты указаны':'Результат: '+result.correct+' из '+result.total)+'</strong>'+
-  (result.matched.length?'<div class="ok">Верно: '+result.matched.map(escapeHtml).join(', ')+'</div>':'')+
-  (result.missed.length?'<div class="miss">Пропущено: '+result.missed.map(escapeHtml).join(', ')+'</div>':'')+
-  (result.extra.length?'<div class="extra">Лишнее: '+result.extra.map(escapeHtml).join(', ')+'</div>':'')+
-  '<div style="margin-top:7px">Эталон: '+item.drugs.map(escapeHtml).join(', ')+'</div></div>':'';
+ if(!a){root.innerHTML='<div class="control-dictation-empty">Одна попытка — одна случайная группа из тем Итога 1. Ответ проверяется один раз, после завершения показывается результат.</div>';return;}
+ if(a.finished){renderControlClassificationReport();return;}
+ const item=a.item;
  root.innerHTML='<div class="control-classification-step">'+
-  '<div class="control-classification-progress"><span>Группа '+(a.index+1)+' из '+a.groups.length+'</span><span>'+pct+'% пройдено</span></div>'+
-  '<div class="control-classification-track"><span style="width:'+pct+'%"></span></div>'+
+  '<div class="control-classification-progress"><span>Задание 1 из 1</span><span>Ответ ещё не сдан</span></div>'+
+  '<div class="control-classification-track"><span style="width:0%"></span></div>'+
   '<div class="control-classification-section">'+escapeHtml(item.section)+'</div>'+
   '<div class="control-classification-group">'+escapeHtml(item.group)+'</div>'+
-  '<div class="control-classification-hint">Самостоятельно перечисли все препараты этой группы через запятую. Порядок препаратов не важен.</div>'+
-  (result?feedback:'<textarea class="control-classification-input" id="controlClassificationInput" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введи названия препаратов через запятую">'+escapeHtml(a.answer)+'</textarea>')+
+  '<div class="control-classification-hint">Перечисли препараты этой группы через запятую. Порядок не важен. Проверка завершит попытку.</div>'+
+  '<textarea class="control-classification-input" id="controlClassificationInput" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введи названия препаратов через запятую">'+escapeHtml(a.answer)+'</textarea>'+
   '<div class="control-classification-actions">'+
-  (result?'<button class="control-action-btn" type="button" data-control-action="next-classification">Следующая группа</button>':'<button class="control-action-btn" type="button" data-control-action="check-classification">Проверить ответ</button>')+
-  '<button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">Выйти к заданиям</button>'+
+  '<button class="control-action-btn" type="button" data-control-action="check-classification">Завершить и проверить</button>'+
+  '<button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">Выйти без результата</button>'+
   '</div></div>';
 }
 function checkControlClassification(){
- const a=controlClassificationAttempt;if(!a||a.results[a.index])return;
+ const a=controlClassificationAttempt;if(!a||a.finished)return;
  const field=document.getElementById('controlClassificationInput');if(!field)return;
  a.answer=field.value;
- const item=a.groups[a.index];
- a.results[a.index]=classifyCheck(a.answer,item.drugs);
+ a.result=classifyCheck(a.answer,a.item.drugs);
+ a.finished=true;
  renderControlClassification();
 }
 function nextControlClassification(){
- const a=controlClassificationAttempt;if(!a||!a.results[a.index])return;
- a.index++;a.answer='';
+ // Совместимость со старой разметкой: больше нет перехода по 229 группам.
  renderControlClassification();
 }
 function renderControlClassificationReport(){
- const root=document.getElementById('controlClassificationResults'),a=controlClassificationAttempt;if(!root||!a)return;
- const total=a.results.reduce((n,r)=>n+r.total,0),correct=a.results.reduce((n,r)=>n+r.correct,0);
- const full=a.results.filter(r=>r.correct===r.total).length;
- const weak=a.results.map((r,i)=>({r,item:a.groups[i]})).filter(x=>x.r.correct<x.r.total);
- const pct=total?Math.round(correct/total*100):0;
- root.innerHTML='<div class="control-classification-report"><h4>Классификация завершена</h4><p>Групп: '+a.groups.length+' · Правильно указано: '+correct+' из '+total+' препаратов ('+pct+'%) · Полностью верных групп: '+full+'</p>'+
- (weak.length?'<div class="control-classification-weak"><strong>Группы, которые стоит повторить</strong>'+weak.map(x=>'<article><b>'+escapeHtml(x.item.section)+' → '+escapeHtml(x.item.group)+'</b><br>Пропущено: '+x.r.missed.map(escapeHtml).join(', ')+(x.r.extra.length?'<br>Лишнее: '+x.r.extra.map(escapeHtml).join(', '):'')+'</article>').join('')+'</div>':'<p class="ok">Все группы заполнены без ошибок.</p>')+
- '<div class="control-classification-actions"><button class="control-action-btn" type="button" data-control-action="start-classification">Пройти заново</button><button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">К заданиям Итога 1</button></div></div>';
+ const root=document.getElementById('controlClassificationResults'),a=controlClassificationAttempt;
+ if(!root||!a||!a.result)return;
+ const r=a.result,item=a.item;
+ const pct=r.total?Math.round(r.correct/r.total*100):0;
+ const perfect=r.correct===r.total&&r.extra.length===0;
+ root.innerHTML='<div class="control-classification-report"><h4>Классификация завершена</h4>'+
+  '<p><strong>'+pct+'%</strong> · Верно: '+r.correct+' из '+r.total+' · '+(perfect?'Группа заполнена без ошибок':'Есть пропуски или лишние препараты')+'</p>'+
+  '<p><strong>'+escapeHtml(item.section)+' → '+escapeHtml(item.group)+'</strong></p>'+
+  '<p>Твой ответ: '+(a.answer.trim()?escapeHtml(a.answer):'—')+'</p>'+
+  (r.matched.length?'<div class="ok">Верно: '+r.matched.map(escapeHtml).join(', ')+'</div>':'')+
+  (r.missed.length?'<div class="miss">Пропущено: '+r.missed.map(escapeHtml).join(', ')+'</div>':'')+
+  (r.extra.length?'<div class="extra">Лишнее: '+r.extra.map(escapeHtml).join(', ')+'</div>':'')+
+  '<p>Эталон: '+item.drugs.map(escapeHtml).join(', ')+'</p>'+
+  '<div class="control-classification-actions"><button class="control-action-btn" type="button" data-control-action="start-classification">Новая попытка</button>'+
+  '<button class="control-action-btn control-secondary-btn" type="button" data-control-action="cancel-classification">К заданиям Итога 1</button></div></div>';
 }
 function cancelControlClassification(){controlClassificationAttempt=null;renderControlClassification();}
 const CONTROL_SYNAPSE_PARTS=[
@@ -3181,7 +3204,7 @@ function renderControlFinalOne(){
    </section>
    <section class="control-classification">
     <div class="control-classification-head">
-     <div><h3>Классификация</h3><p>Даны раздел и группа. Самостоятельно перечисли препараты, относящиеся к ней. Проверяются все классификационные позиции, включая намеренные повторы препаратов в разных группах.</p></div>
+     <div><h3>Классификация</h3><p>В каждой попытке случайно выбирается одна группа из тем Итога 1. Перечисли препараты и получи результат после единственной проверки.</p></div>
      <button class="control-action-btn" type="button" data-control-action="start-classification">Начать классификацию</button>
     </div>
     <div id="controlClassificationResults"></div>
