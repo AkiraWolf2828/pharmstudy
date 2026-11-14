@@ -1992,14 +1992,14 @@ function openTopicMenu(topic){
   overlay.querySelector('.topic-menu-close').focus();
 }
 
+const DASHBOARD_TOPIC_COLORS=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
 function renderDashboardProgress(progress,interactive=true){
   const s=getStats(progress);
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
-  const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
   const classifyStats=progress._topicClassify||{};
   const caseActivity=progress._topicActivity||{};
   const allTopics=[...new Set([...sections,...GROUPS.map(g=>g.section),...Object.values(CASES).map(c=>c.section)])];
-  const topics=allTopics.map((name,i)=>{const qs=QUESTIONS.filter(q=>q.section===name);let answered=0,correct=0;qs.forEach(q=>{const p=progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});const cp=classifyStats[name];if(cp){answered+=cp.total||0;correct+=cp.correct||0;}const touched=answered>0||!!caseActivity[name];return{name,pct:answered?Math.round(correct/answered*100):null,answered,touched,caseOnly:answered===0&&!!caseActivity[name],color:colors[i%colors.length]};}).filter(t=>t.touched);
+  const topics=allTopics.map((name,i)=>{const qs=QUESTIONS.filter(q=>q.section===name);let answered=0,correct=0;qs.forEach(q=>{const p=progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});const cp=classifyStats[name];if(cp){answered+=cp.total||0;correct+=cp.correct||0;}const touched=answered>0||!!caseActivity[name];return{name,pct:answered?Math.round(correct/answered*100):null,answered,touched,caseOnly:answered===0&&!!caseActivity[name],color:DASHBOARD_TOPIC_COLORS[i%DASHBOARD_TOPIC_COLORS.length]};}).filter(t=>t.touched);
   return `
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
@@ -2031,7 +2031,7 @@ function renderDashboard(){
         <details class="dashboard-fold">
           <summary><span>Все темы базы</span><span class="dashboard-fold-count">${sections.length} тем</span></summary>
           <div class="recent-list">
-            ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=colors[i%colors.length];return `<button type="button" class="recent-item dashboard-base-topic" data-topic="${sec}" onclick="openTopicMenu(this.dataset.topic)" aria-label="Открыть разделы для темы ${sec}"><span class="recent-icon" style="background:${col}">${count}</span><span class="recent-info"><span class="recent-title">${sec}</span><span class="recent-sub">${count} вопросов</span></span><span class="topic-open-chevron" aria-hidden="true">›</span></button>`;}).join('')}
+            ${sections.map((sec,i)=>{const count=QUESTIONS.filter(q=>q.section===sec).length;const col=DASHBOARD_TOPIC_COLORS[i%DASHBOARD_TOPIC_COLORS.length];return `<button type="button" class="recent-item dashboard-base-topic" data-topic="${sec}" onclick="openTopicMenu(this.dataset.topic)" aria-label="Открыть разделы для темы ${sec}"><span class="recent-icon" style="background:${col}">${count}</span><span class="recent-info"><span class="recent-title">${sec}</span><span class="recent-sub">${count} вопросов</span></span><span class="topic-open-chevron" aria-hidden="true">›</span></button>`;}).join('')}
             <div class="recent-item" onclick="setScreen('case')"><div class="recent-icon" style="background:var(--warm)">${Object.keys(CASES).length}</div><div class="recent-info"><div class="recent-title">Клинические кейсы</div><div class="recent-sub">Интерактивные истории</div></div></div>
           </div>
         </details>
