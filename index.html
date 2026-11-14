@@ -3213,7 +3213,9 @@ function renderClassificationNotes(cards,depth=0){
     }
   }
   return entries.join('')+[...groups].map(([heading,subset])=>
-    `<details class="conspect-card"><summary class="conspect-card-title">${escapeHtml(heading)}</summary>${renderClassificationNotes(subset,depth+1)}</details>`
+    `${depth===0
+      ? `<details class="conspect-card"><summary class="conspect-card-title">${escapeHtml(heading)}</summary>${renderClassificationNotes(subset,depth+1)}${SOURCE_FOOTNOTE}</details>`
+      : `<section><h${Math.min(depth+2,6)} class="conspect-card-title">${escapeHtml(heading)}</h${Math.min(depth+2,6)}>${renderClassificationNotes(subset,depth+1)}</section>`}`
   ).join('');
 }
 function renderReference(){
@@ -3226,12 +3228,8 @@ function renderReference(){
     </div>
     <div style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
     <div class="ref-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('allClassificationNotes')"><span>Конспекты по всей кафедральной классификации</span><span class="ref-topic-arrow" id="arrow-allClassificationNotes">⌄</span></button>
-      <div class="ref-topic-content" id="section-allClassificationNotes" style="display:none">
-        <p>Названия и состав групп приведены по кафедральной классификации. Для групп, где доступен только перечень препаратов, механизмы и нежелательные эффекты требуют сверки с учебником или методичкой.</p>
-        ${renderClassificationNotes(REFERENCE_CARDS)}
-        ${SOURCE_FOOTNOTE}
-      </div>
+      <h2>Конспекты по кафедральной классификации</h2>
+      ${renderClassificationNotes(REFERENCE_CARDS)}
     </div>
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('anesthesiaRecipes')"><span>Рецепты: анестезия и снотворные</span><span class="ref-topic-arrow" id="arrow-anesthesiaRecipes">⌄</span></button>
