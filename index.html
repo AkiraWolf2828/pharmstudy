@@ -1116,6 +1116,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .author-panel h3,.author-panel p{margin:0}
 .dashboard-ring-emblem{pointer-events:none}
 @media(max-width:768px){.content::before{background-size:min(80%,400px) auto}}
+.nav-btn[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -1131,6 +1132,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
       <button class="nav-btn" data-screen="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h8"/></svg><span>Контроль</span></button>
       <button class="nav-btn" data-screen="reference"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Справочник</span></button>
       <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Настройки</span></button>
+    <button class="nav-btn" data-screen="teacher" hidden>Преподаватель</button>
     </nav>
     <div class="premium-block"><div class="crown">👑</div><h4>PharmStudy Pro</h4><p>ИИ-генерация вопросов</p><button>Скоро</button></div>
   </aside>
@@ -1868,9 +1870,9 @@ function loadProgress(){
   }catch{return{}}
 }
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
-function getStats(){
+function getStats(progress=state.progress){
   let answered=0,correct=0;
-  Object.entries(state.progress||{}).forEach(([id,p])=>{
+  Object.entries(progress||{}).forEach(([id,p])=>{
     if(id.startsWith('_')||!p||typeof p!=='object')return;
     const right=Number(p.correct)||0;
     const wrong=Number(p.wrong)||0;
@@ -1878,16 +1880,76 @@ function getStats(){
     correct+=right;
   });
   const accuracy=answered?Math.round(correct/answered*100):0;
-  return{answered,correct,accuracy,tests:Number(state.progress?._sessions)||0,streak:Number(state.progress?._streak)||1};
+  return{answered,correct,accuracy,tests:Number(progress?._sessions)||0,streak:Number(progress?._streak)||1};
 }
 
 const screenEl=document.getElementById('screen');
 const titleEl=document.getElementById('screen-title');
 
+let currentAccount=null;
+const accountsEnabled=document.documentElement.dataset.accounts==='enabled';
+const accountApi='./api/';
+async function accountRequest(route,body){
+  const response=await fetch(accountApi+route,{
+    cache:'no-store',
+    ...(body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+  });
+  if(!response.headers.get('Content-Type')?.includes('application/json'))throw new Error('Сервер аккаунтов не подключён.');
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||'Запрос не выполнен.');
+  return data;
+}
+function canTeach(){return ['admin','teacher'].includes(currentAccount?.role);}
+function applyAccount(account){
+  currentAccount=account;
+  document.querySelector('[data-screen="teacher"]').hidden=!canTeach();
+}
+async function loginAccount(event){
+  event.preventDefault();
+  const form=event.currentTarget;
+  const status=form.querySelector('[role="status"]');
+  const button=form.querySelector('button');
+  button.disabled=true;
+  try{
+    applyAccount(await accountRequest('login',{email:form.elements.email.value,password:form.elements.password.value}));
+    if(state.screen==='settings')setScreen('settings');
+  }catch(error){status.textContent=error.message;}
+  finally{button.disabled=false;}
+}
+async function logoutAccount(){
+  try{await accountRequest('logout',{});applyAccount(null);setScreen('settings');}
+  catch(error){document.getElementById('accountStatus').textContent=error.message;}
+}
+async function renderTeacher(){
+  const panel=document.createElement('div');
+  panel.className='panel';
+  panel.textContent='Загрузка групп…';
+  screenEl.replaceChildren(panel);
+  try{
+    const students=await accountRequest('groups');
+    if(!panel.isConnected)return;
+    const groups=new Map();
+    for(const student of students){
+      const key=JSON.stringify([student.group_no,student.course,student.academic_year]);
+      if(!groups.has(key))groups.set(key,[]);
+      groups.get(key).push(student);
+    }
+    panel.innerHTML=groups.size?[...groups.values()].map(group=>`
+      <details class="classification-note">
+        <summary>Группа ${escapeHtml(group[0].group_no)} · ${group[0].course} курс · ${escapeHtml(group[0].academic_year)}</summary>
+        <div class="classification-note-body">
+          ${group.map(student=>`<details class="classification-note"><summary>${escapeHtml(student.email)}</summary>
+            <div class="classification-note-body">${renderDashboardProgress(student.progress,false)}</div></details>`).join('')}
+        </div>
+      </details>`).join(''):'<p>Пока нет доступных групп.</p>';
+  }catch(error){if(panel.isConnected)panel.textContent=error.message;}
+}
+
 function setScreen(name){
+  if(name==='teacher'&&!canTeach())return;
   state.screen=name;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
-  const titles={dashboard:'Главная',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',control:'Контроль',reference:'Справочник',settings:'Настройки'};
+  const titles={dashboard:'Главная',session:'Тестирование',classify:'Классификация',synapse:'Визуализация',case:'Кейсы',control:'Контроль',reference:'Справочник',settings:'Настройки',teacher:'Преподаватель'};
   document.title='PharmStudy — '+(titles[name]||'');
   if(name==='dashboard'){titleEl.textContent='Главная';screenEl.innerHTML=renderDashboard()}
   else if(name==='session'){titleEl.textContent='Тестирование';state.sessionStage='topics';renderSessionSetup()}
@@ -1896,6 +1958,7 @@ function setScreen(name){
   else if(name==='case'){titleEl.textContent='Кейсы';renderCasePicker()}
   else if(name==='control'){titleEl.textContent='Контроль';controlView='list';screenEl.innerHTML=renderControl();}
   else if(name==='reference'){titleEl.textContent='Справочник';screenEl.innerHTML=renderReference()}
+  else if(name==='teacher'){titleEl.textContent='Преподаватель';renderTeacher()}
   else if(name==='settings'){titleEl.textContent='Настройки';screenEl.innerHTML=renderSettings()}
 }
 
@@ -1929,20 +1992,15 @@ function openTopicMenu(topic){
   overlay.querySelector('.topic-menu-close').focus();
 }
 
-function renderDashboard(){
-  const s=getStats();
+function renderDashboardProgress(progress,interactive=true){
+  const s=getStats(progress);
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  const classifyStats=state.progress._topicClassify||{};
-  const caseActivity=state.progress._topicActivity||{};
+  const classifyStats=progress._topicClassify||{};
+  const caseActivity=progress._topicActivity||{};
   const allTopics=[...new Set([...sections,...GROUPS.map(g=>g.section),...Object.values(CASES).map(c=>c.section)])];
-  const topics=allTopics.map((name,i)=>{const qs=QUESTIONS.filter(q=>q.section===name);let answered=0,correct=0;qs.forEach(q=>{const p=state.progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});const cp=classifyStats[name];if(cp){answered+=cp.total||0;correct+=cp.correct||0;}const touched=answered>0||!!caseActivity[name];return{name,pct:answered?Math.round(correct/answered*100):null,answered,touched,caseOnly:answered===0&&!!caseActivity[name],color:colors[i%colors.length]};}).filter(t=>t.touched);
+  const topics=allTopics.map((name,i)=>{const qs=QUESTIONS.filter(q=>q.section===name);let answered=0,correct=0;qs.forEach(q=>{const p=progress[q.id];if(p){answered+=(p.correct||0)+(p.wrong||0);correct+=(p.correct||0)}});const cp=classifyStats[name];if(cp){answered+=cp.total||0;correct+=cp.correct||0;}const touched=answered>0||!!caseActivity[name];return{name,pct:answered?Math.round(correct/answered*100):null,answered,touched,caseOnly:answered===0&&!!caseActivity[name],color:colors[i%colors.length]};}).filter(t=>t.touched);
   return `
-    <div class="hero">
-      <h2>Добрый вечер, Студент!</h2>
-      <p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов · ${GROUPS.length} групп</p>
-      <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
-    </div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
       <div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
@@ -1954,9 +2012,20 @@ function renderDashboard(){
         const measured=topics.filter(t=>t.pct!==null);
         const overall=measured.length?Math.round(measured.reduce((sum,t)=>sum+t.pct,0)/measured.length):null;
         const ringTopics=topics.map((t,i)=>{const segment=360/topics.length;const gap=Math.min(5,segment*.12);const start=-90+i*segment+gap/2;const end=start+segment-gap;const point=(angle,r)=>({x:110+r*Math.cos(angle*Math.PI/180),y:110+r*Math.sin(angle*Math.PI/180)});const a=point(start,78),b=point(end,78);const path=`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;const progressEnd=start+(end-start)*(t.pct===null?0:t.pct/100);const c=point(progressEnd,78);const progressPath=t.pct===null||t.pct===0?"":`M ${a.x.toFixed(2)} ${a.y.toFixed(2)} A 78 78 0 0 1 ${c.x.toFixed(2)} ${c.y.toFixed(2)}`;return {t,path,progressPath};});
-        return `<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Кольцевая диаграмма прогресса по активным темам">${ringTopics.map(({t,path,progressPath})=>`<path class="dashboard-topic-ring-track" d="${path}"/>${progressPath?`<path class="dashboard-topic-ring-progress" d="${progressPath}" stroke="${t.color}"/>`:""}`).join("")}<image class="dashboard-ring-emblem" href="${pharmEmblem}" x="79" y="53" width="62" height="58" aria-hidden="true"/><text class="dashboard-topic-ring-center" x="110" y="137">${overall===null?"—":overall+"%"}</text><text class="dashboard-topic-ring-caption" x="110" y="153">${overall===null?"НЕТ ДАННЫХ":"СРЕДНИЙ ПРОГРЕСС"}</text></svg></div><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<button type="button" class="dashboard-topic-label" data-topic="${t.name}" onclick="openTopicMenu(this.dataset.topic)" aria-label="Открыть разделы для темы ${t.name}"><span class="dashboard-topic-swatch" style="background:${t.color}"></span><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct ${t.pct===null?"case-only":""}">${t.pct===null?"Кейс":t.pct+"%"}</span><span aria-hidden="true" class="topic-open-chevron">›</span></button>`).join("")}</div></div>`;
+        return `<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Кольцевая диаграмма прогресса по активным темам">${ringTopics.map(({t,path,progressPath})=>`<path class="dashboard-topic-ring-track" d="${path}"/>${progressPath?`<path class="dashboard-topic-ring-progress" d="${progressPath}" stroke="${t.color}"/>`:""}`).join("")}<image class="dashboard-ring-emblem" href="${pharmEmblem}" x="79" y="53" width="62" height="58" aria-hidden="true"/><text class="dashboard-topic-ring-center" x="110" y="137">${overall===null?"—":overall+"%"}</text><text class="dashboard-topic-ring-caption" x="110" y="153">${overall===null?"НЕТ ДАННЫХ":"СРЕДНИЙ ПРОГРЕСС"}</text></svg></div><div class="dashboard-topic-labels" aria-label="Темы и проценты">${topics.map(t=>`<${interactive?'button type="button" onclick="openTopicMenu(this.dataset.topic)"':'div'} class="dashboard-topic-label" data-topic="${escapeHtml(t.name)}"><span class="dashboard-topic-swatch" style="background:${t.color}"></span><span class="dashboard-topic-label-name">${t.name}</span><span class="dashboard-topic-label-pct ${t.pct===null?"case-only":""}">${t.pct===null?"Кейс":t.pct+"%"}</span><span aria-hidden="true" class="topic-open-chevron">›</span></button>`).join("")}</div></div>`;
       })():`<div class="dashboard-topic-chart"><div class="dashboard-topic-ring-wrap"><svg class="dashboard-topic-ring" viewBox="0 0 220 220" role="img" aria-label="Прогресс по темам пока отсутствует"><circle class="dashboard-topic-ring-track" cx="110" cy="110" r="78"/><image href="${pharmEmblem}" x="67" y="68" width="86" height="84"/></svg></div><p class="topic-empty">Пока нет тем с сохранённой активностью. Пройди тест, классификацию или клинический кейс, чтобы увидеть прогресс.</p></div>`}
     </div>
+  `;
+}
+function renderDashboard(){
+  const sections=[...new Set(QUESTIONS.map(q=>q.section))];
+  return `
+    <div class="hero">
+      <h2>Добрый вечер, Студент!</h2>
+      <p>${sections.length} разделов · ${QUESTIONS.length} вопросов · ${Object.keys(CASES).length} кейсов · ${GROUPS.length} групп</p>
+      <button class="hero-btn" onclick="setScreen('session')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>Начать тестирование</button>
+    </div>
+    ${renderDashboardProgress(state.progress)}
     <div class="row-2">
       <div class="panel"><div class="panel-head"><h3>Содержание базы</h3><span class="badge">актуально</span></div>
         <details class="dashboard-fold">
@@ -3784,6 +3853,16 @@ function renderSettings(){
   ];
   return `
     <div style="max-width:700px">
+      ${accountsEnabled?`<section class="panel" style="margin-bottom:16px">
+        <h3>Аккаунт</h3>
+        ${currentAccount?`<p>${escapeHtml(currentAccount.email)}</p><button class="next-btn" onclick="logoutAccount()">Выйти</button><p id="accountStatus" role="status"></p>`:
+          `<form onsubmit="loginAccount(event)">
+            <label>Почта <input name="email" type="email" autocomplete="username" required maxlength="254"></label>
+            <label>Пароль <input name="password" type="password" autocomplete="current-password" required maxlength="256"></label>
+            <button class="next-btn" type="submit">Войти</button>
+            <p role="status"></p>
+          </form>`}
+      </section>` : ''}
       <section class="panel author-panel" aria-labelledby="pharmstudy-author">
         <img class="author-emblem" src="${pharmEmblem}" alt="">
         <div><h3 id="pharmstudy-author">Авторство</h3>
@@ -3873,6 +3952,7 @@ function setPalette(v){localStorage.setItem('pharm_palette',v);applyTheme();if(s
 document.getElementById('nav').addEventListener('click',e=>{const btn=e.target.closest('.nav-btn');if(btn)setScreen(btn.dataset.screen)});
 try{applyTheme()}catch(err){console.error('PharmStudy: не удалось применить тему оформления',err)}
 function bootPharmStudy(){
+  if(accountsEnabled)accountRequest('account').then(account=>{applyAccount(account);if(state.screen==='settings')setScreen('settings');}).catch(()=>{});
   try{
     setScreen('dashboard');
     if(!screenEl.children.length)throw new Error('Главная страница не отрисовала содержимое');
