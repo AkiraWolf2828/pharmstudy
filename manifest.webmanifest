@@ -1,0 +1,19 @@
+{
+  "name": "PharmStudy — фармакология",
+  "short_name": "PharmStudy",
+  "description": "Изучение фармакологии: тесты, классификация и визуализации",
+  "id": "/pharmstudy/",
+  "start_url": "/pharmstudy/",
+  "scope": "/pharmstudy/",
+  "display": "standalone",
+  "background_color": "#faf4ec",
+  "theme_color": "#b8d6ce",
+  "icons": [
+    {
+      "src": "./pharmstudy-icon-v4.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
