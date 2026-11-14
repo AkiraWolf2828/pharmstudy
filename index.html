@@ -48,7 +48,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .nav-btn:hover{background:rgba(255,255,255,0.4);color:var(--sidebar-text-active)}
 .nav-btn.active{background:var(--sidebar-active-bg);color:var(--sidebar-text-active);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
 .nav-btn svg{width:20px;height:20px;flex-shrink:0}
-.premium-block{background:linear-gradient(150deg,rgba(255,255,255,0.5),rgba(255,255,255,0.25));border-radius:20px;padding:18px 12px;text-align:center;border:1px solid rgba(255,255,255,0.4)}
+.premium-block{background:var(--sidebar-active-bg);border-radius:20px;padding:18px 12px;text-align:center;border:1px solid var(--border)}
 .premium-block .crown{font-size:26px;margin-bottom:6px}
 .premium-block h4{color:var(--sidebar-text-active);font-size:13px;margin-bottom:4px;font-weight:700}
 .premium-block p{color:var(--sidebar-text);font-size:11px;margin-bottom:12px}
@@ -62,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .hero::after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.15)}
 .hero h2{font-size:24px;font-weight:700;margin-bottom:6px;position:relative}
 .hero p{font-size:14px;opacity:.95;margin-bottom:20px;position:relative}
-.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:16px;border:none;background:#fff;color:var(--accent-deep);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;position:relative;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:16px;border:none;background:var(--card);color:var(--text);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;position:relative;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
 .hero-btn svg{width:16px;height:16px}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .stat-card{background:var(--card);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
@@ -2404,7 +2404,7 @@ function renderSynapse(){
       </div>
     </div>
     </div>
-    <div id="adrenergicPanel" style="display:none"><iframe id="adrenergicFrame" data-src="adrenergic-synapse.html?v=0c0fb1ec" title="Интерактивная визуализация адренергического синапса" style="display:block;width:100%;height:980px;border:0;border-radius:20px;background:transparent" loading="lazy"></iframe></div>`;
+    <div id="adrenergicPanel" style="display:none"><iframe id="adrenergicFrame" data-src="adrenergic-synapse.html?v=b72aae81" title="Интерактивная визуализация адренергического синапса" style="display:block;width:100%;height:980px;border:0;border-radius:20px;background:transparent" loading="lazy"></iframe></div>`;
   const svg=document.getElementById('synapseSvg');
   const tooltip=document.getElementById('synapseTooltip');
   const stage=svg.parentElement;
