@@ -1,7 +1,10 @@
-const CACHE = 'pharmstudy-offline-v3';
+const CACHE = 'pharmstudy-offline-v4';
 const home = new URL('index.html', self.registration.scope).href;
 const synapse = new URL('adrenergic-synapse.html', self.registration.scope).href;
-const assets = [home, synapse];
+const authorLogo = new URL('pharmstudy-author-hq-v1.svg', self.registration.scope).href;
+const appIcon = new URL('pharmstudy-icon-v4.svg', self.registration.scope).href;
+const manifest = new URL('manifest.webmanifest', self.registration.scope).href;
+const assets = [home, synapse, authorLogo, appIcon, manifest];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(assets.map(url => new Request(url, {cache: 'reload'})))).then(() => self.skipWaiting()));
@@ -13,7 +16,7 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  if(event.request.method !== 'GET' || event.request.mode !== 'navigate') return;
+  if(event.request.method !== 'GET') return;
   const shell = url.origin + url.pathname;
   const asset = shell === self.registration.scope ? home : shell;
   if(!assets.includes(asset)) return;
