@@ -516,6 +516,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .synapse-chain{order:5}
 }
 
+.cholinergic-mobile-controls details{padding:9px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:13px;background:var(--card)}
+.cholinergic-mobile-controls summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--text)}
+.cholinergic-mobile-controls details[open] summary{margin-bottom:8px}
+.cholinergic-mobile-controls .synapse-steps{margin:0}
+.cholinergic-mobile-controls .synapse-steps-heading{display:none}
+
 /* Smooth loops: animated elements fade/reset before a new cycle instead of snapping. */
 .synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleDockSmooth 2.8s cubic-bezier(.22,.61,.36,1) forwards}
 .synapse-svg.phase-receptors .ach-molecule .ach-float{animation:achBindLoop 1.8s cubic-bezier(.2,.65,.25,1) infinite}
@@ -2214,6 +2220,10 @@ function renderSynapse(){
       <button data-synapse-tab="adrenergic" onclick="switchSynapseTab('adrenergic')" style="padding:11px 16px;border:1px solid var(--border);border-radius:13px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer">Адренергический синапс</button>
     </div>
     <div id="cholinergicPanel">
+    <div class="cholinergic-mobile-controls" hidden>
+      <details><summary>Работа синапса</summary><div data-cholinergic-controls="steps"></div></details>
+      <details><summary>Изменения работы синапса</summary><div data-cholinergic-controls="scenarios"></div></details>
+    </div>
     <div class="synapse-wrap">
       <div class="synapse-scenarios" id="synapseScenarios">
         ${Object.entries(SCENARIOS).map(([k,v])=>`<button class="scen-btn ${k==='normal'?'active':''}" data-scen="${k}">${v.name}</button>`).join('')}
@@ -2416,6 +2426,39 @@ function renderSynapse(){
       document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+el.dataset.name+'</div><div class="synapse-info-desc">'+el.dataset.desc+'</div>';
     });
   });
+  const mobileControls=screenEl.querySelector('.cholinergic-mobile-controls');
+  const mobileMenus=[...mobileControls.querySelectorAll('details')];
+  const mobileLayout=window.matchMedia('(max-width:767px)');
+  const controlLists=[['synapseSteps','steps'],['synapseScenarios','scenarios']].map(([id,key])=>{
+    const list=document.getElementById(id);
+    const marker=document.createComment('desktop synapse controls');
+    list.before(marker);
+    return {list,marker,slot:mobileControls.querySelector('[data-cholinergic-controls="'+key+'"]')};
+  });
+  function arrangeControls(){
+    mobileControls.hidden=!mobileLayout.matches;
+    controlLists.forEach(({list,marker,slot})=>{
+      if(mobileLayout.matches)slot.append(list);
+      else marker.after(list);
+    });
+    mobileMenus.forEach(menu=>{menu.open=false;});
+  }
+  mobileMenus.forEach(menu=>menu.addEventListener('toggle',()=>{
+    if(menu.open)mobileMenus.forEach(other=>{if(other!==menu)other.open=false;});
+  }));
+  mobileControls.addEventListener('click',event=>{
+    const button=event.target.closest('.synapse-step,.scen-btn');
+    if(!button)return;
+    const menu=button.closest('details');
+    menu.open=false;
+    menu.querySelector('summary').focus({preventScroll:true});
+  });
+  const layoutObserver=new ResizeObserver(()=>{
+    if(!mobileControls.isConnected){layoutObserver.disconnect();return;}
+    if(mobileControls.hidden===mobileLayout.matches)arrangeControls();
+  });
+  layoutObserver.observe(mobileControls.closest('#cholinergicPanel'));
+  arrangeControls();
   const stepButtons=[...document.querySelectorAll('.synapse-step')];
   function activateSynapseStep(button){
     document.querySelectorAll('.scen-btn').forEach(x=>x.classList.toggle('active',x.dataset.scen==='normal'));
@@ -2453,7 +2496,7 @@ function renderSynapse(){
       ['phase-synthesis','phase-impulse','phase-fusion','phase-release','phase-receptors','phase-breakdown','phase-recycle'].forEach(c=>svg.classList.remove(c));
       svg.removeAttribute('data-active-step');
       svg.setAttribute('data-scenario',key);
-      document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+SCENARIOS[key].name+'</div><div class="synapse-info-desc">Режим препарата показан отдельно от пошаговой физиологической передачи. Выбери этап ниже, чтобы вернуться к обычной последовательности.</div>';
+      document.getElementById('synapseInfo').innerHTML='<div class="synapse-info-title">'+SCENARIOS[key].name+'</div><div class="synapse-info-desc">Режим препарата показан отдельно от пошаговой физиологической передачи. Выбери этап передачи, чтобы вернуться к обычной последовательности.</div>';
       document.getElementById('synapseChainText').innerHTML=SCENARIOS[key].chain;
     });
   });
