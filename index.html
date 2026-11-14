@@ -1150,6 +1150,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes eye-dilate{0%,25%,100%{transform:scale(1)}55%,75%{transform:scale(1.32)}}
 @keyframes eye-tears{0%,27%,100%{opacity:0;transform:translateY(0)}55%{opacity:1}85%{opacity:0;transform:translateY(20px)}}
 @keyframes eye-fluid{0%,25%,100%{opacity:.25}50%,78%{opacity:1}}
+ .eye-lens{transform-origin:293px 124px}
+ .eye-ciliary{transform-origin:272px 124px}
+ .eye-section :is(.eye-flow,.eye-production){transform-origin:237px 124px}
+ @media(prefers-reduced-motion:no-preference){
+  .eye-section-normal.playing .eye-lens,.eye-section-pilocarpine.playing .eye-lens{animation:eye-near 4s ease infinite}
+  .eye-section-normal.playing .eye-ciliary,.eye-section-pilocarpine.playing .eye-ciliary{animation:eye-ciliary-contract 4s ease infinite}
+  .eye-section-normal.playing .eye-zonules,.eye-section-pilocarpine.playing .eye-zonules{animation:eye-zonule-relax 4s ease infinite}
+  .eye-section-atropine.playing .eye-lens{animation:eye-flat 4s ease infinite}
+  .eye-section-pilocarpine.playing .eye-flow{animation:eye-outflow 4s linear infinite}
+  .eye-section-timolol.playing .eye-production{animation:eye-production-drop 4s ease infinite}
+ }
+ @media(prefers-reduced-motion:reduce){
+  .eye-section-normal .eye-lens,.eye-section-pilocarpine .eye-lens{transform:scaleX(1.36)}
+  .eye-section-atropine .eye-lens{transform:scaleX(.78)}
+  .eye-section-timolol .eye-production{opacity:.3}
+ }
+ @keyframes eye-near{0%,25%,100%{transform:scaleX(1)}55%,75%{transform:scaleX(1.36)}}
+ @keyframes eye-flat{0%,25%,100%{transform:scaleX(1)}55%,75%{transform:scaleX(.78)}}
+ @keyframes eye-ciliary-contract{0%,25%,100%{transform:scale(1)}55%,75%{transform:scale(.85,.9)}}
+ @keyframes eye-zonule-relax{0%,25%,100%{opacity:1}55%,75%{opacity:.45}}
+ @keyframes eye-outflow{0%,25%{opacity:.25;stroke-dashoffset:14}55%,80%{opacity:1}100%{opacity:.25;stroke-dashoffset:0}}
+ @keyframes eye-production-drop{0%,25%,100%{opacity:1}55%,75%{opacity:.25}}
 </style>
 </head>
 <body>
@@ -2590,6 +2612,37 @@ const ORGAN_SCENES={
     description:'На нервно-мышечном синапсе ацетилхолин активирует Нₘ-холинорецепторы концевой пластинки. Возникает потенциал действия мышечного волокна, Ca²⁺ выходит из саркоплазматического ретикулума, и волокно сокращается.'
   }
 };
+function renderEyeSection(mode){
+  const near=mode==='normal'||mode==='pilocarpine';
+  const flow=mode==='pilocarpine'||mode==='timolol';
+  const flowLabel=mode==='pilocarpine'?'↑ Отток через трабекулярную сеть':'↓ Образование водянистой влаги';
+  const caption=near?'Ресничная мышца сокращается, хрусталик становится выпуклее':
+    mode==='atropine'?'Ресничная мышца расслаблена, фокусировка вблизи затруднена':
+    'Форма хрусталика в этом сценарии не меняется';
+  return `<svg class="organ-scene eye-section eye-section-${mode}" viewBox="0 0 560 254" role="img" aria-label="Передний отдел глаза в разрезе. ${caption}">
+    <rect width="560" height="254" rx="18" fill="#18213e"/>
+    <g fill="#f1e2ff" font-size="17" text-anchor="middle">
+      <text x="280" y="28">Передний отдел глаза в разрезе</text>
+      <text x="100" y="123">Роговица</text>
+      <text x="429" y="123">Хрусталик</text>
+      <text x="430" y="71">Ресничная мышца</text>
+      <text x="280" y="235">${flow?flowLabel:near?'Аккомодация для близи':mode==='atropine'?'Циклоплегия':'Аккомодация сохраняется'}</text>
+    </g>
+    <path d="M215 64Q122 125 215 184" fill="#294961" stroke="#b6ebf3" stroke-width="5"/>
+    <path d="M215 64Q169 124 215 184H254V64Z" fill="#437d99" opacity=".48"/>
+    <path d="M202 74L208 89m-6 85 6-15" stroke="#edc6fa" stroke-width="6" stroke-linecap="round"/>
+    <path d="M215 66L252 104M215 182L252 144" stroke="#a78cc9" stroke-width="8" stroke-linecap="round"/>
+    <g class="eye-ciliary" fill="none" stroke="#eea2d0" stroke-width="8" stroke-linecap="round">
+      <path d="M239 65q32-18 65 0M239 183q32 18 65 0"/>
+    </g>
+    <path class="eye-zonules" d="M257 69L286 85m-29 94 29-16m16-78 20-15m-20 93 20 15" stroke="#e4d4ed" stroke-width="2"/>
+    <ellipse class="eye-lens" cx="293" cy="124" rx="22" ry="47" fill="#a4d9da" fill-opacity=".83" stroke="#d2ffff" stroke-width="3"/>
+    <path d="M136 126H155m260 0H320m40-57h-50" fill="none" stroke="#a7bed3" stroke-width="1.5"/>
+    ${mode==='pilocarpine'?'<path class="eye-flow" d="M236 122Q204 118 207 93L193 80m0 0 3 10m-3-10 10 2" fill="none" stroke="#91f4dc" stroke-width="3" stroke-dasharray="5 3"/>':''}
+    ${mode==='timolol'?'<g class="eye-production" fill="#91f4dc"><circle cx="242" cy="86" r="4"/><circle cx="233" cy="94" r="3"/><circle cx="241" cy="163" r="4"/></g>':''}
+  </svg>`;
+}
+
 function renderOrganScene(key,eyeMode='normal'){
   if(key==='lungs'){renderLungs();return;}
   const eye=key==='eye'?EYE_MODES[eyeMode]:null;
@@ -2609,6 +2662,7 @@ function renderOrganScene(key,eyeMode='normal'){
       ${eye?.tear?`<g class="eye-tears" fill="#9fefff" stroke="#ddfbff"><path d="M323 164q-13 15-8 23a8 8 0 0 0 15-5q-1-8-7-18Z"/><path d="M335 177q-8 10-5 15a5 5 0 0 0 10-2q-1-6-5-13Z"/></g>`:''}
       ${eye?.fluid?`<g class="eye-fluid ${eye.fluid}" fill="#93e4de" font-size="13"><text x="420" y="240" text-anchor="middle">${eye.fluid==='out'?'↑ Отток водянистой влаги':'↓ Образование водянистой влаги'}</text><path d="M392 251h56" stroke="#93e4de" stroke-width="3" stroke-linecap="round"/></g>`:''}
     </svg>
+    ${eye?renderEyeSection(eyeMode):''}
     <div class="synapse-info"><div class="synapse-info-title">${scene.name}</div><div class="synapse-info-desc">${scene.description}</div></div>`;
   if(eye)document.querySelectorAll('[data-eye-mode]').forEach(button=>button.addEventListener('click',()=>{
     const mode=button.dataset.eyeMode;
@@ -2618,10 +2672,11 @@ function renderOrganScene(key,eyeMode='normal'){
   playOrganScene();
 }
 function playOrganScene(){
-  const svg=document.querySelector('#organPanel .organ-scene');
-  svg.classList.remove('playing');
-  svg.getBoundingClientRect();
-  svg.classList.add('playing');
+  const panel=document.getElementById('organPanel');
+  const scenes=panel.querySelectorAll('.organ-scene');
+  scenes.forEach(svg=>svg.classList.remove('playing'));
+  panel.getBoundingClientRect();
+  scenes.forEach(svg=>svg.classList.add('playing'));
 }
 
 function switchSynapseTab(tab){
