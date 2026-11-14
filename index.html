@@ -1080,6 +1080,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .control-back-btn{margin:0 0 14px;padding:9px 13px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer}
 @media(max-width:768px){.control-final-card{gap:10px;padding:14px;border-radius:14px}.control-final-card-copy strong{font-size:14px}.control-final-card-copy small{font-size:11px}.control-final-card-icon{flex-basis:38px;width:38px;height:38px}.control-back-btn{min-height:40px}}
 
+ .organ-scene{display:block;width:100%;max-width:820px;margin:10px auto;border-radius:18px}
+ .organ-signal{opacity:0}
+ .organ-scene.playing .organ-signal{animation:organ-signal 1s ease-in-out}
+ .organ-scene.playing.iris .organ-effect{animation:organ-iris 1.4s 1s ease both}
+ .organ-scene.playing.heartbeat .organ-effect{animation:organ-heart .55s 1s ease 5}
+ .organ-scene.playing.shorten .organ-effect{animation:organ-shorten 1.6s 1s ease both}
+ @keyframes organ-signal{15%{opacity:1}85%{transform:translateX(26px);opacity:1}100%{transform:translateX(26px);opacity:0}}
+ @keyframes organ-iris{70%,100%{transform:scale(.52)}}
+ @keyframes organ-heart{35%{transform:scale(.86)}}
+ @keyframes organ-shorten{45%,70%{transform:scale(.76,1.23)}}
+ @media(prefers-reduced-motion:reduce){.organ-scene.playing *{animation:none!important}.organ-scene.iris .organ-effect{transform:scale(.52)}.organ-scene.shorten .organ-effect{transform:scale(.76,1.23)}}
 </style>
 </head>
 <body>
@@ -1678,6 +1689,19 @@ for (const q of QUESTIONS) {
   if (!SKILLS[q.id]) SKILLS[q.id] = (q.tags || []).includes('Рецептура') ? 'Рецептура' : (q.tags || []).includes('Классификация') ? 'Классификация' : 'Показания';
 }
 
+// Alternate wording for source-backed classification and prescription questions.
+for(const question of QUESTIONS.slice()){
+  const group=question.text.match(/^(?:Какой препарат относится к группе|Какой препарат в классификации отнесён к группе) «(.+?)»/);
+  const prescription=question.text.match(/^Какой препарат указан в учебном рецепте «(.+)»\?$/);
+  if(!group&&!prescription)continue;
+  const id=question.id+'_alt';
+  const text=group
+    ? 'Выбери из перечисленных представителя группы «'+group[1]+'».'
+    : 'Определи препарат по латинской прописи: '+prescription[1];
+  QUESTIONS.push({...question,id,text});
+  SKILLS[id]=SKILLS[question.id];
+}
+
 const SCENARIOS={
   normal:{name:'Норма',chain:'<strong>Физиологическая передача.</strong> Потенциал действия → вход Ca²⁺ → экзоцитоз везикул → АХ связывается с рецепторами соответствующего типа → АХЭ гидролизует АХ. М- и Н-рецепторы на схеме показаны как варианты разных холинергических синапсов, а не как обязательная пара в одном синапсе.'},
   'm-agonist':{name:'Прямой М-холиномиметик (Пилокарпин)',chain:'<strong>Пилокарпин непосредственно активирует М-рецепторы.</strong> В глазу вызывает сокращение сфинктера радужки и цилиарной мышцы, миоз и улучшение оттока водянистой влаги. При системном всасывании возможны потливость, слюноотделение, брадикардия и бронхоспазм.'},
@@ -1890,7 +1914,7 @@ function renderSessionSettings(){
   const selected=[...new Set(QUESTIONS.map(q=>q.section))].filter(sec=>state.selectedTopics[sec]);
   if(state.selectedSkills._init!==true){SKILL_LIST.forEach(skill=>state.selectedSkills[skill]=true);state.selectedSkills._init=true;}
   const activeSkills=SKILL_LIST.filter(skill=>state.selectedSkills[skill]);
-  const available=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id])).length;
+  const available=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id])&&(state.sessionOrder!=='ordered'||!q.id.endsWith('_alt'))).length;
   const countValue=state.sessionQuestionCount==='all'?available:Math.min(available,Number(state.sessionQuestionCount)||available);
   screenEl.innerHTML=`
     <div class="session-flow-card session-settings-step">
@@ -1948,6 +1972,18 @@ function setSessionOrder(order){if(order!=='ordered'&&order!=='random')return;st
 function toggleSkill(s){state.selectedSkills[s]=!state.selectedSkills[s];renderSessionSettings();}
 function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionTopics();}
 function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;rerenderPickerKeepingScroll(renderSessionSetup);}
+function spreadQuestionVariants(pool){
+  const first=[],second=[],families=new Set();
+  for(const question of shuffle(pool)){
+    const family=question.id.replace(/_alt$/,'');
+    (families.has(family)?second:first).push(question);
+    families.add(family);
+  }
+  if(second.length>1 && first.at(-1).id.replace(/_alt$/,'')===second[0].id.replace(/_alt$/,'')){
+    [second[0],second[1]]=[second[1],second[0]];
+  }
+  return first.length===1 ? first : first.concat(second);
+}
 function startSession(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const selected=sections.filter(sec=>state.selectedTopics[sec]);
@@ -1955,9 +1991,8 @@ function startSession(){
   let pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
   if(!pool.length){alert('Нет вопросов под выбранными фильтрами');return;}
   const requested=state.sessionQuestionCount==='all'?pool.length:Number(state.sessionQuestionCount)||pool.length;
-  if(state.sessionMode==='study'&&state.sessionQuestionCount==='all'){}
-  pool=shuffle(pool);
-  if(state.sessionOrder==='ordered')pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
+  if(state.sessionOrder==='ordered')pool=pool.filter(q=>!q.id.endsWith('_alt'));
+  else pool=spreadQuestionVariants(pool);
   if(pool.length>requested)pool=pool.slice(0,requested);
   pool=arrangeSessionOptions(pool);
   if(window._pharmExamTimer){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;}
@@ -2206,9 +2241,54 @@ function renderClassifyReport(){
       <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
 }
+const ORGAN_SCENES={
+  eye:{
+    name:'Глаз', organ:'<circle cx="420" cy="150" r="83" fill="#8368bd" stroke="#ffd1f3" stroke-width="4"/><circle class="organ-effect" cx="420" cy="150" r="42" fill="#101729" style="transform-origin:420px 150px"/>',
+    className:'iris', receptor:'М₃', mediator:'АХ', tissue:'Сфинктер зрачка',
+    description:'Ацетилхолин из парасимпатического окончания активирует М₃-рецепторы сфинктера зрачка. Круговая мышца сокращается, зрачок сужается (миоз).'
+  },
+  heart:{
+    name:'Сердце', organ:'<g class="organ-effect" style="transform-origin:418px 147px"><path d="M419 234 C378 205 325 159 332 119 C339 74 395 69 419 105 C447 69 502 77 506 119 C511 159 470 205 419 234Z" fill="#a64d97" stroke="#ffd1f3" stroke-width="4"/></g>',
+    className:'heartbeat', receptor:'β₁', mediator:'НА', tissue:'Миокард',
+    description:'Норадреналин из симпатического окончания активирует β₁-рецепторы. Симпатическое влияние увеличивает частоту сердечных сокращений и усиливает сократимость. На схеме показан условный ответ миокарда.'
+  },
+  muscle:{
+    name:'Скелетная мышца', organ:'<g class="organ-effect" style="transform-origin:420px 150px"><path d="M316 150 Q340 103 420 103 Q500 103 524 150 Q500 197 420 197 Q340 197 316 150Z" fill="#a64d97" stroke="#ffd1f3" stroke-width="4"/><path d="M351 134H489 M338 150H502 M351 166H489" stroke="#ffd1f3" stroke-width="5"/></g>',
+    className:'shorten', receptor:'Нₘ', mediator:'АХ', tissue:'Мышечное волокно',
+    description:'На нервно-мышечном синапсе ацетилхолин активирует Нₘ-холинорецепторы концевой пластинки. Возникает потенциал действия мышечного волокна, Ca²⁺ выходит из саркоплазматического ретикулума, и волокно сокращается.'
+  }
+};
+function renderOrganScene(key){
+  const scene=ORGAN_SCENES[key];
+  document.getElementById('organPanel').innerHTML=`
+    <div class="organ-controls"><button class="scen-btn active" type="button" onclick="playOrganScene()">Воспроизвести</button></div>
+    <svg class="organ-scene ${scene.className}" viewBox="0 0 560 265" role="img" aria-label="${scene.name}. Передача сигнала и ответ ткани">
+      <rect width="560" height="265" rx="18" fill="#18213e"/>
+      <path d="M18 121H63C91 79 143 84 164 111Q190 150 164 189C137 218 86 205 63 179H18Z" fill="#5a3a88" stroke="#e0c8f8" stroke-width="4"/>
+      <circle cx="144" cy="150" r="14" fill="#f594cb"/>
+      <path d="M193 204V96" stroke="#65e6c2" stroke-width="5"/>
+      <path d="M193 137q-23 0-23 13t23 13" fill="none" stroke="#a8f0df" stroke-width="5"/>
+      <path d="M224 150H287m-11-9 11 9-11 9" fill="none" stroke="#8ac0e0" stroke-width="3"/>
+      <g class="organ-signal"><circle cx="144" cy="150" r="7" fill="#ffe5aa"/><text x="144" y="130" text-anchor="middle" fill="#fff"> ${scene.mediator}</text></g>
+      <g fill="#e0c8f8" font-size="17" text-anchor="middle"><text x="105" y="60">Нервное окончание</text><text x="190" y="230">${scene.receptor}</text><text x="420" y="40">${scene.tissue}</text></g>
+      ${scene.organ}
+    </svg>
+    <div class="synapse-info"><div class="synapse-info-title">${scene.name}</div><div class="synapse-info-desc">${scene.description}</div></div>`;
+  playOrganScene();
+}
+function playOrganScene(){
+  const svg=document.querySelector('#organPanel .organ-scene');
+  svg.classList.remove('playing');
+  svg.getBoundingClientRect();
+  svg.classList.add('playing');
+}
+
 function switchSynapseTab(tab){
   const chol=document.getElementById('cholinergicPanel'), adr=document.getElementById('adrenergicPanel');
   if(!chol||!adr)return;
+  const organ=document.getElementById('organPanel');
+  organ.hidden=!Object.hasOwn(ORGAN_SCENES,tab);
+  if(!organ.hidden)renderOrganScene(tab);
   chol.style.display=tab==='cholinergic'?'':'none'; adr.style.display=tab==='adrenergic'?'':'none';
   document.querySelectorAll('[data-synapse-tab]').forEach(b=>{const active=b.dataset.synapseTab===tab;b.style.background=active?'var(--accent)':'var(--card)';b.style.color=active?'#fff':'var(--text)';b.style.borderColor=active?'var(--accent)':'var(--border)';});
   const frame=document.getElementById('adrenergicFrame'); if(tab==='adrenergic'&&frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src;
@@ -2218,7 +2298,9 @@ function renderSynapse(){
     <div class="synapse-tabbar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px">
       <button data-synapse-tab="cholinergic" onclick="switchSynapseTab('cholinergic')" style="padding:11px 16px;border:1px solid var(--accent);border-radius:13px;background:var(--accent);color:#fff;font:600 13px inherit;cursor:pointer">Холинергический синапс</button>
       <button data-synapse-tab="adrenergic" onclick="switchSynapseTab('adrenergic')" style="padding:11px 16px;border:1px solid var(--border);border-radius:13px;background:var(--card);color:var(--text);font:600 13px inherit;cursor:pointer">Адренергический синапс</button>
+      ${Object.entries(ORGAN_SCENES).map(([key,scene])=>`<button class="scen-btn" type="button" data-synapse-tab="${key}" onclick="switchSynapseTab('${key}')">${scene.name}</button>`).join('')}
     </div>
+    <div id="organPanel" hidden></div>
     <div id="cholinergicPanel">
     <div class="cholinergic-mobile-controls" hidden>
       <details><summary>Работа синапса</summary><div data-cholinergic-controls="steps"></div></details>
@@ -3579,6 +3661,11 @@ if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',bootPharmStudy,{once:true});
 }else{
   bootPharmStudy();
+}
+</script>
+<script>
+if('serviceWorker' in navigator && window.isSecureContext){
+ navigator.serviceWorker.register('./sw.js').catch(error=>console.warn('PharmStudy: офлайн-кэш недоступен',error));
 }
 </script>
 </body>
