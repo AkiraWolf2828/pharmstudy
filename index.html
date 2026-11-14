@@ -3520,6 +3520,38 @@ function renderControlFinalOne(){
   </div>`;
 }
 
+let offlineStatus='Подготавливаем офлайн-доступ…';
+function setOfflineStatus(text){
+  offlineStatus=text;
+  const label=document.getElementById('offlineStatus');
+  if(label)label.textContent=text;
+}
+async function prepareOffline(){
+  if(!('serviceWorker' in navigator)||!window.isSecureContext){
+    setOfflineStatus('В этом браузере офлайн-доступ недоступен.');
+    return;
+  }
+  try{
+    await navigator.serviceWorker.register('./sw.js');
+    const registration=await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('Офлайн-кэш не готов')),15000))
+    ]);
+    const filenames=['index.html','adrenergic-synapse.html'];
+    const cacheNames=(await caches.keys()).filter(name=>name.startsWith('pharmstudy-offline-'));
+    for(const name of cacheNames){
+      const cache=await caches.open(name);
+      const saved=await Promise.all(filenames.map(file=>cache.match(new URL(file,registration.scope).href)));
+      if(saved.every(response=>response?.ok)){
+        setOfflineStatus('Сайт сохранён для офлайн-работы на этом устройстве.');
+        return;
+      }
+    }
+    throw new Error('Не все страницы сохранены');
+  }catch{
+    setOfflineStatus('Офлайн-копия ещё не готова. Открой сайт с интернетом и обнови страницу.');
+  }
+}
 function renderSettings(){
   const s=getStats();
   const palettes=[
@@ -3529,6 +3561,10 @@ function renderSettings(){
   ];
   return `
     <div style="max-width:700px">
+      <div class="panel" style="margin-bottom:16px">
+        <h3>Офлайн-доступ</h3>
+        <p id="offlineStatus" role="status">${offlineStatus}</p>
+      </div>
       <div class="panel" style="margin-bottom:16px">
         <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Палитра</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
@@ -3664,9 +3700,7 @@ if(document.readyState==='loading'){
 }
 </script>
 <script>
-if('serviceWorker' in navigator && window.isSecureContext){
- navigator.serviceWorker.register('./sw.js').catch(error=>console.warn('PharmStudy: офлайн-кэш недоступен',error));
-}
+prepareOffline();
 </script>
 </body>
 </html>
