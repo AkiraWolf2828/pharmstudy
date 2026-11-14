@@ -1827,33 +1827,36 @@ function renderDashboard(){
 
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function arrangeSessionOptions(pool){
-  const remainingPositions=new Map();
-  const previousPositions=new Map();
+  let previousPosition=-1;
+  const positionUses=[];
   const seenOrders=new Set();
   return pool.map(q=>{
     const indexed=q.options.map((text,index)=>({text,isCorrect:index===q.correct}));
     const count=indexed.length;
-    if(count<2)return {...q,options:indexed.map(o=>o.text),correct:Math.max(0,q.correct||0)};
-    let remaining=remainingPositions.get(count);
-    if(!remaining||remaining.length===0)remaining=Array.from({length:count},(_,i)=>i);
-    const previous=previousPositions.get(count);
-    let candidates=remaining.filter(i=>i!==previous);
-    if(!candidates.length)candidates=remaining;
-    const correctPosition=shuffle(candidates)[0];
-    remaining=remaining.filter(i=>i!==correctPosition);
-    remainingPositions.set(count,remaining);
-    previousPositions.set(count,correctPosition);
+    const candidates=Array.from({length:count},(_,index)=>index)
+      .filter(index=>count===1||index!==previousPosition);
+    // Keep every eligible position possible while gently balancing their frequency.
+    const weights=candidates.map(index=>1/(1+(positionUses[index]||0)));
+    let draw=Math.random()*weights.reduce((total,weight)=>total+weight,0);
+    const choice=weights.findIndex(weight=>(draw-=weight)<0);
+    const correctPosition=candidates[choice<0?candidates.length-1:choice];
+    positionUses[correctPosition]=(positionUses[correctPosition]||0)+1;
+    previousPosition=correctPosition;
     const distractors=indexed.filter(o=>!o.isCorrect);
     let chosen=null;
+    let differentOrder=null;
+    const originalOrder=JSON.stringify(q.options.map(String));
     for(let attempt=0;attempt<80;attempt++){
       const arranged=shuffle(distractors);
       arranged.splice(correctPosition,0,indexed[q.correct]);
       const signature=JSON.stringify(arranged.map(o=>String(o.text)));
-      if(!seenOrders.has(signature)){
+      if(signature!==originalOrder)differentOrder={arranged,signature};
+      if(signature!==originalOrder&&!seenOrders.has(signature)){
         chosen={arranged,signature};
         break;
       }
     }
+    chosen=chosen||differentOrder;
     if(!chosen){
       const arranged=shuffle(distractors);
       arranged.splice(correctPosition,0,indexed[q.correct]);
@@ -1914,7 +1917,7 @@ function renderSessionSettings(){
   const selected=[...new Set(QUESTIONS.map(q=>q.section))].filter(sec=>state.selectedTopics[sec]);
   if(state.selectedSkills._init!==true){SKILL_LIST.forEach(skill=>state.selectedSkills[skill]=true);state.selectedSkills._init=true;}
   const activeSkills=SKILL_LIST.filter(skill=>state.selectedSkills[skill]);
-  const available=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id])&&(state.sessionOrder!=='ordered'||!q.id.endsWith('_alt'))).length;
+  const available=getSessionQuestionPool(selected,activeSkills).length;
   const countValue=state.sessionQuestionCount==='all'?available:Math.min(available,Number(state.sessionQuestionCount)||available);
   screenEl.innerHTML=`
     <div class="session-flow-card session-settings-step">
@@ -1968,7 +1971,7 @@ function rerenderPickerKeepingScroll(renderFn){
     if(skills)skills.scrollTop=skillScroll;
   });
 }
-function setSessionOrder(order){if(order!=='ordered'&&order!=='random')return;state.sessionOrder=order;}
+function setSessionOrder(order){if(order!=='ordered'&&order!=='random')return;state.sessionOrder=order;renderSessionSettings();}
 function toggleSkill(s){state.selectedSkills[s]=!state.selectedSkills[s];renderSessionSettings();}
 function toggleTopic(sec){state.selectedTopics[sec]=!state.selectedTopics[sec];renderSessionTopics();}
 function selectAllTopics(v){const sections=[...new Set(QUESTIONS.map(q=>q.section))];sections.forEach(s=>state.selectedTopics[s]=v);state.selectedTopics._init=true;rerenderPickerKeepingScroll(renderSessionSetup);}
@@ -1984,15 +1987,18 @@ function spreadQuestionVariants(pool){
   }
   return first.length===1 ? first : first.concat(second);
 }
+function getSessionQuestionPool(selected,activeSkills){
+  const pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
+  if(state.sessionOrder==='ordered')return pool.filter(q=>!q.id.endsWith('_alt'));
+  return spreadQuestionVariants(pool);
+}
 function startSession(){
   const sections=[...new Set(QUESTIONS.map(q=>q.section))];
   const selected=sections.filter(sec=>state.selectedTopics[sec]);
   const activeSkills=SKILL_LIST.filter(skill=>state.selectedSkills[skill]);
-  let pool=QUESTIONS.filter(q=>selected.includes(q.section)&&activeSkills.includes(SKILLS[q.id]));
+  let pool=getSessionQuestionPool(selected,activeSkills);
   if(!pool.length){alert('Нет вопросов под выбранными фильтрами');return;}
   const requested=state.sessionQuestionCount==='all'?pool.length:Number(state.sessionQuestionCount)||pool.length;
-  if(state.sessionOrder==='ordered')pool=pool.filter(q=>!q.id.endsWith('_alt'));
-  else pool=spreadQuestionVariants(pool);
   if(pool.length>requested)pool=pool.slice(0,requested);
   pool=arrangeSessionOptions(pool);
   if(window._pharmExamTimer){clearInterval(window._pharmExamTimer);window._pharmExamTimer=null;}
