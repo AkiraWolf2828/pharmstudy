@@ -372,7 +372,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .synapse-svg[data-scenario="n-blocker"] .ach-molecule .ach-float,
 .synapse-svg[data-scenario="reactivator"] .ach-molecule .ach-float{opacity:1;animation-play-state:running}
 .synapse-svg .breakdown-product{opacity:0;transform-box:fill-box;transform-origin:center}
-.synapse-svg.phase-breakdown .breakdown-substrate{transform-box:fill-box;transform-origin:center;animation:substrateFade .55s ease-in .05s both}
+.synapse-svg.phase-breakdown .breakdown-substrate{transform-box:fill-box;transform-origin:center;animation:substrateFade .9s ease-in infinite}
 .synapse-svg.phase-breakdown .breakdown-product.choline{animation:achSplitCholine .85s ease-out .05s both}
 .synapse-svg.phase-breakdown .breakdown-product.acetate{animation:achSplitAcetate .85s ease-out .05s both}
 .synapse-svg .ach-release-particles{opacity:0;pointer-events:none;}
@@ -536,14 +536,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes cholineReturnLoop{0%,100%{transform:translate(0,0);opacity:0}10%{opacity:1}38%{transform:translate(56px,-1px);opacity:1}68%{transform:translate(106px,-40px);opacity:1}86%{transform:translate(151px,-61px);opacity:1}96%{transform:translate(151px,-61px);opacity:0}}
 
 /* Переход везикулы между этапами: отскок и опускание, удержание при выбросе, плавный возврат на следующем этапе. */
-.synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleBounceDock 2.8s cubic-bezier(.22,.61,.36,1) forwards!important}
+.synapse-svg.phase-fusion .fusion-vesicle{animation:vesicleBounceDock 3.6s cubic-bezier(.22,.61,.36,1) infinite!important}
 .synapse-svg.phase-release .fusion-vesicle{animation:none!important;transform:translateY(125px)!important}
-.synapse-svg.phase-receptors .fusion-vesicle{animation:vesicleLift 0.85s cubic-bezier(.22,.61,.36,1) both!important}
+.synapse-svg.phase-receptors .fusion-vesicle{animation:none!important;transform:translateY(0)!important}
 @keyframes vesicleBounceDock{
-  0%{transform:translateY(0)}
-  18%{transform:translateY(-18px)}
-  34%{transform:translateY(5px)}
-  100%{transform:translateY(125px)}
+  0%{transform:translateY(0);opacity:0}
+  12%{opacity:1}
+  65%,80%{transform:translateY(125px);opacity:1}
+  100%{transform:translateY(125px);opacity:0}
 }
 @keyframes vesicleLift{
   0%{transform:translateY(125px)}
@@ -1083,14 +1083,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 
  .organ-scene{display:block;width:100%;max-width:820px;margin:10px auto;border-radius:18px}
  .organ-signal{opacity:0}
- .organ-scene.playing .organ-signal{animation:organ-signal 1s ease-in-out}
- .organ-scene.playing.iris .organ-effect{animation:organ-iris 1.4s 1s ease both}
- .organ-scene.playing.heartbeat .organ-effect{animation:organ-heart .55s 1s ease 5}
- .organ-scene.playing.shorten .organ-effect{animation:organ-shorten 1.6s 1s ease both}
- @keyframes organ-signal{15%{opacity:1}85%{transform:translateX(26px);opacity:1}100%{transform:translateX(26px);opacity:0}}
- @keyframes organ-iris{70%,100%{transform:scale(.52)}}
- @keyframes organ-heart{35%{transform:scale(.86)}}
- @keyframes organ-shorten{45%,70%{transform:scale(.76,1.23)}}
+ .organ-scene.playing .organ-signal{animation:organ-signal 4s ease-in-out infinite}
+ .organ-scene.playing.iris .organ-effect{animation:organ-iris 4s ease infinite}
+ .organ-scene.playing.heartbeat .organ-effect{animation:organ-heart 4s ease infinite}
+ .organ-scene.playing.shorten .organ-effect{animation:organ-shorten 4s ease infinite}
+ @keyframes organ-signal{0%{transform:translateX(0);opacity:0}5%{opacity:1}21%{transform:translateX(26px);opacity:1}25%,100%{transform:translateX(26px);opacity:0}}
+ @keyframes organ-iris{0%,25%,100%{transform:scale(1)}55%,75%{transform:scale(.52)}}
+ @keyframes organ-heart{0%,25%,48%,71%,94%,100%{transform:scale(1)}36%,59%,82%{transform:scale(.86)}}
+ @keyframes organ-shorten{0%,25%,100%{transform:scale(1)}54%,75%{transform:scale(.76,1.23)}}
  @media(prefers-reduced-motion:reduce){.organ-scene.playing *{animation:none!important}.organ-scene.iris .organ-effect{transform:scale(.52)}.organ-scene.shorten .organ-effect{transform:scale(.76,1.23)}}
  .classification-notes{max-width:860px;margin:0 auto 22px}
  .classification-notes h2{font-size:clamp(18px,3vw,24px);margin:0 0 14px}
@@ -1119,8 +1119,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .nav-btn[hidden]{display:none}
 .lung-controls{display:flex;flex-wrap:wrap;gap:8px}
 .lung-signal{opacity:0}
-.lung-scene.playing .lung-signal{animation:lung-signal .9s ease-in-out}
-@keyframes lung-signal{15%{opacity:1}80%{transform:translate(107px,-53px);opacity:1}100%{transform:translate(107px,-53px);opacity:0}}
+.lung-scene.playing .lung-signal{animation:lung-signal 4s ease-in-out infinite}
+.lung-lumen{transform-origin:331px 130px;transform:scale(var(--lumen-end))}
+@media(prefers-reduced-motion:no-preference){.lung-scene.playing .lung-lumen{animation:lung-lumen 4s ease infinite}}
+@keyframes lung-lumen{0%,25%,100%{transform:scale(var(--lumen-start))}55%,76%{transform:scale(var(--lumen-end))}}
+@keyframes lung-signal{0%{transform:translate(0,0);opacity:0}5%{opacity:1}21%{transform:translate(107px,-53px);opacity:1}25%,100%{transform:translate(107px,-53px);opacity:0}}
 </style>
 </head>
 <body>
@@ -2482,9 +2485,7 @@ function renderLungs(mode='narrow'){
       <path d="M112 38V89L71 122M112 89l41 33m-82 0-19 8m19-8 2 23m80-23 19 8m-19-8-2 23" fill="none" stroke="#8ce4d4" stroke-width="6" stroke-linecap="round"/>
       <path d="M173 130H246" stroke="#8ac0e0" stroke-width="2" stroke-dasharray="5 5"/>
       <circle cx="331" cy="130" r="68" fill="#ba6fb2" stroke="#f0bfed" stroke-width="4"/>
-      <circle cx="331" cy="130" r="46" fill="#131b32">
-        <animate id="lungLumen" attributeName="r" from="${from}" to="${to}" begin="indefinite" dur="1.15s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1"/>
-      </circle>
+      <circle class="lung-lumen" cx="331" cy="130" r="46" fill="#131b32" style="--lumen-start:${from/46};--lumen-end:${to/46}"/>
       <path d="M315 190q16-17 32 0" fill="none" stroke="#8ce4d4" stroke-width="5"/>
       <g class="lung-signal" fill="#ffe5aa"><circle cx="224" cy="243" r="6"/><text x="224" y="229" text-anchor="middle" font-size="15">${signal}</text></g>
       <g fill="#f1e2ff" font-size="16" text-anchor="middle"><text x="112" y="211">Бронхи</text><text x="331" y="44">Бронх в разрезе</text><text x="128" y="271">${origin}</text><text x="365" y="221">${mode==='narrow'?'М₃':'β₂'}</text></g>
@@ -2540,8 +2541,6 @@ function playOrganScene(){
   svg.classList.remove('playing');
   svg.getBoundingClientRect();
   svg.classList.add('playing');
-  const lumen=svg.querySelector('#lungLumen');
-  if(lumen&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&typeof lumen.beginElementAt==='function')lumen.beginElementAt(.9);
 }
 
 function switchSynapseTab(tab){
@@ -2552,7 +2551,10 @@ function switchSynapseTab(tab){
   if(!organ.hidden)renderOrganScene(tab);
   chol.style.display=tab==='cholinergic'?'':'none'; adr.style.display=tab==='adrenergic'?'':'none';
   document.querySelectorAll('[data-synapse-tab]').forEach(b=>{const active=b.dataset.synapseTab===tab;b.style.background=active?'var(--accent)':'var(--card)';b.style.color=active?'#fff':'var(--text)';b.style.borderColor=active?'var(--accent)':'var(--border)';});
-  const frame=document.getElementById('adrenergicFrame'); if(tab==='adrenergic'&&frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src;
+  const frame=document.getElementById('adrenergicFrame'); if(frame){
+    if(tab==='adrenergic'&&!frame.hasAttribute('src'))frame.src=frame.dataset.src;
+    if(tab!=='adrenergic')frame.removeAttribute('src');
+  }
 }
 function renderSynapse(){
   screenEl.innerHTML=`
