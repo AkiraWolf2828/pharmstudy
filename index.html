@@ -3223,6 +3223,22 @@ const REFERENCE_TOPIC_NOTES=[
  }
 ];
 
+function renderClassificationNotes(cards,depth=0){
+  const groups=new Map();
+  const entries=[];
+  for(const card of cards){
+    const heading=card.classificationPath[depth];
+    if(heading){
+      if(!groups.has(heading))groups.set(heading,[]);
+      groups.get(heading).push(card);
+    }else if(card.drugs.length){
+      entries.push(`<div class="conspect-card"><div class="conspect-card-drugs">${card.drugs.map(escapeHtml).join(' · ')}</div><p class="conspect-text">${escapeHtml(card.details||card.desc||'Состав группы по кафедральной классификации.')}</p></div>`);
+    }
+  }
+  return entries.join('')+[...groups].map(([heading,subset])=>
+    `<details class="conspect-card"><summary class="conspect-card-title">${escapeHtml(heading)}</summary>${renderClassificationNotes(subset,depth+1)}</details>`
+  ).join('');
+}
 function renderReference(){
   const groupSections=[...new Set(GROUPS.map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
@@ -3232,6 +3248,14 @@ function renderReference(){
       <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
     </div>
     <div style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
+    <div class="ref-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('allClassificationNotes')"><span>Конспекты по всей кафедральной классификации</span><span class="ref-topic-arrow" id="arrow-allClassificationNotes">⌄</span></button>
+      <div class="ref-topic-content" id="section-allClassificationNotes" style="display:none">
+        <p>Названия и состав групп приведены по кафедральной классификации. Для групп, где доступен только перечень препаратов, механизмы и нежелательные эффекты требуют сверки с учебником или методичкой.</p>
+        ${renderClassificationNotes(REFERENCE_CARDS)}
+        <p><a href="${CASE_BOOK}" target="_blank" rel="noopener noreferrer">Харкевич, «Фармакология»</a> · <a href="https://chatgpt.com/library?file_id=${CASE_HANDOUTS.classification[1]}&amp;account_id=personal" target="_blank" rel="noopener noreferrer">Кафедральная классификация</a></p>
+      </div>
+    </div>
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('anesthesiaRecipes')"><span>Рецепты: анестезия и снотворные</span><span class="ref-topic-arrow" id="arrow-anesthesiaRecipes">⌄</span></button>
       <div class="ref-topic-content" id="section-anesthesiaRecipes" style="display:none">
