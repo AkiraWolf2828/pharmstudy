@@ -12,12 +12,7 @@ button{font:600 12px/1.35 system-ui,sans-serif;cursor:pointer;color:#4b4548;back
 button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:translateY(-1px)}button.active{background:#ff9b83;color:#fff;border-color:#ff9b83;box-shadow:0 3px 10px #e8836a40}
 .scenarios{display:grid;gap:7px}.info{margin-top:12px;border:1px solid #f0e8e1;background:#fff;border-radius:16px;padding:14px}.info strong{display:block;color:#d96f58;margin-bottom:6px;font-size:13px}.info p{margin:0;font-size:13px;line-height:1.6;color:#5b5559}.key{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:#777078}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:#ff72d2;box-shadow:0 0 8px currentColor}.dot.cyan{background:#70eaff}.dot.gold{background:#ffd77a}
 .label{font:700 16px system-ui;fill:#eaf6ff;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}.small{font:600 12px system-ui;fill:#bcd1f2;paint-order:stroke;stroke:#111a31;stroke-width:3px;stroke-linejoin:round}
-.particle{filter:url(#glow);animation:release1 6.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.p2{animation-name:release2;animation-delay:-1.6s}.p3{animation-name:release3;animation-delay:-3.2s}.p4{animation-name:release4;animation-delay:-4.8s}
- /* Условная траектория: частицы стартуют у везикулы, затем проходят в синаптическую щель. */
- @keyframes release1{0%,4%{transform:translate(90px,-150px);opacity:0}18%{transform:translate(70px,-118px);opacity:.95}48%{transform:translate(35px,-58px);opacity:1}72%{transform:translate(8px,-8px);opacity:.85}86%,100%{transform:translate(0,0);opacity:.45}}
- @keyframes release2{0%,4%{transform:translate(0,-175px);opacity:0}18%{transform:translate(0,-140px);opacity:.95}48%{transform:translate(0,-75px);opacity:1}72%{transform:translate(0,-8px);opacity:.85}86%,100%{transform:translate(0,0);opacity:.45}}
- @keyframes release3{0%,4%{transform:translate(-85px,-145px);opacity:0}18%{transform:translate(-65px,-115px);opacity:.95}48%{transform:translate(-32px,-55px);opacity:1}72%{transform:translate(-8px,-8px);opacity:.85}86%,100%{transform:translate(0,0);opacity:.45}}
- @keyframes release4{0%,4%{transform:translate(-170px,-175px);opacity:0}18%{transform:translate(-125px,-140px);opacity:.95}48%{transform:translate(-65px,-75px);opacity:1}72%{transform:translate(-12px,-8px);opacity:.85}86%,100%{transform:translate(0,0);opacity:.45}}
+.particle{filter:url(#glow)}
 @keyframes pulse{0%,100%{filter:url(#glow);opacity:.8}50%{filter:url(#hot);opacity:1}}
 .receptor{cursor:pointer;transition:opacity .2s,filter .2s}.receptor.active{animation:pulse 1.6s ease-in-out infinite}.dim{opacity:.2!important}
 .receptor.blocked{opacity:.4!important;filter:grayscale(.7)}
@@ -44,59 +39,40 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
  .step-detail{margin-top:10px;padding:12px;border-radius:13px;background:#fff5f1;border:1px solid #ffe1d7}
  .step-detail strong{display:block;color:#d96f58;font-size:13px;margin-bottom:4px}.step-detail p{font-size:13px;line-height:1.55;color:#5b5559;margin:0}
  #scene.step-1 .receptor,#scene.step-1 #feedbackArrow,#scene.step-1 #feedbackLabel,#scene.step-1 #uptakeArrow{opacity:.18}
- #scene.step-1 #particles{opacity:.15}
+ #scene[class*="step-"] #particles{display:none}
  #scene.step-2 .receptor,#scene.step-2 #feedbackArrow,#scene.step-2 #feedbackLabel,#scene.step-2 #uptakeArrow{opacity:.2}
- #scene.step-2 .particle{animation-play-state:running}
- #scene.step-2 .particle{filter:url(#hot)}
  #scene.step-3 .vesicle,#scene.step-3 #feedbackArrow,#scene.step-3 #feedbackLabel,#scene.step-3 #uptakeArrow{opacity:.2}
- #scene.step-3 #particles{opacity:1}
  #scene.step-3 :is(#rA1,#rB1){opacity:1!important;filter:url(#hot)}
  #scene.step-4 .vesicle,#scene.step-4 .receptor[data-rec="a1"],#scene.step-4 .receptor[data-rec="b1"],#scene.step-4 .receptor[data-rec="b2"],#scene.step-4 #uptakeArrow{opacity:.18}
  #scene.step-4 #feedbackArrow,#scene.step-4 #feedbackLabel,#scene.step-4 .receptor[data-rec="a2"]{opacity:1!important;filter:url(#hot)}
- #scene.step-5 .vesicle,#scene.step-5 .receptor,#scene.step-5 #feedbackArrow,#scene.step-5 #feedbackLabel{opacity:.18}
+ #scene.step-5 .receptor,#scene.step-5 #feedbackArrow,#scene.step-5 #feedbackLabel{opacity:.18}
  #scene.step-5 #uptakeArrow{opacity:1!important;filter:url(#hot)}
  @media(max-width:720px){.step-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}.step-btn:last-child{grid-column:1/-1}}
-
-/* Наглядное движение НА к рецепторам и обратный захват — отдельные частицы */
-.binding-particle,.feedback-particle,.uptake-particle{opacity:0;pointer-events:none;filter:url(#glow)}
-#scene.step-3 .binding-particle{opacity:1;animation:bindNA 2.4s ease-in-out infinite alternate}
-#scene.step-3 .binding-a1{--dx:-85px;--dy:50px}
-#scene.step-3 .binding-b1{--dx:235px;--dy:50px;animation-delay:-.8s}
-@keyframes bindNA{0%{transform:translate(0,0);opacity:.25}70%,100%{transform:translate(var(--dx),var(--dy));opacity:1}}
-#scene.step-4 .feedback-particle{opacity:1;animation:feedbackMove 1.8s ease-in-out infinite}
-@keyframes feedbackMove{0%{transform:translate(0,0);opacity:.25}15%{opacity:1}85%,100%{transform:translate(0,-48px);opacity:1}}
-#scene.step-5 .uptake-particle{opacity:1;animation:uptakeMove 1.8s ease-in-out infinite}
-@keyframes uptakeMove{0%{transform:translate(0,0);opacity:1}75%{transform:translate(0,-60px);opacity:1}100%{transform:translate(0,-60px);opacity:.2}}
-#scene.step-1 .binding-particle,#scene.step-1 .feedback-particle,#scene.step-1 .uptake-particle,
-#scene.step-2 .binding-particle,#scene.step-2 .feedback-particle,#scene.step-2 .uptake-particle,
-#scene.step-3 .feedback-particle,#scene.step-3 .uptake-particle,
-#scene.step-4 .binding-particle,#scene.step-4 .uptake-particle,
-#scene.step-5 .binding-particle,#scene.step-5 .feedback-particle{opacity:0}
 
 /* Исправленные траектории: частицы привязаны к месту выхода и мишеням */
 .release-particle,.binding-particle,.feedback-particle,.uptake-particle{opacity:0;pointer-events:none;filter:url(#glow)}
 #scene.step-2 .release-particle{opacity:1;animation:releaseFromTerminal 2.6s ease-in-out infinite}
 #scene.step-2 .release-particle.r2{animation-delay:-.85s}
 #scene.step-2 .release-particle.r3{animation-delay:-1.7s}
-@keyframes releaseFromTerminal{0%{transform:translate(0,0);opacity:0}12%{opacity:1}82%{transform:translate(var(--tx),var(--ty));opacity:1}100%{transform:translate(var(--tx),var(--ty));opacity:0}}
-#scene.step-3 .binding-particle{opacity:1;animation:bindAtReceptor 1.8s ease-in-out infinite alternate}
+@keyframes releaseFromTerminal{0%{transform:translate(0,0);opacity:0}12%{opacity:1}35%{transform:translate(0,23px)}82%{transform:translate(var(--tx),var(--ty));opacity:1}100%{transform:translate(var(--tx),var(--ty));opacity:0}}
+#scene.step-3 .binding-particle{opacity:1;animation:bindAtReceptor 1.8s ease-in-out infinite}
 #scene.step-3 .binding-a1{--tx:-70px;--ty:106px}
 #scene.step-3 .binding-b1{--tx:20px;--ty:106px;animation-delay:-.6s}
-@keyframes bindAtReceptor{0%{transform:translate(0,0);opacity:.35}80%,100%{transform:translate(var(--tx),var(--ty));opacity:1}}
-#scene.step-4 .feedback-particle{opacity:1;animation:feedbackToA2 1.7s ease-in-out infinite}
-@keyframes feedbackToA2{0%{transform:translate(135px,57px);opacity:0}20%{opacity:1}85%,100%{transform:translate(0,0);opacity:1}}
-#scene.step-5 .uptake-particle{opacity:1;animation:uptakeToNET 1.7s ease-in-out infinite}
-@keyframes uptakeToNET{0%{transform:translate(0,0);opacity:1}55%{transform:translate(0,-48px);opacity:1}85%,100%{transform:translate(0,-105px);opacity:1}}
-#scene.step-1 .release-particle,#scene.step-1 .binding-particle,#scene.step-1 .feedback-particle,#scene.step-1 .uptake-particle,
-#scene.step-2 .binding-particle,#scene.step-2 .feedback-particle,#scene.step-2 .uptake-particle,
-#scene.step-3 .particle,#scene.step-3 .release-particle,#scene.step-3 .feedback-particle,#scene.step-3 .uptake-particle,
-#scene.step-4 .particle,#scene.step-4 .release-particle,#scene.step-4 .binding-particle,#scene.step-4 .uptake-particle,
-#scene.step-5 .particle,#scene.step-5 .release-particle,#scene.step-5 .binding-particle,#scene.step-5 .feedback-particle{opacity:0}
-#scene.step-2 .particle{animation:none;opacity:0}
+@keyframes bindAtReceptor{0%{transform:translate(0,0);opacity:0}20%{opacity:1}78%{transform:translate(var(--tx),var(--ty));opacity:1}100%{transform:translate(var(--tx),var(--ty));opacity:0}}
+#scene.step-4 .feedback-particle{opacity:1;animation:feedbackToA2 1.9s ease-in-out infinite}
+@keyframes feedbackToA2{0%{transform:translate(135px,57px);opacity:0}20%{opacity:1}80%{transform:translate(0,0);opacity:1}100%{transform:translate(0,0);opacity:0}}
+#scene.step-5 .uptake-particle{opacity:1;animation:uptakeToNET 1.9s ease-in-out infinite}
+@keyframes uptakeToNET{0%{transform:translate(0,0);opacity:0}16%{opacity:1}55%{transform:translate(0,-48px);opacity:1}80%{transform:translate(0,-105px);opacity:1}100%{transform:translate(0,-105px);opacity:0}}
 .release-detail,.uptake-detail{display:none;pointer-events:none} #scene.step-2 .release-detail,#scene.step-5 .uptake-detail{display:inline} #scene.step-3 :is(#rB2,#rA2){opacity:.32}
 .positive-feedback,.impulse-direction{display:none}
 #scene.step-4 .positive-feedback,#scene.mode-b2 .positive-feedback,#scene.step-1 .impulse-direction{display:inline}
 #scene.step-4 #rB2{opacity:1;filter:url(#hot)}
+#scene{transition:opacity 140ms ease}
+#scene.is-switching{opacity:0}
+@media(prefers-reduced-motion:reduce){
+ #scene{transition:none}
+ #scene *{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -137,10 +113,10 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
     </g>
     <path id="uptakeArrow" class="hotspot" data-info="Обратный захват норадреналина пресинаптическим окончанием — основной путь прекращения его действия в синаптической щели. На рисунке показан схематично." d="M625 381 V270" fill="none" stroke="#70eaff" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#uptakeHead)" opacity=".9"/><text x="605" y="400" class="small hotspot" data-info="Обратный захват НА: медиатор возвращается в пресинаптическое окончание.">обратный захват НА</text>
     <g id="particles">
-     <g class="particle hotspot" data-info="НА — норадреналин, условно показанный в синаптической щели. Частицы иллюстрируют медиатор, но не отображают реальную концентрацию или точную траекторию диффузии."><circle cx="350" cy="325" r="7" fill="url(#nor)"/><text x="362" y="328" class="small">НА</text></g>
-     <g class="particle p2 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="440" cy="350" r="7" fill="url(#nor)"/><text x="452" y="353" class="small">НА</text></g>
-     <g class="particle p3 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="525" cy="320" r="7" fill="url(#nor)"/><text x="537" y="323" class="small">НА</text></g>
-     <g class="particle p4 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="610" cy="350" r="7" fill="url(#nor)"/><text x="622" y="353" class="small">НА</text></g>
+     <g class="particle hotspot" data-info="НА — норадреналин, условно показанный в синаптической щели. Частицы иллюстрируют медиатор, но не отображают реальную концентрацию или точную траекторию диффузии."><circle cx="350" cy="408" r="7" fill="url(#nor)"/><text x="362" y="412" class="small">НА</text></g>
+     <g class="particle p2 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="440" cy="414" r="7" fill="url(#nor)"/><text x="452" y="418" class="small">НА</text></g>
+     <g class="particle p3 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="525" cy="404" r="7" fill="url(#nor)"/><text x="537" y="408" class="small">НА</text></g>
+     <g class="particle p4 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="610" cy="440" r="7" fill="url(#nor)"/><text x="622" y="444" class="small">НА</text></g>
     </g>
     <g class="release-detail">
       <rect x="475" y="329" width="18" height="24" rx="5" fill="#8ac0e0"/>
@@ -152,10 +128,10 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
     <g class="uptake-detail" fill="none" stroke="#70eaff" stroke-width="2">
       <path d="M621 267 Q564 230 471 167" marker-end="url(#uptakeHead)"/>
       <path d="M629 265 L674 236" marker-end="url(#uptakeHead)"/>
-      <path d="M650 390 H748" stroke-dasharray="5 4" marker-end="url(#uptakeHead)"/>
+      <path d="M650 401 Q714 419 742 449" stroke-dasharray="5 4" marker-end="url(#uptakeHead)"/>
       <text x="466" y="184" class="small">возврат в везикулу</text>
       <text x="688" y="237" class="small">МАО</text>
-      <text x="757" y="394" class="small">КОМТ</text>
+      <text x="748" y="456" class="small">КОМТ</text>
     </g>
     <!-- Отдельные НА: в этапе 3 движутся от щели к рецепторам -->
     <g class="binding-particle binding-a1" data-info="Частица НА подходит к α₁-рецептору. Траектория условная."><circle cx="335" cy="365" r="7" fill="url(#nor)"/><text x="347" y="369" class="small">НА</text></g>
@@ -237,7 +213,7 @@ const stepButtons=[...document.querySelectorAll('[data-step]')],stepTitle=docume
   4:['Этап 4. Пресинаптическая обратная связь','Часть норадреналина активирует пресинаптические α₂-рецепторы. Они тормозят дальнейшее высвобождение медиатора и ограничивают интенсивность сигнала. Пресинаптические β₂-рецепторы, напротив, облегчают высвобождение НА. Тормозное влияние α₂ функционально преобладает.'],
   5:['Этап 5. Прекращение действия медиатора','Основной путь прекращения действия норадреналина — обратный захват переносчиком NET в пресинаптическое окончание. После захвата часть НА вновь запасается в везикулах, а свободный НА в окончании метаболизируется при участии МАО. Для вненейронального метаболизма показан путь с участием КОМТ. Это отличается от холинергического синапса, где ацетилхолин быстро расщепляет ацетилхолинэстераза.']
  };
- function setStep(n){setMode('normal');scene.className.baseVal='';scene.classList.add('step-'+n);stepButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===n));const d=normalSteps[n];stepTitle.textContent=d[0];stepText.textContent=d[1];}
+ function renderStep(n){renderMode('normal');scene.setAttribute('class','step-'+n);stepButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===n));const d=normalSteps[n];stepTitle.textContent=d[0];stepText.textContent=d[1];}
  stepButtons.forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.step))));
  const scenarios={
  normal:['Нормальная передача','Норадреналин высвобождается из пресинаптического окончания, диффундирует через синаптическую щель и активирует адренорецепторы. Пресинаптические α₂-рецепторы участвуют в отрицательной обратной связи и ограничивают дальнейшее высвобождение медиатора. Основной путь прекращения действия НА — обратный захват в нервное окончание; дальнейший метаболизм связан с ферментами МАО и КОМТ.'],
@@ -250,14 +226,28 @@ const stepButtons=[...document.querySelectorAll('[data-step]')],stepTitle=docume
  b2:['Пресинаптический β₂-адренорецептор','На нервном окончании стимуляция β₂ облегчает высвобождение НА. В бронхах β₂-рецепторы гладкой мускулатуры расположены отдельно от изображённого нервного окончания и при стимуляции вызывают бронходилатацию.'],
  'b2-block':['Блокада β₂-рецепторов','Блокада пресинаптического β₂ ослабляет положительную обратную связь. В бронхах ослабляется бронхорасширяющее влияние катехоламинов, поэтому существует риск бронхоспазма. Неселективные β-блокаторы, в том числе карведилол, блокируют β₂-рецепторы.'],
  carvedilol:['Карведилол: комбинированная блокада','Карведилол блокирует α₁-, β₁- и β₂-адренорецепторы. α₁-блокада расширяет сосуды; β₁-блокада уменьшает частоту и силу сокращений сердца и выделение ренина; β₂-блокада может повышать риск бронхоспазма.'],
- sympatholytic:['Симпатолитическое действие','Это не то же самое, что блокада рецепторов. При действии резерпина истощаются запасы моноаминов, доступных для высвобождения; средства центрального действия могут снижать симпатическую импульсацию из ЦНС. На схеме уменьшение количества частиц показано условно.'],
+ sympatholytic:['Симпатолитическое действие','Это не то же самое, что блокада рецепторов. При действии резерпина истощаются запасы моноаминов, доступных для высвобождения; средства центрального действия могут снижать симпатическую импульсацию из ЦНС. На схеме уменьшение запаса НА и его выделения показано условно.'],
  all:['Типы адренорецепторов','На нервном окончании показаны α₂ и β₂, на эффекторной клетке — α₁ и β₁. Их расположение и эффекты зависят от ткани; схема не означает, что все четыре типа обязательно присутствуют на одной клетке.']
 };
 function showInfo(el){title.textContent=el.dataset.rec?({'a1':'α₁-адренорецептор','a2':'Пресинаптический α₂-адренорецептор','b1':'β₁-адренорецептор','b2':'β₂-адренорецептор'}[el.dataset.rec]||'Элемент синапса'):(el.classList.contains('vesicle')?'Синаптическая везикула':'Элемент синапса');desc.textContent=el.dataset.info||'Элемент схемы адренергической передачи.'}
-function setMode(mode){scene.className.baseVal='';scene.classList.add('mode-'+mode);stepButtons.forEach(b=>b.classList.remove('active'));buttons.forEach(x=>x.classList.toggle('active',x.dataset.mode===mode));receptors.forEach(r=>{const target=mode===r.dataset.rec||mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec))||mode==='all'||mode==='normal';r.classList.toggle('dim',!target);r.classList.toggle('active',target&&mode!=='normal'&&!mode.endsWith('-block')&&mode!=='sympatholytic');r.classList.toggle('blocked',mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec)));});const s=scenarios[mode]||scenarios.normal;title.textContent=s[0];desc.textContent=s[1];}
+function renderMode(mode){scene.setAttribute('class','mode-'+mode);stepButtons.forEach(b=>b.classList.remove('active'));stepTitle.textContent='Нормальная работа синапса';stepText.textContent='Выбери этап, чтобы вернуться к нормальной передаче.';buttons.forEach(x=>x.classList.toggle('active',x.dataset.mode===mode));receptors.forEach(r=>{const target=mode===r.dataset.rec||mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec))||mode==='all'||mode==='normal';r.classList.toggle('dim',!target);r.classList.toggle('active',target&&mode!=='normal'&&!mode.endsWith('-block')&&mode!=='sympatholytic');r.classList.toggle('blocked',mode===r.dataset.rec+'-block'||(mode==='carvedilol'&&['a1','b1','b2'].includes(r.dataset.rec)));});const s=scenarios[mode]||scenarios.normal;title.textContent=s[0];desc.textContent=s[1];}
+let transitionTimer;
+function switchScene(render){
+  clearTimeout(transitionTimer);
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){render();return;}
+  scene.classList.add('is-switching');
+  transitionTimer=setTimeout(()=>{
+    render();
+    scene.classList.add('is-switching');
+    scene.getBoundingClientRect();
+    scene.classList.remove('is-switching');
+  },150);
+}
+function setStep(n){switchScene(()=>renderStep(n));}
+function setMode(mode){switchScene(()=>renderMode(mode));}
 receptors.forEach(r=>{r.addEventListener('click',()=>setMode(r.dataset.rec));r.addEventListener('mouseenter',()=>showInfo(r));r.addEventListener('focus',()=>showInfo(r));});
 document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('mouseenter',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('focus',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('click',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info;});});
 buttons.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-setStep(1);
+renderStep(1);
 </script>
 </body></html>
