@@ -132,6 +132,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("action", choices=["serve", "add-user", "assign-group"])
     parser.add_argument("--email")
+    parser.add_argument("--login", help="Логин администратора, если он отличается от почты")
     parser.add_argument("--role", choices=["admin", "teacher", "student"], default="student")
     parser.add_argument("--group", default="")
     parser.add_argument("--course", type=int, default=0)
@@ -161,9 +162,9 @@ def main():
                        (teacher["id"], args.group, args.course, args.year))
             return
         if args.action == "add-user":
-            email = (args.email or "").strip().lower()
-            if "@" not in email or len(email) > 254:
-                parser.error("Укажи корректный --email")
+            email = (args.login or args.email or "").strip().lower()
+            if not email or len(email) > 254 or (args.role != "admin" and "@" not in email):
+                parser.error("Укажи корректный --email или --login для администратора")
             if args.role == "student" and not (args.group and args.course > 0 and args.year):
                 parser.error("Для студента нужны --group, --course и --year")
             password = getpass.getpass("Пароль: ")
