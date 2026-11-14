@@ -2491,7 +2491,6 @@ function renderLungs(mode='narrow'){
   document.getElementById('organPanel').innerHTML=`
     <div class="organ-controls lung-controls">
       ${Object.entries(LUNG_MODES).map(([key,item])=>`<button type="button" class="scen-btn ${key===mode?'active':''}" aria-pressed="${key===mode}" data-lung-mode="${key}">${item[0]}</button>`).join('')}
-      <button type="button" class="scen-btn" onclick="playOrganScene()">Воспроизвести</button>
     </div>
     <svg class="organ-scene lung-scene lung-${mode}" viewBox="0 0 460 290" role="img" aria-label="Лёгкие, бронхи и изменение просвета бронха">
       <rect width="460" height="290" rx="18" fill="#18213e"/>
@@ -2537,7 +2536,6 @@ function renderOrganScene(key){
   if(key==='lungs'){renderLungs();return;}
   const scene=ORGAN_SCENES[key];
   document.getElementById('organPanel').innerHTML=`
-    <div class="organ-controls"><button class="scen-btn active" type="button" onclick="playOrganScene()">Воспроизвести</button></div>
     <svg class="organ-scene ${scene.className}" viewBox="0 0 560 265" role="img" aria-label="${scene.name}. Передача сигнала и ответ ткани">
       <rect width="560" height="265" rx="18" fill="#18213e"/>
       <path d="M18 121H63C91 79 143 84 164 111Q190 150 164 189C137 218 86 205 63 179H18Z" fill="#5a3a88" stroke="#e0c8f8" stroke-width="4"/>
