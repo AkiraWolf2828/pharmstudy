@@ -2538,7 +2538,27 @@ function renderLungs(mode='narrow'){
 const ORGAN_SCENES={
   lungs:{name:"Лёгкие"},
   eye:{
-    name:'Глаз', organ:'<circle cx="420" cy="150" r="83" fill="#8368bd" stroke="#ffd1f3" stroke-width="4"/><circle class="organ-effect" cx="420" cy="150" r="42" fill="#101729" style="transform-origin:420px 150px"/>',
+    name:'Глаз', organ:`
+      <defs>
+        <radialGradient id="eyeSclera"><stop stop-color="#fff9fb"/><stop offset=".72" stop-color="#e4dbe9"/><stop offset="1" stop-color="#9f7c9b"/></radialGradient>
+        <radialGradient id="eyeIris"><stop stop-color="#43678a"/><stop offset=".64" stop-color="#6da9a6"/><stop offset=".9" stop-color="#426a80"/><stop offset="1" stop-color="#2a3b62"/></radialGradient>
+        <clipPath id="eyeOpening"><path d="M305 152Q363 74 424 91Q488 96 541 151Q484 210 421 213Q351 206 305 152Z"/></clipPath>
+      </defs>
+      <path d="M305 152Q363 74 424 91Q488 96 541 151Q484 210 421 213Q351 206 305 152Z" fill="url(#eyeSclera)"/>
+      <g clip-path="url(#eyeOpening)">
+        <path d="M309 155q16 7 23 24m198-24q-12 7-22 21" fill="none" stroke="#be839f" stroke-width="2" opacity=".45"/>
+        <circle cx="424" cy="152" r="61" fill="url(#eyeIris)" stroke="#32466a" stroke-width="3"/>
+        <g stroke="#c3eddd" stroke-width="1" opacity=".38">
+          ${Array.from({length:48},(_,i)=>`<path d="M424 113q${i%3-1} -8 1 -15" transform="rotate(${i*7.5} 424 152)"/>`).join('')}
+        </g>
+        <circle cx="424" cy="152" r="34" class="organ-effect" fill="#101729" stroke="#243045" stroke-width="2" style="transform-origin:424px 152px"/>
+        <ellipse cx="407" cy="134" rx="10" ry="6" transform="rotate(-24 407 134)" fill="#fff" opacity=".83"/>
+        <circle cx="439" cy="169" r="3" fill="#fff" opacity=".54"/>
+      </g>
+      <path d="M305 152Q363 74 424 91Q488 96 541 151" fill="none" stroke="#c991ae" stroke-width="6" stroke-linecap="round"/>
+      <path d="M305 152Q351 206 421 213Q484 210 541 151" fill="none" stroke="#b77b9d" stroke-width="4" stroke-linecap="round"/>
+      <path d="M332 126l-8-10m21 0-6-11m20 3-4-11m112 7 4-10m11 16 6-10m8 18 8-8" fill="none" stroke="#ba83a5" stroke-width="2" stroke-linecap="round"/>
+    `,
     className:'iris', receptor:'М₃', mediator:'АХ', tissue:'Сфинктер зрачка',
     description:'Ацетилхолин из парасимпатического окончания активирует М₃-рецепторы сфинктера зрачка. Круговая мышца сокращается, зрачок сужается (миоз).'
   },
