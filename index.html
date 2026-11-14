@@ -1157,8 +1157,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @keyframes eye-dilate{0%,25%,100%{transform:scale(1)}55%,75%{transform:scale(1.32)}}
 @keyframes eye-tears{0%,27%,100%{opacity:0;transform:translateY(0)}55%{opacity:1}85%{opacity:0;transform:translateY(20px)}}
 @keyframes eye-fluid{0%,25%,100%{opacity:.25}50%,78%{opacity:1}}
- .eye-lens{transform-origin:293px 124px}
- .eye-ciliary{transform-origin:272px 124px}
+ .eye-lens{transform-origin:283px 140px}
+ .eye-ciliary{transform-origin:272px 140px}
  .eye-section :is(.eye-flow,.eye-production){transform-origin:237px 124px}
  @media(prefers-reduced-motion:no-preference){
   .eye-section-normal.playing .eye-lens,.eye-section-pilocarpine.playing .eye-lens{animation:eye-near 4s ease infinite}
@@ -1179,6 +1179,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  @keyframes eye-zonule-relax{0%,25%,100%{opacity:1}55%,75%{opacity:.45}}
  @keyframes eye-outflow{0%,25%{opacity:.25;stroke-dashoffset:14}55%,80%{opacity:1}100%{opacity:.25;stroke-dashoffset:0}}
  @keyframes eye-production-drop{0%,25%,100%{opacity:1}55%,75%{opacity:.25}}
+ .eye-iris-section path:first-child{transform-origin:232px 91px}
+ .eye-iris-section path:last-child{transform-origin:232px 189px}
+ @media(prefers-reduced-motion:no-preference){
+  .playing .eye-section-miosis path{animation:section-miosis 4s ease infinite}
+  .playing .eye-section-mydriasis path{animation:section-mydriasis 4s ease infinite}
+ }
+ @keyframes section-miosis{0%,25%,100%{scale:1 1}55%,75%{scale:1 1.26}}
+ @keyframes section-mydriasis{0%,25%,100%{scale:1 1}55%,75%{scale:1 .80}}
 </style>
 </head>
 <body>
@@ -2576,7 +2584,7 @@ function renderLungs(mode='narrow'){
 
 const EYE_MODES={
   normal:{name:'М₃ · Ацетилхолин',className:'iris',receptor:'М₃',mediator:'АХ',origin:'Парасимпатическое окончание',description:'Ацетилхолин сокращает сфинктер зрачка через М₃-рецепторы. Зрачок сужается. Парасимпатическая стимуляция также усиливает секрецию слёзной железы. Голубые капли показывают слезу на поверхности глаза.',tear:true},
-  pilocarpine:{name:'Пилокарпин',className:'iris',receptor:'М₃',mediator:'Пилокарпин',origin:'Глазные капли',description:'Пилокарпин напрямую стимулирует М-рецепторы. Сокращение сфинктера вызывает миоз. Сокращение ресничной мышцы способствует аккомодации для близи и облегчает отток водянистой влаги через трабекулярную сеть.',fluid:'out'},
+  pilocarpine:{name:'Пилокарпин',className:'iris',receptor:'М₃',mediator:'Пилокарпин',origin:'Глазные капли',description:'Пилокарпин напрямую стимулирует М-рецепторы. Сокращение сфинктера вызывает миоз. При сокращении ресничной мышцы натяжение связок уменьшается, и хрусталик становится выпуклее. Водянистая влага идёт из задней камеры через зрачок в переднюю, затем через трабекулярную сеть в канал Шлемма. Пилокарпин облегчает отток через трабекулярную сеть.',fluid:'out'},
   atropine:{name:'Атропин',className:'eye-dilate',receptor:'М₃ · блокада',mediator:'Атропин',origin:'Глазные капли',description:'Атропин блокирует М-рецепторы сфинктера зрачка и ресничной мышцы. Зрачок расширяется, аккомодация для близи временно нарушается (циклоплегия).'},
   phenylephrine:{name:'Фенилэфрин',className:'eye-dilate',receptor:'α₁',mediator:'Фенилэфрин',origin:'Глазные капли',description:'Фенилэфрин стимулирует α₁-рецепторы радиальной мышцы радужки. Она сокращается, и зрачок расширяется. Механизм аккомодации сохраняется: фенилэфрин сам по себе не вызывает циклоплегию.'},
   timolol:{name:'Тимолол',className:'eye-steady',receptor:'β₁ / β₂ · блокада',mediator:'Тимолол',origin:'Глазные капли',description:'Тимолол блокирует β₁- и β₂-рецепторы и уменьшает образование водянистой влаги цилиарным эпителием. Зрачок на схеме сохраняет размер. Слеза находится на поверхности глаза, а водянистая влага — внутри него.',fluid:'less'}
@@ -2621,33 +2629,38 @@ const ORGAN_SCENES={
   }
 };
 function renderEyeSection(mode){
-  const near=mode==='normal'||mode==='pilocarpine';
-  const flow=mode==='pilocarpine'||mode==='timolol';
-  const flowLabel=mode==='pilocarpine'?'↑ Отток через трабекулярную сеть':'↓ Образование водянистой влаги';
-  const caption=near?'Ресничная мышца сокращается, хрусталик становится выпуклее':
-    mode==='atropine'?'Ресничная мышца расслаблена, фокусировка вблизи затруднена':
-    'Форма хрусталика в этом сценарии не меняется';
-  return `<svg class="organ-scene eye-section eye-section-${mode}" viewBox="0 0 560 254" role="img" aria-label="Передний отдел глаза в разрезе. ${caption}">
-    <rect width="560" height="254" rx="18" fill="#18213e"/>
-    <g fill="#f1e2ff" font-size="17" text-anchor="middle">
-      <text x="280" y="28">Передний отдел глаза в разрезе</text>
-      <text x="100" y="123">Роговица</text>
-      <text x="429" y="123">Хрусталик</text>
-      <text x="430" y="71">Ресничная мышца</text>
-      <text x="280" y="235">${flow?flowLabel:near?'Аккомодация для близи':mode==='atropine'?'Циклоплегия':'Аккомодация сохраняется'}</text>
+  const near=['normal','pilocarpine'].includes(mode);
+  const dilates=['atropine','phenylephrine'].includes(mode);
+  const caption={normal:'Аккомодация для близи',pilocarpine:'Усиленный отток через трабекулярную сеть',
+    atropine:'Циклоплегия',phenylephrine:'Мидриаз без циклоплегии',timolol:'Меньше водянистой влаги образуется'}[mode];
+  return `<svg class="organ-scene eye-section eye-section-${mode}" viewBox="0 0 560 300" role="img" aria-label="Передний отдел глаза в разрезе. ${caption}">
+    <defs><marker id="eyeFlowTip" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#91f4dc"/></marker></defs>
+    <rect width="560" height="300" rx="18" fill="#18213e"/>
+    <text x="280" y="28" fill="#f1e2ff" font-size="18" text-anchor="middle">Передний отдел глаза в разрезе</text>
+    <path d="M196 72C105 92 105 188 196 208H258V72Z" fill="#294961"/>
+    <path d="M196 72C105 92 105 188 196 208" fill="none" stroke="#b6ebf3" stroke-width="6"/>
+    <path d="M196 72Q250 49 321 62M196 208Q250 231 321 218" fill="none" stroke="#d7c4e5" stroke-width="8"/>
+    <path d="M196 77l13 15m-13 111 13-15" stroke="#baf7e8" stroke-width="5"/>
+    <ellipse cx="188" cy="75" rx="7" ry="4" fill="#79b6db"/><ellipse cx="188" cy="205" rx="7" ry="4" fill="#79b6db"/>
+    <g class="eye-ciliary" fill="#cf84b9" stroke="#f1bcdf" stroke-width="2">
+      <path d="M231 85Q252 64 290 70L280 81Q251 80 244 100Z"/>
+      <path d="M231 195Q252 216 290 210L280 199Q251 200 244 180Z"/>
     </g>
-    <path d="M215 64Q122 125 215 184" fill="#294961" stroke="#b6ebf3" stroke-width="5"/>
-    <path d="M215 64Q169 124 215 184H254V64Z" fill="#437d99" opacity=".48"/>
-    <path d="M202 74L208 89m-6 85 6-15" stroke="#edc6fa" stroke-width="6" stroke-linecap="round"/>
-    <path d="M215 66L252 104M215 182L252 144" stroke="#a78cc9" stroke-width="8" stroke-linecap="round"/>
-    <g class="eye-ciliary" fill="none" stroke="#eea2d0" stroke-width="8" stroke-linecap="round">
-      <path d="M239 65q32-18 65 0M239 183q32 18 65 0"/>
+    <path class="eye-zonules" d="M244 96L275 93M254 88L284 92M244 184L275 187M254 192L284 188" stroke="#e4d4ed" stroke-width="2"/>
+    <ellipse class="eye-lens" cx="283" cy="140" rx="22" ry="48" fill="#a4d9da" fill-opacity=".83" stroke="#d2ffff" stroke-width="3"/>
+    <g class="eye-iris-section ${near?'eye-section-miosis':dilates?'eye-section-mydriasis':''}" fill="none" stroke="#a78cc9" stroke-width="7" stroke-linecap="round">
+      <path d="M232 91Q220 106 216 122"/><path d="M232 189Q220 174 216 158"/>
     </g>
-    <path class="eye-zonules" d="M257 69L286 85m-29 94 29-16m16-78 20-15m-20 93 20 15" stroke="#e4d4ed" stroke-width="2"/>
-    <ellipse class="eye-lens" cx="293" cy="124" rx="22" ry="47" fill="#a4d9da" fill-opacity=".83" stroke="#d2ffff" stroke-width="3"/>
-    <path d="M136 126H155m260 0H320m40-57h-50" fill="none" stroke="#a7bed3" stroke-width="1.5"/>
-    ${mode==='pilocarpine'?'<path class="eye-flow" d="M236 122Q204 118 207 93L193 80m0 0 3 10m-3-10 10 2" fill="none" stroke="#91f4dc" stroke-width="3" stroke-dasharray="5 3"/>':''}
-    ${mode==='timolol'?'<g class="eye-production" fill="#91f4dc"><circle cx="242" cy="86" r="4"/><circle cx="233" cy="94" r="3"/><circle cx="241" cy="163" r="4"/></g>':''}
+    ${mode==='pilocarpine'?'<path class="eye-flow" d="M247 104Q241 128 222 138T179 127Q171 105 201 88L189 76" fill="none" stroke="#91f4dc" stroke-width="2.5" stroke-dasharray="5 3" marker-end="url(#eyeFlowTip)"/>':''}
+    ${mode==='timolol'?'<g class="eye-production" fill="#91f4dc"><circle cx="246" cy="104" r="4"/><circle cx="246" cy="176" r="4"/></g>':''}
+    <g fill="#f1e2ff" font-size="15">
+      <text x="18" y="138">Роговица</text><text x="18" y="163">Передняя камера</text>
+      <text x="326" y="68">Ресничное тело</text><text x="326" y="99">Связки хрусталика</text>
+      <text x="326" y="145">Хрусталик</text><text x="326" y="179">Радужка</text>
+      <text x="326" y="207">Задняя камера</text><text x="18" y="239">Трабекулярная сеть и канал Шлемма</text>
+      <text x="280" y="277" text-anchor="middle">${caption}</text>
+    </g>
+    <path d="M93 133H130M112 158H166M324 64L288 72M324 94H280M324 140H308M324 175H228M324 202L244 161M192 225L198 202" fill="none" stroke="#a7bed3" stroke-width="1.3"/>
   </svg>`;
 }
 
