@@ -1,10 +1,10 @@
-const CACHE = 'pharmstudy-offline-v1';
+const CACHE = 'pharmstudy-offline-v2';
 const home = new URL('index.html', self.registration.scope).href;
 const synapse = new URL('adrenergic-synapse.html', self.registration.scope).href;
 const assets = [home, synapse];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(assets)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(assets.map(url => new Request(url, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key =>
@@ -20,7 +20,7 @@ self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     try {
-      const response = await fetch(event.request, {signal: AbortSignal.timeout(3500)});
+      const response = await fetch(event.request, {cache: 'no-cache', signal: AbortSignal.timeout(3500)});
       if(response.ok){
         await cache.put(asset, response.clone());
         return response;
