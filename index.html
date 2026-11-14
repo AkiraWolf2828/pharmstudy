@@ -1141,6 +1141,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .lung-section-secretion{transform-origin:331px 163px}
 @keyframes lung-secretion{0%,100%{opacity:.22;scale:1 .45}57%,82%{opacity:1;scale:1 1}}
 @keyframes lung-clear-airway{0%,24%{opacity:1;transform:none}73%,100%{opacity:0;transform:translate(var(--clear-x),var(--clear-y)) scale(.55)}}
+@media(prefers-reduced-motion:no-preference){
+ .organ-scene.playing.eye-dilate .organ-effect{animation:eye-dilate 4s ease infinite}
+ .organ-scene.playing .eye-tears{animation:eye-tears 4s ease-in-out infinite}
+ .organ-scene.playing .eye-fluid path{animation:eye-fluid 4s ease infinite}
+}
+@media(prefers-reduced-motion:reduce){.organ-scene.eye-dilate .organ-effect{transform:scale(1.32)}}
+@keyframes eye-dilate{0%,25%,100%{transform:scale(1)}55%,75%{transform:scale(1.32)}}
+@keyframes eye-tears{0%,27%,100%{opacity:0;transform:translateY(0)}55%{opacity:1}85%{opacity:0;transform:translateY(20px)}}
+@keyframes eye-fluid{0%,25%,100%{opacity:.25}50%,78%{opacity:1}}
 </style>
 </head>
 <body>
@@ -2535,6 +2544,14 @@ function renderLungs(mode='narrow'){
   playOrganScene();
 }
 
+const EYE_MODES={
+  normal:{name:'М₃ · Ацетилхолин',className:'iris',receptor:'М₃',mediator:'АХ',origin:'Парасимпатическое окончание',description:'Ацетилхолин сокращает сфинктер зрачка через М₃-рецепторы. Зрачок сужается. Парасимпатическая стимуляция также усиливает секрецию слёзной железы. Голубые капли показывают слезу на поверхности глаза.',tear:true},
+  pilocarpine:{name:'Пилокарпин',className:'iris',receptor:'М₃',mediator:'Пилокарпин',origin:'Глазные капли',description:'Пилокарпин напрямую стимулирует М-рецепторы. Сокращение сфинктера вызывает миоз. Сокращение ресничной мышцы способствует аккомодации для близи и облегчает отток водянистой влаги через трабекулярную сеть.',fluid:'out'},
+  atropine:{name:'Атропин',className:'eye-dilate',receptor:'М₃ · блокада',mediator:'Атропин',origin:'Глазные капли',description:'Атропин блокирует М-рецепторы сфинктера зрачка и ресничной мышцы. Зрачок расширяется, аккомодация для близи временно нарушается (циклоплегия).'},
+  phenylephrine:{name:'Фенилэфрин',className:'eye-dilate',receptor:'α₁',mediator:'Фенилэфрин',origin:'Глазные капли',description:'Фенилэфрин стимулирует α₁-рецепторы радиальной мышцы радужки. Она сокращается, и зрачок расширяется. Механизм аккомодации сохраняется: фенилэфрин сам по себе не вызывает циклоплегию.'},
+  timolol:{name:'Тимолол',className:'eye-steady',receptor:'β₁ / β₂ · блокада',mediator:'Тимолол',origin:'Глазные капли',description:'Тимолол блокирует β₁- и β₂-рецепторы и уменьшает образование водянистой влаги цилиарным эпителием. Зрачок на схеме сохраняет размер. Слеза находится на поверхности глаза, а водянистая влага — внутри него.',fluid:'less'}
+};
+
 const ORGAN_SCENES={
   lungs:{name:"Лёгкие"},
   eye:{
@@ -2573,10 +2590,12 @@ const ORGAN_SCENES={
     description:'На нервно-мышечном синапсе ацетилхолин активирует Нₘ-холинорецепторы концевой пластинки. Возникает потенциал действия мышечного волокна, Ca²⁺ выходит из саркоплазматического ретикулума, и волокно сокращается.'
   }
 };
-function renderOrganScene(key){
+function renderOrganScene(key,eyeMode='normal'){
   if(key==='lungs'){renderLungs();return;}
-  const scene=ORGAN_SCENES[key];
+  const eye=key==='eye'?EYE_MODES[eyeMode]:null;
+  const scene={...ORGAN_SCENES[key],...eye};
   document.getElementById('organPanel').innerHTML=`
+    ${eye?`<div class="organ-controls lung-controls" aria-label="Сценарии действия на глаз">${Object.entries(EYE_MODES).map(([mode,item])=>`<button type="button" class="scen-btn ${mode===eyeMode?'active':''}" aria-pressed="${mode===eyeMode}" data-eye-mode="${mode}">${item.name}</button>`).join('')}</div>`:''}
     <svg class="organ-scene ${scene.className}" viewBox="0 0 560 265" role="img" aria-label="${scene.name}. Передача сигнала и ответ ткани">
       <rect width="560" height="265" rx="18" fill="#18213e"/>
       <path d="M18 121H63C91 79 143 84 164 111Q190 150 164 189C137 218 86 205 63 179H18Z" fill="#5a3a88" stroke="#e0c8f8" stroke-width="4"/>
@@ -2585,10 +2604,17 @@ function renderOrganScene(key){
       <path d="M193 137q-23 0-23 13t23 13" fill="none" stroke="#a8f0df" stroke-width="5"/>
       <path d="M224 150H287m-11-9 11 9-11 9" fill="none" stroke="#8ac0e0" stroke-width="3"/>
       <g class="organ-signal"><circle cx="144" cy="150" r="7" fill="#ffe5aa"/><text x="144" y="130" text-anchor="middle" fill="#fff"> ${scene.mediator}</text></g>
-      <g fill="#e0c8f8" font-size="17" text-anchor="middle"><text x="105" y="60">Нервное окончание</text><text x="190" y="230">${scene.receptor}</text><text x="420" y="40">${scene.tissue}</text></g>
+      <g fill="#e0c8f8" font-size="17" text-anchor="middle"><text x="105" y="60">${scene.origin||'Нервное окончание'}</text><text x="190" y="230">${scene.receptor}</text><text x="420" y="40">${eye?'Радужка и зрачок':scene.tissue}</text></g>
       ${scene.organ}
+      ${eye?.tear?`<g class="eye-tears" fill="#9fefff" stroke="#ddfbff"><path d="M323 164q-13 15-8 23a8 8 0 0 0 15-5q-1-8-7-18Z"/><path d="M335 177q-8 10-5 15a5 5 0 0 0 10-2q-1-6-5-13Z"/></g>`:''}
+      ${eye?.fluid?`<g class="eye-fluid ${eye.fluid}" fill="#93e4de" font-size="13"><text x="420" y="240" text-anchor="middle">${eye.fluid==='out'?'↑ Отток водянистой влаги':'↓ Образование водянистой влаги'}</text><path d="M392 251h56" stroke="#93e4de" stroke-width="3" stroke-linecap="round"/></g>`:''}
     </svg>
     <div class="synapse-info"><div class="synapse-info-title">${scene.name}</div><div class="synapse-info-desc">${scene.description}</div></div>`;
+  if(eye)document.querySelectorAll('[data-eye-mode]').forEach(button=>button.addEventListener('click',()=>{
+    const mode=button.dataset.eyeMode;
+    renderOrganScene('eye',mode);
+    document.querySelector(`[data-eye-mode="${mode}"]`).focus({preventScroll:true});
+  }));
   playOrganScene();
 }
 function playOrganScene(){
