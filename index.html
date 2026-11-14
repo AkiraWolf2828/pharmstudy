@@ -1388,30 +1388,7 @@ const CASES={
     }
   }
 };
-const CASE_BOOK='https://chatgpt.com/library?file_id=libfile_c537be50a72081919ae9d0d289a5ee05&account_id=personal';
-const CASE_HANDOUTS={
- chol:['Холиномиметики — материал для студентов','libfile_5afe1d2a0c288191a256c0c1e995adfb'],
- block:['Холиноблокаторы и миорелаксанты','libfile_b038237fd5e48191b269e45346b8fd31'],
- adr:['Адреноблокаторы и симпатолитики','libfile_96812e50896481918ffc372acc2b4ef1'],
- classification:['Классификация ЛС, осенний семестр 2026','libfile_bacf412300f08191816196cbab3c9248']
-};
-const CASE_REFERENCES={
- case_fos:['3','chol','block'],case_mushroom:['3','chol','block'],
- case_extubation:['3','block','chol'],case_anaphylaxis:['4','classification'],
- case_timolol:['4','adr'],case_oxybutynin:['3','block'],case_tiotropium:['3','block'],
- case_suxamethonium:['3','block','chol'],case_rocuronium_reversal:['3','block'],
- case_iris:['3, 4','chol','adr'],case_breathing:['3, 4','block','adr','classification'],
- case_enzyme:['3','chol','block'],case_alpha_feedback:['4','adr']
-};
-function renderCaseSources(id){
- const [chapter,...handouts]=CASE_REFERENCES[id];
- const link=(url,label)=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
- const links=[link(CASE_BOOK,'Харкевич, «Фармакология», гл. '+chapter),
-  ...handouts.map(key=>{const [title,file]=CASE_HANDOUTS[key];return link('https://chatgpt.com/library?file_id='+file+'&account_id=personal',title);})];
- if(id==='case_extubation')links.push(link('https://www.openanesthesia.org/keywords/monitoring-depth-of-neuromuscular-blockade/','Количественный контроль нервно-мышечного блока'));
- if(id==='case_anaphylaxis')links.push(link('https://www.resus.org.uk/sites/default/files/2021-05/Emergency%20Treatment%20of%20Anaphylaxis%20May%202021_0.pdf','Resuscitation Council UK, раздел 5'));
- return `<details class="case-sources"><summary>Учебник и материалы</summary><ul>${links.map(item=>'<li>'+item+'</li>').join('')}</ul></details>`;
-}
+const SOURCE_FOOTNOTE='<p style="font-size:11px;color:var(--text-muted);margin-top:12px">Источники: Д. А. Харкевич, «Фармакология», и кафедральные методические материалы.</p>';
 
 function caseQuestion(question,options,next='node_end'){
  return {question,options:options.map(([text,feedback],index)=>({text,feedback,type:index===0?'good':'bad',next}))};
@@ -2917,7 +2894,7 @@ function renderCaseNode(){
           <div style="font-size:13px;line-height:1.6">${node.summary}</div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${node.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">${renderCaseSources(C.id)}</div>
+        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">${SOURCE_FOOTNOTE}</div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <button class="next-btn" style="flex:1;min-width:180px" onclick="startCase('${C.id}')">Пройти заново</button>
           <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К списку кейсов</button>
@@ -2961,7 +2938,7 @@ function confirmCaseAnswer(){
   if(controlCaseActive&&controlFinalAttempt&&!controlFinalAttempt.caseResult){controlFinalAttempt.caseTotal++;if(opt.type==='good')controlFinalAttempt.caseCorrect++;}
   document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
   const breakdown=cs.options.map(option=>`<li style="margin:0 0 12px"><strong>${option.type==='good'?'Верный вариант':'Не подходит'}${option===opt?' · твой выбор':''}</strong><br>${option.text}<br>${option.feedback.replace(/^(?:✅|❌)\s*/, '')}</li>`).join('');
-  document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${opt.type==='good'?'good':'bad'}"><strong>Разбор вариантов</strong><ol>${breakdown}</ol>${renderCaseSources(cs.caseId)}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
+  document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${opt.type==='good'?'good':'bad'}"><strong>Разбор вариантов</strong><ol>${breakdown}</ol>${SOURCE_FOOTNOTE}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
 }
 function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode();addControlCaseBackButton()}
 
@@ -3253,7 +3230,7 @@ function renderReference(){
       <div class="ref-topic-content" id="section-allClassificationNotes" style="display:none">
         <p>Названия и состав групп приведены по кафедральной классификации. Для групп, где доступен только перечень препаратов, механизмы и нежелательные эффекты требуют сверки с учебником или методичкой.</p>
         ${renderClassificationNotes(REFERENCE_CARDS)}
-        <p><a href="${CASE_BOOK}" target="_blank" rel="noopener noreferrer">Харкевич, «Фармакология»</a> · <a href="https://chatgpt.com/library?file_id=${CASE_HANDOUTS.classification[1]}&amp;account_id=personal" target="_blank" rel="noopener noreferrer">Кафедральная классификация</a></p>
+        ${SOURCE_FOOTNOTE}
       </div>
     </div>
     <div class="ref-section">
@@ -3271,7 +3248,7 @@ function renderReference(){
         <div style="margin-bottom:28px">
           <button class="ref-topic-toggle" style="font-size:14px;padding:13px 16px" onclick="toggleReferenceSection('notes-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-notes-${si}">⌄</span></button>
           <div class="ref-topic-content" id="section-notes-${si}" style="display:none">
-          ${REFERENCE_TOPIC_NOTES.filter(note=>note.section===sec).map(note=>`<div class="conspect-card"><div class="conspect-card-title">${note.title}</div><p class="conspect-text">${note.summary}</p>${renderCaseSources(note.sources)}</div>`).join('')}
+          ${REFERENCE_TOPIC_NOTES.filter(note=>note.section===sec).map(note=>`<div class="conspect-card"><div class="conspect-card-title">${note.title}</div><p class="conspect-text">${note.summary}</p>${SOURCE_FOOTNOTE}</div>`).join('')}
           ${GROUPS.filter(g=>g.section===sec&&sec!=='Адреномиметики').map(g=>`
             <div class="conspect-card">
               <div class="conspect-card-head"><div class="conspect-dot" style="background:${colors[si%colors.length]}"></div><div class="conspect-card-title">${g.group}</div></div>
@@ -3290,7 +3267,7 @@ function renderReference(){
         ${REFERENCE_TOPIC_NOTES.map(note=>`<details class="conspect-card">
           <summary class="conspect-card-title">${note.title}</summary>
           ${note.points.map(([heading,text])=>`<div class="conspect-block"><div class="conspect-label">${heading}</div><p class="conspect-text">${text}</p></div>`).join('')}
-          ${renderCaseSources(note.sources)}
+          ${SOURCE_FOOTNOTE}
         </details>`).join('')}
       </div>
     </div>
