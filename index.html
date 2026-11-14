@@ -1124,6 +1124,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 @media(prefers-reduced-motion:no-preference){.lung-scene.playing .lung-lumen{animation:lung-lumen 4s ease infinite}}
 @keyframes lung-lumen{0%,25%,100%{transform:scale(var(--lumen-start))}55%,76%{transform:scale(var(--lumen-end))}}
 @keyframes lung-signal{0%{transform:translate(0,0);opacity:0}5%{opacity:1}21%{transform:translate(107px,-53px);opacity:1}25%,100%{transform:translate(107px,-53px);opacity:0}}
+@media(prefers-reduced-motion:no-preference){
+.lung-scene.playing .lung-breath{transform-origin:112px 145px;animation:lung-breath 4s ease-in-out infinite}
+.lung-narrow.playing .lung-wall{transform-origin:331px 130px;animation:lung-contract 4s ease-in-out infinite}
+.lung-scene.playing .lung-mucus.mucus{transform-origin:331px 165px;animation:lung-mucus 4s ease-in-out infinite}
+.lung-scene.playing .lung-mucus.acetylcysteine{animation:lung-clear 4s ease-in-out infinite}
+.lung-scene.playing .lung-dry{animation:lung-dry 4s ease-in-out infinite}
+}
+@keyframes lung-breath{50%{transform:scale(1.09,1.06)}}
+@keyframes lung-contract{35%,70%{transform:scale(.94)}}
+@keyframes lung-mucus{0%,100%{transform:scaleY(.35)}55%,80%{transform:scaleY(1)}}
+@keyframes lung-clear{0%,30%{opacity:1;transform:translateX(0)}75%,100%{opacity:0;transform:translateX(25px)}}
+@keyframes lung-dry{0%,25%,100%{opacity:0}55%,80%{opacity:1}}
 </style>
 </head>
 <body>
@@ -2470,7 +2482,10 @@ function renderClassifyReport(){
 }
 const LUNG_MODES={
   narrow:['М₃ · Ацетилхолин','Ацетилхолин активирует М₃-рецепторы. Гладкая мышца бронха сокращается, просвет сужается.',38,23,'АХ','Парасимпатическое окончание'],
-  widen:['β₂ · Сальбутамол','Сальбутамол активирует β₂-рецепторы гладкой мускулатуры. Мышца расслабляется, просвет бронха увеличивается.',23,46,'β₂-агонист','Препарат']
+  widen:['β₂ · Сальбутамол','Сальбутамол активирует β₂-рецепторы гладкой мускулатуры. Мышца расслабляется, просвет бронха увеличивается.',23,46,'β₂-агонист','Препарат'],
+  ipratropium:['Ипратропия бромид','Блокада М-рецепторов ослабляет сокращение бронха, вызванное ацетилхолином. Сухость во рту — возможный побочный эффект. Штрихи рядом со схемой условно обозначают это ощущение.',23,42,'М-блокатор','Препарат'],
+  mucus:['Избыток мокроты','Слизь постепенно накапливается внутри бронха и занимает часть просвета. Розовое кольцо показывает стенку бронха, жёлтый слой — мокроту.',38,38,'Слизь','Секрет бронхов'],
+  acetylcysteine:['Ацетилцистеин','Разрывает дисульфидные связи в компонентах слизи и снижает её вязкость. На схеме густой слой разделяется и смещается, а диаметр мышечного кольца остаётся прежним.',38,38,'Муколитик','Препарат']
 };
 function renderLungs(mode='narrow'){
   const [title,description,from,to,signal,origin]=LUNG_MODES[mode];
@@ -2479,18 +2494,20 @@ function renderLungs(mode='narrow'){
       ${Object.entries(LUNG_MODES).map(([key,item])=>`<button type="button" class="scen-btn ${key===mode?'active':''}" aria-pressed="${key===mode}" data-lung-mode="${key}">${item[0]}</button>`).join('')}
       <button type="button" class="scen-btn" onclick="playOrganScene()">Воспроизвести</button>
     </div>
-    <svg class="organ-scene lung-scene" viewBox="0 0 460 290" role="img" aria-label="Лёгкие, бронхи и изменение просвета бронха">
+    <svg class="organ-scene lung-scene lung-${mode}" viewBox="0 0 460 290" role="img" aria-label="Лёгкие, бронхи и изменение просвета бронха">
       <rect width="460" height="290" rx="18" fill="#18213e"/>
-      <path d="M99 58C61 47 34 103 32 157S65 203 108 171V72ZM126 58C164 47 191 103 193 157S160 203 117 171V72Z" fill="#75539c" stroke="#e0c8f8" stroke-width="3"/>
-      <path d="M112 38V89L71 122M112 89l41 33m-82 0-19 8m19-8 2 23m80-23 19 8m-19-8-2 23" fill="none" stroke="#8ce4d4" stroke-width="6" stroke-linecap="round"/>
+      <g class="lung-breath"><path d="M99 58C61 47 34 103 32 157S65 203 108 171V72ZM126 58C164 47 191 103 193 157S160 203 117 171V72Z" fill="#75539c" stroke="#e0c8f8" stroke-width="3"/>
+      <path d="M112 38V89L71 122M112 89l41 33m-82 0-19 8m19-8 2 23m80-23 19 8m-19-8-2 23" fill="none" stroke="#8ce4d4" stroke-width="6" stroke-linecap="round"/></g>
       <path d="M173 130H246" stroke="#8ac0e0" stroke-width="2" stroke-dasharray="5 5"/>
-      <circle cx="331" cy="130" r="68" fill="#ba6fb2" stroke="#f0bfed" stroke-width="4"/>
+      <circle class="lung-wall" cx="331" cy="130" r="68" fill="#ba6fb2" stroke="#f0bfed" stroke-width="4"/>
       <circle class="lung-lumen" cx="331" cy="130" r="46" fill="#131b32" style="--lumen-start:${from/46};--lumen-end:${to/46}"/>
+      ${['mucus','acetylcysteine'].includes(mode)?`<g class="lung-mucus ${mode}" fill="#efbe6e"><path d="M298 143q13 12 32 7t34-7q-8 24-33 24t-33-24Z"/><circle cx="316" cy="139" r="5"/><circle cx="344" cy="142" r="4"/></g>`:''}
+      ${mode==='ipratropium'?'<g class="lung-dry" stroke="#efbe9f" stroke-width="2" fill="none"><path d="m405 95 8 9-5 7 9 9m-12 1 10 9-3 9 8 7"/><text x="375" y="171" fill="#f1e2ff" stroke="none" font-size="12">Сухость</text></g>':''}
       <path d="M315 190q16-17 32 0" fill="none" stroke="#8ce4d4" stroke-width="5"/>
       <g class="lung-signal" fill="#ffe5aa"><circle cx="224" cy="243" r="6"/><text x="224" y="229" text-anchor="middle" font-size="15">${signal}</text></g>
-      <g fill="#f1e2ff" font-size="16" text-anchor="middle"><text x="112" y="211">Бронхи</text><text x="331" y="44">Бронх в разрезе</text><text x="128" y="271">${origin}</text><text x="365" y="221">${mode==='narrow'?'М₃':'β₂'}</text></g>
+      <g fill="#f1e2ff" font-size="16" text-anchor="middle"><text x="112" y="211">Бронхи</text><text x="331" y="44">Бронх в разрезе</text><text x="128" y="271">${origin}</text><text x="365" y="221">${{narrow:'М₃',widen:'β₂',ipratropium:'М₃ блок.'}[mode]||''}</text></g>
     </svg>
-    <div class="synapse-info"><div class="synapse-info-title">${title}</div><div class="synapse-info-desc">${description} Ипратропия бромид ослабляет холинергическое сужение бронхов, блокируя М-рецепторы.</div></div>`;
+    <div class="synapse-info"><div class="synapse-info-title">${title}</div><div class="synapse-info-desc">${description}</div></div>`;
   document.querySelectorAll('[data-lung-mode]').forEach(button=>button.addEventListener('click',()=>{
     const key=button.dataset.lungMode;
     renderLungs(key);
