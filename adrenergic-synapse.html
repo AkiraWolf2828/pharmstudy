@@ -73,11 +73,20 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
  #scene{transition:none}
  #scene *{animation:none!important}
 }
+ .mobile-controls{margin-bottom:10px}
+ .mobile-controls details{background:#fff;border:1px solid #f0e8e1;border-radius:13px;margin-bottom:6px;padding:9px 12px}
+ .mobile-controls summary{cursor:pointer;font-size:13px;font-weight:700;color:#4b4548}
+ .mobile-controls details[open] summary{margin-bottom:8px}
+ @media(max-width:720px){.layout > .panel{display:none}.stage svg{height:auto;min-height:0}}
 </style>
 </head>
 <body>
 <div class="layout">
  <div>
+  <div class="mobile-controls" hidden>
+   <details><summary>Работа синапса</summary><div id="mobileSteps"></div></details>
+   <details><summary>Изменения работы синапса</summary><div id="mobileScenarios"></div></details>
+  </div>
   <div class="stage">
    <svg id="scene" viewBox="0 0 900 650" role="img" aria-label="Анимированная схема адренергического синапса">
     <defs>
@@ -248,6 +257,39 @@ function setMode(mode){switchScene(()=>renderMode(mode));}
 receptors.forEach(r=>{r.addEventListener('click',()=>setMode(r.dataset.rec));r.addEventListener('mouseenter',()=>showInfo(r));r.addEventListener('focus',()=>showInfo(r));});
 document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('mouseenter',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('focus',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('click',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info;});});
 buttons.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+const mobileLayout=window.matchMedia('(max-width:720px)');
+const mobileControls=document.querySelector('.mobile-controls');
+const mobileMenus=[...mobileControls.querySelectorAll('details')];
+const controlLists=[
+  [document.querySelector('.step-buttons'),document.getElementById('mobileSteps')],
+  [document.querySelector('.scenarios'),document.getElementById('mobileScenarios')]
+];
+const desktopPositions=controlLists.map(([list])=>{
+  const marker=document.createComment('desktop controls');
+  list.before(marker);
+  return marker;
+});
+function arrangeControls(){
+  const mobile=mobileLayout.matches;
+  mobileControls.hidden=!mobile;
+  controlLists.forEach(([list,slot],index)=>{
+    if(mobile)slot.append(list);
+    else desktopPositions[index].after(list);
+  });
+  mobileMenus.forEach(menu=>menu.open=false);
+}
+mobileMenus.forEach(menu=>menu.addEventListener('toggle',()=>{
+  if(menu.open)mobileMenus.forEach(other=>{if(other!==menu)other.open=false;});
+}));
+mobileControls.addEventListener('click',event=>{
+  const button=event.target.closest('button[data-step],button[data-mode]');
+  if(!button)return;
+  const menu=button.closest('details');
+  menu.open=false;
+  menu.querySelector('summary').focus({preventScroll:true});
+});
+mobileLayout.addEventListener('change',arrangeControls);
+arrangeControls();
 renderStep(1);
 </script>
 </body></html>
