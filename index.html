@@ -596,7 +596,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .session-setup .classify-topic-list{margin-bottom:8px}
 .case-setup .case-picker-list{padding-right:6px}
 .case-setup .case-pick-item:last-child{margin-bottom:0}
-.synapse-tabbar{position:sticky;top:0;z-index:20;padding:8px 0 10px;background:var(--bg);background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px)}
+.synapse-tabbar{padding:8px 0 10px}
 .classify-tabs{position:sticky;top:0;z-index:15;padding:8px 0;background:var(--card)}
 
 /* Mobile: keep the app header above the independently scrolling screen and leave room for bottom navigation. */
@@ -611,7 +611,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
   .classify-topic-list{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;}
   .classify-setup-footer{flex:0 0 auto;padding-bottom:2px;}
   .session-setup .skill-chips{max-height:76px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-  .synapse-tabbar{position:static;backdrop-filter:none}
 }
 @media(max-width:380px){
   .content{padding-left:10px;padding-right:10px;}
