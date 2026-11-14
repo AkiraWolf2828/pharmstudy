@@ -1388,6 +1388,146 @@ const CASES={
     }
   }
 };
+const CASE_BOOK='https://chatgpt.com/library?file_id=libfile_c537be50a72081919ae9d0d289a5ee05&account_id=personal';
+const CASE_HANDOUTS={
+ chol:['Холиномиметики — материал для студентов','libfile_5afe1d2a0c288191a256c0c1e995adfb'],
+ block:['Холиноблокаторы и миорелаксанты','libfile_b038237fd5e48191b269e45346b8fd31'],
+ adr:['Адреноблокаторы и симпатолитики','libfile_96812e50896481918ffc372acc2b4ef1'],
+ classification:['Классификация ЛС, осенний семестр 2026','libfile_bacf412300f08191816196cbab3c9248']
+};
+const CASE_REFERENCES={
+ case_fos:['3','chol','block'],case_mushroom:['3','chol','block'],
+ case_extubation:['3','block','chol'],case_anaphylaxis:['4','classification'],
+ case_timolol:['4','adr'],case_oxybutynin:['3','block'],case_tiotropium:['3','block'],
+ case_suxamethonium:['3','block','chol'],case_rocuronium_reversal:['3','block'],
+ case_iris:['3, 4','chol','adr'],case_breathing:['3, 4','block','adr','classification'],
+ case_enzyme:['3','chol','block'],case_alpha_feedback:['4','adr']
+};
+function renderCaseSources(id){
+ const [chapter,...handouts]=CASE_REFERENCES[id];
+ const link=(url,label)=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+ const links=[link(CASE_BOOK,'Харкевич, «Фармакология», гл. '+chapter),
+  ...handouts.map(key=>{const [title,file]=CASE_HANDOUTS[key];return link('https://chatgpt.com/library?file_id='+file+'&account_id=personal',title);})];
+ if(id==='case_extubation')links.push(link('https://www.openanesthesia.org/keywords/monitoring-depth-of-neuromuscular-blockade/','Количественный контроль нервно-мышечного блока'));
+ if(id==='case_anaphylaxis')links.push(link('https://www.resus.org.uk/sites/default/files/2021-05/Emergency%20Treatment%20of%20Anaphylaxis%20May%202021_0.pdf','Resuscitation Council UK, раздел 5'));
+ return `<details class="case-sources"><summary>Учебник и материалы</summary><ul>${links.map(item=>'<li>'+item+'</li>').join('')}</ul></details>`;
+}
+
+function caseQuestion(question,options,next='node_end'){
+ return {question,options:options.map(([text,feedback],index)=>({text,feedback,type:index===0?'good':'bad',next}))};
+}
+function addMechanismCase(id,title,section,intro,tags,summary,options,second){
+ CASES[id]={id,title,section,intro,start:'node_1',nodes:{
+  node_1:caseQuestion(options.question,options.answers,'node_2'),
+  node_2:caseQuestion(second.question,second.answers),
+  node_end:{isEnd:true,summary,tags}
+ }};
+}
+addMechanismCase('case_iris','Глазные капли: зрачок и внутриглазное давление','Холиномиметики',
+ 'После применения пилокарпина у пациента сузился зрачок. При разборе другой глазной капли — тимолола — студент ожидает того же механизма снижения внутриглазного давления.',
+ ['Пилокарпин','Тимолол','М-холинорецепторы','β-адренорецепторы'],
+ 'Пилокарпин способствует оттоку внутриглазной жидкости через М-холинорецепторы. Тимолол уменьшает её образование через блокаду β-рецепторов.',
+ {question:'Как пилокарпин вызывает миоз?',answers:[
+  ['Стимулирует М-рецепторы сфинктера зрачка','Активация М-рецепторов сокращает круговую мышцу радужки. Сокращение ресничной мышцы также облегчает отток внутриглазной жидкости.'],
+  ['Блокирует М-рецепторы','М-блокада уменьшает тонус сфинктера и способствует расширению зрачка. Так действует атропин.'],
+  ['Блокирует β-рецепторы','Это механизм тимолола. Снижение образования внутриглазной жидкости не объясняет сокращение сфинктера после пилокарпина.']]},
+ {question:'Чем механизм тимолола отличается от действия пилокарпина?',answers:[
+  ['Уменьшает образование внутриглазной жидкости','Тимолол блокирует β-рецепторы в ресничном теле. Для этого эффекта миоз не требуется.'],
+  ['Сокращает сфинктер зрачка через М-рецепторы','Это действие пилокарпина. Тимолол — неселективный β-адреноблокатор.'],
+  ['Повышает концентрацию ацетилхолина через ингибирование АХЭ','Так работают антихолинэстеразные средства. Мишени тимолола — β-рецепторы.']]});
+addMechanismCase('case_breathing','Два механизма бронходилатации','Адреномиметики',
+ 'На занятии сравнивают сальбутамол и ипратропия бромид. Оба препарата расширяют бронхи, но действуют на разные звенья регуляции.',
+ ['Сальбутамол','Ипратропия бромид','Тимолол','β₂','М₃'],
+ 'Сальбутамол стимулирует β₂-рецепторы, а ипратропий ограничивает М-холинергическую бронхоконстрикцию.',
+ {question:'Какая пара механизмов верна?',answers:[
+  ['Сальбутамол стимулирует β₂, ипратропий блокирует М-рецепторы','Сальбутамол расслабляет бронхиальную гладкую мышцу через β₂-рецепторы. Ипратропий снижает суживающее влияние ацетилхолина.'],
+  ['Оба стимулируют β₂','Ипратропий блокирует М-рецепторы. Одинаковый эффект на просвет бронхов достигается через разные мишени.'],
+  ['Оба ингибируют ацетилхолинэстеразу','Ингибирование АХЭ продлевает действие ацетилхолина и может усилить М-холинергические эффекты в бронхах.']]},
+ {question:'Как тимолол может повлиять на ответ на сальбутамол?',answers:[
+  ['Ослабить ответ вследствие β₂-блокады','Неселективный тимолол блокирует β₂-рецепторы. Системное действие возможно и при применении глазных капель.'],
+  ['Усилить ответ, активируя β₂','Тимолол блокирует β₂ и поэтому может противодействовать эффекту агониста.'],
+  ['Устранить эффект ипратропия конкурентной М-блокадой','Тимолол действует на β-рецепторы. Ипратропий действует на мускариновые рецепторы.']]});
+addMechanismCase('case_enzyme','Один фермент, разные задачи','Холиномиметики',
+ 'Студент сравнивает декураризацию при остаточном недеполяризующем блоке и антидотную помощь при отравлении ФОС.',
+ ['Неостигмин','Карбоксим','Атропин','АХЭ','ФОС'],
+ 'Неостигмин тормозит АХЭ, карбоксим реактивирует ингибированный ФОС фермент, атропин блокирует М-рецепторы.',
+ {question:'Почему неостигмин может помогать при остаточном конкурентном блоке Нₘ-рецепторов?',answers:[
+  ['Повышает содержание ацетилхолина у концевой пластинки','Ингибирование АХЭ увеличивает доступность ацетилхолина, который конкурирует с недеполяризующим блокатором. Эффект зависит от глубины блока.'],
+  ['Реактивирует АХЭ','Реактивация АХЭ уменьшила бы содержание ацетилхолина. Механизм неостигмина противоположен.'],
+  ['Блокирует М-рецепторы','Это механизм атропина. Он ослабляет М-эффекты неостигмина, но не восстанавливает передачу через Нₘ-рецепторы.']]},
+ {question:'Какова роль карбоксима при отравлении ФОС?',answers:[
+  ['Помогает реактивировать ингибированную холинэстеразу','Карбоксим действует на фермент. Возможность реактивации зависит от вещества и времени, прошедшего с момента отравления. Атропин отдельно уменьшает М-эффекты.'],
+  ['Усиливает подавление АХЭ','Ингибирование фермента усугубляет накопление ацетилхолина. Карбоксим относится к реактиваторам.'],
+  ['Вытесняет ацетилхолин с М-рецепторов','М-рецептор блокирует атропин. Карбоксим влияет на расщепление медиатора через восстановление активности фермента.']]});
+addMechanismCase('case_alpha_feedback','Пресинаптическая α₂-блокада','Адреноблокаторы',
+ 'Студент сравнивает йохимбин и доксазозин на схеме адренергического синапса.',
+ ['Йохимбин','Доксазозин','α₁','α₂','Норадреналин'],
+ 'Блокада пресинаптических α₂ ослабляет торможение выделения НА. Блокада α₁ уменьшает сосудосуживающий ответ на НА.',
+ {question:'Что произойдёт при блокаде пресинаптического α₂-рецептора йохимбином?',answers:[
+  ['Ослабнет торможение выделения норадреналина','Пресинаптический α₂-рецептор ограничивает дальнейшее выделение НА. Его блокада снимает часть этого торможения.'],
+  ['Усилится отрицательная обратная связь','Для усиления торможения нужна активация α₂-рецептора. Йохимбин препятствует его активации.'],
+  ['Остановится синтез норадреналина','Сценарий касается обратной связи на уровне рецептора. Блокада α₂ не означает подавления синтеза медиатора.']]},
+ {question:'На каком звене действует доксазозин?',answers:[
+  ['Блокирует α₁-рецепторы сосудистой гладкой мышцы','Ослабление α₁-зависимого сокращения гладкой мышцы снижает сосудистый тонус.'],
+  ['Блокирует пресинаптические α₂','Эта мишень характерна для йохимбина в данном сравнении. Доксазозин — α₁-адреноблокатор.'],
+  ['Истощает запасы НА в везикулах','Такой механизм относится к периферическому симпатолитическому действию резерпина. Доксазозин блокирует эффект медиатора на рецепторе.']]});
+
+const fos=CASES.case_fos.nodes;
+fos.node_1.options[0].type='good';
+fos.node_1.options[2].feedback='Наблюдение не уменьшает бронхорею и бронхоспазм. После ингаляционного или кожного контакта промывание желудка не устраняет источник экспозиции. В данном вопросе нужна М-блокада.';
+fos.node_1.options[3].feedback='Эпинефрин может влиять на давление, пульс и бронхи через адренорецепторы. Он не блокирует М-рецепторы и не восстанавливает подавленную ФОС холинэстеразу.';
+fos.node_2.question='Какая пара средств сочетает уменьшение М-эффектов и реактивацию холинэстеразы?';
+fos.node_2.options[3].feedback='Донепезил ингибирует АХЭ и продлевает действие ацетилхолина. При отравлении ФОС фермент уже подавлен, поэтому этот механизм усугубляет холинергические проявления.';
+
+const mushroom=CASES.case_mushroom;
+mushroom.title='Мускариновый синдром после грибов';
+mushroom.nodes.node_1=caseQuestion('Какое средство уменьшает М-холинергические проявления?',[
+ ['Атропин','Блокирует М-рецепторы и уменьшает бронхорею, бронхоспазм и брадикардию, вызванные их стимуляцией.'],
+ ['Неостигмин','Тормозит АХЭ и усиливает действие собственного ацетилхолина, что может усугубить М-эффекты.'],
+ ['Карбоксим','Реактивирует фермент после его ингибирования ФОС. Мускарин непосредственно стимулирует рецепторы, поэтому такой механизм здесь не подходит.'],
+ ['Эпинефрин','Воздействует на адренорецепторы. Он не блокирует мускариновые рецепторы, активированные токсином.']
+],'node_2');
+mushroom.nodes.node_2=caseQuestion('Чем механизм отличается от отравления ФОС?',[
+ ['Мускарин напрямую стимулирует М-рецепторы','При ФОС избыток ацетилхолина возникает вследствие подавления холинэстеразы. Мускарин сам действует как агонист.'],
+ ['В обоих случаях причина — ингибирование АХЭ','Мускарин действует непосредственно на М-рецепторы, а ФОС подавляют фермент.'],
+ ['Мускарин блокирует Нₘ-рецепторы','Конкурентная блокада Нₘ характерна для недеполяризующих миорелаксантов. При мускариновом синдроме преобладает стимуляция М-рецепторов.']
+]);
+mushroom.nodes.node_end.summary='Связка с кейсом о ФОС: атропин уменьшает М-эффекты в обоих случаях, но реактивация холинэстеразы относится к отравлению ФОС. По одному синдрому вид грибов не определяют.';
+
+const extubation=CASES.case_extubation;
+extubation.intro='После операции с рокуронием количественный мониторинг показывает остаточный недеполяризующий блок. Началось самостоятельное восстановление, анестезиолог рассматривает фармакологическую реверсию.';
+extubation.nodes.node_1=caseQuestion('Как работают неостигмин и атропин при реверсии неглубокого блока?',[
+ ['Неостигмин ингибирует АХЭ, атропин уменьшает М-эффекты','Ацетилхолин накапливается и конкурирует с миорелаксантом на Нₘ-рецепторах. Атропин снижает риск мускариновых эффектов, включая брадикардию.'],
+ ['Атропин вытесняет рокуроний с Нₘ-рецепторов','Атропин блокирует М-рецепторы и не восстанавливает нервно-мышечную передачу.'],
+ ['Неостигмин связывает рокуроний в плазме','Связывание рокурония — механизм сугаммадекса. Неостигмин повышает концентрацию ацетилхолина через АХЭ.']
+],'node_2');
+extubation.nodes.node_2=caseQuestion('Что подтверждает восстановление нервно-мышечной передачи перед экстубацией?',[
+ ['Количественный TOF ≥ 0,9','Отношение четвёртого ответа к первому не менее 0,9 подтверждает восстановление нервно-мышечной передачи. Остальные критерии готовности к экстубации оценивают отдельно.'],
+ ['Возвращение отдельных самостоятельных вдохов','Спонтанные вдохи возможны при остаточном блоке. Они не заменяют количественный контроль.'],
+ ['Прошло 30 минут','Скорость восстановления зависит от препарата и глубины блока. Само время не подтверждает восстановление.']
+]);
+extubation.nodes.node_end.summary='Неостигмин повышает доступность ацетилхолина при остаточном конкурентном блоке. Атропин уменьшает М-эффекты, а полноту восстановления подтверждают количественным мониторингом.';
+
+const anaphylaxis=CASES.case_anaphylaxis.nodes;
+anaphylaxis.node_1.options[1].feedback='Норэпинефрин поддерживает сосудистый тонус преимущественно через α-рецепторы. Его слабое β₂-действие не обеспечивает бронходилатацию, необходимую в этом сценарии.';
+anaphylaxis.node_2=caseQuestion('Почему сальбутамол может быть дополнением при сохраняющемся бронхоспазме, но не заменой эпинефрина?',[
+ ['β₂-стимуляция расширяет бронхи, но не компенсирует системную вазодилатацию','Эпинефрин сочетает β₂-бронходилатацию с α₁-зависимым повышением сосудистого тонуса и β₁-влиянием на сердце.'],
+ ['Сальбутамол преимущественно стимулирует α₁','Сальбутамол преимущественно действует на β₂-рецепторы бронхов и не обеспечивает необходимый α₁-эффект.'],
+ ['Сальбутамол блокирует М-рецепторы бронхов','Это механизм ипратропия. Сальбутамол — β₂-агонист.']
+]);
+anaphylaxis.node_end.summary='Внутримышечный эпинефрин — препарат первой линии при анафилаксии. Ингаляционный β₂-агонист может дополнять помощь при сохраняющемся бронхоспазме.';
+
+const timolol=CASES.case_timolol.nodes;
+timolol.node_1.options[0].feedback='Бронхоспазм бывает и при аллергии, но в задаче проверяется известное системное действие тимолола после всасывания глазных капель — β₂-блокада.';
+timolol.node_1.options[2].feedback='Для системного β₂-эффекта превышение дозы не обязательно. При астме бронхоспазм возможен даже после применения обычных глазных капель.';
+timolol.node_1.options[3].feedback='Одна хронология не доказывает причину. В пользу лекарственной связи в задаче говорит известный механизм β₂-блокады тимололом.';
+timolol.node_2=caseQuestion('Почему пропранолол не устраняет риск, связанный с β₂-блокадой?',[
+ ['Пропранолол тоже блокирует β₁ и β₂','Неселективная β-блокада может уменьшить бронходилатацию и ослабить ответ на β₂-агонист.'],
+ ['Пропранолол действует только на β₁','Для пропранолола характерна неселективная β-блокада, поэтому сохраняется влияние на бронхи.'],
+ ['Пропранолол стимулирует β₂','Пропранолол — антагонист β-рецепторов. β₂ стимулирует, например, сальбутамол.']
+]);
+timolol.node_end.summary='Глазной тимолол способен всасываться системно. Блокада β₂-рецепторов объясняет риск бронхоспазма и возможное ослабление действия β₂-агонистов.';
+
 const THEORY=[
 {icon:'⚡',color:'var(--accent)',bg:'var(--accent-soft)',title:'Холинергический синапс',sub:'5 этапов передачи сигнала',body:`
 <h4>1. Синтез ацетилхолина</h4>
@@ -1826,8 +1966,7 @@ function renderDashboard(){
 }
 
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function arrangeSessionOptions(pool){
-  let previousPosition=-1;
+function arrangeSessionOptions(pool,previousPosition=-1){
   const positionUses=[];
   const seenOrders=new Set();
   return pool.map(q=>{
@@ -2758,6 +2897,12 @@ function renderCaseNode(){
   const C=CASES[cs.caseId];
   const node=C.nodes[cs.nodeId];
   cs.pendingAnswer=null;
+  if(!node.isEnd){
+    const correct=node.options.findIndex(option=>option.type==='good');
+    const arranged=arrangeSessionOptions([{options:node.options.map((_,index)=>index),correct}],cs.previousCorrect)[0];
+    cs.previousCorrect=arranged.correct;
+    cs.options=arranged.options.map(index=>node.options[index]);
+  }
   if(node.isEnd){
     if(controlCaseActive&&controlFinalAttempt&&!controlFinalAttempt.caseResult){
       controlFinalAttempt.caseResult={earned:controlFinalAttempt.caseCorrect,possible:controlFinalAttempt.caseTotal||1,note:'Правильных решений: '+controlFinalAttempt.caseCorrect+' из '+controlFinalAttempt.caseTotal+'.'};
@@ -2772,7 +2917,7 @@ function renderCaseNode(){
           <div style="font-size:13px;line-height:1.6">${node.summary}</div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${node.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">Источник: ${node.source}</div>
+        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:20px">${renderCaseSources(C.id)}</div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <button class="next-btn" style="flex:1;min-width:180px" onclick="startCase('${C.id}')">Пройти заново</button>
           <button class="next-btn" style="flex:1;min-width:180px;background:var(--lavender-deco)" onclick="setScreen('case')">К списку кейсов</button>
@@ -2786,13 +2931,12 @@ function renderCaseNode(){
       <div class="case-header"><span class="case-badge">КЛИНИЧЕСКИЙ КЕЙС</span><span class="case-title">${C.title}</span></div>
       <div class="case-intro">${C.intro}</div>
       <div class="case-question">${node.question}</div>
-      <div class="q-options" id="caseOptions">${node.options.map((opt,i)=>`<button type="button" class="q-option" aria-pressed="false" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
+      <div class="q-options" id="caseOptions">${cs.options.map((opt,i)=>`<button type="button" class="q-option" aria-pressed="false" onclick="answerCase(${i})"><span class="q-option-letter">${i+1}</span><span>${opt.text}</span></button>`).join('')}</div>
       <div id="caseFeedback"><div class="answer-confirm-hint">Выбери вариант, затем подтверди решение.</div></div>
     </div>`;
 }
 function answerCase(i){
   const cs=state.caseState;
-  const node=CASES[cs.caseId].nodes[cs.nodeId];
   cs.pendingAnswer=i;
   document.querySelectorAll('#caseOptions .q-option').forEach((b,index)=>{
     b.classList.toggle('selected',index===i);
@@ -2813,12 +2957,11 @@ function cancelCaseAnswer(){
 }
 function confirmCaseAnswer(){
   const cs=state.caseState;if(!cs||cs.pendingAnswer===null||cs.pendingAnswer===undefined)return;
-  const node=CASES[cs.caseId].nodes[cs.nodeId];
-  const opt=node.options[cs.pendingAnswer];cs.pendingAnswer=null;
-  if(controlFinalAttempt&&!controlFinalAttempt.caseResult){controlFinalAttempt.caseTotal++;if(opt.type==='good')controlFinalAttempt.caseCorrect++;}
+  const opt=cs.options[cs.pendingAnswer];cs.pendingAnswer=null;
+  if(controlCaseActive&&controlFinalAttempt&&!controlFinalAttempt.caseResult){controlFinalAttempt.caseTotal++;if(opt.type==='good')controlFinalAttempt.caseCorrect++;}
   document.querySelectorAll('#caseOptions .q-option').forEach(b=>b.disabled=true);
-  const fbClass=opt.type==='good'?'good':opt.type==='bad'?'bad':'neutral';
-  document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${fbClass}">${opt.feedback}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
+  const breakdown=cs.options.map(option=>`<li style="margin:0 0 12px"><strong>${option.type==='good'?'Верный вариант':'Не подходит'}${option===opt?' · твой выбор':''}</strong><br>${option.text}<br>${option.feedback.replace(/^(?:✅|❌)\s*/, '')}</li>`).join('');
+  document.getElementById('caseFeedback').innerHTML=`<div class="case-feedback ${opt.type==='good'?'good':'bad'}"><strong>Разбор вариантов</strong><ol>${breakdown}</ol>${renderCaseSources(cs.caseId)}</div><button class="next-btn" onclick="advanceCase('${opt.next}')">Далее →</button>`;
 }
 function advanceCase(nextId){state.caseState.nodeId=nextId;renderCaseNode();addControlCaseBackButton()}
 
