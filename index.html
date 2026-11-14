@@ -1117,6 +1117,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .dashboard-ring-emblem{pointer-events:none}
 @media(max-width:768px){.content::before{background-size:min(80%,400px) auto}}
 .nav-btn[hidden]{display:none}
+.lung-controls{display:flex;flex-wrap:wrap;gap:8px}
+.lung-signal{opacity:0}
+.lung-scene.playing .lung-signal{animation:lung-signal .9s ease-in-out}
+@keyframes lung-signal{15%{opacity:1}80%{transform:translate(107px,-53px);opacity:1}100%{transform:translate(107px,-53px);opacity:0}}
 </style>
 </head>
 <body>
@@ -2461,7 +2465,41 @@ function renderClassifyReport(){
       <button class="next-btn" style="background:transparent;color:var(--text-muted);margin-top:8px;box-shadow:none" onclick="setScreen('dashboard')">На главную</button>
     </div>`;
 }
+const LUNG_MODES={
+  narrow:['М₃ · Ацетилхолин','Ацетилхолин активирует М₃-рецепторы. Гладкая мышца бронха сокращается, просвет сужается.',38,23,'АХ','Парасимпатическое окончание'],
+  widen:['β₂ · Сальбутамол','Сальбутамол активирует β₂-рецепторы гладкой мускулатуры. Мышца расслабляется, просвет бронха увеличивается.',23,46,'β₂-агонист','Препарат']
+};
+function renderLungs(mode='narrow'){
+  const [title,description,from,to,signal,origin]=LUNG_MODES[mode];
+  document.getElementById('organPanel').innerHTML=`
+    <div class="organ-controls lung-controls">
+      ${Object.entries(LUNG_MODES).map(([key,item])=>`<button type="button" class="scen-btn ${key===mode?'active':''}" aria-pressed="${key===mode}" data-lung-mode="${key}">${item[0]}</button>`).join('')}
+      <button type="button" class="scen-btn" onclick="playOrganScene()">Воспроизвести</button>
+    </div>
+    <svg class="organ-scene lung-scene" viewBox="0 0 460 290" role="img" aria-label="Лёгкие, бронхи и изменение просвета бронха">
+      <rect width="460" height="290" rx="18" fill="#18213e"/>
+      <path d="M99 58C61 47 34 103 32 157S65 203 108 171V72ZM126 58C164 47 191 103 193 157S160 203 117 171V72Z" fill="#75539c" stroke="#e0c8f8" stroke-width="3"/>
+      <path d="M112 38V89L71 122M112 89l41 33m-82 0-19 8m19-8 2 23m80-23 19 8m-19-8-2 23" fill="none" stroke="#8ce4d4" stroke-width="6" stroke-linecap="round"/>
+      <path d="M173 130H246" stroke="#8ac0e0" stroke-width="2" stroke-dasharray="5 5"/>
+      <circle cx="331" cy="130" r="68" fill="#ba6fb2" stroke="#f0bfed" stroke-width="4"/>
+      <circle cx="331" cy="130" r="46" fill="#131b32">
+        <animate id="lungLumen" attributeName="r" from="${from}" to="${to}" begin="indefinite" dur="1.15s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1"/>
+      </circle>
+      <path d="M315 190q16-17 32 0" fill="none" stroke="#8ce4d4" stroke-width="5"/>
+      <g class="lung-signal" fill="#ffe5aa"><circle cx="224" cy="243" r="6"/><text x="224" y="229" text-anchor="middle" font-size="15">${signal}</text></g>
+      <g fill="#f1e2ff" font-size="16" text-anchor="middle"><text x="112" y="211">Бронхи</text><text x="331" y="44">Бронх в разрезе</text><text x="128" y="271">${origin}</text><text x="365" y="221">${mode==='narrow'?'М₃':'β₂'}</text></g>
+    </svg>
+    <div class="synapse-info"><div class="synapse-info-title">${title}</div><div class="synapse-info-desc">${description} Ипратропия бромид ослабляет холинергическое сужение бронхов, блокируя М-рецепторы.</div></div>`;
+  document.querySelectorAll('[data-lung-mode]').forEach(button=>button.addEventListener('click',()=>{
+    const key=button.dataset.lungMode;
+    renderLungs(key);
+    document.querySelector(`[data-lung-mode="${key}"]`).focus({preventScroll:true});
+  }));
+  playOrganScene();
+}
+
 const ORGAN_SCENES={
+  lungs:{name:"Лёгкие"},
   eye:{
     name:'Глаз', organ:'<circle cx="420" cy="150" r="83" fill="#8368bd" stroke="#ffd1f3" stroke-width="4"/><circle class="organ-effect" cx="420" cy="150" r="42" fill="#101729" style="transform-origin:420px 150px"/>',
     className:'iris', receptor:'М₃', mediator:'АХ', tissue:'Сфинктер зрачка',
@@ -2479,6 +2517,7 @@ const ORGAN_SCENES={
   }
 };
 function renderOrganScene(key){
+  if(key==='lungs'){renderLungs();return;}
   const scene=ORGAN_SCENES[key];
   document.getElementById('organPanel').innerHTML=`
     <div class="organ-controls"><button class="scen-btn active" type="button" onclick="playOrganScene()">Воспроизвести</button></div>
@@ -2501,6 +2540,8 @@ function playOrganScene(){
   svg.classList.remove('playing');
   svg.getBoundingClientRect();
   svg.classList.add('playing');
+  const lumen=svg.querySelector('#lungLumen');
+  if(lumen&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&typeof lumen.beginElementAt==='function')lumen.beginElementAt(.9);
 }
 
 function switchSynapseTab(tab){
