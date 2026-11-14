@@ -1114,8 +1114,60 @@ function escapeHtml(value){
   q_026:'Классификация',q_027:'Показания',q_028:'Показания',q_029:'Классификация',q_030:'Побочки',
   q_031:'Механизм',q_032:'Показания',q_033:'Классификация',q_034:'Показания',q_035:'Побочки'
 };
-const SKILL_LIST=['Классификация','Механизм','Показания','Побочки'];
+const SKILL_LIST=['Классификация','Механизм','Показания','Побочки','Рецептура'];
+const ANESTHESIA_RECIPE_SOURCE='Рецепты: анестезия и снотворные';
+const ANESTHESIA_RECIPES={
+  "Пропофол": {
+    "use": "Индукция общей анестезии",
+    "text": "Rp.: Emuls. Propofoli 10mg/ml - 20 ml\nD.t.d. N. 5 in amp.\nS. Внутривенно медленно по 1–2 мг/кг однократно для индукции общей анестезии при плановых хирургических операциях."
+  },
+  "Мидазолам": {
+    "use": "Премедикация перед наркозом",
+    "text": "Rp.: Sol. Midazolami 5 mg/ml- 1 ml\nD.t.d. N. 5 in amp.\nS. Внутримышечно. Ввести 1 мл (5 мг) за 20 минут до вводного наркоза для премедикации (седация и снятие предоперационного напряжения)."
+  },
+  "Лидокаин": {
+    "use": "Проводниковая анестезия при вправлении вывиха",
+    "text": "Rp.: Sol. Lidocaini hydrochloridi 1% - 2 ml\nD.t.d. N. 10 in amp.\nS. Для проводниковой анестезии: ввести 2–4 мл (20–40 мг) однократно при обезболивании по поводу травматичного вправления вывиха плеча."
+  },
+  "Артикаин": {
+    "use": "Инфильтрационная анестезия при лечении кариеса",
+    "text": "Rp.: Sol. Articaini hydrochloridi 40mg/ml  - 1.7 ml\nD.t.d. N. 10 in amp.\nS. Для инфильтрационной анестезии по 1.7 мл на 1–2 смежных зуба однократно при лечении кариеса."
+  },
+  "Бупивакаин": {
+    "use": "Спинальная анестезия",
+    "text": "Rp.: Sol. Bupivacaini hydrochloridi 5mg/ml - 4 ml\nD.t.d. N. 5 in amp.\nS. Для спинальной анестезии по 2–4 мл однократно при проведении операций на нижних конечностях и органах малого таза."
+  },
+  "Зопиклон": {
+    "use": "Временная бессонница",
+    "text": "Rp.: Tab. Zopicloni  a 0.0075 N. 10\nD S. Внутрь по 1 таблетке за 30–40 минут до сна 1 раз в сутки при  временной бессоннице."
+  },
+  "Нитразепам": {
+    "use": "Бессонница",
+    "text": "Rp.: Tab. Nitrazepami  a 0.005  N. 20\nD.  S. Внутрь по 1 таблетке за 30 минут до сна 1 раз в сутки при нарушениях сна (бессоннице)."
+  },
+  "Фенобарбитал": {
+    "use": "Генерализованные тонико-клонические приступы",
+    "text": "Rp.: Tab. Phenobarbitali  a 0.05 N. 20\nD. S. Внутрь по 1 таблетке 2 раза в день при генерализованных тонико-клонических приступах эпилепсии."
+  }
+};
+function renderAnesthesiaRecipe(drug){
+  const recipe=ANESTHESIA_RECIPES[drug];
+  if(!recipe)return '';
+  return `<div class="conspect-block">
+    <div class="conspect-label">Учебный рецепт · ${drug}</div>
+    <pre class="conspect-text" style="white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;margin:8px 0">${escapeHtml(recipe.text)}</pre>
+    <small>${ANESTHESIA_RECIPE_SOURCE}</small>
+  </div>`;
+}
 const QUESTIONS=[
+{"id": "anesthesia_recipe_1", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Emuls. Propofoli 10mg/ml - 20 ml»?", "options": ["Пропофол", "Мидазолам", "Лидокаин", "Артикаин"], "correct": 0, "explanation": "Пропофол. Ситуация из методички: индукция общей анестезии.", "tags": ["Рецептура", "Пропофол"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_2", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Sol. Midazolami 5 mg/ml- 1 ml»?", "options": ["Мидазолам", "Лидокаин", "Артикаин", "Бупивакаин"], "correct": 0, "explanation": "Мидазолам. Ситуация из методички: премедикация перед наркозом.", "tags": ["Рецептура", "Мидазолам"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_3", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Sol. Lidocaini hydrochloridi 1% - 2 ml»?", "options": ["Лидокаин", "Артикаин", "Бупивакаин", "Зопиклон"], "correct": 0, "explanation": "Лидокаин. Ситуация из методички: проводниковая анестезия при вправлении вывиха.", "tags": ["Рецептура", "Лидокаин"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_4", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Sol. Articaini hydrochloridi 40mg/ml  - 1.7 ml»?", "options": ["Артикаин", "Бупивакаин", "Зопиклон", "Нитразепам"], "correct": 0, "explanation": "Артикаин. Ситуация из методички: инфильтрационная анестезия при лечении кариеса.", "tags": ["Рецептура", "Артикаин"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_5", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Sol. Bupivacaini hydrochloridi 5mg/ml - 4 ml»?", "options": ["Бупивакаин", "Зопиклон", "Нитразепам", "Фенобарбитал"], "correct": 0, "explanation": "Бупивакаин. Ситуация из методички: спинальная анестезия.", "tags": ["Рецептура", "Бупивакаин"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_6", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Tab. Zopicloni  a 0.0075 N. 10»?", "options": ["Зопиклон", "Нитразепам", "Фенобарбитал", "Пропофол"], "correct": 0, "explanation": "Зопиклон. Ситуация из методички: временная бессонница.", "tags": ["Рецептура", "Зопиклон"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_7", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Tab. Nitrazepami  a 0.005  N. 20»?", "options": ["Нитразепам", "Фенобарбитал", "Пропофол", "Мидазолам"], "correct": 0, "explanation": "Нитразепам. Ситуация из методички: бессонница.", "tags": ["Рецептура", "Нитразепам"], "source": "Рецепты: анестезия и снотворные"},
+{"id": "anesthesia_recipe_8", "section": "Средства для анестезии", "text": "Какой препарат указан в учебном рецепте «Rp.: Tab. Phenobarbitali  a 0.05 N. 20»?", "options": ["Фенобарбитал", "Пропофол", "Мидазолам", "Лидокаин"], "correct": 0, "explanation": "Фенобарбитал. Ситуация из методички: генерализованные тонико-клонические приступы.", "tags": ["Рецептура", "Фенобарбитал"], "source": "Рецепты: анестезия и снотворные"},
 {id:'q_001',section:'Холиномиметики',text:'Какой препарат относится к прямым М-холиномиметикам?',options:['Пилокарпин','Неостигмин','Цитизин','Карбоксим'],correct:0,explanation:'Пилокарпин — прямой М-холиномиметик, действует непосредственно на М-холинорецепторы. Неостигмин — непрямой (оиХЭ периферического действия), цитизин — частичный агонист Н-ХР, карбоксим — реактиватор холинэстеразы.',tags:['Прямые холиномиметики','Механизм','Пилокарпин','Сложность 1'],source:'Холиномиметики — материал для студентов'},
 {id:'q_002',section:'Холиномиметики',text:'Пациенту с болезнью Альцгеймера назначен Галантамин. К какой группе он относится?',options:['М-холиномиметик','оиХЭ центрального действия','оиХЭ периферического действия','Реактиватор холинэстеразы'],correct:1,explanation:'Галантамин (Нивалин) — обратимый ингибитор холинэстеразы центрального действия. Проникает через ГЭБ, повышает концентрацию ацетилхолина в ЦНС.',tags:['оиХЭ центрального действия','Показания','Галантамин','Сложность 2'],source:'Холиномиметики — материал для студентов'},
 {id:'q_003',section:'Холиномиметики',text:'Какой препарат является частичным агонистом Н-ХР и применяется для отказа от курения?',options:['Никотин','Варениклин','Карбахол','Ипидакрин'],correct:1,explanation:'Варениклин — частичный агонист α4β2-никотиновых рецепторов: умеренно активирует их, уменьшая тягу и симптомы отмены, и ослабляет подкрепляющий эффект никотина при курении.',tags:['Н-холиномиметики','Показания','Варениклин','Сложность 2'],source:'Холиномиметики — материал для студентов'},
@@ -1617,7 +1669,7 @@ for (const item of GROUPS) {
 
  // У новых вопросов должен быть тип, иначе фильтры теста показывают 0 вопросов.
 for (const q of QUESTIONS) {
-  if (!SKILLS[q.id]) SKILLS[q.id] = (q.tags || []).includes('Классификация') ? 'Классификация' : 'Показания';
+  if (!SKILLS[q.id]) SKILLS[q.id] = (q.tags || []).includes('Рецептура') ? 'Рецептура' : (q.tags || []).includes('Классификация') ? 'Классификация' : 'Показания';
 }
 
 const SCENARIOS={
@@ -1843,7 +1895,7 @@ function renderSessionSettings(){
       <section class="session-config-section">
         <div class="session-config-title">Что проверяем?</div>
         <p class="session-config-hint">Можно выбрать несколько типов вопросов.</p>
-        <div class="session-skill-grid">${SKILL_LIST.map((skill,i)=>`<button type="button" class="session-skill-option ${state.selectedSkills[skill]?'active':''}" aria-pressed="${state.selectedSkills[skill]?'true':'false'}" onclick="toggleSkill('${skill}')"><span>${['▦','⚙','＋','✚'][i]}</span><b>${skill}</b><i>${state.selectedSkills[skill]?'✓':'＋'}</i></button>`).join('')}</div>
+        <div class="session-skill-grid">${SKILL_LIST.map((skill,i)=>`<button type="button" class="session-skill-option ${state.selectedSkills[skill]?'active':''}" aria-pressed="${state.selectedSkills[skill]?'true':'false'}" onclick="toggleSkill('${skill}')"><span>${['▦','⚙','＋','✚','℞'][i]}</span><b>${skill}</b><i>${state.selectedSkills[skill]?'✓':'＋'}</i></button>`).join('')}</div>
       </section>
       <section class="session-config-section">
         <div class="session-config-title">Модель тестирования</div>
@@ -2853,6 +2905,7 @@ function openClassificationDrugCard(cardIndex,drugIndex){
     <div class="classification-drug-group">${card.title||''}</div>
     ${card.desc?`<p class="classification-drug-summary">${card.desc}</p>`:''}
     <div class="classification-drug-details">${card.details||'Подробное описание для этой позиции пока не добавлено.'}</div>
+    ${card.section==='Средства для анестезии'?renderAnesthesiaRecipe(drug):''}
   </article>`;
   overlay.addEventListener('click',event=>{if(event.target===overlay)closeCard()});
   overlay.querySelector('.classification-drug-close')?.addEventListener('click',closeCard);
@@ -2870,6 +2923,13 @@ function renderReference(){
       <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
     </div>
     <div style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
+    <div class="ref-section">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('anesthesiaRecipes')"><span>Рецепты: анестезия и снотворные</span><span class="ref-topic-arrow" id="arrow-anesthesiaRecipes">⌄</span></button>
+      <div class="ref-topic-content" id="section-anesthesiaRecipes" style="display:none">
+        <p>Учебные примеры из методички.</p>
+        ${Object.keys(ANESTHESIA_RECIPES).map(renderAnesthesiaRecipe).join('')}
+      </div>
+    </div>
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
       <div class="ref-topic-content" id="section-groupNotes" style="display:none">
