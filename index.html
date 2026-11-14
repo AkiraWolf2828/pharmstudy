@@ -3857,7 +3857,7 @@ function renderSettings(){
         <h3>Аккаунт</h3>
         ${currentAccount?`<p>${escapeHtml(currentAccount.email)}</p><button class="next-btn" onclick="logoutAccount()">Выйти</button><p id="accountStatus" role="status"></p>`:
           `<form onsubmit="loginAccount(event)">
-            <label>Почта <input name="email" type="email" autocomplete="username" required maxlength="254"></label>
+            <label>Логин или почта <input name="email" type="text" autocapitalize="none" autocomplete="username" required maxlength="254"></label>
             <label>Пароль <input name="password" type="password" autocomplete="current-password" required maxlength="256"></label>
             <button class="next-btn" type="submit">Войти</button>
             <p role="status"></p>
