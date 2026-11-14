@@ -50,7 +50,7 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
  #scene.step-2 .particle{filter:url(#hot)}
  #scene.step-3 .vesicle,#scene.step-3 #feedbackArrow,#scene.step-3 #feedbackLabel,#scene.step-3 #uptakeArrow{opacity:.2}
  #scene.step-3 #particles{opacity:1}
- #scene.step-3 .receptor{opacity:1!important;filter:url(#hot)}
+ #scene.step-3 :is(#rA1,#rB1){opacity:1!important;filter:url(#hot)}
  #scene.step-4 .vesicle,#scene.step-4 .receptor[data-rec="a1"],#scene.step-4 .receptor[data-rec="b1"],#scene.step-4 .receptor[data-rec="b2"],#scene.step-4 #uptakeArrow{opacity:.18}
  #scene.step-4 #feedbackArrow,#scene.step-4 #feedbackLabel,#scene.step-4 .receptor[data-rec="a2"]{opacity:1!important;filter:url(#hot)}
  #scene.step-5 .vesicle,#scene.step-5 .receptor,#scene.step-5 #feedbackArrow,#scene.step-5 #feedbackLabel{opacity:.18}
@@ -62,7 +62,6 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 #scene.step-3 .binding-particle{opacity:1;animation:bindNA 2.4s ease-in-out infinite alternate}
 #scene.step-3 .binding-a1{--dx:-85px;--dy:50px}
 #scene.step-3 .binding-b1{--dx:235px;--dy:50px;animation-delay:-.8s}
-#scene.step-3 .binding-b2{--dx:375px;--dy:50px;animation-delay:-1.6s}
 @keyframes bindNA{0%{transform:translate(0,0);opacity:.25}70%,100%{transform:translate(var(--dx),var(--dy));opacity:1}}
 #scene.step-4 .feedback-particle{opacity:1;animation:feedbackMove 1.8s ease-in-out infinite}
 @keyframes feedbackMove{0%{transform:translate(0,0);opacity:.25}15%{opacity:1}85%,100%{transform:translate(0,-48px);opacity:1}}
@@ -83,18 +82,18 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 #scene.step-3 .binding-particle{opacity:1;animation:bindAtReceptor 1.8s ease-in-out infinite alternate}
 #scene.step-3 .binding-a1{--tx:-70px;--ty:63px}
 #scene.step-3 .binding-b1{--tx:20px;--ty:63px;animation-delay:-.6s}
-#scene.step-3 .binding-b2{--tx:20px;--ty:63px;animation-delay:-1.2s}
 @keyframes bindAtReceptor{0%{transform:translate(0,0);opacity:.35}80%,100%{transform:translate(var(--tx),var(--ty));opacity:1}}
 #scene.step-4 .feedback-particle{opacity:1;animation:feedbackToA2 1.7s ease-in-out infinite}
 @keyframes feedbackToA2{0%{transform:translate(0,48px);opacity:0}20%{opacity:1}85%,100%{transform:translate(0,0);opacity:1}}
 #scene.step-5 .uptake-particle{opacity:1;animation:uptakeToNET 1.7s ease-in-out infinite}
-@keyframes uptakeToNET{0%{transform:translate(0,0);opacity:1}80%{transform:translate(0,-60px);opacity:1}100%{transform:translate(0,-60px);opacity:0}}
+@keyframes uptakeToNET{0%{transform:translate(0,0);opacity:1}55%{transform:translate(0,-48px);opacity:1}85%,100%{transform:translate(0,-105px);opacity:1}}
 #scene.step-1 .release-particle,#scene.step-1 .binding-particle,#scene.step-1 .feedback-particle,#scene.step-1 .uptake-particle,
 #scene.step-2 .binding-particle,#scene.step-2 .feedback-particle,#scene.step-2 .uptake-particle,
 #scene.step-3 .particle,#scene.step-3 .release-particle,#scene.step-3 .feedback-particle,#scene.step-3 .uptake-particle,
 #scene.step-4 .particle,#scene.step-4 .release-particle,#scene.step-4 .binding-particle,#scene.step-4 .uptake-particle,
 #scene.step-5 .particle,#scene.step-5 .release-particle,#scene.step-5 .binding-particle,#scene.step-5 .feedback-particle{opacity:0}
 #scene.step-2 .particle{animation:none;opacity:0}
+.release-detail,.uptake-detail{display:none;pointer-events:none} #scene.step-2 .release-detail,#scene.step-5 .uptake-detail{display:inline} #scene.step-3 :is(#rB2,#rA2){opacity:.32}
 </style>
 </head>
 <body>
@@ -104,11 +103,11 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
    <svg id="scene" viewBox="0 0 900 650" role="img" aria-label="Анимированная схема адренергического синапса">
     <defs>
      <marker id="feedbackHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#ffd77a"/></marker><marker id="uptakeHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#70eaff"/></marker>
-     <radialGradient id="bg"><stop stop-color="#28365c"/><stop offset="1" stop-color="#10172c"/></radialGradient>
-     <linearGradient id="pre" x2="0" y2="1"><stop stop-color="#57417b"/><stop offset="1" stop-color="#282b53"/></linearGradient>
-     <linearGradient id="mem" x2="0" y2="1"><stop stop-color="#ff9be5"/><stop offset=".5" stop-color="#b66de0"/><stop offset="1" stop-color="#6c4aaf"/></linearGradient>
-     <linearGradient id="post" x2="0" y2="1"><stop stop-color="#235c83"/><stop offset="1" stop-color="#182c50"/></linearGradient>
-     <radialGradient id="ves"><stop stop-color="#fff0b0"/><stop offset=".45" stop-color="#ffb85e"/><stop offset="1" stop-color="#b65c95"/></radialGradient>
+     <radialGradient id="bg"><stop stop-color="#28365c"/><stop offset="1" stop-color="#0a1830"/></radialGradient>
+     <linearGradient id="pre" x2="0" y2="1"><stop stop-color="#5a3a88"/><stop offset="1" stop-color="#282b53"/></linearGradient>
+     <linearGradient id="mem" x2="0" y2="1"><stop stop-color="#e0c8f8"/><stop offset=".5" stop-color="#b66de0"/><stop offset="1" stop-color="#6c4aaf"/></linearGradient>
+     <linearGradient id="post" x2="0" y2="1"><stop stop-color="#1a6850"/><stop offset="1" stop-color="#182c50"/></linearGradient>
+     <radialGradient id="ves"><stop stop-color="#ffd9ec"/><stop offset=".45" stop-color="#ff91cb"/><stop offset="1" stop-color="#b65c95"/></radialGradient>
      <radialGradient id="nor"><stop stop-color="#fff6bb"/><stop offset=".55" stop-color="#ffc66f"/><stop offset="1" stop-color="#ff75cc"/></radialGradient>
      <linearGradient id="rec" x2="1" y2="1"><stop stop-color="#7bf3ff"/><stop offset=".5" stop-color="#36b8e6"/><stop offset="1" stop-color="#665be4"/></linearGradient>
      <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -123,51 +122,65 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
     <path class="hotspot" data-info="Мембрана постсинаптической клетки." d="M40 500 Q450 530 860 500" fill="none" stroke="#91edff" stroke-width="2" opacity=".65"/>
     <text x="70" y="64" class="label" data-info="Пресинаптическое окончание — нервное окончание, участвующее в передаче сигнала.">Пресинаптическое окончание</text><text x="70" y="550" class="label" data-info="Постсинаптическая клетка — клетка-мишень для медиатора.">Постсинаптическая клетка</text>
     <g class="vesicle" data-info="Везикулы: пузырьки пресинаптического окончания. Схема показывает запас медиатора; детали синтеза и упаковки следует сверять с учебной методичкой.">
-     <circle cx="260" cy="170" r="43" fill="url(#ves)" stroke="#ffd5f2" stroke-width="3" filter="url(#glow)"/><circle cx="247" cy="155" r="12" fill="#fff" opacity=".3"/>
+     <circle cx="260" cy="170" r="43" fill="url(#ves)" stroke="#e0c8f8" stroke-width="3" filter="url(#glow)"/><circle cx="247" cy="155" r="12" fill="#fff" opacity=".3"/>
      <circle cx="244" cy="174" r="5" fill="#ff72d2"/><circle cx="266" cy="188" r="5" fill="#ff72d2"/><circle cx="278" cy="163" r="5" fill="#ff72d2"/><circle cx="257" cy="148" r="5" fill="#ff72d2"/>
     </g>
     <g class="vesicle" data-info="Синаптическая везикула содержит запас медиатора. В этой схеме показан норадреналин; движение везикул и частиц условное, не полноценная молекулярная симуляция.">
-     <circle cx="440" cy="140" r="37" fill="url(#ves)" stroke="#ffd5f2" stroke-width="3" filter="url(#glow)"/><circle cx="428" cy="128" r="10" fill="#fff" opacity=".3"/>
+     <circle cx="440" cy="140" r="37" fill="url(#ves)" stroke="#e0c8f8" stroke-width="3" filter="url(#glow)"/><circle cx="428" cy="128" r="10" fill="#fff" opacity=".3"/>
      <circle cx="430" cy="145" r="5" fill="#ff72d2"/><circle cx="449" cy="151" r="5" fill="#ff72d2"/><circle cx="450" cy="130" r="5" fill="#ff72d2"/>
     </g>
     <g class="vesicle" data-info="Синаптическая щель — пространство между окончанием нерва и клеткой-мишенью.">
      <text x="365" y="390" class="small" data-info="Синаптическая щель — промежуток между двумя клеточными мембранами.">Синаптическая щель</text>
     </g>
-    <path id="uptakeArrow" class="hotspot" data-info="Обратный захват норадреналина пресинаптическим окончанием — важный путь прекращения его действия в синаптической щели. На рисунке показан схематично." d="M625 375 Q625 345 625 315" fill="none" stroke="#70eaff" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#uptakeHead)" opacity=".9"/><text x="605" y="400" class="small hotspot" data-info="Обратный захват НА: медиатор возвращается в пресинаптическое окончание.">обратный захват НА</text>
+    <path id="uptakeArrow" class="hotspot" data-info="Обратный захват норадреналина пресинаптическим окончанием — основной путь прекращения его действия в синаптической щели. На рисунке показан схематично." d="M625 381 V270" fill="none" stroke="#70eaff" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#uptakeHead)" opacity=".9"/><text x="605" y="400" class="small hotspot" data-info="Обратный захват НА: медиатор возвращается в пресинаптическое окончание.">обратный захват НА</text>
     <g id="particles">
      <g class="particle hotspot" data-info="НА — норадреналин, условно показанный в синаптической щели. Частицы иллюстрируют медиатор, но не отображают реальную концентрацию или точную траекторию диффузии."><circle cx="350" cy="325" r="7" fill="url(#nor)"/><text x="362" y="328" class="small">НА</text></g>
      <g class="particle p2 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="440" cy="350" r="7" fill="url(#nor)"/><text x="452" y="353" class="small">НА</text></g>
      <g class="particle p3 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="525" cy="320" r="7" fill="url(#nor)"/><text x="537" y="323" class="small">НА</text></g>
      <g class="particle p4 hotspot" data-info="НА — норадреналин, медиатор, показанный в синаптической щели."><circle cx="610" cy="350" r="7" fill="url(#nor)"/><text x="622" y="353" class="small">НА</text></g>
     </g>
+    <g class="release-detail">
+      <rect x="475" y="329" width="18" height="24" rx="5" fill="#8ac0e0"/>
+      <path d="M484 382V307" fill="none" stroke="#70eaff" stroke-width="2" marker-end="url(#uptakeHead)"/>
+      <text x="495" y="375" class="small">Ca²⁺</text>
+      <path d="M419 346 Q440 299 461 346" fill="none" stroke="#e0c8f8" stroke-width="4"/>
+      <text x="351" y="313" class="small">экзоцитоз</text>
+    </g>
+    <g class="uptake-detail" fill="none" stroke="#70eaff" stroke-width="2">
+      <path d="M621 267 Q564 230 471 167" marker-end="url(#uptakeHead)"/>
+      <path d="M629 265 L674 236" marker-end="url(#uptakeHead)"/>
+      <path d="M650 390 H748" stroke-dasharray="5 4" marker-end="url(#uptakeHead)"/>
+      <text x="466" y="184" class="small">возврат в везикулу</text>
+      <text x="688" y="237" class="small">МАО</text>
+      <text x="757" y="394" class="small">КОМТ</text>
+    </g>
     <!-- Отдельные НА: в этапе 3 движутся от щели к рецепторам -->
     <g class="binding-particle binding-a1" data-info="Частица НА подходит к α₁-рецептору. Траектория условная."><circle cx="335" cy="365" r="7" fill="url(#nor)"/><text x="347" y="369" class="small">НА</text></g>
     <g class="binding-particle binding-b1" data-info="Частица НА подходит к β₁-рецептору. Траектория условная."><circle cx="565" cy="365" r="7" fill="url(#nor)"/><text x="577" y="369" class="small">НА</text></g>
-    <g class="binding-particle binding-b2" data-info="Частица НА подходит к β₂-рецептору. Траектория условная."><circle cx="705" cy="365" r="7" fill="url(#nor)"/><text x="717" y="369" class="small">НА</text></g>
     <!-- Частица для пресинаптической обратной связи -->
     <g class="feedback-particle" data-info="Норадреналин подходит к пресинаптическому α₂-рецептору, запуская тормозную обратную связь."><circle cx="535" cy="355" r="7" fill="url(#nor)"/><text x="547" y="359" class="small">НА</text></g>
     <!-- Частица возвращается в нервное окончание при обратном захвате -->
-    <g class="uptake-particle" data-info="НА движется к переносчику NET на пресинаптической мембране; перенос через мембрану условно не анимирован."><circle cx="625" cy="375" r="7" fill="#70eaff"/><text x="635" y="370" class="small">НА</text></g><g id="netTransporter" data-info="NET — переносчик обратного захвата норадреналина в пресинаптическое окончание."><rect x="610" y="296" width="28" height="18" rx="5" fill="#70eaff" stroke="#d2fbff" stroke-width="2"/><text x="644" y="309" class="small">NET</text></g>
-    <g class="release-particle" style="--tx:0px;--ty:205px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="150" r="7" fill="url(#nor)"/><text x="451" y="154" class="small">НА</text></g>
-    <g class="release-particle r2" style="--tx:-80px;--ty:205px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="150" r="7" fill="url(#nor)"/><text x="451" y="154" class="small">НА</text></g>
-    <g class="release-particle r3" style="--tx:80px;--ty:205px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="150" r="7" fill="url(#nor)"/><text x="451" y="154" class="small">НА</text></g>
+    <g class="uptake-particle" data-info="НА проходит через NET в пресинаптическое окончание."><circle cx="625" cy="375" r="7" fill="#70eaff"/><text x="599" y="380" class="small">НА</text></g><g id="netTransporter" data-info="NET — переносчик обратного захвата норадреналина в пресинаптическое окончание."><rect x="610" y="322" width="28" height="18" rx="5" fill="#70eaff" stroke="#d2fbff" stroke-width="2"/><text x="644" y="337" class="small">NET</text></g>
+    <g class="release-particle" style="--tx:0px;--ty:61px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="333" r="7" fill="url(#nor)"/><text x="451" y="337" class="small">НА</text></g>
+    <g class="release-particle r2" style="--tx:-80px;--ty:61px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="333" r="7" fill="url(#nor)"/><text x="451" y="337" class="small">НА</text></g>
+    <g class="release-particle r3" style="--tx:80px;--ty:61px" data-info="НА выходит из пресинаптического окончания в синаптическую щель. Траектория условная."><circle cx="440" cy="333" r="7" fill="url(#nor)"/><text x="451" y="337" class="small">НА</text></g>
     <g id="rA1" class="receptor active" data-rec="a1" data-info="α₁-адренорецептор. Для сосудистой гладкой мускулатуры его активация связана с сокращением; в других тканях эффект зависит от локализации рецептора.">
-     <path d="M250 485 L250 445 Q250 428 265 428 Q280 428 280 445 L280 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="265" cy="430" r="8" fill="#e9ffff"/>
+     <path d="M250 485 L250 445 Q250 428 265 428 Q280 428 280 445 L280 485Z" fill="url(#rec)" stroke="#d0f0e0" stroke-width="3"/><circle cx="265" cy="430" r="8" fill="#e9ffff"/>
      <text x="225" y="520" class="small">α₁</text>
     </g>
     <g id="rA2" class="receptor presynaptic-rec" data-rec="a2" data-info="Пресинаптический α₂-адренорецептор — отрицательная обратная связь: норадреналин активирует его и тормозит дальнейшее высвобождение медиатора. При блокаде α₂ это торможение ослабевает, поэтому высвобождение норадреналина может увеличиваться.">
-     <path d="M520 343 L520 320 Q520 305 535 305 Q550 305 550 320 L550 343Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="535" cy="307" r="8" fill="#e9ffff"/>
+     <path d="M520 343 L520 320 Q520 305 535 305 Q550 305 550 320 L550 343Z" fill="url(#rec)" stroke="#d0f0e0" stroke-width="3"/><circle cx="535" cy="307" r="8" fill="#e9ffff"/>
      <text x="515" y="298" class="small">α₂</text>
     </g>
     <path id="feedbackArrow" d="M520 310 Q490 270 455 230" fill="none" stroke="#ffd77a" stroke-width="3" stroke-dasharray="5 5" marker-end="url(#feedbackHead)" opacity=".9"/>
     <text id="feedbackLabel" x="555" y="265" class="small" data-info="Отрицательная обратная связь: активация пресинаптических α₂-рецепторов тормозит дальнейшее высвобождение норадреналина.">↓ выделение НА</text>
     <g id="rB1" class="receptor" data-rec="b1" data-info="β₁-адренорецептор. В сердце его активация усиливает частоту и силу сокращений; в почках стимулирует выделение ренина. Это схема общих эффектов, а не действие конкретного препарата.">
-     <path d="M570 485 L570 445 Q570 428 585 428 Q600 428 600 445 L600 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="585" cy="430" r="8" fill="#e9ffff"/>
+     <path d="M570 485 L570 445 Q570 428 585 428 Q600 428 600 445 L600 485Z" fill="url(#rec)" stroke="#d0f0e0" stroke-width="3"/><circle cx="585" cy="430" r="8" fill="#e9ffff"/>
      <text x="565" y="520" class="small">β₁</text>
     </g>
-    <g id="rB2" class="receptor" data-rec="b2" data-info="β₂-адренорецептор. В бронхах его активация расслабляет гладкую мускулатуру. Тканевой эффект зависит от расположения рецептора.">
-     <path d="M710 485 L710 445 Q710 428 725 428 Q740 428 740 445 L740 485Z" fill="url(#rec)" stroke="#b9faff" stroke-width="3"/><circle cx="725" cy="430" r="8" fill="#e9ffff"/>
-     <text x="705" y="520" class="small">β₂</text>
+    <path d="M700 521H833" stroke="#8ac0e0" stroke-width="2" stroke-dasharray="5 4"/><g id="rB2" transform="translate(42 92) scale(.95 .88)" class="receptor" data-rec="b2" data-info="β₂-адренорецептор. В бронхах его активация расслабляет гладкую мускулатуру. Тканевой эффект зависит от расположения рецептора.">
+     <path d="M710 485 L710 445 Q710 428 725 428 Q740 428 740 445 L740 485Z" fill="url(#rec)" stroke="#d0f0e0" stroke-width="3"/><circle cx="725" cy="430" r="8" fill="#e9ffff"/>
+     <text x="705" y="520" class="small">β₂ · бронхи</text>
     </g>
     <text x="450" y="600" text-anchor="middle" class="small" data-info="Наведи курсор на детали синапса, чтобы выделить их и прочитать описание ниже.">Выбери рецептор или сценарий справа</text>
    </svg>
@@ -185,7 +198,7 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
     </div>
     <div class="step-detail"><strong id="stepTitle">Этап 1. Приход нервного импульса</strong><p id="stepText">Нервный импульс достигает пресинаптического окончания. Следующий ключевой процесс — высвобождение медиатора.</p></div>
    </section>
-   <div class="info remember"><strong>Что важно запомнить</strong><p>Блокада рецептора уменьшает ответ через него, но не обязательно прекращает выделение норадреналина. Действие НА ограничивается, в частности, обратным захватом; метаболизм связан с МАО и КОМТ. Симпатолитическое действие может уменьшать количество медиатора или центральную симпатическую импульсацию. Сверка с методичкой по адреномиметикам ещё не завершена; фармакологические детали, не подтверждённые доступными методичками, требуют отдельной проверки.</p></div>
+   <div class="info remember"><strong>Что важно запомнить</strong><p>Блокада рецептора уменьшает ответ через него, но не обязательно прекращает выделение норадреналина. Действие НА ограничивается, в частности, обратным захватом; метаболизм связан с МАО и КОМТ. Симпатолитическое действие может уменьшать количество медиатора или центральную симпатическую импульсацию.</p></div>
   
   <div class="key"><span><i class="dot gold"></i>везикулы / медиатор</span><span><i class="dot"></i>сигнальные частицы</span><span><i class="dot cyan"></i>адренорецепторы</span><span>Схема условная: движение частиц не является точной молекулярной симуляцией.</span></div>
  </div>
@@ -206,16 +219,16 @@ button:hover,button:focus-visible{border-color:#ff9b83;outline:none;transform:tr
 const title=document.getElementById('infoTitle'),desc=document.getElementById('infoText'),buttons=[...document.querySelectorAll('[data-mode]')],receptors=[...document.querySelectorAll('.receptor')],scene=document.getElementById('scene');
 const stepButtons=[...document.querySelectorAll('[data-step]')],stepTitle=document.getElementById('stepTitle'),stepText=document.getElementById('stepText');
  const normalSteps={
-  1:['Этап 1. Приход нервного импульса','Нервный импульс достигает пресинаптического окончания. Следующий ключевой процесс — высвобождение норадреналина из нервного окончания. Доступные материалы не описывают подробно электрические и кальциевые этапы именно для этой схемы, поэтому они не изображаются как подтверждённый механизм.'],
-  2:['Этап 2. Высвобождение норадреналина','Норадреналин выходит из пресинаптического окончания в синаптическую щель. Движение частиц на рисунке условное: оно показывает направление передачи, а не реальное число молекул или точную траекторию.'],
-  3:['Этап 3. Связывание с адренорецепторами','Норадреналин связывается с α- и β-адренорецепторами клетки-мишени. Эффект зависит от типа рецептора и ткани: например, α₁-рецепторы сосудов вызывают сокращение гладкой мускулатуры, а β₁-рецепторы сердца усиливают частоту и силу сокращений.'],
+  1:['Этап 1. Приход нервного импульса','Нервный импульс достигает пресинаптического окончания. Следующий ключевой процесс — высвобождение норадреналина из нервного окончания. Деполяризация открывает потенциалзависимые Ca²⁺-каналы. Вход Ca²⁺ запускает слияние везикул с пресинаптической мембраной.'],
+  2:['Этап 2. Высвобождение норадреналина','Везикула сливается с пресинаптической мембраной. Норадреналин выделяется в синаптическую щель путём экзоцитоза.'],
+  3:['Этап 3. Связывание с адренорецепторами','На схеме НА подходит к α₁- и β₁-рецепторам. β₂-рецепторы бронхов показаны отдельно как пример мишени циркулирующего адреналина. Эффект зависит от типа рецептора и ткани: например, α₁-рецепторы сосудов вызывают сокращение гладкой мускулатуры, а β₁-рецепторы сердца усиливают частоту и силу сокращений.'],
   4:['Этап 4. Отрицательная обратная связь через α₂','Часть норадреналина активирует пресинаптические α₂-рецепторы. Они тормозят дальнейшее высвобождение медиатора и ограничивают интенсивность сигнала. При блокаде этих рецепторов торможение ослабевает.'],
-  5:['Этап 5. Прекращение действия медиатора','Важный путь прекращения действия норадреналина — обратный захват переносчиком NET в пресинаптическое окончание. В метаболизме катехоламинов участвуют МАО и КОМТ. Это отличается от холинергического синапса, где ацетилхолин быстро расщепляет ацетилхолинэстераза.']
+  5:['Этап 5. Прекращение действия медиатора','Основной путь прекращения действия норадреналина — обратный захват переносчиком NET в пресинаптическое окончание. После захвата часть НА вновь запасается в везикулах, а свободный НА в окончании метаболизируется при участии МАО. Для вненейронального метаболизма показан путь с участием КОМТ. Это отличается от холинергического синапса, где ацетилхолин быстро расщепляет ацетилхолинэстераза.']
  };
- function setStep(n){scene.className.baseVal='';scene.classList.add('step-'+n);stepButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===n));const d=normalSteps[n];stepTitle.textContent=d[0];stepText.textContent=d[1];}
+ function setStep(n){setMode('normal');scene.className.baseVal='';scene.classList.add('step-'+n);stepButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===n));const d=normalSteps[n];stepTitle.textContent=d[0];stepText.textContent=d[1];}
  stepButtons.forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.step))));
  const scenarios={
- normal:['Нормальная передача','Норадреналин высвобождается из пресинаптического окончания, диффундирует через синаптическую щель и активирует адренорецепторы. Пресинаптические α₂-рецепторы участвуют в отрицательной обратной связи и ограничивают дальнейшее высвобождение медиатора. Важный путь прекращения действия НА — обратный захват в нервное окончание; дальнейший метаболизм связан с ферментами МАО и КОМТ.'],
+ normal:['Нормальная передача','Норадреналин высвобождается из пресинаптического окончания, диффундирует через синаптическую щель и активирует адренорецепторы. Пресинаптические α₂-рецепторы участвуют в отрицательной обратной связи и ограничивают дальнейшее высвобождение медиатора. Основной путь прекращения действия НА — обратный захват в нервное окончание; дальнейший метаболизм связан с ферментами МАО и КОМТ.'],
  a1:['α₁-адренорецептор','Сигнализация: преимущественно Gq → повышение внутриклеточного Ca²⁺. В сосудистой гладкой мускулатуре стимуляция α₁-рецепторов вызывает сокращение и сужение сосудов. α₁-блокада ослабляет этот эффект, расслабляет сосуды и снижает периферическое сопротивление и артериальное давление.'],
  'a1-block':['Блокада α₁-рецепторов','Норадреналин может оставаться в синаптической щели, но его действие через α₁-рецептор ослаблено. В сосудах это уменьшает тонус гладкой мускулатуры и периферическое сопротивление; блокада венозных α₁-рецепторов также может уменьшать венозный возврат и способствовать ортостатической гипотензии.'],
  a2:['Пресинаптический α₂-рецептор','Сигнализация: Gi и тормозные механизмы. Норадреналин активирует пресинаптический α₂-рецептор, который тормозит дальнейшее высвобождение норадреналина. Это отрицательная обратная связь, ограничивающая интенсивность сигнала.'],
@@ -233,6 +246,6 @@ function setMode(mode){scene.className.baseVal='';scene.classList.add('mode-'+mo
 receptors.forEach(r=>{r.addEventListener('click',()=>setMode(r.dataset.rec));r.addEventListener('mouseenter',()=>showInfo(r));r.addEventListener('focus',()=>showInfo(r));});
 document.querySelectorAll('[data-info]').forEach(el=>{if(el.classList.contains('receptor'))return;el.style.cursor='pointer';el.addEventListener('mouseenter',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('focus',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info});el.addEventListener('click',()=>{title.textContent=el.dataset.name||'Элемент синапса';desc.textContent=el.dataset.info;});});
 buttons.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-setMode('normal');setStep(1);
+setStep(1);
 </script>
 </body></html>
