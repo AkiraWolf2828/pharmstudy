@@ -1237,7 +1237,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  }
  @keyframes section-miosis{0%,25%,100%{scale:1 1}55%,75%{scale:1 1.26}}
  @keyframes section-mydriasis{0%,25%,100%{scale:1 1}55%,75%{scale:1 .80}}
-@media(max-width:600px){.stats-grid .stat-card:last-child{grid-column:1 / -1}}
+/* Dashboard stats: two cards on the first mobile row, the third fills the next row. */
+@media(max-width:768px){
+ .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .stats-grid .stat-card{min-width:0}
+ .stats-grid .stat-card:last-child{grid-column:1 / -1}
+}
+@media(max-width:360px){
+ .stats-grid{grid-template-columns:minmax(0,1fr)}
+ .stats-grid .stat-card:last-child{grid-column:auto}
+}
 </style>
 </head>
 <body>
