@@ -2117,7 +2117,7 @@ async function renderTeacher(){
       <details class="classification-note reference-topic">
         <summary>Группа ${escapeHtml(group[0].group_no)} · ${group[0].course} курс · ${escapeHtml(group[0].academic_year)}</summary>
         <div class="classification-note-body">
-          ${group.map(student=>`<details class="classification-note"><summary>${escapeHtml(student.email)}</summary>
+          ${group.map(student=>`<details class="classification-note reference-topic"><summary>${escapeHtml(student.email)}</summary>
             <div class="classification-note-body">${renderDashboardProgress(student.progress,false)}</div></details>`).join('')}
         </div>
       </details>`).join(''):'<p>Пока нет доступных групп.</p>';
@@ -3823,8 +3823,7 @@ function renderClassificationNotes(cards,depth=0){
       entries.push(`<div class="conspect-card"><div class="conspect-card-drugs">${card.drugs.map(escapeHtml).join(' · ')}</div><p class="conspect-text">${escapeHtml(card.details||card.desc||'Состав группы по кафедральной классификации.')}</p></div>`);
     }
   }
-  return entries.join('')+(depth===0?orderReferenceHeadings([...groups.keys()]):[...groups.keys()]).map(heading=>{const subset=groups.get(heading);return
-    `${depth===0
+  return entries.join('')+(depth===0?REFERENCE_MAIN_ORDER:[...groups.keys()]).map(heading=>{const subset=groups.get(heading)||[];return `${depth===0
       ? `<details class="classification-note"><summary><span>${escapeHtml(heading)}</span><span class="classification-note-icon" aria-hidden="true">⌄</span></summary><div class="classification-note-body">${renderClassificationNotes(subset,depth+1)}${renderReferenceExtraMaterials(heading)}${SOURCE_FOOTNOTE}</div></details>`
       : `<section><h${Math.min(depth+2,6)} class="conspect-card-title">${escapeHtml(heading)}</h${Math.min(depth+2,6)}>${renderClassificationNotes(subset,depth+1)}</section>`}`
   }).join('');
