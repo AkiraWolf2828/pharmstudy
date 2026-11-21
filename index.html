@@ -2004,6 +2004,27 @@ function loadProgress(){
   }catch{return{}}
 }
 function saveProgress(){localStorage.setItem('pharm_progress',JSON.stringify(state.progress))}
+// Календарные дни активности сохраняются локально; старые даты без журнала не выдумываем.
+function pharmLocalDay(date=new Date()){
+  const year=date.getFullYear(),month=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
+  return year+'-'+month+'-'+day;
+}
+function markStudyActivity(){
+  const today=pharmLocalDay();
+  if(!Array.isArray(state.progress._activityDays))state.progress._activityDays=[];
+  if(!state.progress._activityDays.includes(today))state.progress._activityDays.push(today);
+  if(state.progress._activityDays.length>1500)state.progress._activityDays=state.progress._activityDays.slice(-1500);
+}
+function countStudyStreak(progress=state.progress,now=new Date()){
+  const dates=new Set(Array.isArray(progress?._activityDays)?progress._activityDays:[]);
+  if(!dates.size)return 0;
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  let cursor=new Date(today);
+  if(!dates.has(pharmLocalDay(cursor)))cursor.setDate(cursor.getDate()-1);
+  let count=0;
+  while(dates.has(pharmLocalDay(cursor))&&count<1500){count++;cursor.setDate(cursor.getDate()-1);}
+  return count;
+}
 function getStats(progress=state.progress){
   let answered=0,correct=0;
   Object.entries(progress||{}).forEach(([id,p])=>{
@@ -2014,7 +2035,7 @@ function getStats(progress=state.progress){
     correct+=right;
   });
   const accuracy=answered?Math.round(correct/answered*100):0;
-  return{answered,correct,accuracy,tests:Number(progress?._sessions)||0,streak:Number(progress?._streak)||1};
+  return{answered,correct,accuracy,tests:Math.max(0,Number(progress?._sessions)||0),streak:countStudyStreak(progress)};
 }
 
 const screenEl=document.getElementById('screen');
@@ -2139,7 +2160,7 @@ function renderDashboardProgress(progress,interactive=true){
       <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
       <div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
       <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
-      <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">streak</div></div>
+      <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">${s.streak===1?'день активности':'дней активности'}</div></div>
     </div>
     <div class="panel dashboard-progress-panel"><div class="panel-head"><h3>Прогресс по темам</h3><span class="badge">${topics.length} активных тем</span></div>
       ${topics.length?(()=>{
@@ -2306,6 +2327,7 @@ function flipFlashcard(){
 function voteFlashcard(right){
  const d=flashState.deck;if(!d||!flashState.flipped||d.index>=d.cards.length)return;
  if(right)d.right++;else d.wrong.push(d.cards[d.index]);
+ markStudyActivity();saveProgress();
  d.index++;flashState.flipped=false;renderFlashcards();
 }
 function exitFlashcards(){flashState.deck=null;renderFlashSetup();}
@@ -2543,7 +2565,7 @@ function confirmAnswerQuestion(){
   s.answers.push({id:q.id,correct:isCorrect,section:q.section,choice:i});
   if(!state.progress[q.id])state.progress[q.id]={correct:0,wrong:0};
   if(isCorrect)state.progress[q.id].correct++;else state.progress[q.id].wrong++;
-  saveProgress();renderQuestion();
+  markStudyActivity();saveProgress();renderQuestion();
 }
 function nextQuestion(){goToNextUnanswered()}
 function renderReport(){
@@ -2555,7 +2577,12 @@ function renderReport(){
   const wrongIds=s.questions.filter(q=>!s.answers.some(a=>a.id===q.id&&a.correct)).map(q=>q.id);
   const wrongQs=s.questions.filter(q=>wrongIds.includes(q.id));
   const weakTags=[...new Set(wrongQs.flatMap(q=>q.tags.slice(0,2)))];
-  state.progress._sessions=(state.progress._sessions||0)+1;saveProgress();
+  if(!s.reportCounted){
+    s.reportCounted=true;
+    state.progress._sessions=(Number(state.progress._sessions)||0)+1;
+    if(s.answers.length)markStudyActivity();
+    saveProgress();
+  }
   const exam=s.mode==='exam';
   screenEl.innerHTML=`
     <div class="report-card">
@@ -2643,7 +2670,7 @@ function checkClassifyAnswer(){
   if(!state.progress._topicClassify[g.section])state.progress._topicClassify[g.section]={correct:0,total:0};
   state.progress._topicClassify[g.section].correct+=res.correct;
   state.progress._topicClassify[g.section].total+=res.total;
-  saveProgress();
+  markStudyActivity();saveProgress();
   const status=res.correct===res.total?'good':res.correct===0?'bad':'partial';
   const headerText=status==='good'?'✓ Всё верно':status==='partial'?`~ Частично: ${res.correct} из ${res.total}`:'✗ Ничего не угадано';
   const headerClass=status==='good'?'good':status==='bad'?'bad':'neutral';
@@ -2675,8 +2702,12 @@ function renderClassifyReport(){
   const totalDrugs=s.results.reduce((sum,r)=>sum+r.total,0);
   const pct=totalDrugs?Math.round(totalMatched/totalDrugs*100):0;
   const weakGroups=s.results.filter(r=>r.correct<r.total);
-  state.progress._classifyTests=(state.progress._classifyTests||0)+1;
-  saveProgress();
+  if(!s.reportCounted){
+    s.reportCounted=true;
+    state.progress._classifyTests=(Number(state.progress._classifyTests)||0)+1;
+    markStudyActivity();
+    saveProgress();
+  }
   screenEl.innerHTML=`
     <div class="report-card">
       <div class="report-emoji">${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
@@ -3332,7 +3363,7 @@ function renderCasePicker(){
         ${cases.map(c=>`<div class="case-pick-item" onclick="startCase('${c.id}')"><div class="case-pick-icon">▶</div><div class="case-pick-info"><div class="case-pick-title">${c.title}</div><div class="case-pick-sub">${c.section}</div></div></div>`).join('')}
       </div>
     </div>`;
-}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};if(!state.progress._topicActivity)state.progress._topicActivity={};state.progress._topicActivity[CASES[id].section]=true;saveProgress();renderCaseNode();addControlCaseBackButton()}
+}function startCase(id){state.caseState={caseId:id,nodeId:CASES[id].start};if(!state.progress._topicActivity)state.progress._topicActivity={};state.progress._topicActivity[CASES[id].section]=true;markStudyActivity();saveProgress();renderCaseNode();addControlCaseBackButton()}
 function renderCaseNode(){
   const cs=state.caseState;
   const C=CASES[cs.caseId];
