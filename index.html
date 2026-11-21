@@ -67,7 +67,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
 .hero p{font-size:14px;opacity:.95;margin-bottom:20px;position:relative}
 .hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:16px;border:none;background:var(--card);color:var(--text);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;position:relative;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
 .hero-btn svg{width:16px;height:16px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
 .stat-card{background:var(--card);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
 .stat-card:nth-child(1){background:linear-gradient(160deg,var(--mint-soft),var(--card))}
 .stat-card:nth-child(2){background:linear-gradient(160deg,var(--accent-soft),var(--card))}
@@ -1237,6 +1237,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  }
  @keyframes section-miosis{0%,25%,100%{scale:1 1}55%,75%{scale:1 1.26}}
  @keyframes section-mydriasis{0%,25%,100%{scale:1 1}55%,75%{scale:1 .80}}
+@media(max-width:600px){.stats-grid .stat-card:last-child{grid-column:1 / -1}}
 </style>
 </head>
 <body>
@@ -2159,7 +2160,7 @@ function renderDashboardProgress(progress,interactive=true){
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Пройдено</div><div class="stat-value">${s.answered}</div><div class="stat-sub">вопросов</div></div>
       <div class="stat-card"><div class="stat-icon lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-label">Точность</div><div class="stat-value">${s.accuracy}%</div><div class="stat-sub">правильных</div></div>
-      <div class="stat-card"><div class="stat-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-label">Тестов</div><div class="stat-value">${s.tests}</div><div class="stat-sub">пройдено</div></div>
+      
       <div class="stat-card"><div class="stat-icon warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="stat-label">Дней подряд</div><div class="stat-value">${s.streak}</div><div class="stat-sub">${s.streak===1?'день активности':'дней активности'}</div></div>
     </div>
     <div class="panel dashboard-progress-panel"><div class="panel-head"><h3>Прогресс по темам</h3><span class="badge">${topics.length} активных тем</span></div>
