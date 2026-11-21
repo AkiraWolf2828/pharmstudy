@@ -3747,8 +3747,8 @@ function renderReferenceExtraMaterials(heading){
   `);
   if(groupSections.some(sec=>referenceMainForSection(sec)===heading))supplement.push(`
     <div class="ref-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
-      <div class="ref-topic-content" id="section-groupNotes" style="display:none">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('reference-groupNotes-${REFERENCE_MAIN_ORDER.indexOf(heading)}')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-reference-groupNotes-${REFERENCE_MAIN_ORDER.indexOf(heading)}">⌄</span></button>
+      <div class="ref-topic-content" id="section-reference-groupNotes-${REFERENCE_MAIN_ORDER.indexOf(heading)}" style="display:none">
       <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
       ${groupSections.filter(sec=>referenceMainForSection(sec)===heading).map((sec,si)=>`
         <div style="margin-bottom:28px">
@@ -3771,8 +3771,8 @@ function renderReferenceExtraMaterials(heading){
   `);
   if(REFERENCE_TOPIC_NOTES.some(note=>referenceMainForSection(note.section)===heading))supplement.push(`
     <div class="theory-section">
-      <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryMechanisms')"><span>Механизмы препаратов и антидотов</span><span class="ref-topic-arrow" id="arrow-theoryMechanisms">⌄</span></button>
-      <div class="ref-topic-content" id="section-theoryMechanisms" style="display:none">
+      <button class="ref-topic-toggle" onclick="toggleReferenceSection('reference-theoryMechanisms-${REFERENCE_MAIN_ORDER.indexOf(heading)}')"><span>Механизмы препаратов и антидотов</span><span class="ref-topic-arrow" id="arrow-reference-theoryMechanisms-${REFERENCE_MAIN_ORDER.indexOf(heading)}">⌄</span></button>
+      <div class="ref-topic-content" id="section-reference-theoryMechanisms-${REFERENCE_MAIN_ORDER.indexOf(heading)}" style="display:none">
         ${REFERENCE_TOPIC_NOTES.filter(note=>referenceMainForSection(note.section)===heading).map(note=>`<details class="conspect-card">
           <summary class="conspect-card-title">${note.title}</summary>
           ${note.points.map(([heading,text])=>`<div class="conspect-block"><div class="conspect-label">${heading}</div><p class="conspect-text">${text}</p></div>`).join('')}
