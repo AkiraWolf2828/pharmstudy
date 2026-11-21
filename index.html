@@ -1835,90 +1835,104 @@ for (const item of EXTRA_CLASSIFICATION) {
   if (!REFERENCE.some(x=>x.title===item.group)) REFERENCE.push({section:item.section,icon:'＋',color:'var(--accent)',bg:'var(--accent-soft)',title:item.group,desc:'Группа по классификации лекарственных средств осеннего семестра 2026.',drugs:item.drugs,details:'В предоставленной классификации указаны эта группа и перечисленные препараты. Подробные механизмы, показания и нежелательные эффекты здесь не добавлены, поскольку в классификации таких сведений нет.'});
   if (!GROUPS.some(x=>x.group===item.group)) GROUPS.push(item);
 }
-// Для отвлекающих вариантов используем только соседние по смыслу группы:
-// общие фармакологические признаки извлекаются из названий групп классификации.
-// Если в разделе недостаточно близких групп, вопрос не создаётся с заведомо чужими вариантами.
+// Генерация тестов классификации непосредственно из кафедральной базы GROUPS.
+// Каждый перечисленный препарат получает вопрос о своей группе и вопрос о представителе группы.
+// Отсутствие близких по названию соседних групп НЕ должно скрывать реальные препараты.
 const CLASSIFICATION_STOP_WORDS=new Set(['средства','средство','препараты','препарат','группа','группы','действие','действия','применяемые','применения','для','при','и','на','по','из','общей','общие','лекарственные','лекарственных']);
 function classificationGroupTokens(group){
-  return String(group||'').toLowerCase()
-    .replace(/α/g,' alpha ').replace(/β/g,' beta ')
-    .replace(/ё/g,'е')
-    .match(/[a-zа-я]+[0-9]*|[0-9]+/g)||[]
-    .filter(token=>!CLASSIFICATION_STOP_WORDS.has(token)&&(token.length>=3||/^(alpha|beta|[mn][0-9]*)$/.test(token)));
+  return String(group||'').toLowerCase().replace(/α/g,' alpha ').replace(/β/g,' beta ')
+    .replace(/ё/g,'е').match(/[a-zа-я]+[0-9]*|[0-9]+/g)?.filter(
+      token=>!CLASSIFICATION_STOP_WORDS.has(token)&&(token.length>=3||/^(alpha|beta|[mn][0-9]*)$/.test(token))
+    )||[];
 }
-function getRelatedClassificationOptions(item,pool){
-  const targetDrugs=new Set(item.drugs||[]);
-  const targetTokens=new Set(classificationGroupTokens(item.group));
-  const related=pool
-    .filter(candidate=>candidate.section===item.section&&candidate.group!==item.group)
-    .map(candidate=>{
-      const shared=classificationGroupTokens(candidate.group).filter(token=>targetTokens.has(token));
-      const score=shared.reduce((sum,token)=>sum+(token.startsWith('alpha')||token.startsWith('beta')?3:token.length>=7?2:1),0);
-      return {candidate,score};
-    })
-    .filter(entry=>entry.score>0)
-    .sort((a,b)=>b.score-a.score);
-  const distractors=[];
-  const seen=new Set(targetDrugs);
-  for(const entry of related){
-    for(const drug of entry.candidate.drugs||[]){
-      if(!seen.has(drug)){
-        seen.add(drug);
-        distractors.push(drug);
-        if(distractors.length===3)return [item.drugs[0],...distractors];
-      }
+function classificationTestSection(section){
+  // Карбоксим в классификации относится к тому же большому разделу холинергических средств.
+  return section==='Средства при отравлении ФОС'?'Холиномиметики':section;
+}
+function classificationOptionScore(a,b){
+  const left=new Set(classificationGroupTokens(a));
+  return classificationGroupTokens(b).reduce((sum,word)=>sum+(left.has(word)?(word.length>6?2:1):0),0);
+}
+function getClassificationDistractors(item,target,type){
+  const section=classificationTestSection(item.section);
+  const pool=GROUPS.filter(candidate=>candidate!==item&&Array.isArray(candidate.drugs)&&candidate.drugs.length);
+  // Сначала соседние группы из того же раздела, затем другие группы.
+  const ordered=pool.map(candidate=>({
+    candidate,
+    sameSection:classificationTestSection(candidate.section)===section,
+    similarity:classificationOptionScore(item.group,candidate.group)
+  })).sort((a,b)=>Number(b.sameSection)-Number(a.sameSection)||b.similarity-a.similarity);
+  const seen=new Set([target]),selected=[];
+  for(const entry of ordered){
+    const candidate=entry.candidate;
+    const values=type==='drug'?candidate.drugs:[candidate.group];
+    for(const value of values){
+      if(!value||seen.has(value))continue;
+      // В кафедральном списке препарат может входить в несколько групп.
+      // Такие препараты и группы не должны становиться ложными ответами.
+      if(type==='drug'&&item.drugs.includes(value))continue;
+      if(type==='group'&&candidate.drugs.includes(target))continue;
+      seen.add(value);
+      selected.push(value);
+      if(selected.length===3)return selected;
     }
   }
-  return distractors.length>=2?[item.drugs[0],...distractors]:[];
+  return selected;
 }
-let extraQ = 47;
-for (const item of EXTRA_CLASSIFICATION) {
-  const target=item.drugs[0];
-  const options=getRelatedClassificationOptions(item,EXTRA_CLASSIFICATION);
-  if (options.length>=3) QUESTIONS.push({id:'q_'+String(extraQ++).padStart(3,'0'),section:item.section,text:'Какой препарат относится к группе «'+item.group+'» согласно классификации?',options,correct:0,explanation:'В классификации лекарственных средств осеннего семестра 2026 препарат «'+target+'» указан в группе «'+item.group+'». Подробные фармакологические сведения этим вопросом не проверяются.',tags:[item.group,target,'Классификация'],source:'Классификация ЛС осенний семестр 2026'});
+let classificationQuestionIndex=1;
+const generatedClassificationKeys=new Set();
+for(const item of GROUPS){
+  if(!item.group||!Array.isArray(item.drugs)||!item.drugs.length)continue;
+  const section=classificationTestSection(item.section);
+  for(const drug of new Set(item.drugs)){
+    // Повторения в кафедральной классификации сохраняются как разные принадлежности.
+    const key=JSON.stringify([section,item.group,drug]);
+    if(generatedClassificationKeys.has(key))continue;
+    generatedClassificationKeys.add(key);
+    const drugOptions=getClassificationDistractors(item,drug,'drug');
+    if(drugOptions.length===3){
+      const id='cls_'+classificationQuestionIndex++;
+      QUESTIONS.push({
+        id,section,
+        text:'Какой из перечисленных препаратов относится к группе «'+item.group+'»?',
+        options:[drug,...drugOptions],correct:0,
+        explanation:'По кафедральной классификации «'+drug+'» относится к группе «'+item.group+'».',
+        tags:['Классификация',item.group,drug],
+        source:'Классификация ЛС осенний семестр 2026'
+      });
+      SKILLS[id]='Классификация';
+    }
+    const groupOptions=getClassificationDistractors(item,item.group,'group')
+      .filter(group=>!GROUPS.some(other=>other.group===group&&other.drugs.includes(drug)));
+    if(groupOptions.length===3){
+      const id='cls_'+classificationQuestionIndex++;
+      QUESTIONS.push({
+        id,section,
+        text:'К какой группе относится препарат «'+drug+'» согласно кафедральной классификации?',
+        options:[item.group,...groupOptions],correct:0,
+        explanation:'В кафедральной классификации «'+drug+'» указан в группе «'+item.group+'».',
+        tags:['Классификация',item.group,drug],
+        source:'Классификация ЛС осенний семестр 2026'
+      });
+      SKILLS[id]='Классификация';
+    }
+  }
 }
-
-// Добавляем вопросы для групп из основных методичек и классификационного списка,
-// которые ещё не представлены в тестах. Используем только название группы и перечень препаратов.
-const extraGroupNames = new Set(EXTRA_CLASSIFICATION.map(item=>item.group));
-const knownQuestionGroups = new Set(QUESTIONS.flatMap(q=>q.tags||[]));
-for (const item of GROUPS) {
-  if (!item.group || !Array.isArray(item.drugs) || !item.drugs.length) continue;
-  if (extraGroupNames.has(item.group) || knownQuestionGroups.has(item.group)) continue;
-  const target = item.drugs[0];
-  const options = getRelatedClassificationOptions(item,GROUPS);
-  if (options.length < 3) continue;
-  const source = ['Холиномиметики','Средства при отравлении ФОС','Холиноблокаторы','Миорелаксанты','Адреноблокаторы'].includes(item.section)
-    ? 'Предоставленные методички и классификация лекарственных средств'
-    : 'Классификация ЛС осенний семестр 2026';
-  QUESTIONS.push({
-    id:'q_'+String(extraQ++).padStart(3,'0'),
-    section:item.section,
-    text:'Какой препарат в классификации отнесён к группе «'+item.group+'»?',
-    options,
-    correct:0,
-    explanation:'В предоставленной классификации препарат «'+target+'» указан в группе «'+item.group+'». Вопрос проверяет только отнесение препарата к группе.',
-    tags:[item.group,'Классификация'],
-    source
-  });
-  knownQuestionGroups.add(item.group);
+// У всех вопросов должен быть явный тип: отсутствие типа скрывало их из тестирования.
+for(const q of QUESTIONS){
+  if(!SKILLS[q.id])SKILLS[q.id]=(q.tags||[]).includes('Рецептура')?'Рецептура'
+    :(q.tags||[]).includes('Классификация')?'Классификация':'Показания';
 }
-
-
- // У новых вопросов должен быть тип, иначе фильтры теста показывают 0 вопросов.
-for (const q of QUESTIONS) {
-  if (!SKILLS[q.id]) SKILLS[q.id] = (q.tags || []).includes('Рецептура') ? 'Рецептура' : (q.tags || []).includes('Классификация') ? 'Классификация' : 'Показания';
-}
-
-// Alternate wording for source-backed classification and prescription questions.
+// Вопросы по классификации не дублируем простым изменением формулировки.
+// Для рецептуры сохраняем альтернативные формулировки.
 for(const question of QUESTIONS.slice()){
+  if(question.id.startsWith('cls_'))continue;
   const group=question.text.match(/^(?:Какой препарат относится к группе|Какой препарат в классификации отнесён к группе) «(.+?)»/);
   const prescription=question.text.match(/^Какой препарат указан в учебном рецепте «(.+)»\?$/);
   if(!group&&!prescription)continue;
   const id=question.id+'_alt';
-  const text=group
-    ? 'Выбери из перечисленных представителя группы «'+group[1]+'».'
-    : 'Определи препарат по латинской прописи: '+prescription[1];
+  const text=group?'Выбери из перечисленных представителя группы «'+group[1]+'».'
+    :'Определи препарат по латинской прописи: '+prescription[1];
   QUESTIONS.push({...question,id,text});
   SKILLS[id]=SKILLS[question.id];
 }
