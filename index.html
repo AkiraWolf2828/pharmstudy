@@ -3824,7 +3824,7 @@ function renderClassificationNotes(cards,depth=0){
     }
   }
   return entries.join('')+(depth===0?REFERENCE_MAIN_ORDER:[...groups.keys()]).map(heading=>{const subset=groups.get(heading)||[];return `${depth===0
-      ? `<details class="classification-note"><summary><span>${escapeHtml(heading)}</span><span class="classification-note-icon" aria-hidden="true">⌄</span></summary><div class="classification-note-body">${renderClassificationNotes(subset,depth+1)}${renderReferenceExtraMaterials(heading)}${SOURCE_FOOTNOTE}</div></details>`
+      ? `<details class="classification-note reference-topic"><summary><span>${escapeHtml(heading)}</span><span class="classification-note-icon" aria-hidden="true">⌄</span></summary><div class="classification-note-body">${renderClassificationNotes(subset,depth+1)}${renderReferenceExtraMaterials(heading)}${SOURCE_FOOTNOTE}</div></details>`
       : `<section><h${Math.min(depth+2,6)} class="conspect-card-title">${escapeHtml(heading)}</h${Math.min(depth+2,6)}>${renderClassificationNotes(subset,depth+1)}</section>`}`
   }).join('');
 }
