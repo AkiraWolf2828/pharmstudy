@@ -1,4 +1,4 @@
-const CACHE = 'pharmstudy-offline-v7';
+const CACHE = 'pharmstudy-offline-v8';
 const home = new URL('index.html', self.registration.scope).href;
 const synapse = new URL('adrenergic-synapse.html', self.registration.scope).href;
 const authorLogo = new URL('pharmstudy-author-hq-v1.svg', self.registration.scope).href;
