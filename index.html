@@ -1247,6 +1247,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-seri
  .stats-grid{grid-template-columns:minmax(0,1fr)}
  .stats-grid .stat-card:last-child{grid-column:auto}
 }
+/* Справочник: единый размер и порядок крупных разделов, вложенные дополнительные материалы. */
+.reference-notes-root{width:100%;max-width:1080px;margin:0 auto 24px;min-width:0}
+.reference-notes-root>h2{font-size:clamp(18px,2.6vw,24px);margin:0 0 16px}
+.reference-notes-root .classification-note{width:100%;max-width:none;box-sizing:border-box;margin:0 0 10px}
+.reference-notes-root .classification-note>summary{min-height:58px;padding:15px 18px}
+.reference-notes-root .classification-note>summary>span:first-child{min-width:0;flex:1;overflow-wrap:anywhere}
+.reference-notes-root .classification-note-body{padding:14px 18px 20px}
+.reference-supplement{display:flex;flex-direction:column;gap:12px;margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
+.reference-supplement>.ref-section,.reference-supplement>.theory-section{width:100%;max-width:none;margin:0}
+.reference-supplement .ref-topic-toggle{width:100%;box-sizing:border-box;font-size:14px;padding:14px 16px;margin:0}
+.reference-supplement .ref-topic-content{padding-top:12px}
+.reference-supplement .ref-section .ref-section{margin:0}
+@media(max-width:768px){.reference-notes-root{max-width:none}.reference-notes-root .classification-note>summary{padding:12px;min-height:52px;font-size:12px}.reference-notes-root .classification-note-body{padding:10px 12px 16px}.reference-supplement .ref-topic-toggle{padding:12px;font-size:12px}.reference-supplement .conspect-card{min-width:0}}
+
 </style>
 </head>
 <body>
@@ -2100,7 +2114,7 @@ async function renderTeacher(){
       groups.get(key).push(student);
     }
     panel.innerHTML=groups.size?[...groups.values()].map(group=>`
-      <details class="classification-note">
+      <details class="classification-note reference-topic">
         <summary>Группа ${escapeHtml(group[0].group_no)} · ${group[0].course} курс · ${escapeHtml(group[0].academic_year)}</summary>
         <div class="classification-note-body">
           ${group.map(student=>`<details class="classification-note"><summary>${escapeHtml(student.email)}</summary>
@@ -3616,7 +3630,7 @@ REFERENCE_CARDS.forEach(card=>{
   card.drugs=card.drugs.map(drug=>CLASSIFICATION_DRUG_LABELS[drug]||drug);
 });
 function renderReferenceClassification(cards,depth=0){
-  const labels=[...new Set(cards.map(r=>r.classificationPath[depth]).filter(Boolean))];
+  const labels=depth===0?orderReferenceHeadings([...new Set(cards.map(r=>r.classificationPath[depth]).filter(Boolean))]):[...new Set(cards.map(r=>r.classificationPath[depth]).filter(Boolean))];
   return labels.map(label=>{
     const subset=cards.filter(r=>r.classificationPath[depth]===label);
     const leaf=subset.every(r=>r.classificationPath.length===depth+1);
@@ -3705,37 +3719,23 @@ const REFERENCE_TOPIC_NOTES=[
  }
 ];
 
-function renderClassificationNotes(cards,depth=0){
-  const groups=new Map();
-  const entries=[];
-  for(const card of cards){
-    const heading=card.classificationPath[depth];
-    if(heading){
-      if(!groups.has(heading))groups.set(heading,[]);
-      groups.get(heading).push(card);
-    }else if(card.drugs.length){
-      entries.push(`<div class="conspect-card"><div class="conspect-card-drugs">${card.drugs.map(escapeHtml).join(' · ')}</div><p class="conspect-text">${escapeHtml(card.details||card.desc||'Состав группы по кафедральной классификации.')}</p></div>`);
-    }
-  }
-  return entries.join('')+[...groups].map(([heading,subset])=>
-    `${depth===0
-      ? `<details class="classification-note"><summary><span>${escapeHtml(heading)}</span><span class="classification-note-icon" aria-hidden="true">⌄</span></summary><div class="classification-note-body">${renderClassificationNotes(subset,depth+1)}${SOURCE_FOOTNOTE}</div></details>`
-      : `<section><h${Math.min(depth+2,6)} class="conspect-card-title">${escapeHtml(heading)}</h${Math.min(depth+2,6)}>${renderClassificationNotes(subset,depth+1)}</section>`}`
-  ).join('');
+// Порядок крупных разделов точно соответствует кафедральному документу 2026 года.
+const REFERENCE_MAIN_ORDER=["ХОЛИНОМИМЕТИЧЕСКИЕ СРЕДСТВА И СРЕДСТВА, ВЛИЯЮЩИЕ НА ХОЛИНЭСТЕРАЗУ","ХОЛИНОБЛОКИРУЮЩИЕ СРЕДСТВА И МИОРЕЛАКСАНТЫ","АДРЕНОМИМЕТИЧЕСКИЕ И СИМПАТОМИМЕТИЧЕСКИЕ СРЕДСТВА","АДРЕНОБЛОКИРУЮЩИЕ СРЕДСТВА И СИМПАТОЛИТИЧЕСКИЕ СРЕДСТВА","СРЕДСТВА ДЛЯ АНЕСТЕЗИИ И СНОТВОРНЫЕ СРЕДСТВА","АНАЛЬГЕТИЧЕСКИЕ И НЕСТЕРОИДНЫЕ ПРОТИВОВОСПАЛИТЕЛЬНЫЕ СРЕДСТВА","ЛЕКАРСТВЕННЫЕ СРЕДСТВА, УГНЕТАЮЩИЕ ПСИХОМОТОРНУЮ АКТИВНОСТЬ И КОРРИГИРУЮЩИЕ НАРУШЕНИЯ ФУНКЦИЙ ЦНС","СРЕДСТВА, АКТИВИРУЮЩИЕ И МОДУЛИРУЮЩИЕ ФУНКЦИИ ЦЕНТРАЛЬНОЙ НЕРВНОЙ СИСТЕМЫ","ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ДЫХАТЕЛЬНУЮ СИСТЕМУ","ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ПРИМЕНЯЕМЫЕ ПРИ ИШЕМИЧЕСКОЙ БОЛЕЗНИ СЕРДЦА","ПРОТИВОАРИТМИЧЕСКИЕ И КАРДИОТОНИЧЕСКИЕ СРЕДСТВА","ЛЕКАРСТВЕННЫЕ СРЕДСТВА, РЕГУЛИРУЮЩИЕ АРТЕРИАЛЬНОЕ ДАВЛЕНИЕ И СИСТЕМНУЮ ГЕМОДИНАМИКУ","ЛЕКАРСТВЕННЫЕ СРЕДСТВА, ВЛИЯЮЩИЕ НА ПИЩЕВАРИТЕЛЬНУЮ СИСТЕМУ"];
+const REFERENCE_TOPIC_GROUPS=[["Холиномиметики","Средства при отравлении ФОС"],["Холиноблокаторы","Миорелаксанты"],["Адреномиметики"],["Адреноблокаторы"],["Средства для общей анестезии","Средства для седации и премедикации","Средства для местной анестезии","Снотворные средства"],["Опиоидные анальгетики","Неопиоидные анальгетики","НПВС"],["Антипсихотические средства","Анксиолитики","Седативные средства","Противопаркинсонические средства","Противоэпилептические средства","Нормотимики"],["Антидепрессанты","Психостимуляторы","Адаптогены","Ноотропные и церебропротективные средства"],["Противокашлевые средства","Отхаркивающие средства","Мукоактивные средства","Бронхолитические средства","Базисная терапия астмы и ХОБЛ","Биологические препараты при тяжёлой бронхиальной астме","Дыхательные аналептики"],["Антиангинальные средства","Гиполипидемические средства"],["Противоаритмические средства","Кардиотонические средства"],["Антигипертензивные средства","Диуретики","Средства при гипотензии и шоке"],["Средства для пищеварительной системы","Средства для лечения ожирения","Антацидные и альгинатные средства","Антисекреторные средства","Гастропротективные и цитопротективные средства","Прокинетические и противорвотные средства","Средства при диарее","Слабительные средства","Спазмолитики и регуляторы моторики ЖКТ","Средства, влияющие на желчеобразование и желчевыведение","Гепатотропные средства","Ферментные средства","Средства, уменьшающие метеоризм"]];
+const REFERENCE_SECTION_TO_MAIN=new Map();
+REFERENCE_TOPIC_GROUPS.forEach((sections,i)=>sections.forEach(section=>REFERENCE_SECTION_TO_MAIN.set(section,REFERENCE_MAIN_ORDER[i])));
+function referenceMainForSection(section){return REFERENCE_SECTION_TO_MAIN.get(section)||null;}
+function orderReferenceHeadings(headings){
+  return [...headings].sort((a,b)=>{
+    const x=REFERENCE_MAIN_ORDER.indexOf(a),y=REFERENCE_MAIN_ORDER.indexOf(b);
+    return (x<0?1000:x)-(y<0?1000:y);
+  });
 }
-function renderReference(){
+function renderReferenceExtraMaterials(heading){
   const groupSections=[...new Set(GROUPS.map(g=>g.section))];
   const colors=['var(--mint)','var(--accent)','var(--lavender-deco)','var(--warm)','var(--success)'];
-  return `
-    <div class="ref-subtabs">
-      <button class="ref-subtab ${['notes','theory'].includes(state.refTab)?'active':''}" onclick="setReferenceTab('notes')">📚 Конспекты и теория</button>
-      <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
-    </div>
-    <div style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
-    <div class="ref-section classification-notes">
-      <h2>Конспекты по кафедральной классификации</h2>
-      ${renderClassificationNotes(REFERENCE_CARDS)}
-    </div>
+  const supplement=[];
+  if(heading===REFERENCE_MAIN_ORDER[4])supplement.push(`
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('anesthesiaRecipes')"><span>Рецепты: анестезия и снотворные</span><span class="ref-topic-arrow" id="arrow-anesthesiaRecipes">⌄</span></button>
       <div class="ref-topic-content" id="section-anesthesiaRecipes" style="display:none">
@@ -3743,11 +3743,14 @@ function renderReference(){
         ${Object.keys(ANESTHESIA_RECIPES).map(renderAnesthesiaRecipe).join('')}
       </div>
     </div>
+
+  `);
+  if(groupSections.some(sec=>referenceMainForSection(sec)===heading))supplement.push(`
     <div class="ref-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('groupNotes')"><span>📖 Конспекты по группам препаратов</span><span class="ref-topic-arrow" id="arrow-groupNotes">⌄</span></button>
       <div class="ref-topic-content" id="section-groupNotes" style="display:none">
       <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0 0 18px">Механизм действия и побочные эффекты собраны здесь же, в справочнике, чтобы не переходить в отдельный раздел.</p>
-      ${groupSections.map((sec,si)=>`
+      ${groupSections.filter(sec=>referenceMainForSection(sec)===heading).map((sec,si)=>`
         <div style="margin-bottom:28px">
           <button class="ref-topic-toggle" style="font-size:14px;padding:13px 16px" onclick="toggleReferenceSection('notes-${si}')"><span>${sec}</span><span class="ref-topic-arrow" id="arrow-notes-${si}">⌄</span></button>
           <div class="ref-topic-content" id="section-notes-${si}" style="display:none">
@@ -3764,16 +3767,22 @@ function renderReference(){
         </div>`).join('')}
       </div>
     </div>
+
+  `);
+  if(REFERENCE_TOPIC_NOTES.some(note=>referenceMainForSection(note.section)===heading))supplement.push(`
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryMechanisms')"><span>Механизмы препаратов и антидотов</span><span class="ref-topic-arrow" id="arrow-theoryMechanisms">⌄</span></button>
       <div class="ref-topic-content" id="section-theoryMechanisms" style="display:none">
-        ${REFERENCE_TOPIC_NOTES.map(note=>`<details class="conspect-card">
+        ${REFERENCE_TOPIC_NOTES.filter(note=>referenceMainForSection(note.section)===heading).map(note=>`<details class="conspect-card">
           <summary class="conspect-card-title">${note.title}</summary>
           ${note.points.map(([heading,text])=>`<div class="conspect-block"><div class="conspect-label">${heading}</div><p class="conspect-text">${text}</p></div>`).join('')}
           ${SOURCE_FOOTNOTE}
         </details>`).join('')}
       </div>
     </div>
+
+  `);
+  if(heading===REFERENCE_MAIN_ORDER[0])supplement.push(`
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryBasics')"><span>📚 Основы холинергической передачи</span><span class="ref-topic-arrow" id="arrow-theoryBasics">⌄</span></button>
       <div class="ref-topic-content" id="section-theoryBasics" style="display:none">
@@ -3781,18 +3790,54 @@ function renderReference(){
           <div class="theory-card" onclick="toggleTheory(${i})"><div class="theory-card-head"><div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div><div style="flex:1"><div class="theory-card-title">${t.title}</div><div class="theory-card-sub">${t.sub}</div></div></div><div class="theory-card-body" id="theoryBody${i}">${t.body}</div></div>`).join('')}
       </div>
     </div>
+
+  `);
+  if(heading===REFERENCE_MAIN_ORDER[1])supplement.push(`
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryCholinoblockers')"><span>💊 Холиноблокаторы</span><span class="ref-topic-arrow" id="arrow-theoryCholinoblockers">⌄</span></button>
       <div class="ref-topic-content" id="section-theoryCholinoblockers" style="display:none">
         ${THEORY.slice(5,6).map((t,i)=>{const n=i+5;return `<div class="theory-card" onclick="toggleTheory(${n})"><div class="theory-card-head"><div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div><div style="flex:1"><div class="theory-card-title">${t.title}</div><div class="theory-card-sub">${t.sub}</div></div></div><div class="theory-card-body" id="theoryBody${n}">${t.body}</div></div>`}).join('')}
       </div>
     </div>
+
+  `);
+  if(heading===REFERENCE_MAIN_ORDER[1])supplement.push(`
     <div class="theory-section">
       <button class="ref-topic-toggle" onclick="toggleReferenceSection('theoryMyorelaxants')"><span>🧠 Миорелаксанты</span><span class="ref-topic-arrow" id="arrow-theoryMyorelaxants">⌄</span></button>
       <div class="ref-topic-content" id="section-theoryMyorelaxants" style="display:none">
         ${THEORY.slice(6).map((t,i)=>{const n=i+6;return `<div class="theory-card" onclick="toggleTheory(${n})"><div class="theory-card-head"><div class="theory-card-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div><div style="flex:1"><div class="theory-card-title">${t.title}</div><div class="theory-card-sub">${t.sub}</div></div></div><div class="theory-card-body" id="theoryBody${n}">${t.body}</div></div>`}).join('')}
       </div>
     </div>
+  `);
+  return supplement.length?`<div class="reference-supplement">${supplement.join('')}</div>`:'';
+}
+function renderClassificationNotes(cards,depth=0){
+  const groups=new Map();
+  const entries=[];
+  for(const card of cards){
+    const heading=card.classificationPath[depth];
+    if(heading){
+      if(!groups.has(heading))groups.set(heading,[]);
+      groups.get(heading).push(card);
+    }else if(card.drugs.length){
+      entries.push(`<div class="conspect-card"><div class="conspect-card-drugs">${card.drugs.map(escapeHtml).join(' · ')}</div><p class="conspect-text">${escapeHtml(card.details||card.desc||'Состав группы по кафедральной классификации.')}</p></div>`);
+    }
+  }
+  return entries.join('')+(depth===0?orderReferenceHeadings([...groups.keys()]):[...groups.keys()]).map(heading=>{const subset=groups.get(heading);return
+    `${depth===0
+      ? `<details class="classification-note"><summary><span>${escapeHtml(heading)}</span><span class="classification-note-icon" aria-hidden="true">⌄</span></summary><div class="classification-note-body">${renderClassificationNotes(subset,depth+1)}${renderReferenceExtraMaterials(heading)}${SOURCE_FOOTNOTE}</div></details>`
+      : `<section><h${Math.min(depth+2,6)} class="conspect-card-title">${escapeHtml(heading)}</h${Math.min(depth+2,6)}>${renderClassificationNotes(subset,depth+1)}</section>`}`
+  }).join('');
+}
+function renderReference(){
+  return `
+    <div class="ref-subtabs">
+      <button class="ref-subtab ${['notes','theory'].includes(state.refTab)?'active':''}" onclick="setReferenceTab('notes')">📚 Конспекты и теория</button>
+      <button class="ref-subtab ${state.refTab==='drugs'?'active':''}" onclick="setReferenceTab('drugs')">💊 Карточки препаратов</button>
+    </div>
+    <div class="reference-notes-root" style="display:${['notes','theory'].includes(state.refTab)?'block':'none'}">
+      <h2>Конспекты по кафедральной классификации</h2>
+      ${renderClassificationNotes(REFERENCE_CARDS)}
     </div>
     <div class="classification-document" style="display:${state.refTab==='drugs'?'block':'none'}">
       ${renderReferenceClassification(REFERENCE_CARDS)}
